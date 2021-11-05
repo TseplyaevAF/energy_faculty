@@ -1,3 +1,4 @@
+/* shedules/groups/* */
 .uniform-bg {
     background: #395FB6;
     position: relative;
@@ -54,4 +55,34 @@ select.transparent-select {
     background-color: rgba(131, 129, 129, 0.075) !important;
     border: none !important;
     padding: 1;
+}
+
+/* shedules */
+.schedule__chair-courses {
+    padding: 12px;
+}
+
+.schedule__chair-course {
+    margin-right: 25px;
+    padding-right: 20px;
+}
+
+.font-weight-bold {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.schedule__chairs-item {
+    padding: 8px;
+}
+
+.schedule__chairs-groups__item {
+    color: #2c4d9b;
+    font-weight: 700;
+}
+
+.schedule__chairs-title {
+    margin: 0;
+    max-width: 350px;
+    font-size: 15px;
 }
