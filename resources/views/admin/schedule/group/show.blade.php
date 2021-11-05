@@ -11,7 +11,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">
-                    <a href="{{ route('admin.schedule.chair.show', $group->chair_id) }}"><i class="fas fa-chevron-left"></i></a>
+                    <a href="{{ route('admin.schedule.index') }}"><i class="fas fa-chevron-left"></i></a>
                         Расписание занятий
                     </h1>
                 </div><!-- /.col -->
@@ -36,7 +36,7 @@
             </div>
             <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $group->course }}, семестр: {{ $group->semester }}</span></span></small></strong>
             <div class="schedule__new-record mt-2">
-                <a class="btn btn-primary btn-sm" href="{{ route('admin.schedule.chair.group.create', $group->id) }}">
+                <a class="btn btn-primary btn-sm" href="{{ route('admin.schedule.group.create', $group->id) }}">
                     <i class="fas fa-plus col-2"></i>
                     Новое занятие
                 </a>
@@ -76,7 +76,7 @@
                                                         <a class="schedule__table-teacher" href="#">{{ $pairEven->teacher->role->user->surname }} {{ mb_substr($pairEven->teacher->role->user->name, 0, 1) }}. {{ mb_substr($pairEven->teacher->role->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
                                                         <p class="schedule__table-class-type text-muted"> {{ $pairEven->class_type->title }} </p>&nbsp·&nbsp
                                                         <p class="schedule__table-classroom">(ауд. {{$pairEven->classroom->title}}) </p>&nbsp
-                                                        <a href="{{ route('admin.schedule.chair.group.edit', $pairEven->id) }}" class="text-success"><i class="far fa-edit"></i></a>
+                                                        <a href="{{ route('admin.schedule.edit', $pairEven->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                     </div>
                                                 </td>
                                                 @php
@@ -90,7 +90,7 @@
                                                                 <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->role->user->surname }} {{ mb_substr($pairOdd->teacher->role->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->role->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
                                                                 <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                                 <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->title}})</p>&nbsp
-                                                                <a href="{{ route('admin.schedule.chair.group.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
+                                                                <a href="{{ route('admin.schedule.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                             </div>
                                                         </td>
                                                         @php
@@ -117,7 +117,7 @@
                                                             <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->role->user->surname }} {{ mb_substr($pairOdd->teacher->role->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->role->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
                                                             <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                             <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->title}})</p>&nbsp
-                                                            <a href="{{ route('admin.schedule.chair.group.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
+                                                            <a href="{{ route('admin.schedule.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                         </div>
                                                     </td>
                                                     @php

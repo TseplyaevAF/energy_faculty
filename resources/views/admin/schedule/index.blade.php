@@ -28,9 +28,60 @@
           <div class="col-4">
             <div class="schedule__chairs-items text-wrap">
               @foreach($chairs as $chair)
-              <div class="mb-3">
-                <a href="{{ route('admin.schedule.chair.show', $chair->id) }}" class="schedule__chairs-item js-schedule-chair-link" data-id="{{ $chair->id }}">{{$chair->title }}</a>
-              </div>
+                <a
+                  style="display:block"
+                  href="javascript:void(0);"
+                  onclick="showDiv('{{ $chair->id }}', '{{ json_encode($chairsIds) }}');">
+                  <div class="mb-3">
+                    {{$chair->title }}
+                  </div>
+                </a>
+                <div class="schedule__chair js-schedule-chair mb-3" id="chair-{{ $chair->id }}" style="display:none;">
+                  <div class="schedule__chair-courses">
+                    <div class="row">
+                      <div class="schedule__chair-course col-2">
+                        <p class="font-weight-bold">1 курс</p>
+                          <div class="schedule__chair-groups">
+                            @foreach($groups as $group)
+                              @if (($group->course == 1) && ($group->chair_id == $chair->id))
+                                <a href="{{ route('admin.schedule.group.show', $group->id) }}">{{$group->title }}</a>
+                              @endif 
+                            @endforeach
+                          </div>
+                      </div>
+                      <div class="schedule__chair-course col-2">
+                        <p class="font-weight-bold">2 курс</p>
+                          <div class="schedule__chair-groups">
+                            @foreach($groups as $group)
+                              @if (($group->course == 2) && ($group->chair_id == $chair->id))
+                                <a href="{{ route('admin.schedule.group.show', $group->id) }}">{{$group->title }}</a>
+                              @endif 
+                            @endforeach
+                          </div>
+                      </div>
+                      <div class="schedule__chair-course col-2">
+                        <p class="font-weight-bold">3 курс</p>
+                          <div class="schedule__chair-groups">
+                            @foreach($groups as $group)
+                              @if (($group->course == 3) && ($group->chair_id == $chair->id))
+                                <a href="{{ route('admin.schedule.group.show', $group->id) }}">{{$group->title }}</a>
+                              @endif 
+                            @endforeach
+                          </div>
+                      </div>
+                      <div class="schedule__chair-course col-2">
+                        <p class="font-weight-bold">4 курс</p>
+                          <div class="schedule__chair-groups">
+                            @foreach($groups as $group)
+                              @if (($group->course == 4) && ($group->chair_id == $chair->id))
+                                <a href="{{ route('admin.schedule.group.show', $group->id) }}">{{$group->title }}</a>
+                              @endif 
+                            @endforeach
+                          </div>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
               @endforeach
             </div>
           </div>

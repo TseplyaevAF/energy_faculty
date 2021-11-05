@@ -1,84 +1,115 @@
-  @extends('admin.layouts.main')
+@extends('admin.layouts.main')
 
-  @section('content')
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+@section('content')
+<link rel="stylesheet" href="{{ asset('css\schedule\style.css') }}">
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Обновление кафедры №{{ $chair->id }}</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">
+                        <a href="{{ route('admin.schedule.group.show', $group->id) }}"><i class="fas fa-chevron-left"></i></a>
+                        Обновление занятия
+                    </h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard v1</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-
-        <div class="row">
-          <div class="col-12">
-            <form action="{{ route('admin.chair.update', $chair->id) }}" method="POST">
-              @csrf
-              @method('PATCH')
-              <div class="form-group w-25">
-                <input value="{{ $chair->title }}" type="text" class="form-control" name="title" placeholder="Название кафедры">
-                @error('title')
-                <p class="text-danger">{{ $message }}</p>
-                @enderror
-              </div>
-              <div class="form-group w-25">
-                <input value="{{ $chair->address }}" type="text" class="form-control" name="address" placeholder="Адрес кафедры">
-                @error('address')
-                <p class="text-danger">{{ $message }}</p>
-                @enderror
-              </div>
-              <label for="exampleInputFile" class="mt-2">Контактные данные</label>
-              <div class="input-group w-25 mb-2">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+        <div class="container-fluid">
+        @if (session('error'))
+        <div class="col-3 alert alert-warning" role="alert">{!! session('error') !!}</div>
+        @endif
+            <div class="schedule__title">
+                <h1 class="schedule__title-h1">
+                    <strong>{{ $group->title }}</strong>
+                </h1>
+            </div>
+            <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $group->course }}, семестр: {{ $group->semester }}</span></span></small></strong>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <form action="{{ route('admin.schedule.update', $schedule->id) }}" method="POST" class="w-25">
+                        @csrf
+                        @method('PATCH')
+                        <input value="{{ $group->id }}" type="hidden" name="group_id">
+                        <div class="form-group">
+                            <label>Тип недели</label>
+                            <select name="week_type_id" class="form-control">
+                                @foreach($week_types as $week_type)
+                                <option value="{{$week_type->id }}" {{$week_type->id == $schedule->week_type_id ? 'selected' : ''}}>{{ $week_type->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>День недели</label>
+                            <select name="day_id" class="form-control">
+                                @foreach($days as $day)
+                                <option value="{{$day->id }}" {{$day->id == $schedule->day_id ? 'selected' : ''}}>{{ $day->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Время занятия</label>
+                            <select name="class_time_id" class="form-control">
+                                @foreach($class_times as $class_time)
+                                <option value="{{$class_time->id }}" {{$class_time->id == $schedule->class_time_id ? 'selected' : ''}}>{{ date("H:i", strtotime($class_time->start_time)) }}-{{ date("H:i", strtotime($class_time->end_time)) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Дисциплина</label>
+                            <select name="discipline_id" class="form-control">
+                                @foreach($disciplines as $discipline)
+                                <option value="{{$discipline->id }}" {{$discipline->id == $schedule->discipline_id ? 'selected' : ''}}>{{ $discipline->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Преподаватель</label>
+                            <select name="teacher_id" class="form-control">
+                                @foreach($teachers as $teacher)
+                                <option value="{{$teacher->id }}" {{$teacher->id == $schedule->teacher_id ? 'selected' : ''}}>{{ $teacher->role->user->surname }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Вид занятия</label>
+                            <select name="class_type_id" class="form-control">
+                                @foreach($class_types as $class_type)
+                                <option value="{{$class_type->id }}" {{$class_type->id == $schedule->class_type_id ? 'selected' : ''}}>{{ $class_type->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Аудитория</label>
+                            <select name="classroom_id" class="form-control">
+                                @foreach($classrooms as $classroom)
+                                <option value="{{$classroom->id }}" {{$classroom->id == $schedule->classroom_id ? 'selected' : ''}}>{{ $classroom->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="submit" class="btn btn-primary mb-2" value="Сохранить">
+                    </form>
                 </div>
-                <input value="{{ $chair->phone_number }}" class="form-control" id="phone" type="tel" name="phone_number">
-              </div>
-              @error('phone_number')
-              <p class="text-danger">{{ $message }}</p>
-              @enderror
-              <div class="input-group w-25 mb-4">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
-                </div>
-                <input value="{{ $chair->email }}" class="form-control" type="email" name="email">
-              </div>
-              @error('email')
-              <p class="text-danger">{{ $message }}</p>
-              @enderror
-              <div class="form-group w-50">
-                <label>Описание кафедры</label>
-                <textarea id="summernote" name="description">{{ $chair->description }}</textarea>
-                @error('description')
-                <p class="text-danger">{{ $message }}</p>
-                @enderror
-              </div>
-              <input value="{{ $chair->id }}" type="hidden" name="chair_id">
-
-              <input type="submit" class="btn btn-primary" value="Сохранить">
-            </form>
-          </div>
-        </div>
-
-
-      </div><!-- /.container-fluid -->
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  @endsection
+</div>
+
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('js/schedules/showGroups.js') }}"></script>
+<!-- /.content-wrapper -->
+@endsection

@@ -50,8 +50,8 @@ small.week {
     margin: 0;
 }
 
-select.transparent-select{
-    background-color:rgba(131, 129, 129, 0.075) !important;
+select.transparent-select {
+    background-color: rgba(131, 129, 129, 0.075) !important;
     border: none !important;
     padding: 1;
- }
+}

@@ -82,19 +82,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     });
 
     Route::group(['namespace' => 'Schedule', 'prefix' => 'schedules'], function () {
-        Route::group(['namespace' => 'Chair', 'prefix' => 'chairs'], function () {
-            Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {
-                Route::get('{group}/create', 'GroupController@create')->name('admin.schedule.chair.group.create');
-                Route::post('/store', 'GroupController@store')->name('admin.schedule.chair.group.store');
-                Route::get('{group}', 'GroupController@show')->name('admin.schedule.chair.group.show');
-                Route::get('pair={schedule}/edit', 'GroupController@edit')->name('admin.schedule.chair.group.edit');
-                Route::patch('{schedule}', 'GroupController@update')->name('admin.schedule.chair.group.update');
-            });
-            Route::get('{chair}', 'ChairController@show')->name('admin.schedule.chair.show');
+        Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {
+            Route::get('{group}/create', 'GroupController@create')->name('admin.schedule.group.create');
+            Route::post('/store', 'GroupController@store')->name('admin.schedule.group.store');
+            Route::get('{group}', 'GroupController@show')->name('admin.schedule.group.show');
         });
-        
-        // Route::get('/chair={chair}&group={group}', 'ScheduleController@show')->name('admin.schedule.show');
         Route::get('/', 'ScheduleController@index')->name('admin.schedule.index');
+        Route::get('{schedule}/edit', 'ScheduleController@edit')->name('admin.schedule.edit');
+        Route::patch('{schedule}', 'ScheduleController@update')->name('admin.schedule.update');
     });
 });
 
