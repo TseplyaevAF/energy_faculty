@@ -40,7 +40,7 @@
             <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $group->course }}, семестр: {{ $group->semester }}</span></span></small></strong>
             <div class="row mt-4">
                 <div class="col-12">
-                    <form action="{{ route('admin.schedule.update', $schedule->id) }}" method="POST" class="w-25">
+                    <form action="{{ route('admin.schedule.group.update', $schedule->id) }}" method="POST" class="w-25">
                         @csrf
                         @method('PATCH')
                         <input value="{{ $group->id }}" type="hidden" name="group_id">

@@ -86,10 +86,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
             Route::get('{group}/create', 'GroupController@create')->name('admin.schedule.group.create');
             Route::post('/store', 'GroupController@store')->name('admin.schedule.group.store');
             Route::get('{group}', 'GroupController@show')->name('admin.schedule.group.show');
+            Route::get('pair={schedule}/edit', 'GroupController@edit')->name('admin.schedule.group.edit');
+            Route::patch('{schedule}', 'GroupController@update')->name('admin.schedule.group.update');
         });
         Route::get('/', 'ScheduleController@index')->name('admin.schedule.index');
-        Route::get('{schedule}/edit', 'ScheduleController@edit')->name('admin.schedule.edit');
-        Route::patch('{schedule}', 'ScheduleController@update')->name('admin.schedule.update');
     });
 });
 
