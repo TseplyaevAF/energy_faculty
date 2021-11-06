@@ -62,6 +62,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     });
 
     Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
+        Route::get('/search', 'UserController@search')->name('admin.user.search');
         Route::get('/', 'UserController@index')->name('admin.user.index');
         Route::get('/create', 'UserController@create')->name('admin.user.create');
         Route::post('/store', 'UserController@store')->name('admin.user.store');
@@ -69,8 +70,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get('/{user}/edit', 'UserController@edit')->name('admin.user.edit');
         Route::patch('/{user}', 'UserController@update')->name('admin.user.update');
         Route::delete('/{user}', 'UserController@delete')->name('admin.user.delete');
-        
-        Route::get('/query', 'UserController@query')->name('admin.user.query');
     });
 
     Route::group(['namespace' => 'Chair', 'prefix' => 'chairs'], function () {

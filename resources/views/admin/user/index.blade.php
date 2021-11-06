@@ -43,10 +43,10 @@
               </div>
               <div class="form-group">
                 <select name="role_id" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                    <option value="">Все роли</option>
-                    @foreach($roles as $id => $role)
-                      <option value="{{ $id }}" @if(isset($_GET['role_id'])) @if($_GET['role_id'] == $id) selected @endif @endif>{{ $role }}</option>
-                    @endforeach
+                  <option value="">Все роли</option>
+                  @foreach($roles as $id => $role)
+                  <option value="{{ $id }}" @if(isset($_GET['role_id'])) @if($_GET['role_id']==$id) selected @endif @endif>{{ $role }}</option>
+                  @endforeach
                 </select>
               </div>
               <button type="submit" class="btn btn-primary mb-2">Применить</button>
@@ -117,10 +117,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 
   <script type="text/javascript">
-    const path = "{{ route('admin.user.query') }}";
-    $('#full_name').typeahead({
+    path = "{{ route('admin.user.search') }}";
+
+    $(document).ready(function() {
+      $('input').attr('autocomplete', 'off');
+    });
+
+    $('input.typeahead').typeahead({
       source: function(query, process) {
-        return $.get(path, {query:query}, function(data){
+        return $.get(path, {
+          term: query
+        }, function(data) {
           return process(data);
         });
       }

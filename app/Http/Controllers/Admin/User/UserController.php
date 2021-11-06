@@ -32,13 +32,17 @@ class UserController extends Controller
         return view('admin.user.index', compact('users', 'roles'));
     }
 
-    public function query(Request $request) {
-        $input = $request->all();
+    public function search(Request $request) {
         $data = User::select('surname')
-                ->where('surname', 'like', "%{$input['query']}%")
+                ->where('surname', 'like', "%{$request->term}%")
                 ->get();
+        $dataModified = array();
+        foreach ($data as $item)
+        {
+            $dataModified[] = $item->surname;
+        }
 
-        return response()->json($data);
+        return response()->json($dataModified);
     }
 
     public function create()
