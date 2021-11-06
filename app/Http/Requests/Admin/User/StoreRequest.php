@@ -25,17 +25,27 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
+        $userRules = [
+            'surname' => 'required|string',
+            'name' => 'required|string',
+            'patronymic' => 'nullable|string',
+            'avatar' => 'nullable|string',
+            'phone_number' => 'nullable|regex:%^\\+\\d[-]\\(\\d{3}\\)[-]\\d{3}[-]\\d{2}[-]\\d{2}$%',
+            'email' => ['required', 'string', 'email', 'unique:users', 'regex:/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/'],
+            'password' => 'required|string',
+            'role_id' => 'required',
+        ];
         // если добавляем студента
         if ($this->role_id == 1) {
-            return $this->getRequestStudent($this->request->all())->rules();
+            return $userRules + $this->getStudentRules($this->request->all())->rules();
         }
         // если добавляем преподавателя
         if ($this->role_id == 2) {
-            return $this->getRequestTeacher($this->request->all())->rules();
+            return $userRules + $this->getTeacherRules($this->request->all())->rules();
         }
     }
 
-    public function getRequestStudent($array)
+    public function getStudentRules($array)
     {
         return new StudentStoreRequest(
             $this->query(),
@@ -48,7 +58,7 @@ class StoreRequest extends FormRequest
         );
     }
 
-    public function getRequestTeacher($array)
+    public function getTeacherRules($array)
     {
         return new TeacherStoreRequest(
             $this->query(),

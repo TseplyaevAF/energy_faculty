@@ -23,17 +23,7 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'surname' => 'required|string',
-            'name' => 'required|string',
-            'patronymic' => 'nullable|string',
-            'avatar' => 'nullable|string',
-
-            'phone_number' => 'nullable|regex:%^\\+\\d[-]\\(\\d{3}\\)[-]\\d{3}[-]\\d{2}[-]\\d{2}$%',
-            'email' => ['required', 'string', 'email', 'unique:users', 'regex:/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/'],
-            'password' => 'required|string',
-            'role_id' => 'required',
-            
+        return [            
             'post' => 'required|string',
             'activity' => 'nullable',
             'work_experience' => 'required|numeric',

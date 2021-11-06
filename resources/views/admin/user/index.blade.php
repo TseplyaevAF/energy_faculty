@@ -32,6 +32,32 @@
         </div>
 
         <div class="row">
+          <div class="col-2">
+            <label for="exampleFormControlInput1" class="form-label">Фильтры</label>
+            <form action="{{route('admin.user.index')}}" method="GET">
+              <div class="form-group">
+                <input @if(isset($_GET['user_id'])) value="{{$_GET['user_id']}}" @endif type="text" class="form-control" name="user_id" placeholder="ID">
+              </div>
+              <div class="form-group">
+                <input @if(isset($_GET['full_name'])) value="{{$_GET['full_name']}}" id="full_name" @endif type="text" class="form-control typeahead" name="full_name" placeholder="ФИО">
+              </div>
+              <div class="form-group">
+                <select name="role_id" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <option value="">Все роли</option>
+                    @foreach($roles as $id => $role)
+                      <option value="{{ $id }}" @if(isset($_GET['role_id'])) @if($_GET['role_id'] == $id) selected @endif @endif>{{ $role }}</option>
+                    @endforeach
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary mb-2">Применить</button>
+            </form>
+            <form action="{{ route('admin.user.index') }}" method="GET">
+              <input value="" type="hidden" name="role_id">
+              <input value="" type="hidden" name="user_id">
+              <input value="" type="hidden" name="full_name">
+              <button type="submit" class="btn btn-default">Сбросить</button>
+            </form>
+          </div>
           <div class="col-6">
             <div class="card">
               <div class="card-body table-responsive p-0">
@@ -53,13 +79,13 @@
                         {{ $user->patronymic }}
                       </td>
                       @if ($user->role->student_id != null)
-                      <td>Студент</td>
+                      <td>{{ $roles[1] }}</td>
                       @elseif ($user->role->teacher_id != null)
-                      <td>Преподаватель</td>
+                      <td>{{ $roles[2] }}</td>
                       @elseif ($user->role->worker_id != null)
                       <td>Сотрудник</td>
                       @else ($user->role->role_default == 'admin')
-                      <td>Администратор</td>
+                      <td>{{ $roles[0] }}</td>
                       @endif
                       <td><a href="{{ route('admin.user.show', $user->id) }}"><i class="far fa-eye"></i></a></td>
                       <td><a href="{{ route('admin.user.edit', $user->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>
@@ -70,7 +96,6 @@
                           <button type="submit" class="border-0 bg-transparent">
                             <i class="far fa-trash-alt text-danger" role="button"></i>
                           </button>
-
                         </form>
                       </td>
                     </tr>
@@ -87,5 +112,20 @@
     </section>
     <!-- /.content -->
   </div>
+
+  <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+
+  <script type="text/javascript">
+    const path = "{{ route('admin.user.query') }}";
+    $('#full_name').typeahead({
+      source: function(query, process) {
+        return $.get(path, {query:query}, function(data){
+          return process(data);
+        });
+      }
+    });
+  </script>
+
   <!-- /.content-wrapper -->
   @endsection

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\User\Student;
+namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class FilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,12 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
+        // dd($this->request->all());
+        // $files = app('request')->get('user_id');
         return [
-            'student_id_number' => 'required|unique:students|numeric',
-            'group_id' => 'required|exists:groups,id',
+            'role_id' => 'nullable|integer',
+            'user_id' => 'nullable|integer|exists:users,id',
+            'full_name' => 'nullable|string',
         ];
     }
-
-    
 }

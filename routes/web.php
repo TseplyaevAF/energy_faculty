@@ -69,6 +69,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get('/{user}/edit', 'UserController@edit')->name('admin.user.edit');
         Route::patch('/{user}', 'UserController@update')->name('admin.user.update');
         Route::delete('/{user}', 'UserController@delete')->name('admin.user.delete');
+        
+        Route::get('/query', 'UserController@query')->name('admin.user.query');
     });
 
     Route::group(['namespace' => 'Chair', 'prefix' => 'chairs'], function () {

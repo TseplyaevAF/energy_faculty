@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\UserFilter;
+use App\Http\Requests\Admin\User\FilterRequest;
 use App\Http\Requests\Admin\User\StoreRequest;
 use App\Http\Requests\Admin\User\UpdateRequest;
 use App\Models\Chair;
@@ -10,6 +12,7 @@ use App\Models\Discipline;
 use App\Models\Group\Group;
 use App\Models\User;
 use App\Service\User\Service;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -20,10 +23,22 @@ class UserController extends Controller
         $this->service = $service;
     }
 
-    public function index()
+    public function index(FilterRequest $request)
     {
-        $users = User::all();
-        return view('admin.user.index', compact('users'));
+        $data = $request->validated();
+        $filter = app()->make(UserFilter::class, ['queryParams' => array_filter($data)]);
+        $users = User::filter($filter)->get();
+        $roles = User::getRoles();
+        return view('admin.user.index', compact('users', 'roles'));
+    }
+
+    public function query(Request $request) {
+        $input = $request->all();
+        $data = User::select('surname')
+                ->where('surname', 'like', "%{$input['query']}%")
+                ->get();
+
+        return response()->json($data);
     }
 
     public function create()
