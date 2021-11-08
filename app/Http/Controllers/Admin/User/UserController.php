@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $filter = app()->make(UserFilter::class, ['queryParams' => array_filter($data)]);
-        $users = User::filter($filter)->get();
+        $users = User::filter($filter)->paginate(10);
         $roles = User::getRoles();
         return view('admin.user.index', compact('users', 'roles'));
     }
