@@ -20,13 +20,16 @@
     display: none !important;
   }
 
-  img {
+  .img-responsive {
     display: block;
     max-width: 100%;
     height: auto;
   }
 
+  .prevImage {
+    display: inline-block;
+  }
+
   .thumb {
-    height: 60px;
     border: 1px solid #000;
   }

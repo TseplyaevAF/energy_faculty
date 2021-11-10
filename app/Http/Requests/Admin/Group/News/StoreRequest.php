@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'images.*' => 'image',
+            'images.*' => 'nullable|image',
             'group_id' => 'required|exists:groups,id',
         ];
     }

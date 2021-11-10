@@ -56,11 +56,9 @@ function un_hide_block(block) {
 function readURL(input, imageName) {
   var image = document.getElementById('prevImage' + imageName);
   var reader = new FileReader();
-
   reader.onloadend = function (e) {
     image.src = e.target.result;
   }
-
   reader.readAsDataURL(input);
 }
 
@@ -73,22 +71,21 @@ function setImages(files) {
       uniqueName = getUniqueName(files[i].name)
       images.set(uniqueName, files[i]);
       imageBlock[i].children[0].id = "prevImage" + uniqueName;
-      imageBlock[i].children[2].dataset.id = uniqueName;
       imageBlock[i].children[1].textContent = files[i].name;
-      imageBlock[i].children[2].addEventListener('click', deleteFromImgList);
+      imageBlock[i].children[2].children[0].dataset.id = uniqueName;
+      imageBlock[i].children[2].children[0].addEventListener('click', deleteFromImgList);
       imageSize++;
       var imagesList = document.getElementById("load-img-list");
       un_hide_block(imagesList);
-      // console.log(imageBlock[i].children[i].outerHTML="<img src=\"" + images[i]  + "\" alt=\"image\" class=\"w-25\">\"");
     } else {
       uniqueName = getUniqueName(files[i].name);
       images.set(uniqueName, files[i]);
       var new_image = document.getElementsByClassName('load-img-item')[imageBlock.length - 1].cloneNode(true);
       document.getElementsByClassName("load-img-list")[0].appendChild(new_image);
       imageBlock[imageSize].children[0].id = "prevImage" + uniqueName;
-      imageBlock[imageSize].children[2].dataset.id = uniqueName;
       imageBlock[imageSize].children[1].textContent = files[i].name;
-      imageBlock[imageSize].children[2].addEventListener('click', deleteFromImgList);
+      imageBlock[imageSize].children[2].children[0].dataset.id = uniqueName;
+      imageBlock[imageSize].children[2].children[0].addEventListener('click', deleteFromImgList);
       imageSize++;
     }
     inputLabel[0].innerHTML = "1";
@@ -96,28 +93,34 @@ function setImages(files) {
   }
 }
 
+function toImgList(imageUrl) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', imageUrl, true);
+  xhr.responseType = 'blob';
+  xhr.onload = function (e) {
+    if (this.status == 200) {
+      var myBlob = this.response;
+      var file = new File([myBlob], "name", { type: 'image/jpeg' });
+      files = [];
+      files.push(file);
+      setImages(files);
+    }
+  };
+  xhr.send();
+}
+
 
 $(document).ready(function () {
   var imageList = document.getElementById("load-img-list");
   hide_block(imageList);
-
-  // var oldImages = $('div.hidden').data('images');
-
-  // if (oldImages !== undefined) {
-  //   getOldImages(oldImages)
-  // }
+  var imagesLinks = $('div.hidden').data('images');
+  if (imagesLinks != "") {
+    imagesLinks = imagesLinks.split('|');
+    for (let i = 0; i < imagesLinks.length; i++) {
+      toImgList(imagesLinks[i]);
+    }
+  }
 });
-
-// function getOldImages() {
-//   oldImages = oldImages.split('|');
-//   files = [];
-
-//   for (let i = 0; i < oldImages.length; i++) {
-//     oldImages[i] = 'storage/' + oldImages[i];
-//     files.push(new File([""], oldImages[i]));
-//   }
-//   setImages(files);
-// }
 
 $('form input[type=file]').on('change', function () {
   setImages(this.files);
@@ -131,7 +134,3 @@ $('#submitGroupNews').on('click', function () {
   }
   inputImages.files = new FileListItems(files);
 });
-
-function animal(id) {
-  console.log(id);
-}

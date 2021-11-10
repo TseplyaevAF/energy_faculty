@@ -30,15 +30,28 @@ class Service
 
     public function update($data, $news)
     {
-
         try {
             DB::beginTransaction();
             if (isset($data['images'])) {
+                // загружаем новые картинки
                 foreach ($data['images'] as $image) {
                     $imagePath = 'images/groups/' . $news->group->id . '/news';
                     $tempImages[] = Storage::disk('public')->put($imagePath, $image);
                 }
                 $data['images'] = json_encode($tempImages);
+                // удаляем старые
+                if (isset($news->images))
+                foreach (json_decode($news->images) as $image) {
+                    Storage::disk('public')->delete($image);
+                }
+            } else {
+                // удаляем данные о url картинках из бд
+                // ...
+                // удаляем старые
+                $data['images'] = null;
+                foreach (json_decode($news->images) as $image) {
+                    Storage::disk('public')->delete($image);
+                }
             }
             $news->update($data);
             DB::commit();

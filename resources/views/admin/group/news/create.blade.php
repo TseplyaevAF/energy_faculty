@@ -65,10 +65,9 @@
                 <div class="form-group">
                   <ul id="load-img-list" class="load-img-list row">
                     <li class="load-img-item d-flex align-items-stretch col-sm-8 mb-2">
-                      <img src="#" alt="image" class="thumb w-25" id="prevImage" mr-3>
-                      <!-- {{ asset('storage/' . 'images\groups\2\news\H1YTX0OCvPvuTRiZ3Q3zyIrSLmMQhpDhIcaPfeOO.jpg') }} -->
+                      <img src="#" alt="image" class="prevImage thumb w-25" id="prevImage" mr-3>
                       <p class="mr-2 ml-2">image.jpg</p>
-                      <div>
+                      <div class="load-img-item__delete">
                         <i data-id="" class="far fa-times-circle text-danger mt-1"></i>
                       </div>
                     </li>

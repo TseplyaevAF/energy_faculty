@@ -66,23 +66,14 @@
                 <div class="form-group">
                   <ul id="load-img-list" class="load-img-list row">
                     <li class="load-img-item d-flex align-items-stretch col-sm-8 mb-2">
-                      <img src="#" alt="image" class="thumb w-25" id="prevImage" mr-3>
-                      <!-- {{ asset('storage/' . 'images\groups\2\news\H1YTX0OCvPvuTRiZ3Q3zyIrSLmMQhpDhIcaPfeOO.jpg') }} -->
+                      <img src="#" alt="image" class="prevImage thumb w-25" id="prevImage" mr-3>
                       <p class="mr-2 ml-2">image.jpg</p>
-                      <div>
+                      <div class="load-img-item__delete">
                         <i data-id="" class="far fa-times-circle text-danger mt-1"></i>
                       </div>
                     </li>
                   </ul>
                 </div>
-
-                <!-- вывод изображений -->
-                @foreach ($images as $image)
-                <div class="w-50 mt-2 mb-2">
-                  <img src="{{ asset('storage/' . $image) }}" alt="image" class="w-25">
-                </div>
-                @endforeach
-
                 @error('image')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
@@ -94,11 +85,15 @@
             </form>
           </div>
         </div>
+        @php
+        $imagesUrls = [];
+          if (isset($images)) {
+            foreach ($images as $image)
+              $imagesUrls[] = asset('storage/' . $image);
+          }
+        @endphp
+        <div class='hidden' data-images='{{ implode("|", $imagesUrls) }}'></div>
 
-        <div
-          class='hidden'
-          data-images='{{ implode("|", $images) }}'
-        ></div>
 
       </div><!-- /.container-fluid -->
     </section>
