@@ -36,7 +36,7 @@
                   id="{{ $chair->id }}"
                   onclick="showDiv('{{ $chair->id }}', '{{ json_encode($chairsIds) }}');">
                   <div class="schedule__chairs-title">
-                    {{$chair->title }}
+                    <u>{{ $chair->title }}</u>
                   </div>
                 </a>
               @endforeach

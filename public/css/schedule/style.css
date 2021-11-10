@@ -81,6 +81,11 @@ select.transparent-select {
     font-weight: 700;
 }
 
+u {    
+    border-bottom: 2px dotted #4b79e438;
+    text-decoration: none;
+}
+
 .schedule__chairs-title {
     margin: 0;
     max-width: 350px;

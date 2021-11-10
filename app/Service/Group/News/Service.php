@@ -45,10 +45,9 @@ class Service
                     Storage::disk('public')->delete($image);
                 }
             } else {
-                // удаляем данные о url картинках из бд
-                // ...
-                // удаляем старые
+                // удаляем urls картинок из бд
                 $data['images'] = null;
+                // удаляем файлы картинок с сервера
                 foreach (json_decode($news->images) as $image) {
                     Storage::disk('public')->delete($image);
                 }

@@ -64,7 +64,6 @@ function readURL(input, imageName) {
 
 function setImages(files) {
   var imageBlock = document.getElementsByClassName('load-img-item');
-  var inputLabel = document.getElementsByClassName('custom-file-label');
   var imageSize = images.size;
   for (var i = 0; i < files.length; i++) {
     if (imageSize == 0) {
@@ -88,7 +87,6 @@ function setImages(files) {
       imageBlock[imageSize].children[2].children[0].addEventListener('click', deleteFromImgList);
       imageSize++;
     }
-    inputLabel[0].innerHTML = "1";
     readURL(images.get(uniqueName), uniqueName);
   }
 }
