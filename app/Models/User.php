@@ -19,6 +19,7 @@ class User extends Authenticatable
     const ROLE_ADMIN = -1;
     const ROLE_STUDENT = 1;
     const ROLE_TEACHER = 2;
+    const ROLE_EMPLOYEE = 3;
 
     public static function getRoles()
     {
@@ -26,6 +27,7 @@ class User extends Authenticatable
             self::ROLE_ADMIN => 'Администратор',
             self::ROLE_STUDENT => 'Студент',
             self::ROLE_TEACHER => 'Преподаватель',
+            self::ROLE_EMPLOYEE => 'Сотрудник',
         ];
     }
 

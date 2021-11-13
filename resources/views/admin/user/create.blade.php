@@ -107,6 +107,7 @@
 
               @include('admin.includes.users.create_student')
               @include('admin.includes.users.create_teacher')
+              @include('admin.includes.users.create_employee')
 
               <input type="submit" class="btn btn-primary mb-2" value="Добавить">
             </form>

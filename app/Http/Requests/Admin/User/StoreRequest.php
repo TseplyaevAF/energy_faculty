@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\User;
 
+use App\Http\Requests\Admin\User\Employee\StoreRequest as EmployeeStoreRequest;
 use App\Http\Requests\Admin\User\Student\StoreRequest as StudentStoreRequest;
 use App\Http\Requests\Admin\User\Teacher\StoreRequest as TeacherStoreRequest;
 use Illuminate\Foundation\Http\FormRequest;
@@ -43,6 +44,10 @@ class StoreRequest extends FormRequest
         if ($this->role_id == 2) {
             return $userRules + $this->getTeacherRules($this->request->all())->rules();
         }
+        // если добавляем сотрудника
+        if ($this->role_id == 3) {
+            return $userRules + $this->getEmployeeRules($this->request->all())->rules();
+        }
     }
 
     public function getStudentRules($array)
@@ -61,6 +66,19 @@ class StoreRequest extends FormRequest
     public function getTeacherRules($array)
     {
         return new TeacherStoreRequest(
+            $this->query(),
+            $array,
+            $this->attributes(),
+            $this->cookies->all(),
+            $this->files->all(),
+            $this->server(),
+            $this->content,
+        );
+    }
+
+    public function getEmployeeRules($array)
+    {
+        return new EmployeeStoreRequest(
             $this->query(),
             $array,
             $this->attributes(),

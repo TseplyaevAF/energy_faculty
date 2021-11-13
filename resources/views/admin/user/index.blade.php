@@ -82,7 +82,7 @@
                       <td>{{ $roles[1] }}</td>
                       @elseif ($user->role->teacher_id != null)
                       <td>{{ $roles[2] }}</td>
-                      @elseif ($user->role->worker_id != null)
+                      @elseif ($user->role->employee_id != null)
                       <td>Сотрудник</td>
                       @else ($user->role->role_default == 'admin')
                       <td>{{ $roles[0] }}</td>

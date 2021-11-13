@@ -64,7 +64,7 @@
                         <form action="{{ route('admin.group.delete', $group->id) }}" method="post">
                           @csrf
                           @method('delete')
-                          <button type="submit" class="border-0 bg-transparent">
+                          <button type="submit" class="border-0 bg-transparent delete-btn">
                             <i class="far fa-trash-alt text-danger" role="button"></i>
                           </button>
                         </form>

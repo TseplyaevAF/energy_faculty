@@ -5,6 +5,7 @@ namespace App\Service\User;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Service\User\Employee\Service as EmployeeService;
 use App\Service\User\Student\Service as StudentService;
 use App\Service\User\Teacher\Service as TeacherService;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,13 @@ class Service
                 }
                 $role = Role::firstOrCreate([
                     'teacher_id' => $teacher->id,
+                ]);
+            } else if ($data['role_id'] == '3') {
+                $employeeService = new EmployeeService();
+                $employee = $employeeService->store($data);
+                unset($data['chair_id']);
+                $role = Role::firstOrCreate([
+                    'employee_id' => $employee->id,
                 ]);
             }
             $data['role_id'] = $role->id;

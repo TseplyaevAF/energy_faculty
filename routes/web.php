@@ -94,6 +94,36 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     });
 });
 
+Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' => ['auth', 'employee']], function () {
+    Route::group(['namespace' => 'Main'], function () {
+        Route::get('/', 'IndexController');
+    });
+
+    Route::group(['namespace' => 'Chair', 'prefix' => 'chair'], function () {
+        Route::get('{chair}/edit', 'ChairController@edit')->name('employee.chair.edit');
+        Route::patch('{chair}', 'ChairController@update')->name('employee.chair.update');
+    });
+
+    Route::group(['namespace' => 'News', 'prefix' => 'news'], function () {
+        Route::get('/', 'NewsController@index')->name('employee.news.index');
+        Route::get('/create', 'NewsController@create')->name('employee.news.create');
+        Route::post('/store', 'NewsController@store')->name('employee.news.store');
+        Route::get('/{news}', 'NewsController@show')->name('employee.news.show');
+        Route::get('/{news}/edit', 'NewsController@edit')->name('employee.news.edit');
+        Route::patch('/{news}', 'NewsController@update')->name('employee.news.update');
+        Route::delete('/{news}', 'NewsController@delete')->name('employee.news.delete');
+    });
+
+    Route::group(['namespace' => 'Schedule', 'prefix' => 'schedules'], function () {
+        Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {
+            Route::get('{group}', 'GroupController@show')->name('employee.schedule.group.show');
+            Route::get('pair={schedule}/edit', 'GroupController@edit')->name('employee.schedule.group.edit');
+            Route::patch('{schedule}', 'GroupController@update')->name('employee.schedule.group.update');
+        });
+        Route::get('/', 'ScheduleController@index')->name('employee.schedule.index');
+    });
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

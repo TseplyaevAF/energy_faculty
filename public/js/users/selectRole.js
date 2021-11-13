@@ -1,6 +1,7 @@
 var select = document.querySelector('select');
 var studentData = document.getElementById("studentsDataId");
 var teacherData = document.getElementById("teachersDataId");
+var employeeData = document.getElementById("employeesDataId");
 
 function hide_block(block) {
     if (!block.classList.contains('none')) {
@@ -24,14 +25,22 @@ function checkSelect() {
         case '0':
             hide_block(studentData);
             hide_block(teacherData);
+            hide_block(employeeData);
             break;
         case '1':
             un_hide_block(studentData);
             hide_block(teacherData);
+            hide_block(employeeData);
             break;
         case '2':
             un_hide_block(teacherData);
             hide_block(studentData);
+            hide_block(employeeData);
+            break;
+        case '3':
+            un_hide_block(employeeData);
+            hide_block(studentData);
+            hide_block(teacherData);
             break;
     }
 }
@@ -49,5 +58,6 @@ $(document).ready(function () {
     var studentData = document.getElementById("studentsDataId");
     hide_block(studentData);
     hide_block(teacherData);
+    hide_block(employeeData);
     checkSelect();
 });
