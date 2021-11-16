@@ -25,7 +25,7 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         $filter = app()->make(NewsFilter::class, ['queryParams' => array_filter($data)]);
-        $all_news = News::filter($filter)->paginate(5);
+        $all_news = News::where('chair_id', auth()->user()->role->employee->chair_id)->filter($filter)->paginate(5);
         $categories = Category::all();
         return view('employee.news.index', compact('all_news', 'categories'));
 

@@ -13,6 +13,7 @@ use App\Models\Group\Group;
 use App\Models\User;
 use App\Service\User\Service;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\Models\Media;
 
 class UserController extends Controller
 {
@@ -70,6 +71,12 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $media = $user->getMedia()->first();
+        if (isset($media)) {
+            $mediaUrl = $media->getUrl();
+            return redirect()->route('file.get', ['user' => $user, 'filename' => $media->id]);
+        }
+        
         if ($user->role->teacher_id != null) {
             $chairs = Chair::all();
             $disciplines = Discipline::all();

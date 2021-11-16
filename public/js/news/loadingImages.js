@@ -98,7 +98,7 @@ function toImgList(imageUrl) {
   xhr.onload = function (e) {
     if (this.status == 200) {
       var myBlob = this.response;
-      var file = new File([myBlob], "", { type: 'image/jpeg' });
+      var file = new File([myBlob], "image", { type: 'image/jpeg' });
       files = [];
       files.push(file);
       setImages(files);

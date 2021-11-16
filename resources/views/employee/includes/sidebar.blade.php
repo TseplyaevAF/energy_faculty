@@ -36,6 +36,12 @@
               <p>Расписание занятий</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('employee.file.index') }}" class="nav-link">
+              <i class="nav-icon far fa-file"></i>
+              <p>Файлы</p>
+            </a>
+          </li>
         </ul>
       </div>
       <!-- /.sidebar -->

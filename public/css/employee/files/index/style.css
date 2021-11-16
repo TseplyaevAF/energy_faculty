@@ -1,0 +1,57 @@
+.custom-file-input:lang(en)~.custom-file-label::after {
+  content: "...";
+}
+
+li {
+  list-style-type: none;
+  margin-left: 1px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.far.fa-times-circle.text-danger:hover {
+  cursor: pointer;
+}
+
+.none {
+  display: none !important;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.prevImage {
+  display: inline-block;
+}
+
+.thumb {
+  border: 1px solid #000;
+}
+
+/* for file input */
+
+.inner-addon {
+  position: relative;
+}
+
+.inner-addon .glyphicon {
+  position: absolute;
+  left: 0px;
+  color: #1e46b4;
+  padding: 10px;
+  pointer-events: none;
+}
+
+.inner-addon .form-control {
+  padding-left: 35px;
+}
+
+.form-group-lg.inner-addon .glyphicon {
+  font-size: 18px;
+}

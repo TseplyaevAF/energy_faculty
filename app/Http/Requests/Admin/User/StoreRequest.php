@@ -30,7 +30,7 @@ class StoreRequest extends FormRequest
             'surname' => 'required|string',
             'name' => 'required|string',
             'patronymic' => 'nullable|string',
-            'avatar' => 'nullable|string',
+            'avatar' => 'nullable|image',
             'phone_number' => 'nullable|regex:%^\\+\\d[-]\\(\\d{3}\\)[-]\\d{3}[-]\\d{2}[-]\\d{2}$%',
             'email' => ['required', 'string', 'email', 'unique:users', 'regex:/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/'],
             'password' => 'required|string',

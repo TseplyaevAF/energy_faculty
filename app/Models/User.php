@@ -9,12 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
 use App\Models\Traits\Filterable;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    use SoftDeletes;
-    use Filterable;
+    use HasApiTokens, HasFactory, Notifiable, 
+    SoftDeletes, Filterable, HasMediaTrait;
 
     const ROLE_ADMIN = -1;
     const ROLE_STUDENT = 1;

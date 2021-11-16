@@ -10,6 +10,7 @@ use App\Service\User\Student\Service as StudentService;
 use App\Service\User\Teacher\Service as TeacherService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\MediaLibrary\Models\Media;
 
 class Service
 {
@@ -83,6 +84,9 @@ class Service
             unset($data['user_id']);
             unset($data['role_id']);
             $user->update($data);
+            if (isset($data['avatar'])) {
+                $user->addMedia($data['avatar'])->toMediaCollection();
+            }
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

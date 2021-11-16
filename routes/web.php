@@ -114,6 +114,16 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
         Route::delete('/{news}', 'NewsController@delete')->name('employee.news.delete');
     });
 
+    Route::group(['namespace' => 'File', 'prefix' => 'files'], function () {
+        Route::get('/', 'FileController@index')->name('employee.file.index');
+        Route::post('/upload', 'FileController@upload')->name('employee.file.upload');
+        Route::get('/{file}/edit', 'FileController@edit')->name('employee.file.edit');
+        Route::patch('/{file}', 'FileController@update')->name('employee.file.update');
+        Route::delete('/{file}', 'FileController@delete')->name('employee.file.delete');
+        // для получения файла
+        Route::get('/{employee}/private/{collection}/{filename}', 'FileController@show')->name('employee.file.show');
+    });
+
     Route::group(['namespace' => 'Schedule', 'prefix' => 'schedules'], function () {
         Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {
             Route::get('{group}', 'GroupController@show')->name('employee.schedule.group.show');
@@ -127,3 +137,6 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// для получения файла
+Route::get('/private/users/{user}/pictures/{filename}', 'PrivateFilesController@get')->name('file.get');
