@@ -13,6 +13,8 @@ class PrivateUrlGenerator extends BaseUrlGenerator
 
     public function getUrl(): string
     {
+        $url = sprintf('%s/%s/%s/%s', $this->media->model_id, $this->media->collection_name, $this->media->id, $this->media->file_name);
+        return $url;
         $media = $this->media;
         // parent - это модель users, получаем её из отношения
         $parent = $this->media->model;

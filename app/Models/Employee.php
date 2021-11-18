@@ -20,6 +20,7 @@ class Employee extends Model implements HasMedia
     const DOCUMENTS = 0;
     const IMAGES = 1;
     const ARCHIVES = 2;
+    const PATH ='employees';
 
     public function registerAllMediaConversions(Media $media = null)
     {

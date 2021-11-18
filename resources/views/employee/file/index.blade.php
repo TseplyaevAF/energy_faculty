@@ -107,7 +107,7 @@
                         {{ $file['id'] }}
                       </td>
                       <td>
-                        <a href="{{ route('employee.file.show', [auth()->user()->role->employee, $file['collection_name'], $file['id']]) }}">
+                        <a href="{{ route('employee.file.show', [$file['model_id'], $file['collection_name'], $file['id'], $file['file_name']]) }}">
                           {{ $file['file_name'] }}
                         </a>
                       </td>

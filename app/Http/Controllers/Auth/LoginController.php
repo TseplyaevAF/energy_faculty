@@ -84,8 +84,9 @@ class LoginController extends Controller
     {
         if (isset(auth()->user()->role->employee_id)) {
             return url('employee');
-        } else {
-            return url('home');
+        } else if ((isset(auth()->user()->role->student_id)) ||
+        (isset(auth()->user()->role->teacher_id))){
+            return url('personal');
         }
     }
 

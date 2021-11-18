@@ -3,7 +3,6 @@
 
 namespace App\Service\File;
 
-use App\Models\Employee;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;

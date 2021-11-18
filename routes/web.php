@@ -94,7 +94,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     });
 });
 
-Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' => ['auth', 'employee']], function () {
+Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' => ['auth', 'employee', 'verified']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'IndexController');
     });
@@ -121,7 +121,7 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
         Route::patch('/{file}', 'FileController@update')->name('employee.file.update');
         Route::delete('/{file}', 'FileController@delete')->name('employee.file.delete');
         // для получения файла
-        Route::get('/{employee}/private/{collection}/{filename}', 'FileController@show')->name('employee.file.show');
+        Route::get('/{employee}/{collectionName}/{mediaId}/{fileName}', 'FileController@show')->name('employee.file.show');
     });
 
     Route::group(['namespace' => 'Schedule', 'prefix' => 'schedules'], function () {
@@ -131,6 +131,21 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
             Route::patch('{schedule}', 'GroupController@update')->name('employee.schedule.group.update');
         });
         Route::get('/', 'ScheduleController@index')->name('employee.schedule.index');
+    });
+});
+
+Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'personal', 'verified']], function () {
+    Route::group(['namespace' => 'Main'], function () {
+        Route::get('/', 'IndexController');
+    });
+    Route::group(['namespace' => 'Task', 'prefix' => 'tasks'], function () {
+        Route::get('/', 'TaskController@index')->name('personal.task.index');
+        Route::get('/create', 'TaskController@create')->name('personal.task.create');
+        Route::post('/store', 'TaskController@store')->name('personal.task.store');
+        Route::get('/{task}', 'TaskController@show')->name('personal.task.show');
+        Route::get('/{task}/edit', 'TaskController@edit')->name('personal.task.edit');
+        Route::patch('/{task}', 'TaskController@update')->name('personal.task.update');
+        Route::delete('/{task}', 'TaskController@delete')->name('personal.task.delete');
     });
 });
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Student;
 
+use App\Models\Group\Group;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,5 +17,9 @@ class Student extends Model
 
     public function role(){
         return $this->hasOne(Role::class);
+    }
+
+    public function group() {
+        return $this->belongsTo(Group::class);
     }
 }

@@ -12,6 +12,7 @@ use App\Models\Employee;
 use App\Models\News;
 use App\Service\File\Service;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\Models\Media;
 
@@ -45,18 +46,23 @@ class FileController extends Controller
         // dd($categories);
     }
 
-    public function show(Employee $employee, $collection, $filename) {
+    public function show(Employee $employee, $collectionName, $mediaId, $filename) {
+        // $this->middleware('auth');
+        // $url = Crypt::decryptString($url);
+        // $url = explode('/', $url);
+
         // теперь выделим id модели из имени файла
         $filename = explode('.', pathinfo($filename, PATHINFO_FILENAME));
-        $media_id = $filename[0];
+        
         // забираем название конверсии из имени файла
         $conversion = $filename[1] ?? '';
 
         /** @var Media $media */
         // находим медиа-модель среди файлов сотрудника
-        $media = $employee->getMedia($collection)->where('id', $media_id)->first();
+        $media = $employee->getMedia($collectionName)->where('id', $mediaId)->first();
+
         // и сервим файл из этой медиа-модели
-        return isset($media) ? response()->file($media->getPath($conversion)) : abort(404);;
+        return isset($media) ? response()->file($media->getPath($conversion)) : abort(404);
     }
 
     public function upload(StoreRequest $request)
