@@ -11,9 +11,7 @@ use Spatie\MediaLibrary\Models\Media;
 
 class Employee extends Model implements HasMedia
 {
-    use HasFactory;
-    use SoftDeletes;
-    use HasMediaTrait;
+    use HasFactory, SoftDeletes, HasMediaTrait;
 
     protected $guarded = false;
 

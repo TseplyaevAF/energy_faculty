@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'discipline_id' => 'integer|exists:disciplines,id',
             'group_id' => 'integer|exists:groups,id',
-            'task_url' => 'required|mimes:doc,docx,rar,zip,xlsx,xls,pdf,txt',
+            'task' => 'required|mimes:doc,docx,rar,zip,xlsx,xls,pdf,txt',
         ];
     }
 }

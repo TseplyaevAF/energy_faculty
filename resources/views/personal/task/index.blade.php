@@ -54,16 +54,14 @@
               <div class="form-group">
                 <div class="col">
                   <h6 class="text-muted">с </h6>
-                  <input @if(isset($_GET['date'][0])) value="{{$_GET['date'][0]}}" @endif
-                  autocomplete="off" type="text" class="form-control" name="date[]" size="10" onClick="xCal(this)" onKeyUp="xCal()">
+                  <input @if(isset($_GET['date'][0])) value="{{$_GET['date'][0]}}" @endif autocomplete="off" type="text" class="form-control" name="date[]" size="10" onClick="xCal(this)" onKeyUp="xCal()">
                 </div>
               </div>
-              
+
               <div class="form-group">
                 <div class="col">
                   <h6 class="text-muted">по </h6>
-                  <input @if(isset($_GET['date'][1])) value="{{$_GET['date'][1]}}" @endif
-                  autocomplete="off" type="text" class="form-control" name="date[]" size="10" onClick="xCal(this)" onKeyUp="xCal()">
+                  <input @if(isset($_GET['date'][1])) value="{{$_GET['date'][1]}}" @endif autocomplete="off" type="text" class="form-control" name="date[]" size="10" onClick="xCal(this)" onKeyUp="xCal()">
                 </div>
               </div>
               <button type="submit" class="btn btn-success mb-2">Применить</button>
@@ -75,7 +73,7 @@
               <button type="submit" class="btn btn-default">Сбросить</button>
             </form>
           </div>
-          <div class="col-6">
+          <div class="col-8">
             <div class="card">
               <div class="card-body table-responsive">
                 <table class="table table-hover text-wrap">
@@ -90,11 +88,21 @@
                   <tbody>
                     @foreach ($tasks as $task)
                     <tr>
-                      <td>{{ $task->task }}</td>
-                      <td>{{ $task->discipline }}</td>
+                      <td>
+                        @php
+                          $mediaId = explode('/', $task->task)[2];
+                          $filename = explode('/', $task->task)[3];
+                        @endphp
+                        <a href="{{ route('personal.task.download', [$mediaId, $filename]) }}">{{ $filename }}</a>
+                      </td>
+                      <td><b><a href="#">{{ $task->discipline->title }}</a></b></td>
                       <td><b><a href="#">{!! $task->group->title !!}</a></b></td>
                       <!-- <td><a href="{{ route('personal.task.show', $task->id) }}"><i class="far fa-eye"></i></a></td> -->
                       <td class="project-actions text-right d-flex">
+                        <a class="btn btn-info btn-sm mr-1" href="{{ route('personal.task.show', $task->id) }}">
+                        <i class="far fa-eye"></i>
+                          Посмотреть
+                        </a>
                         <form action="{{ route('personal.task.delete', $task->id) }}" method="post">
                           @csrf
                           @method('delete')
@@ -112,7 +120,7 @@
               </div>
               <!-- /.card-body -->
             </div>
-            
+
           </div>
         </div>
 

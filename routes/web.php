@@ -142,9 +142,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/', 'TaskController@index')->name('personal.task.index');
         Route::get('/create', 'TaskController@create')->name('personal.task.create');
         Route::post('/store', 'TaskController@store')->name('personal.task.store');
+        Route::get('/{mediaId}/{filename}', 'TaskController@download')->name('personal.task.download');
         Route::get('/{task}', 'TaskController@show')->name('personal.task.show');
-        Route::get('/{task}/edit', 'TaskController@edit')->name('personal.task.edit');
-        Route::patch('/{task}', 'TaskController@update')->name('personal.task.update');
         Route::delete('/{task}', 'TaskController@delete')->name('personal.task.delete');
     });
 });

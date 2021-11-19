@@ -10,8 +10,9 @@ use App\Models\Category;
 use App\Models\Group\Group;
 use App\Models\News;
 use App\Models\Teacher\Task;
-use App\Service\News\Service;
+use App\Service\Task\Service;
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\Models\Media;
 
 class TaskController extends Controller
 {
@@ -35,6 +36,7 @@ class TaskController extends Controller
         foreach ($groupsIds as $groupId) {
             $groups[] = Group::find($groupId->group_id);
         }
+        // explode('/', $tasks[0]->task)[3]
         return view('personal.task.index', compact('tasks', 'groups'));
     }
 
@@ -57,27 +59,22 @@ class TaskController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        dd($data);
+        // dd($data);
 
-        $this->service->store($data);
+        $this->service->store(auth()->user()->role->teacher, $data);
 
-        return redirect()->route('employee.news.index');
+        return redirect()->route('personal.task.index');
     }
 
-    public function edit(News $news)
-    {
-        $categories = Category::all();
-        $images = json_decode($news->images);
-        return view('employee.news.edit', compact('news', 'categories', 'images'));
+    public function show($str) {
+        dd($str);
     }
 
-    public function update(UpdateRequest $request, News $news)
-    {
-        $data = $request->validated();
+    public function download($mediaId, $filename) {
+        $media = auth()->user()->role->teacher->getMedia(Task::PATH)->where('id', $mediaId)->first();
 
-        $news = $this->service->update($data, $news);
-
-        return redirect()->back()->withSuccess('Запись успешно отредактирована');
+        // и сервим файл из этой медиа-модели
+        return isset($media) ? response()->file($media->getPath()) : abort(404);
     }
 
     public function delete(News $news)

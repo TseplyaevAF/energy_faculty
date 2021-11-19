@@ -49,7 +49,7 @@
                 <label>Выберите дисциплину</label>
                 <select name="discipline_id" class="form-control">
                   @foreach($disciplines as $discipline)
-                  <option value="{{$discipline->id }}" {{$discipline->id == old('discipline_id') ? 'selected' : ''}}>{{ $discipline->title }}</option>
+                  <option value="{{ $discipline->id }}" {{$discipline->id == old('discipline_id') ? 'selected' : ''}}>{{ $discipline->title }}</option>
                   @endforeach
                 </select>
               </div>
@@ -59,7 +59,7 @@
                 <div class="input-group mb-2">
                   <div class="custom-file">
                     <!-- multiple -->
-                    <input type="file" class="custom-file-input" name="task_url" accept=".doc,.pdf,.rar,.zip,.txt">
+                    <input type="file" class="custom-file-input" name="task" accept=".doc,.pdf,.rar,.zip,.txt">
                     <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                   </div>
                 </div>
