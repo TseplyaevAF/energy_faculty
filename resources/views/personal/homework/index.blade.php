@@ -1,8 +1,9 @@
   @extends('personal.layouts.main')
 
-  @section('title-block')Задания для групп@endsection
+  @section('title-block')Домашние задания@endsection
 
   @section('content')
+  <link rel="stylesheet" href="{{ asset('css/personal/task/style.css') }}">
   <link rel="stylesheet" href="{{ asset('css/datepicker/cssworld.ru-xcal.css') }}">
 
   <!-- Content Wrapper. Contains page content -->
@@ -12,7 +13,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Задания для групп</h1>
+            <h1 class="m-0">Домашние задания</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -30,18 +31,9 @@
       <div class="container-fluid">
 
         <div class="row">
-          <div class="col-2 mb-3">
-            <a href="{{ route('personal.task.create') }}" class="btn btn-block btn-primary">Добавить задание</a>
-          </div>
-        </div>
-
-        <div class="row">
           <div class="filters-block col-2">
-            <label for="exampleFormControlInput1" class="form-label">Фильтры</label>
-            <form action="{{route('personal.task.index')}}" method="GET">
-              <div class="form-group">
-                <input @if(isset($_GET['content'])) value="{{$_GET['content']}}" @endif type="text" class="form-control" name="content" placeholder="Поиск файла">
-              </div>
+            <h5>Фильтры</h5>
+            <form action="{{route('personal.homework.index')}}" method="GET">
               <div class="form-group">
                 <select name="discipline_id" class="form-control">
                   <option value="">Все дисциплины</option>
@@ -51,10 +43,10 @@
                 </select>
               </div>
               <div class="form-group">
-                <select name="group_id" class="form-control">
-                  <option value="">Все группы</option>
-                  @foreach($groups as $group)
-                  <option value="{{ $group->id }}" @if(isset($_GET['group_id'])) @if($_GET['group_id']==$group->id) selected @endif @endif>{{ $group->title }}</option>
+                <label>Статус задания</label>
+                <select name="status_id" class="form-control">
+                  @foreach($statusVariants as $id => $status)
+                  <option value="{{ $id }}" {{$id == old('status_id') ? 'selected' : ''}}>{{ $status }}</option>
                   @endforeach
                 </select>
               </div>
@@ -74,10 +66,9 @@
               </div>
               <button type="submit" class="btn btn-success mb-2">Применить</button>
             </form>
-            <form action="{{ route('personal.task.index') }}" method="GET">
-              <input value="" type="hidden" name="content">
+            <form action="{{ route('personal.homework.index') }}" method="GET">
               <input value="" type="hidden" name="discipline_id">
-              <input value="" type="hidden" name="group_id">
+              <input value="" type="hidden" name="status_id">
               <input value="" type="hidden" name="date[]">
               <button type="submit" class="btn btn-default">Сбросить</button>
             </form>
@@ -88,44 +79,60 @@
                 <table class="table table-hover text-wrap">
                   <thead>
                     <tr>
-                      <th>Название файла</th>
+                      <th>Задание</th>
                       <th>Дисциплина</th>
-                      <th>Группа</th>
-                      <th style="width: 30%;">Действия</th>
+                      <th>Статус</th>
+                      <th style="width: 20%;">Решение</th>
+                      <th>Результат</th>
                     </tr>
                   </thead>
                   <tbody>
                     @foreach ($tasks as $task)
                     <tr>
                       <td>
-                        @php
-                        $modelId = explode('/', $task->task)[0];
-                        $mediaId = explode('/', $task->task)[2];
-                        $filename = explode('/', $task->task)[3];
-                        @endphp
-                        <a href="{{ route('personal.task.download', [$modelId, $mediaId, $filename]) }}">{{ $filename }}</a>
+                        @include('personal.includes.homework.task_file')
                       </td>
                       <td><b><a href="#">{{ $task->discipline->title }}</a></b></td>
-                      <td><b><a href="#">{!! $task->group->title !!}</a></b></td>
-                      <td class="project-actions text-left">
-                        <a class="btn btn-info btn-sm" href="{{ route('personal.task.show', $task->id) }}">
-                          <i class="far fa-eye"></i>
-                          Посмотреть
-                        </a>
-                        @if ($task->status === 0)
-                        <form action="{{ route('personal.task.complete', $task->id) }}" method="POST" 
-                        style="display: inline-block">
-                          @csrf
-                          @method('PATCH')
-                          <button type="submit" class="btn btn-warning btn-sm btn-complete">
-                            <i class="fas fa-window-close"></i>
-                            Завершить задание
-                          </button>
-                        </form>
-                        @else
-                          <p style="display: inline-block"><b>Задание завершено</b></p>
+                      @php
+                        $isWork = false;
+                      @endphp
+                      @foreach ($homework as $work)
+                        <!-- Если студент добавлял решение к текущему заданию -->
+                        @if ($work->task_id == $task->id)
+                          @php
+                            $isWork = true;
+                          @endphp
+                          @if ($work->grade != 'on check')
+                            <!-- Если задание студента проверено -->
+                            <td class="work-status__completed">{{ $statusVariants[1] }}</td>
+                            @include('personal.includes.homework.complete')
+                            @break
+                          @else
+                            @if ($task->status === 0)
+                              <!-- Приём заданий еще не закрыт, можно отправить другой файл -->
+                              <td class="work-status__active">{{ $statusVariants[0] }}</td>
+                              @include('personal.includes.homework.active')
+                              @break
+                            @else
+                              <!-- Приём заданий закрыт преподавателем, отправить другой файл нельзя -->
+                              <td class="work-status__pending">Проверяется</td>
+                              @include('personal.includes.homework.pending')
+                              @break
+                            @endif
+                          @endif
                         @endif
-                      </td>
+                      @endforeach
+
+                      <!-- Если студент не добавлял решение к текущему заданию -->
+                      @if (!$isWork)
+                        @if ($task->status === 0)
+                          @include('personal.includes.homework.add')
+                        @else
+                          <td class="work-status__completed">{{ $statusVariants[1] }}</td>
+                          <td>Добавить невозможно</td>
+                        @endif
+                      @endif
+
                     </tr>
                     @endforeach
                   </tbody>
@@ -142,8 +149,6 @@
     <!-- /.content -->
   </div>
 
-  <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('js/personal/task/complete.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/news/cssworld.ru-xcal-en.js') }}"></script>
   <!-- /.content-wrapper -->
   @endsection

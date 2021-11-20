@@ -14,7 +14,7 @@ class AddColumnsStatusTeacherId extends Migration
     public function up()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->string('status')->nullable();
+            $table->integer('status')->default(0);
             $table->unsignedBigInteger('teacher_id');
 
             // IDX

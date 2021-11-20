@@ -28,6 +28,12 @@
               <p>Задания для групп</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('personal.homework.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-file-word"></i>
+              <p>Домашние задания</p>
+            </a>
+          </li>
         </ul>
       </div>
       <!-- /.sidebar -->

@@ -9,7 +9,9 @@ use App\Http\Requests\Personal\Task\StoreRequest;
 use App\Models\Category;
 use App\Models\Group\Group;
 use App\Models\News;
+use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
+use App\Models\Teacher\Teacher;
 use App\Service\Task\Service;
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\Models\Media;
@@ -36,8 +38,8 @@ class TaskController extends Controller
         foreach ($groupsIds as $groupId) {
             $groups[] = Group::find($groupId->group_id);
         }
-        // explode('/', $tasks[0]->task)[3]
-        return view('personal.task.index', compact('tasks', 'groups'));
+        $disciplines = auth()->user()->role->teacher->disciplines;
+        return view('personal.task.index', compact('tasks', 'groups', 'disciplines'));
     }
 
     public function create()
@@ -66,21 +68,22 @@ class TaskController extends Controller
         return redirect()->route('personal.task.index');
     }
 
-    public function show($str) {
-        dd($str);
-    }
-
-    public function download($mediaId, $filename) {
-        $media = auth()->user()->role->teacher->getMedia(Task::PATH)->where('id', $mediaId)->first();
-
-        // и сервим файл из этой медиа-модели
+    public function download($teacherId, $mediaId, $filename) {
+        $teacher = Teacher::find($teacherId);
+        $media = $teacher->getMedia(Task::PATH)->where('id', $mediaId)->first();
+        // сервим файл из медиа-модели
         return isset($media) ? response()->file($media->getPath()) : abort(404);
     }
 
-    public function delete(News $news)
-    {
-        dd(1);
-        $news->delete();
-        return redirect()->route('admin.group.news.index');
+    public function show(Task $task) {
+        $homework = Homework::all()->where('task_id', $task->id);
+        return view('personal.task.show', compact('task','homework'));
+    }
+
+    public function complete(Task $task) {
+        $task->update([
+            'status' => 1,
+        ]);
+        return redirect()->route('personal.task.index');
     }
 }

@@ -142,9 +142,17 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/', 'TaskController@index')->name('personal.task.index');
         Route::get('/create', 'TaskController@create')->name('personal.task.create');
         Route::post('/store', 'TaskController@store')->name('personal.task.store');
-        Route::get('/{mediaId}/{filename}', 'TaskController@download')->name('personal.task.download');
+        Route::get('/{modelId}/{mediaId}/{filename}', 'TaskController@download')->name('personal.task.download');
         Route::get('/{task}', 'TaskController@show')->name('personal.task.show');
-        Route::delete('/{task}', 'TaskController@delete')->name('personal.task.delete');
+        Route::patch('{task}', 'TaskController@complete')->name('personal.task.complete');
+    });
+    Route::group(['namespace' => 'Homework', 'prefix' => 'homework'], function () {
+        Route::get('/', 'HomeworkController@index')->name('personal.homework.index');
+        Route::get('/task={task}/add', 'HomeworkController@create')->name('personal.homework.create');
+        Route::post('/store', 'HomeworkController@store')->name('personal.homework.store');
+        Route::get('/{modelId}/{mediaId}/{filename}', 'HomeworkController@download')->name('personal.homework.download');
+        Route::get('/{homework}', 'HomeworkController@show')->name('personal.homework.show');
+        Route::delete('/{homework}', 'HomeworkController@delete')->name('personal.homework.delete');
     });
 });
 

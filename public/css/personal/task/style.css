@@ -1,0 +1,15 @@
+.work-status__completed {
+    background-color: rgba(40, 165, 40, 0.26);
+    font-weight: 700;
+}
+
+.work-status__active {
+    background-color: rgba(223, 115, 26, 0.836);
+    font-weight: 700;
+    color: white;
+}
+
+.work-status__pending {
+    background-color: rgba(13, 62, 136, 0.308);
+    font-weight: 700;
+}

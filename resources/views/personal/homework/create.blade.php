@@ -1,6 +1,6 @@
   @extends('personal.layouts.main')
 
-  @section('title-block')Добавление задания для группы@endsection
+  @section('title-block')Добавление решения@endsection
 
   @section('content')
 
@@ -11,7 +11,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Добавление задания</h1>
+            <h1 class="m-0">Добавить решение</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -34,40 +34,21 @@
 
         <div class="row">
           <div class="col-12">
-            <form action="{{ route('personal.task.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('personal.homework.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-group w-25">
-                <label>Выберите группу</label>
-                <select name="group_id" class="form-control">
-                  @foreach($groups as $group)
-                  <option value="{{$group->id }}" {{$group->id == old('group_id') ? 'selected' : ''}}>{{ $group->title }}</option>
-                  @endforeach
-                </select>
-              </div>
-
-              <div class="form-group w-25">
-                <label>Выберите дисциплину</label>
-                <select name="discipline_id" class="form-control">
-                  @foreach($disciplines as $discipline)
-                  <option value="{{ $discipline->id }}" {{$discipline->id == old('discipline_id') ? 'selected' : ''}}>{{ $discipline->title }}</option>
-                  @endforeach
-                </select>
-              </div>
-
-              <div class="form-group w-25">
-                <label for="exampleInputFile">Выберите файл с заданием</label>
+                <label for="exampleInputFile">Загрузите файл с Вашим решением</label>
                 <div class="input-group mb-2">
                   <div class="custom-file">
-                    <!-- multiple -->
-                    <input type="file" class="custom-file-input" name="task" accept=".docx,.pdf,.rar,.zip,.txt">
+                    <input type="file" class="custom-file-input" name="homework" accept=".docx,.pdf,.rar,.zip,.txt">
                     <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                   </div>
                 </div>
-                @error('task')
+                @error('homework')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
-
+              <input value="{{ $task->id }}" type="hidden" name="task_id">
               <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Добавить">
               </div>

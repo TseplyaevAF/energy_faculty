@@ -1,22 +1,22 @@
 <?php
 
 
-namespace App\Service\Task;
+namespace App\Service\Homework;
 
-use App\Models\Teacher\Task;
+use App\Models\Student\Homework;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Service
 {
-    public function store($teacher, $data)
+    public function store($student, $data)
     {
         try {
             DB::beginTransaction();
-            $media = $teacher->addMedia($data['task'])->toMediaCollection(Task::PATH);
-            $data['task'] = $media->getUrl();
-            $data['teacher_id'] = $teacher->id;
-            Task::firstOrCreate($data);
+            $media = $student->addMedia($data['homework'])->toMediaCollection(Homework::PATH);
+            $data['homework'] = $media->getUrl();
+            $data['student_id'] = $student->id;
+            Homework::firstOrCreate($data);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
