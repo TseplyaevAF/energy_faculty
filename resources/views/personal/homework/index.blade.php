@@ -92,7 +92,7 @@
                       <td>
                         @include('personal.includes.homework.task_file')
                       </td>
-                      <td><b><a href="#">{{ $task->discipline->title }}</a></b></td>
+                      <td><a href="#">{{ $task->discipline->title }}</a></td>
                       @php
                         $isWork = false;
                       @endphp
@@ -130,6 +130,7 @@
                         @else
                           <td class="work-status__completed">{{ $statusVariants[1] }}</td>
                           <td>Добавить невозможно</td>
+                          <td>-</td>
                         @endif
                       @endif
 

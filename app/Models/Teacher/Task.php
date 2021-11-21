@@ -29,6 +29,10 @@ class Task extends Model
     public function group() {
         return $this->belongsTo(Group::class);
     }
+
+    public function teacher() {
+        return $this->belongsTo(Teacher::class);
+    }
     
     public function discipline() {
         return $this->belongsTo(Discipline::class);

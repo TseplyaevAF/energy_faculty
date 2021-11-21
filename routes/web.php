@@ -152,6 +152,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::post('/store', 'HomeworkController@store')->name('personal.homework.store');
         Route::get('/{modelId}/{mediaId}/{filename}', 'HomeworkController@download')->name('personal.homework.download');
         Route::get('/{homework}', 'HomeworkController@show')->name('personal.homework.show');
+        Route::patch('/{homework}', 'HomeworkController@feedback')->name('personal.homework.feedback');
         Route::delete('/{homework}', 'HomeworkController@delete')->name('personal.homework.delete');
     });
 });

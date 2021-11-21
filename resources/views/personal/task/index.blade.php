@@ -123,7 +123,7 @@
                           </button>
                         </form>
                         @else
-                          <p style="display: inline-block"><b>Задание завершено</b></p>
+                          <p style="display: inline-block">Задание завершено</p>
                         @endif
                       </td>
                     </tr>

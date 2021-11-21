@@ -72,8 +72,92 @@
                   $mediaId = explode('/', $work->homework)[2];
                   $filename = explode('/', $work->homework)[3];
                 @endphp
-                <p class="text-sm" style="margin: 0">Скачать: </p><a href="{{ route('personal.homework.download', [$modelId, $mediaId, $filename]) }}" class="link-black text-sm"><b><i class="fas fa-link mr-1"></i>{{ $filename }}</b></a>
+              <p class="text-sm" style="margin: 0">Файл с заданием: </p><a href="{{ route('personal.homework.download', [$modelId, $mediaId, $filename]) }}" class="link-black text-sm"><b><i class="fas fa-link mr-1"></i>{{ $filename }}</b></a>
               </p>
+              @if ($work->grade == 'on check')
+                <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#checkWork{{ $work->student_id }}">Оставить отзыв</button>
+              @else
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#changeFeedback{{ $work->student_id }}">Изменить отзыв</button>
+              @endif
+            </div>
+
+            <!-- Pop up form for check work -->
+            <div class="modal fade" id="checkWork{{ $work->student_id }}" style="display: none; padding-right: 17px;" aria-hidden="true" role="dialog">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Оставить отзыв</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group col-6">
+                      <h5>Для студента: 
+                        {{ $work->student->role->user->surname }}
+                        {{ mb_substr($work->student->role->user->name, 0, 1) }}.
+                        {{ mb_substr($work->student->role->user->patronymic, 0, 1)}}.
+                      </h5>
+                    </div>
+                    <form action="{{ route('personal.homework.feedback', $work->id) }}" method="POST" enctype="multipart/form-data">
+                      @csrf
+                      @method('PATCH')
+                      <div class="form-group">
+                        <textarea class="summernote" name="grade">{{ old('grade') }}</textarea>
+                        @error('grade')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                      </div>
+                      <input type="hidden" value="{{ $work->task_id }}" name="task_id">
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                        <input type="submit" class="btn btn-primary" value="Отправить отзыв">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- Pop up form for change feedback -->
+            <div class="modal fade" id="changeFeedback{{ $work->student_id }}" style="display: none; padding-right: 17px;" aria-hidden="true" role="dialog">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Измененить отзыв</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group col-6">
+                      <h5>Для студента: 
+                        {{ $work->student->role->user->surname }}
+                        {{ mb_substr($work->student->role->user->name, 0, 1) }}.
+                        {{ mb_substr($work->student->role->user->patronymic, 0, 1)}}.
+                      </h5>
+                    </div>
+                    <form action="{{ route('personal.homework.feedback', $work->id) }}" method="POST" enctype="multipart/form-data">
+                      @csrf
+                      @method('PATCH')
+                      <div class="form-group">
+                        <textarea class="summernote" name="grade">{{ $work->grade }}</textarea>
+                        @error('grade')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                      </div>
+                      <input type="hidden" value="{{ $work->task_id }}" name="task_id">
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                        <input type="submit" class="btn btn-primary" value="Сохранить изменения">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
             </div>
             @endforeach
           </div>

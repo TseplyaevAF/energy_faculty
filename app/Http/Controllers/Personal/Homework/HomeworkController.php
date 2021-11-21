@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Personal\Homework;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\News\FilterRequest;
+use App\Http\Requests\Personal\Homework\FeedbackRequest;
 use App\Http\Requests\Personal\Homework\StoreRequest;
 use App\Models\Discipline;
 use App\Models\News;
@@ -64,6 +65,22 @@ class HomeworkController extends Controller
 
     public function show(Homework $homework) {
         dd($homework);
+    }
+
+    public function feedback(FeedbackRequest $request, Homework $homework) {
+        $data = $request->validated();
+        try {
+            DB::beginTransaction();
+            $homework->update([
+                'grade' => $data['grade']
+            ]);
+            $task = Task::find($data['task_id']);
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            abort(500);
+        }
+        return redirect()->route('personal.task.show', compact('task'));
     }
 
     public function delete(News $news)

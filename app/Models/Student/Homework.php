@@ -2,6 +2,7 @@
 
 namespace App\Models\Student;
 
+use App\Models\Teacher\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,5 +21,9 @@ class Homework extends Model
 
     public function getHomework($taskId) {
         return Homework::where('task_id', $taskId)->get();
+    }
+
+    public function task() {
+        return $this->belongsTo(Task::class);
     }
 }
