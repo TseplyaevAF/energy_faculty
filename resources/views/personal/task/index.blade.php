@@ -105,8 +105,8 @@
                         @endphp
                         <a href="{{ route('personal.task.download', [$modelId, $mediaId, $filename]) }}">{{ $filename }}</a>
                       </td>
-                      <td><b><a href="#">{{ $task->discipline->title }}</a></b></td>
-                      <td><b><a href="#">{!! $task->group->title !!}</a></b></td>
+                      <td><a href="#">{{ $task->discipline->title }}</a></td>
+                      <td><a href="#">{!! $task->group->title !!}</a></td>
                       <td class="project-actions text-left">
                         <a class="btn btn-info btn-sm" href="{{ route('personal.task.show', $task->id) }}">
                           <i class="far fa-eye"></i>
@@ -119,11 +119,11 @@
                           @method('PATCH')
                           <button type="submit" class="btn btn-warning btn-sm btn-complete">
                             <i class="fas fa-window-close"></i>
-                            Завершить задание
+                            Закрыть приём работ
                           </button>
                         </form>
                         @else
-                          <p style="display: inline-block">Задание завершено</p>
+                          <p style="display: inline-block" class="font-weight-bold">Приём работ закрыт</p>
                         @endif
                       </td>
                     </tr>
