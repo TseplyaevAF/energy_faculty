@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group text-right">
                         <i> 
-                            Отзыв оставил: 
+                            Преподаватель: 
                             {{ $work->task->teacher->role->user->surname }}
                             {{ mb_substr($work->task->teacher->role->user->name, 0, 1) }}.
                             {{ mb_substr($work->task->teacher->role->user->patronymic, 0, 1)}}.

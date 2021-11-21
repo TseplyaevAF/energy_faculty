@@ -115,7 +115,6 @@
                               @break
                             @else
                               <!-- Приём заданий закрыт преподавателем, отправить другой файл нельзя -->
-                              <td class="work-status__pending">Проверяется</td>
                               @include('personal.includes.homework.pending')
                               @break
                             @endif

@@ -17,12 +17,14 @@ class Task extends Model
     const PATH = 'tasks';
     const ACTIVE = 0;
     const COMPLETED = 1;
+    const CHECK = 2;
 
     public static function getStatusVariants()
     {
         return [
             self::ACTIVE => 'Открыто',
             self::COMPLETED => 'Завершено',
+            self::CHECK => 'Проверяется',
         ];
     }
 

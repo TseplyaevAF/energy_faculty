@@ -1,3 +1,4 @@
+<td class="work-status__pending">{{ $statusVariants[2] }}</td>
 <td>
     @php
     $modelId = explode('/', $work->homework)[0];

@@ -14,6 +14,7 @@ use App\Models\Teacher\Task;
 use App\Models\Teacher\Teacher;
 use App\Service\Task\Service;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Spatie\MediaLibrary\Models\Media;
 
 class TaskController extends Controller
@@ -27,6 +28,7 @@ class TaskController extends Controller
 
     public function index(FilterRequest $request)
     {
+        Gate::authorize('index-task');
         $teacher_id = auth()->user()->role->teacher_id;
         $tasks = Task::all()->where('teacher_id', $teacher_id);
         $groupsIds = DB::table('schedules')
@@ -44,6 +46,7 @@ class TaskController extends Controller
 
     public function create()
     {
+        Gate::authorize('create-task');
         $teacher_id = auth()->user()->role->teacher_id;
         $groupsIds = DB::table('schedules')
             ->select('group_id')
@@ -60,8 +63,8 @@ class TaskController extends Controller
 
     public function store(StoreRequest $request)
     {
+        Gate::authorize('create-task');
         $data = $request->validated();
-        // dd($data);
 
         $this->service->store(auth()->user()->role->teacher, $data);
 
@@ -69,10 +72,13 @@ class TaskController extends Controller
     }
 
     public function download($teacherId, $mediaId, $filename) {
+        Gate::authorize('download-task', [$mediaId]);
         $teacher = Teacher::find($teacherId);
         $media = $teacher->getMedia(Task::PATH)->where('id', $mediaId)->first();
         // сервим файл из медиа-модели
-        return isset($media) ? response()->file($media->getPath()) : abort(404);
+        return isset($media) ? response()->file($media->getPath(), [
+            'Cache-Control' => 'no-cache, no-cache, must-revalidate',
+            ]) : abort(404);
     }
 
     public function show(Task $task) {
