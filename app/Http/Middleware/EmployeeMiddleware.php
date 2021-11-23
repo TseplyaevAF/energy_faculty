@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class EmployeeMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!isset(auth()->user()->role->employee_id)) {
+        if (auth()->user()->role_id != User::ROLE_EMPLOYEE) {
             abort(404);
         }
         return $next($request);

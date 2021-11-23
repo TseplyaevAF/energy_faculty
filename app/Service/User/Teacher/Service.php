@@ -18,6 +18,7 @@ class Service
                 'work_experience' => $data['work_experience'],
                 'address' => $data['address'],
                 'chair_id' => $data['chair_id'],
+                'user_id' => $data['user_id'],
             ];
             $teacher = Teacher::firstOrCreate($array);
             if (isset($data['disciplines_ids'])) {

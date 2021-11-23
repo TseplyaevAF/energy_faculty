@@ -36,8 +36,8 @@ class Employee extends Model implements HasMedia
         ];
     }
 
-    public function role(){
-        return $this->hasOne(Role::class);
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 
     public function chair() {

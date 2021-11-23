@@ -4,6 +4,7 @@ namespace App\Models\Student;
 
 use App\Models\Group\Group;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,8 +19,8 @@ class Student extends Model implements HasMedia
 
     const PATH = 'students';
 
-    public function role(){
-        return $this->hasOne(Role::class);
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 
     public function group() {

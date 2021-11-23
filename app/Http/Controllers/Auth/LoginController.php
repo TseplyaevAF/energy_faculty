@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -51,46 +49,20 @@ class LoginController extends Controller
         return view('auth.login', compact('roles'));
     }
 
-    // public function username()
-    // {
-    //     $login = request()->input('email');
-    //     $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
-    //     request()->merge([$field => $login]);
-    //     return $field;
-    // }
-
-    public function authenticated(Request $request)
-    {
-        // if (Auth::attempt([
-        //     'email' => $request->email,
-        //     'password' => $request->password,
-        //     'role_id' => $request->role_id
-        // ])) {
-        //     return redirect()->intended('employee');
-        // }
-    }
-
-    // public function attemptLogin(Request $request) {
-    //     $credentials = $request->only('email', 'password', 'role_id');
-    //     if (Auth::attempt($credentials)) {
-    //         if ($request->role_id == 3) {
-    //             dd(Role::where('employee_id', '!=', null));
-    //         }
-    //         return User::where('email', '=', $request->email )->select('name')->first();
-    //     }
-    // }
-
     protected function redirectTo()
     {
-        if (isset(auth()->user()->role->employee_id)) {
+        if (auth()->user()->role_id == User::ROLE_EMPLOYEE) {
             return url('employee');
-        } else if ((isset(auth()->user()->role->student_id)) ||
-        (isset(auth()->user()->role->teacher_id))){
+        }
+        if ((auth()->user()->role_id == User::ROLE_STUDENT) ||
+            (auth()->user()->role_id == User::ROLE_TEACHER)
+        ) {
             return url('personal');
         }
     }
 
-    protected function loggedOut(Request $request) {
+    protected function loggedOut(Request $request)
+    {
         return redirect()->route('login');
     }
 }

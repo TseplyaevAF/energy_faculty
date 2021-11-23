@@ -27,7 +27,7 @@ class HomeworkController extends Controller
     public function index(FilterRequest $request)
     {
         $statusVariants = Task::getStatusVariants();
-        $student = auth()->user()->role->student;
+        $student = auth()->user()->student;
         $homework = Homework::all()->where('student_id', $student->id);
         $tasks = Task::all()->where('group_id', $student->group_id);
         $disciplinesIds = DB::table('schedules')
@@ -51,7 +51,7 @@ class HomeworkController extends Controller
     {
         $data = $request->validated();
 
-        $this->service->store(auth()->user()->role->student, $data);
+        $this->service->store(auth()->user()->student, $data);
 
         return redirect()->route('personal.homework.index');
     }

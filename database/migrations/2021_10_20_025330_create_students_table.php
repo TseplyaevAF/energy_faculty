@@ -17,15 +17,18 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->string('student_id_number')->unique();
             $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('user_id')->nullable()->unique();
             $table->timestamps();
 
             $table->softDeletes();
 
             // IDX
             $table->index('group_id', 'student_group_idx');
+            $table->index('user_id', 'student_user_idx');
 
             // FK
             $table->foreign('group_id', 'student_group_fk')->on('groups')->references('id');
+            $table->foreign('user_id', 'student_user_fk')->on('users')->references('id')->onDelete('cascade');
         });
     }
 

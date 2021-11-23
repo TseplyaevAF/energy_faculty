@@ -22,22 +22,22 @@ function checkSelect() {
     var selectedId = option.value;
 
     switch (selectedId) {
-        case '0':
-            hide_block(studentData);
-            hide_block(teacherData);
-            hide_block(employeeData);
-            break;
         case '1':
-            un_hide_block(studentData);
+            hide_block(studentData);
             hide_block(teacherData);
             hide_block(employeeData);
             break;
         case '2':
+            un_hide_block(studentData);
+            hide_block(teacherData);
+            hide_block(employeeData);
+            break;
+        case '3':
             un_hide_block(teacherData);
             hide_block(studentData);
             hide_block(employeeData);
             break;
-        case '3':
+        case '4':
             un_hide_block(employeeData);
             hide_block(studentData);
             hide_block(teacherData);

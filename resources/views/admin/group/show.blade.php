@@ -71,9 +71,9 @@
                       <td>Староста группы</td>
                       @if (!empty($group->headman))
                         <td>
-                          {{ $group->headman->student->role->user->surname }}
-                          {{ $group->headman->student->role->user->name }}
-                          {{ $group->headman->student->role->user->patronymic }}
+                          {{ $group->headman->student->user->surname }}
+                          {{ $group->headman->student->user->name }}
+                          {{ $group->headman->student->user->patronymic }}
                         </td>
                       @else <td>Не назначен</td>
                       @endif

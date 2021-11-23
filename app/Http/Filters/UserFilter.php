@@ -3,6 +3,7 @@
 
 namespace App\Http\Filters;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
 class UserFilter extends AbstractFilter
@@ -23,20 +24,17 @@ class UserFilter extends AbstractFilter
     public function roleId(Builder $builder, $value)
     {
         switch ($value) {
-            case "-1":
-                $builder->whereHas('role', function (Builder $query) {
-                    $query->where('role_default', 'admin');
-                });
+            case 1:
+                $builder->where('role_id', User::ROLE_ADMIN);
                 break;
-            case "1":
-                $builder->whereHas('role', function (Builder $query) {
-                    $query->where('student_id', '!=', null);
-                });
+            case 2:
+                $builder->where('role_id', User::ROLE_STUDENT);
                 break;
-            case "2":
-                $builder->whereHas('role', function ($query) {
-                    $query->where('teacher_id', '!=', null);
-                });
+            case 3:
+                $builder->where('role_id', User::ROLE_TEACHER);
+                break;
+            case 4:
+                $builder->where('role_id', User::ROLE_EMPLOYEE);
                 break;
         }
     }

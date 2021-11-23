@@ -80,7 +80,7 @@
                             <label>Преподаватель</label>
                             <select name="teacher_id" class="form-control">
                                 @foreach($teachers as $teacher)
-                                <option value="{{$teacher->id }}" {{$teacher->id == $schedule->teacher_id ? 'selected' : ''}}>{{ $teacher->role->user->surname }}</option>
+                                <option value="{{$teacher->id }}" {{$teacher->id == $schedule->teacher_id ? 'selected' : ''}}>{{ $teacher->user->surname }}</option>
                                 @endforeach
                             </select>
                         </div>

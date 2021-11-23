@@ -73,7 +73,7 @@
                                                 <td class="schedule__table-discipline">
                                                     <div class="row">
                                                         {{ $pairEven->discipline->title }} ·&nbsp
-                                                        <a class="schedule__table-teacher" href="#">{{ $pairEven->teacher->role->user->surname }} {{ mb_substr($pairEven->teacher->role->user->name, 0, 1) }}. {{ mb_substr($pairEven->teacher->role->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
+                                                        <a class="schedule__table-teacher" href="#">{{ $pairEven->teacher->user->surname }} {{ mb_substr($pairEven->teacher->user->name, 0, 1) }}. {{ mb_substr($pairEven->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
                                                         <p class="schedule__table-class-type text-muted"> {{ $pairEven->class_type->title }} </p>&nbsp·&nbsp
                                                         <p class="schedule__table-classroom">(ауд. {{$pairEven->classroom->title}}) </p>&nbsp
                                                         <a href="{{ route('admin.schedule.group.edit', $pairEven->id) }}" class="text-success"><i class="far fa-edit"></i></a>
@@ -87,7 +87,7 @@
                                                         <td class="schedule__table-discipline">
                                                             <div class="row">
                                                                 {{$pairOdd->discipline->title}} ·&nbsp
-                                                                <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->role->user->surname }} {{ mb_substr($pairOdd->teacher->role->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->role->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
+                                                                <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->user->surname }} {{ mb_substr($pairOdd->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
                                                                 <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                                 <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->title}})</p>&nbsp
                                                                 <a href="{{ route('admin.schedule.group.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
@@ -114,7 +114,7 @@
                                                     <td class="schedule__table-discipline">
                                                         <div class="row">
                                                             {{$pairOdd->discipline->title}} ·&nbsp
-                                                            <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->role->user->surname }} {{ mb_substr($pairOdd->teacher->role->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->role->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
+                                                            <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->user->surname }} {{ mb_substr($pairOdd->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
                                                             <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                             <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->title}})</p>&nbsp
                                                             <a href="{{ route('admin.schedule.group.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>

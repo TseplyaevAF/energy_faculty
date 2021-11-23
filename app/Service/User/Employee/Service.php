@@ -14,6 +14,7 @@ class Service
             DB::beginTransaction();
             $array = [
                 'chair_id' => $data['chair_id'],
+                'user_id' => $data['user_id'],
             ];
             $employee = Employee::firstOrCreate($array);
             DB::commit();

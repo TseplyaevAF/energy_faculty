@@ -23,14 +23,6 @@ class FilterRequest extends FormRequest
      */
     public function rules()
     {
-        // $this->merge([
-        //     'date' => [
-        //         'date_start' => $this->date_start,
-        //         'date_end' => $this->date_end,
-        //     ]
-        // ]);
-        // dd($this->request);
-
         return [
             'content' => 'nullable|string',
             'category_id' => 'nullable|integer|exists:categories,id',

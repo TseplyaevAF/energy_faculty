@@ -11,9 +11,6 @@ use App\Models\Category;
 use App\Models\Employee;
 use App\Models\News;
 use App\Service\File\Service;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\Models\Media;
 
 class FileController extends Controller
@@ -28,7 +25,7 @@ class FileController extends Controller
     public function index(FilterRequest $request)
     {
         $data = $request->validated();
-        $employee = auth()->user()->role->employee;
+        $employee = auth()->user()->employee;
         $categories = Employee::getFilesCategories();
         $documents = $employee->getMedia('documents')->map(function (Media $media) {
             return $media;
@@ -69,7 +66,7 @@ class FileController extends Controller
     {
         $data = $request->validated();
 
-        $this->service->store(auth()->user()->role->employee, $data);
+        $this->service->store(auth()->user()->employee, $data);
 
         return redirect()->route('employee.file.index');
     }

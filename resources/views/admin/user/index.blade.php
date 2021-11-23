@@ -78,15 +78,12 @@
                         {{ $user->name }}
                         {{ $user->patronymic }}
                       </td>
-                      @if ($user->role->student_id != null)
-                      <td>{{ $roles[1] }}</td>
-                      @elseif ($user->role->teacher_id != null)
-                      <td>{{ $roles[2] }}</td>
-                      @elseif ($user->role->employee_id != null)
-                      <td>Сотрудник</td>
-                      @else ($user->role->role_default == 'admin')
-                      <td>{{ $roles[0] }}</td>
-                      @endif
+                      @foreach ($roles as $key => $role)
+                        @if ($user->role_id == $key)
+                          <td>{{ $role }}</td>
+                          @break
+                        @endif
+                      @endforeach
                       <td><a href="{{ route('admin.user.show', $user->id) }}"><i class="far fa-eye"></i></a></td>
                       <td><a href="{{ route('admin.user.edit', $user->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>
                       <td>

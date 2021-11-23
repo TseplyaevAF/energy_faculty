@@ -14,7 +14,7 @@ class AddColumnRoleId extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('role_id')->nullable()->unique();
+            $table->unsignedBigInteger('role_id')->nullable();
 
             // IDX
             $table->index('role_id', 'user_role_idx');

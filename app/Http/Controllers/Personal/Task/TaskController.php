@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\News\FilterRequest;
 use App\Http\Requests\Personal\Task\StoreRequest;
-use App\Models\Category;
 use App\Models\Group\Group;
-use App\Models\News;
 use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
 use App\Models\Teacher\Teacher;
@@ -29,7 +27,7 @@ class TaskController extends Controller
     public function index(FilterRequest $request)
     {
         Gate::authorize('index-task');
-        $teacher_id = auth()->user()->role->teacher_id;
+        $teacher_id = auth()->user()->teacher->id;
         $tasks = Task::all()->where('teacher_id', $teacher_id);
         $groupsIds = DB::table('schedules')
             ->select('group_id')
@@ -40,14 +38,14 @@ class TaskController extends Controller
         foreach ($groupsIds as $groupId) {
             $groups[] = Group::find($groupId->group_id);
         }
-        $disciplines = auth()->user()->role->teacher->disciplines;
+        $disciplines = auth()->user()->teacher->disciplines;
         return view('personal.task.index', compact('tasks', 'groups', 'disciplines'));
     }
 
     public function create()
     {
         Gate::authorize('create-task');
-        $teacher_id = auth()->user()->role->teacher_id;
+        $teacher_id = auth()->user()->teacher->id;
         $groupsIds = DB::table('schedules')
             ->select('group_id')
             ->groupBy('group_id')
@@ -57,7 +55,7 @@ class TaskController extends Controller
         foreach ($groupsIds as $groupId) {
             $groups[] = Group::find($groupId->group_id);
         }
-        $disciplines = auth()->user()->role->teacher->disciplines;
+        $disciplines = auth()->user()->teacher->disciplines;
         return view('personal.task.create', compact('groups', 'disciplines'));
     }
 
@@ -66,7 +64,7 @@ class TaskController extends Controller
         Gate::authorize('create-task');
         $data = $request->validated();
 
-        $this->service->store(auth()->user()->role->teacher, $data);
+        $this->service->store(auth()->user()->teacher, $data);
 
         return redirect()->route('personal.task.index');
     }
@@ -82,6 +80,7 @@ class TaskController extends Controller
     }
 
     public function show(Task $task) {
+        Gate::authorize('show-task', [$task]);
         $homework = Homework::all()->where('task_id', $task->id);
         return view('personal.task.show', compact('task','homework'));
     }

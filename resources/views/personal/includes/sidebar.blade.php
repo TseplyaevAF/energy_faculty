@@ -2,9 +2,9 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <a href="/employee" class="brand-link">
         <img src="{{ asset('storage/' . 'images/admin/sidebar/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        @if (isset(auth()->user()->role->student_id))
+        @if (auth()->user()->role_id == 2)
         <span class="brand-text font-weight-light">Кабинет студента</span>
-        @elseif (isset(auth()->user()->role->teacher_id))
+        @elseif (auth()->user()->role_id == 3)
         <span class="brand-text font-weight-light">Преподаватель</span>
         @endif
       </a>

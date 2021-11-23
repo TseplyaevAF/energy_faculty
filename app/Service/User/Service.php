@@ -3,7 +3,6 @@
 
 namespace App\Service\User;
 
-use App\Models\Role;
 use App\Models\User;
 use App\Service\User\Employee\Service as EmployeeService;
 use App\Service\User\Student\Service as StudentService;
@@ -18,17 +17,17 @@ class Service
     {
         try {
             DB::beginTransaction();
-            if ($data['role_id'] == '1') {
+            $data['password'] = Hash::make($data['password']);
+            $user = User::create($data);
+            $data['user_id'] = $user->id;
+            if ($data['role_id'] == User::ROLE_STUDENT) {
                 $studentService = new StudentService();
-                $student = $studentService->store($data);
+                $studentService->store($data);
                 unset($data['student_id_number']);
                 unset($data['group_id']);
-                $role = Role::firstOrCreate([
-                    'student_id' => $student->id,
-                ]);
-            } else if ($data['role_id'] == '2') {
+            } else if ($data['role_id'] == User::ROLE_TEACHER) {
                 $teacherService = new TeacherService();
-                $teacher = $teacherService->store($data);
+                $teacherService->store($data);
                 unset($data['post']);
                 unset($data['activity']);
                 unset($data['work_experience']);
@@ -37,20 +36,11 @@ class Service
                 if (isset($data['disciplines_ids'])) {
                     unset($data['disciplines_ids']);
                 }
-                $role = Role::firstOrCreate([
-                    'teacher_id' => $teacher->id,
-                ]);
-            } else if ($data['role_id'] == '3') {
+            } else if ($data['role_id'] == User::ROLE_EMPLOYEE) {
                 $employeeService = new EmployeeService();
-                $employee = $employeeService->store($data);
+                $employeeService->store($data);
                 unset($data['chair_id']);
-                $role = Role::firstOrCreate([
-                    'employee_id' => $employee->id,
-                ]);
             }
-            $data['role_id'] = $role->id;
-            $data['password'] = Hash::make($data['password']);
-            User::create($data);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -62,14 +52,14 @@ class Service
     {        
         try {
             DB::beginTransaction();
-            if ($data['role_id'] == '1') {
-                $student = $user->role->student;
+            if ($data['role_id'] == User::ROLE_STUDENT) {
+                $student = $user->student;
                 $studentService = new StudentService();
                 $studentService->update($data, $student);
                 unset($data['student_id_number']);
                 unset($data['group_id']);
-            } else if ($data['role_id'] == '2') {
-                $teacher = $user->role->teacher;
+            } else if ($data['role_id'] == User::ROLE_TEACHER) {
+                $teacher = $user->teacher;
                 $teacherService = new TeacherService();
                 $teacher = $teacherService->update($data, $teacher);
                 unset($data['post']);

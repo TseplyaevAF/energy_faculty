@@ -24,7 +24,7 @@ class Task extends Model
         return [
             self::ACTIVE => 'Открыто',
             self::COMPLETED => 'Завершено',
-            self::CHECK => 'Проверяется',
+            self::CHECK => 'Закрыто на проверку',
         ];
     }
 

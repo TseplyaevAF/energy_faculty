@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,9 @@ class PersonalMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!isset(auth()->user()->role->student_id) && !isset(auth()->user()->role->teacher_id)) {
+        if ((auth()->user()->role_id == User::ROLE_STUDENT) &&
+            (auth()->user()->role_id == User::ROLE_TEACHER)
+        ) {
             abort(404);
         }
         return $next($request);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\User\Teacher;
+namespace App\Http\Requests\Admin\User\Employee;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,13 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'post' => 'required|string',
-            'activity' => 'nullable',
-            'work_experience' => 'required|numeric',
-            'address' => 'nullable',
             'chair_id' => 'required|integer|exists:chairs,id',
-            'disciplines_ids' => 'nullable|array',
-            'disciplines_ids.*' => 'integer|exists:disciplines,id',
         ];
     }
 }

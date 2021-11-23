@@ -1,6 +1,6 @@
 <div class="teachersData mt-4" id="teachersDataId">
-    <input type="hidden" name="{{ $teacher = $user->role->teacher }}">
-    <input value="2" type="hidden" name="role_id">
+    <input type="hidden" name="{{ $teacher = $user->teacher }}">
+    <input value="3" type="hidden" name="role_id">
 
     <div class="form-group w-25">
         <input value="{{ $teacher->post }}" type="text" class="form-control" name="post" placeholder="Должность">

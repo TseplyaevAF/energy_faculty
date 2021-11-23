@@ -10,7 +10,7 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        $chair = auth()->user()->role->employee->chair;
+        $chair = auth()->user()->employee->chair;
         $groups = Group::all();
         return view('employee.schedule.index', compact('chair', 'groups'));
     }

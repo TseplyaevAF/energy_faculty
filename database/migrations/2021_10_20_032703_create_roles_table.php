@@ -15,20 +15,10 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('role_default')->nullable()->default('user');
-            $table->unsignedBigInteger('teacher_id')->nullable()->unique();
-            $table->unsignedBigInteger('student_id')->nullable()->unique();
+            $table->string('name');
             $table->timestamps();
 
             $table->softDeletes();
-
-            // IDX
-            $table->index('teacher_id', 'role_teacher_idx');
-            $table->index('student_id', 'role_student_idx');
-
-            // FK
-            $table->foreign('teacher_id', 'role_teacher_fk')->on('teachers')->references('id')->onDelete('cascade');
-            $table->foreign('student_id', 'role_student_fk')->on('students')->references('id')->onDelete('cascade');
         });
     }
 

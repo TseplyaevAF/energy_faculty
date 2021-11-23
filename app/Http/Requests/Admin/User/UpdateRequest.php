@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin\User;
 
 use App\Http\Requests\Admin\User\Student\UpdateRequest as StudentUpdateRequest;
 use App\Http\Requests\Admin\User\Teacher\UpdateRequest as TeacherUpdateRequest;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -36,11 +37,11 @@ class UpdateRequest extends FormRequest
             'role_id' => 'required|numeric',
         ];
         // если обновляем студента
-        if ($this->role_id == 1) {
+        if ($this->role_id == User::ROLE_STUDENT) {
             return $userRules + $this->getStudentRules($this->request->all())->rules();
         }
         // если обновляем преподавателя
-        if ($this->role_id == 2) {
+        if ($this->role_id == User::ROLE_TEACHER) {
             return $userRules + $this->getTeacherRules($this->request->all())->rules();
         }
     }

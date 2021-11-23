@@ -15,6 +15,7 @@ class Service
             $array = [
                 'student_id_number' => $data['student_id_number'],
                 'group_id' => $data['group_id'],
+                'user_id' =>  $data['user_id'],
             ];
             $student = Student::firstOrCreate($array);
             DB::commit();

@@ -30,44 +30,37 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('index-task', function(User $user) {
-            if ($user->role->teacher_id != null) {
-                return Response::allow();
-            }
-            return Response::deny();
+            return $user->role_id == User::ROLE_TEACHER ? Response::allow() : Response::deny();
         });
 
         Gate::define('create-task', function(User $user) {
-            if ($user->role->teacher_id != null) {
-                return Response::allow();
-            }
-            return Response::deny();
+            return $user->role_id == User::ROLE_TEACHER ? Response::allow() : Response::deny();
         });
 
         Gate::define('download-task', function(User $user, $mediaId) {
             // Если файл пытается скачать преподаватель
-            if (isset($user->role->teacher_id)) {
-                $teacher = $user->role->teacher;
+            if ($user->role_id == User::ROLE_TEACHER) {
+                $teacher = $user->teacher;
                 $media = $teacher->getMedia(Task::PATH)->where('id', $mediaId)->first();
-                if (isset($media)) {
-                    // Файл скачивает владелец
-                    return Response::allow();
-                }
-                // Файл скачивает не владелец
-                return Response::deny();
+                // Файл разрешено скачивать только его владельцу
+                return isset($media) ? Response::allow() : Response::deny();
             } 
             // Если файл пытается скачать студент
-            if (isset($user->role->student_id)) {
+            if ($user->role_id == User::ROLE_STUDENT) {
                 $task_url = Media::find($mediaId)->getUrl();
                 $task = Task::where('task', '=', $task_url)->firstOrFail();
-                $student = $user->role->student;
-                if ($student->group_id == $task->group_id) {
-                    // Файл разрешено скачивать только студентам той группы,
-                    // для которой было опубликовано задание
-                    return Response::allow();
-                }
-                return Response::deny();
+                $student = $user->student;
+                // Файл разрешено скачивать только студентам той группы,
+                // для которой было опубликовано задание
+                return $student->group_id == $task->group_id ? Response::allow() : Response::deny();
             }
             return Response::deny();
+        });
+
+        Gate::define('show-task', function(User $user, $task) {
+            return $user->role_id == User::ROLE_TEACHER &&
+            $task->teacher_id == $user->teacher->id ?
+            Response::allow() : Response::deny();
         });
     }
 }

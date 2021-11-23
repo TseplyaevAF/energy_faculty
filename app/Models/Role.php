@@ -15,19 +15,6 @@ class Role extends Model
 
     protected $guarded = false;
 
-    public function teacher() {
-        return $this->belongsTo(Teacher::class);
-    }
-
-    public function student() {
-        return $this->belongsTo(Student::class);
-    }
-
-    public function employee() {
-        return $this->belongsTo(Employee::class);
-    }
-
-
     public function user()
     {
         return $this->hasOne(User::class);

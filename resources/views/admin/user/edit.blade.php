@@ -89,9 +89,9 @@
               <p class="text-danger">{{ $message }}</p>
               @enderror
 
-              @if ($user->role->student != null)
+              @if ($user->role_id === 2)
                 @include('admin.includes.users.edit_student')
-              @elseif ($user->role->teacher != null)
+              @elseif ($user->role_id === 3)
                 @include('admin.includes.users.edit_teacher')
               @endif
               <input value="{{ $user->id }}" class="form-control" type="hidden" name="user_id">

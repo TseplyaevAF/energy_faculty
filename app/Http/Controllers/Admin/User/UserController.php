@@ -77,11 +77,11 @@ class UserController extends Controller
             return redirect()->route('file.get', ['user' => $user, 'filename' => $media->id]);
         }
         
-        if ($user->role->teacher_id != null) {
+        if ($user->role_id == User::ROLE_TEACHER) {
             $chairs = Chair::all();
             $disciplines = Discipline::all();
             return view('admin.user.edit', compact('user', 'chairs', 'disciplines'));
-        } else if ($user->role->student_id != null) {
+        } else if ($user->role_id == User::ROLE_STUDENT) {
             $groups = Group::all();
             return view('admin.user.edit', compact('user', 'groups'));
         }

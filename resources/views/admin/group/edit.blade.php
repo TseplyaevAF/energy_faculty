@@ -56,9 +56,9 @@
                     <option value="">-- Староста не выбран</option>
                     @foreach($students as $student)
                       @if (!empty($group->headman))
-                        <option value="{{ $student->id }}" {{ $student->id == $group->headman->student_id ? 'selected' : ''}} > {{ $student->role->user->surname }}</option>
+                        <option value="{{ $student->id }}" {{ $student->id == $group->headman->student_id ? 'selected' : ''}} > {{ $student->user->surname }}</option>
                       @else
-                        <option value="{{ $student->id }}" {{ $student->id == $group->student_id ? 'selected' : ''}} > {{ $student->role->user->surname }}</option>
+                        <option value="{{ $student->id }}" {{ $student->id == $group->student_id ? 'selected' : ''}} > {{ $student->user->surname }}</option>
                       @endif  
                     @endforeach
                   @endif

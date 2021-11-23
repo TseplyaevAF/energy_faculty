@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
+use App\Models\Student\Student;
+use App\Models\Teacher\Teacher;
 use App\Models\Traits\Filterable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -17,10 +19,10 @@ class User extends Authenticatable implements HasMedia
     use HasApiTokens, HasFactory, Notifiable, 
     SoftDeletes, Filterable, HasMediaTrait;
 
-    const ROLE_ADMIN = -1;
-    const ROLE_STUDENT = 1;
-    const ROLE_TEACHER = 2;
-    const ROLE_EMPLOYEE = 3;
+    const ROLE_ADMIN = 1;
+    const ROLE_STUDENT = 2;
+    const ROLE_TEACHER = 3;
+    const ROLE_EMPLOYEE = 4;
 
     public static function getRoles()
     {
@@ -28,12 +30,24 @@ class User extends Authenticatable implements HasMedia
             self::ROLE_ADMIN => 'Администратор',
             self::ROLE_STUDENT => 'Студент',
             self::ROLE_TEACHER => 'Преподаватель',
-            self::ROLE_EMPLOYEE => 'Сотрудник',
+            self::ROLE_EMPLOYEE => 'Сотрудник кафедры',
         ];
     }
 
     public function role() {
         return $this->belongsTo(Role::class);
+    }
+
+    public function student() {
+        return $this->hasOne(Student::class);
+    }
+
+    public function teacher() {
+        return $this->hasOne(Teacher::class);
+    }
+
+    public function employee() {
+        return $this->hasOne(Employee::class);
     }
     
     /**
