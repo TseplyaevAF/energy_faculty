@@ -44,7 +44,7 @@ class TaskController extends Controller
 
     public function create()
     {
-        Gate::authorize('create-task');
+        Gate::authorize('index-task');
         $teacher_id = auth()->user()->teacher->id;
         $groupsIds = DB::table('schedules')
             ->select('group_id')
@@ -61,7 +61,7 @@ class TaskController extends Controller
 
     public function store(StoreRequest $request)
     {
-        Gate::authorize('create-task');
+        Gate::authorize('index-task');
         $data = $request->validated();
 
         $this->service->store(auth()->user()->teacher, $data);
@@ -86,6 +86,7 @@ class TaskController extends Controller
     }
 
     public function complete(Task $task) {
+        Gate::authorize('show-task', [$task]);
         $task->update([
             'status' => 1,
         ]);

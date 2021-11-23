@@ -25,9 +25,9 @@
                     <div class="form-group text-right">
                         <i> 
                             Преподаватель: 
-                            {{ $work->task->teacher->role->user->surname }}
-                            {{ mb_substr($work->task->teacher->role->user->name, 0, 1) }}.
-                            {{ mb_substr($work->task->teacher->role->user->patronymic, 0, 1)}}.
+                            {{ $work->task->teacher->user->surname }}
+                            {{ mb_substr($work->task->teacher->user->name, 0, 1) }}.
+                            {{ mb_substr($work->task->teacher->user->patronymic, 0, 1)}}.
                         </i>
                     </div>
                 </div>

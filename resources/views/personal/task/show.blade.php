@@ -53,9 +53,9 @@
                 <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
                 <span class="username">
                   <a href="#">
-                    {{ $work->student->role->user->surname }}
-                    {{ mb_substr($work->student->role->user->name, 0, 1) }}.
-                    {{ mb_substr($work->student->role->user->patronymic, 0, 1)}}.
+                    {{ $work->student->user->surname }}
+                    {{ mb_substr($work->student->user->name, 0, 1) }}.
+                    {{ mb_substr($work->student->user->patronymic, 0, 1)}}.
                   </a>
                 </span>
                 <span class="description">Загрузил своё решение {{ date('d.m.Y', strtotime($work->created_at)) }} в {{ date('H:i', strtotime($work->created_at)) }}</span>
@@ -94,9 +94,9 @@
                   <div class="modal-body">
                     <div class="form-group col-6">
                       <h5>Для студента: 
-                        {{ $work->student->role->user->surname }}
-                        {{ mb_substr($work->student->role->user->name, 0, 1) }}.
-                        {{ mb_substr($work->student->role->user->patronymic, 0, 1)}}.
+                        {{ $work->student->user->surname }}
+                        {{ mb_substr($work->student->user->name, 0, 1) }}.
+                        {{ mb_substr($work->student->user->patronymic, 0, 1)}}.
                       </h5>
                     </div>
                     <form action="{{ route('personal.homework.feedback', $work->id) }}" method="POST" enctype="multipart/form-data">
@@ -133,9 +133,9 @@
                   <div class="modal-body">
                     <div class="form-group col-6">
                       <h5>Для студента: 
-                        {{ $work->student->role->user->surname }}
-                        {{ mb_substr($work->student->role->user->name, 0, 1) }}.
-                        {{ mb_substr($work->student->role->user->patronymic, 0, 1)}}.
+                        {{ $work->student->user->surname }}
+                        {{ mb_substr($work->student->user->name, 0, 1) }}.
+                        {{ mb_substr($work->student->user->patronymic, 0, 1)}}.
                       </h5>
                     </div>
                     <form action="{{ route('personal.homework.feedback', $work->id) }}" method="POST" enctype="multipart/form-data">

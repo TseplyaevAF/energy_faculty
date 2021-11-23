@@ -1,9 +1,9 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <a href="/employee" class="brand-link">
+      <a href="/personal" class="brand-link">
         <img src="{{ asset('storage/' . 'images/admin/sidebar/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         @if (auth()->user()->role_id == 2)
-        <span class="brand-text font-weight-light">Кабинет студента</span>
+        <span class="brand-text font-weight-light">Студент</span>
         @elseif (auth()->user()->role_id == 3)
         <span class="brand-text font-weight-light">Преподаватель</span>
         @endif
@@ -22,18 +22,21 @@
           </div>
         </div>
         <ul class="pt-2 nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          @can ('index-task')
           <li class="nav-item">
             <a href="{{ route('personal.task.index') }}" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
               <p>Задания для групп</p>
             </a>
           </li>
+          @elsecan ('index-homework')
           <li class="nav-item">
             <a href="{{ route('personal.homework.index') }}" class="nav-link">
               <i class="nav-icon fas fa-file-word"></i>
               <p>Домашние задания</p>
             </a>
           </li>
+          @endcan
         </ul>
       </div>
       <!-- /.sidebar -->

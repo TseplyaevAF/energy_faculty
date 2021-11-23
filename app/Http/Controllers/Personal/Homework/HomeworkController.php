@@ -14,6 +14,7 @@ use App\Models\Student\Student;
 use App\Models\Teacher\Task;
 use App\Service\Homework\Service;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class HomeworkController extends Controller
 {
@@ -26,6 +27,7 @@ class HomeworkController extends Controller
 
     public function index(FilterRequest $request)
     {
+        Gate::authorize('index-homework');
         $statusVariants = Task::getStatusVariants();
         $student = auth()->user()->student;
         $homework = Homework::all()->where('student_id', $student->id);
@@ -44,11 +46,13 @@ class HomeworkController extends Controller
 
     public function create(Task $task)
     {
+        Gate::authorize('index-homework');
         return view('personal.homework.create', compact('task'));
     }
 
     public function store(StoreRequest $request)
     {
+        Gate::authorize('index-homework');
         $data = $request->validated();
 
         $this->service->store(auth()->user()->student, $data);
@@ -57,17 +61,18 @@ class HomeworkController extends Controller
     }
 
     public function download($studentId, $mediaId, $filename) {
+        // http://energy_faculty.com/personal/homework/3/5/%D0%A0%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5.docx
+        Gate::authorize('download-homework', [$mediaId]);
         $student = Student::find($studentId);
         $media = $student->getMedia(Homework::PATH)->where('id', $mediaId)->first();
         // сервим файл из медиа-модели
-        return isset($media) ? response()->file($media->getPath()) : abort(404);
-    }
-
-    public function show(Homework $homework) {
-        dd($homework);
+        return isset($media) ? response()->file($media->getPath(), [
+            'Cache-Control' => 'no-cache, no-cache, must-revalidate',
+            ]) : abort(404);
     }
 
     public function feedback(FeedbackRequest $request, Homework $homework) {
+        Gate::authorize('feedback-homework', [$homework]);
         $data = $request->validated();
         try {
             DB::beginTransaction();
@@ -83,10 +88,9 @@ class HomeworkController extends Controller
         return redirect()->route('personal.task.show', compact('task'));
     }
 
-    public function delete(News $news)
+    public function delete(Homework $homework)
     {
-        dd(1);
-        $news->delete();
-        return redirect()->route('admin.group.news.index');
+        $homework->delete();
+        return redirect()->route('personal.homework.index');
     }
 }
