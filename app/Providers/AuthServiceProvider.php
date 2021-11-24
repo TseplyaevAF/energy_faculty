@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Student\Headman;
 use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
 use App\Models\User;
@@ -91,6 +92,13 @@ class AuthServiceProvider extends ServiceProvider
                     Response::allow() : Response::deny();
             }
             return Response::deny();
+        });
+
+
+        /// APPLICATIONS
+        Gate::define('index-application', function (User $user) {
+            $headman = Headman::where('student_id', '=', $user->student->id)->first();
+            return isset($headman) ? Response::allow() : Response::deny();
         });
     }
 }

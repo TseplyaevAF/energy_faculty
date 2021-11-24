@@ -45,7 +45,7 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $roles = User::getRoles();
-        unset($roles[-1]);
+        unset($roles[User::ROLE_ADMIN]);
         return view('auth.login', compact('roles'));
     }
 

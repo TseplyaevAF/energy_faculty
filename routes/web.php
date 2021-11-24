@@ -138,6 +138,11 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'IndexController');
     });
+    Route::group(['namespace' => 'Application', 'prefix' => 'applications'], function () {
+        Route::get('/', 'ApplicationController@index')->name('personal.application.index');
+        Route::get('/{application}/accept', 'ApplicationController@accept')->name('personal.application.accept');
+        Route::get('/{application}/reject', 'ApplicationController@reject')->name('personal.application.reject');
+    });
     Route::group(['namespace' => 'Task', 'prefix' => 'tasks'], function () {
         Route::get('/', 'TaskController@index')->name('personal.task.index');
         Route::get('/create', 'TaskController@create')->name('personal.task.create');
@@ -157,7 +162,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     });
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

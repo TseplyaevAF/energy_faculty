@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Group\Group;
+use App\Models\Student\StudentApplication;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -41,6 +44,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        $groups = Group::all();
+        return view('auth.register', compact('groups'));
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -50,13 +59,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:100'],
-            'surname' => ['required', 'string', 'max:255'],
-            'patronymic' => ['string', 'max:255'],
-            'phone_number' => 'unique:users',
-            'avatar' => '',
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => 'required|string',
+            'surname' => 'required|string',
+            'patronymic' => 'nullable|string',
+            'email' => 'required|string|email|unique:users',
+            'group_id' => 'required|integer|exists:groups,id',
+            'student_id_number' => 'required|integer|unique:students',
         ]);
     }
 
@@ -68,15 +76,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'surname' => $data['surname'],
-            'patronymic' => $data['patronymic'],
-            'email' => $data['email'],
-            'phone_number' => $data['phone_number'],
-            'avatar' => $data['avatar'],
-            'password' => Hash::make($data['password']),
-            ''
-        ]);
+        try {
+            DB::beginTransaction();
+
+            $user = User::create([
+                'name' => $data['name'],
+                'surname' => $data['surname'],
+                'patronymic' => $data['patronymic'],
+                'email' => $data['email'],
+                'password' => '123456789',
+            ]);
+
+            $studentApplication = StudentApplication::create([
+                'student_id_number' => $data['student_id_number'],
+                'user_id' => $user->id,
+                'group_id' => $data['group_id'],
+            ]);
+            
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            abort(500);
+        }
+        return $user;
     }
 }

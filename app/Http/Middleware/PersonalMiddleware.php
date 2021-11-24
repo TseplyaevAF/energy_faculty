@@ -17,8 +17,8 @@ class PersonalMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ((auth()->user()->role_id == User::ROLE_STUDENT) &&
-            (auth()->user()->role_id == User::ROLE_TEACHER)
+        if ((auth()->user()->role_id == User::ROLE_EMPLOYEE) ||
+            (auth()->user()->role_id == User::ROLE_ADMIN)
         ) {
             abort(404);
         }

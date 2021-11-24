@@ -11,10 +11,11 @@ use App\Models\Role;
 use App\Models\Student\Student;
 use App\Models\Teacher\Teacher;
 use App\Models\Traits\Filterable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, 
     SoftDeletes, Filterable, HasMediaTrait;

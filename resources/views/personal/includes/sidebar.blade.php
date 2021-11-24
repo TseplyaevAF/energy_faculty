@@ -22,20 +22,29 @@
           </div>
         </div>
         <ul class="pt-2 nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          @can ('index-task')
+          @can('index-task')
           <li class="nav-item">
             <a href="{{ route('personal.task.index') }}" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
               <p>Задания для групп</p>
             </a>
           </li>
-          @elsecan ('index-homework')
+          @endcan
+          @can('index-homework')
           <li class="nav-item">
             <a href="{{ route('personal.homework.index') }}" class="nav-link">
               <i class="nav-icon fas fa-file-word"></i>
               <p>Домашние задания</p>
             </a>
           </li>
+            @can('index-application')
+            <li class="nav-item">
+              <a href="{{ route('personal.application.index') }}" class="nav-link">
+                <i class="nav-icon far fa-address-card"></i>
+                <p>Заявки студентов</p>
+              </a>
+            </li>
+            @endcan
           @endcan
         </ul>
       </div>
