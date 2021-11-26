@@ -1,64 +1,33 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## Установка pgAdmin
+1. Скачать и установить: https://disk.yandex.ru/d/DfjP_zWtteunVw
+2. В файле `C:\Program Files\PostgreSQL\13\data\postgresql.conf` изменить `scram-sha-256` на `md5` в `password_encryption`
+3. В файле `C:\Program Files\PostgreSQL\13\data\pg_hba.conf` также изменить везде на `md5`
+4. Проделать след. действия: https://sun9-40.userapi.com/impg/hT-MMJvyaQVwzQOapF0XwPu_AemSx1fpHh2l4g/5XDmx7KxRXk.jpg?size=722x388&quality=96&sign=5f5c1b3c764ad6460feb3a65ee142484&type=album
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Установка xampp
+1. Скачать и установить https://www.apachefriends.org/ru/index.html
+2. Пошаманить в след. файлах (куда ж без этого):
+    1. В файле `xampp\php\php.ini` раскомментировать: `extension=pdo_pgsql, extension=pgsql`
+    2. В `xampp\apache\conf\httpd.conf` добавить строчку: LoadFile `"C:\Program Files\PostgreSQL\13\bin\libpq.dll"`
+    3. В конец файла `C:\xampp\apache\conf\extra\httpd-vhosts.conf` вставить:
+        ```
+        <VirtualHost energy_faculty.com:80>
+        DocumentRoot "C:\xampp\htdocs\energy_faculty\public"
+            ServerName energy_faculty.com
+            ServerAlias www.energy_faculty.com
+            <Directory "c:/xampp/htdocs/energy_faculty/public">
+            Require all granted
+        </Directory>
+        </VirtualHost>
+        ```
+    4. В конец файла `C:\Windows\System32\drivers\etc\hosts` вставить: `127.0.0.1 www.energy_faculty.com energy_faculty.com`
 
-## About Laravel
+## Установка проекта
+1. `git clone https://github.com/TseplyaevAF/energy_faculty.git`
+2. Скачать и установить composer: https://getcomposer.org/
+3. Зайди в папку с проектом и в консоль вписать: `composer update`
+4. Скопировать файл *.env.example*, переименовав его в просто *.env* и заполнить данные подключения к БД
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Также нужно добавить в переменные среды**
+https://sun9-68.userapi.com/impg/qOxrpbg2Ht8rhW_6R8J3gfSreTkxeVbr0P_3cg/PvuFs5VZPlM.jpg?size=527x501&quality=96&sign=fbc92fc8cff7d5bfe2314cc6b6cd0be3&type=album
