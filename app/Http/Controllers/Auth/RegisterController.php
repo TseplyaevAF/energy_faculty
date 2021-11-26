@@ -84,10 +84,11 @@ class RegisterController extends Controller
                 'surname' => $data['surname'],
                 'patronymic' => $data['patronymic'],
                 'email' => $data['email'],
-                'password' => '123456789',
+                'password' => Hash::make('123456789'),
+                'role_id' => User::ROLE_STUDENT,
             ]);
 
-            $studentApplication = StudentApplication::create([
+            StudentApplication::create([
                 'student_id_number' => $data['student_id_number'],
                 'user_id' => $user->id,
                 'group_id' => $data['group_id'],

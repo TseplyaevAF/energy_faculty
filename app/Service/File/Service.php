@@ -61,16 +61,16 @@ class Service
 
     private function getTitleCollection($filename)
     {
-        $filename = explode('.', $filename);
+        $filename = pathinfo($filename, PATHINFO_EXTENSION);
         $documentsTypes = ['doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf'];
         $archivesTypes = ['rar', 'zip'];
         $imagesTypes = ['jpg', 'jpeg', 'png'];
-        if (in_array($filename[1], $documentsTypes)) {
+        if (in_array($filename, $documentsTypes)) {
             return 'documents';
-        } else if (in_array($filename[1], $archivesTypes)) {
+        } else if (in_array($filename, $archivesTypes)) {
             return 'archives';
         }
-        else if (in_array($filename[1], $imagesTypes)) {
+        else if (in_array($filename, $imagesTypes)) {
             return 'images';
         } else {
             throw new Exception('File extension not defined', 404);

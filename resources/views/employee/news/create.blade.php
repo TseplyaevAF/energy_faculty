@@ -37,7 +37,7 @@
           <div class="col-12">
             <form action="{{ route('employee.news.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
-              <input value="{{ auth()->user()->role->employee->chair->id }}" type="hidden" name="chair_id">
+              <input value="{{ auth()->user()->employee->chair->id }}" type="hidden" name="chair_id">
 
               <div class="form-group w-25">
                 <input value="{{ old('title') }}" type="text" class="form-control" name="title" placeholder="Заголовок новости">

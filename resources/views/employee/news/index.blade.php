@@ -76,7 +76,7 @@
               <button type="submit" class="btn btn-default">Сбросить</button>
             </form>
           </div>
-          <div class="col-6">
+          <div class="col-8">
             <div class="card">
               <div class="card-body table-responsive">
                 <table class="table table-hover text-wrap">
@@ -85,7 +85,7 @@
                       <th>ID</th>
                       <th>Заголовок</th>
                       <th>Категория</th>
-                      <th style="width: 20%;">Действия</th>
+                      <th style="width: 30%;">Действия</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -99,12 +99,13 @@
                       <td>Категория не указана</td>
                       @endif
                       <!-- <td><a href="{{ route('employee.news.show', $news->id) }}"><i class="far fa-eye"></i></a></td> -->
-                      <td class="project-actions text-right d-flex">
+                      <td class="project-actions text-left">
                         <a class="btn btn-info btn-sm mr-1" href="{{ route('employee.news.edit', $news->id) }}">
                           <i class="fas fa-pencil-alt"></i>
                           Редактировать
                         </a>
-                        <form action="{{ route('employee.news.delete', $news->id) }}" method="post">
+                        <form action="{{ route('employee.news.delete', $news->id) }}" method="post"
+                        style="display: inline-block">
                           @csrf
                           @method('delete')
                           <button type="submit" class="btn btn-danger btn-sm delete-btn" href="#">
