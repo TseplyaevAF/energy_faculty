@@ -24,6 +24,12 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     const ROLE_STUDENT = 2;
     const ROLE_TEACHER = 3;
     const ROLE_EMPLOYEE = 4;
+    const PATH = 'users';
+
+    public function registerMediaCollections(): void
+    {
+    $this->addMediaCollection('avatar')->singleFile();
+    }
 
     public static function getRoles()
     {

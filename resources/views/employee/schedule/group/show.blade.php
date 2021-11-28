@@ -29,6 +29,19 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            <div class="schedule__import">
+                <form action="{{ route('employee.schedule.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                    <label>Загрузить из Excel</label>
+                    <div class="form-group w-25">
+                        <div class="custom-file">
+                            <input type="file" name="excel_file" class="custom-file-input" accept=".xlsx">
+                            <label class="custom-file-label" for="exampleInputFile">Выберите изображение</label>
+                        </div>
+                    </div>
+                    <input type="submit">
+                </form>
+            </div>
             <div class="schedule__title">
                 <h1 class="schedule__title-h1">
                     <strong>{{ $group->title }}</strong>
@@ -137,6 +150,5 @@
 </div>
 
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('js/schedules/showGroups.js') }}"></script>
 <!-- /.content-wrapper -->
 @endsection

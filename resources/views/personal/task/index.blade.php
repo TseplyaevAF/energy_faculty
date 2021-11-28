@@ -123,7 +123,7 @@
                           </button>
                         </form>
                         @else
-                          <p style="display: inline-block"><i>Приём работ закрыт</i></p>
+                          <p class="ml-2" style="display: inline-block"><i>Приём работ закрыт</i></p>
                         @endif
                       </td>
                     </tr>

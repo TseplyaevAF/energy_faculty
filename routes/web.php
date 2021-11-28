@@ -131,12 +131,18 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
             Route::patch('{schedule}', 'GroupController@update')->name('employee.schedule.group.update');
         });
         Route::get('/', 'ScheduleController@index')->name('employee.schedule.index');
+        Route::post('/import', 'ScheduleController@import')->name('employee.schedule.import');  
     });
 });
 
 Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'personal', 'verified']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'IndexController');
+    });
+    Route::group(['namespace' => 'Settings', 'prefix' => 'settings'], function () {
+        Route::get('/', 'SettingsController@edit')->name('personal.settings.edit');
+        Route::patch('/{user}', 'SettingsController@update')->name('personal.settings.update');
+        Route::get('/{modelId}/{mediaId}/{filename}', 'SettingsController@showImage')->name('personal.settings.showImage');
     });
     Route::group(['namespace' => 'Application', 'prefix' => 'applications'], function () {
         Route::get('/', 'ApplicationController@index')->name('personal.application.index');

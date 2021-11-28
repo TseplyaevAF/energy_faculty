@@ -13,15 +13,28 @@
       <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            @if (!isset(auth()->user()->avatar))
-            <img src="{{ asset('storage/' . 'images/employee/no_photo.png') }}" class="img-square elevation-2" alt="User Image">
+            @if (isset(auth()->user()->avatar))
+              @php
+                  $modelId = explode('/', auth()->user()->avatar)[0];
+                  $mediaId = explode('/', auth()->user()->avatar)[2];
+                  $filename = explode('/', auth()->user()->avatar)[3];
+              @endphp
+              <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}" class="img-square elevation-2" alt="User Image">
+            @else
+              <img src="{{ asset('storage/images/personal/no_photo.jpg') }}" class="img-square elevation-2" alt="User Image">
             @endif
           </div>
           <div class="info">
-            <a href="#" class="d-block">{{ auth()->user()->surname }} {{auth()->user()->name}}</a>
+            <a href="/personal" class="d-block">{{ auth()->user()->surname }} {{auth()->user()->name}}</a>
           </div>
         </div>
         <ul class="pt-2 nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="{{ route('personal.settings.edit') }}" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>Настройки</p>
+            </a>
+          </li>
           @can('index-task')
           <li class="nav-item">
             <a href="{{ route('personal.task.index') }}" class="nav-link">
