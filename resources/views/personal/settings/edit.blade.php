@@ -40,16 +40,16 @@
                                                         $mediaId = explode('/', $user->avatar)[2];
                                                         $filename = explode('/', $user->avatar)[3];
                                                     @endphp
-                                                    <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}" alt="" class="d-block ui-w-80">
+                                                    <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}" class="d-block ui-w-80" id="blah">
                                                 @else
-                                                    <img src="{{ asset('storage/images/personal/no_photo.jpg') }}" alt="" class="d-block ui-w-80">
+                                                    <img src="{{ asset('storage/images/personal/no_photo.jpg') }}" class="d-block ui-w-80">
                                                 @endif
                                                 <div class="media-body ml-4">
                                                     <label class="btn btn-outline-primary">
                                                         Загрузить новое фото
-                                                        <input name="avatar" type="file" class="account-settings-fileinput" accept=".jpg,.jpeg,.png,.bmp,.svg">
+                                                        <input name="avatar" type="file" class="account-settings-fileinput" accept=".jpg,.jpeg,.png,.bmp,.svg" id="imgInp">
                                                     </label> &nbsp;
-                                                    <button type="button" class="btn btn-default md-btn-flat">Удалить</button>
+                                                    <button type="button" class="btn btn-default md-btn-flat" id="deletePhoto">Удалить</button>
                                                 </div>
                                                 @error('avatar')
                                                 <p class="text-danger">{{ $message }}</p>
@@ -130,5 +130,18 @@
     </div>
     <!-- /.content-header -->
 </div>
+
+<script>
+imgInp.onchange = evt => {
+    const [file] = imgInp.files
+    if (file) {
+        blah.src = URL.createObjectURL(file)
+    }
+}
+
+deletePhoto.onclick = function () {
+    document.getElementById('imgInp').value = "";
+}
+</script>
 <!-- /.content-wrapper -->
 @endsection

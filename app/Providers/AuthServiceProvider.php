@@ -31,6 +31,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        /// SCHEDULE
+        Gate::define('edit-schedule', function (User $user) {
+            return $user->role_id == User::ROLE_TEACHER ? Response::allow() : Response::deny();
+        });
+
         /// TASKS
         Gate::define('index-task', function (User $user) {
             return $user->role_id == User::ROLE_TEACHER ? Response::allow() : Response::deny();

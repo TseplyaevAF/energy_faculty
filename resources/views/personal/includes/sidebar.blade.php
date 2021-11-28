@@ -59,6 +59,12 @@
             </li>
             @endcan
           @endcan
+          <li class="nav-item">
+            <a href="{{ route('personal.main.schedule') }}" class="nav-link">
+              <i class="nav-icon far fa-calendar-alt"></i>
+              <p>Расписание занятий</p>
+            </a>
+          </li>
         </ul>
       </div>
       <!-- /.sidebar -->
