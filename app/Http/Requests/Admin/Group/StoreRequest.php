@@ -25,8 +25,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:15',
-            'semester' => 'required|integer|min:1|max:10',
+            'title' => 'required|string|max:30',
             'chair_id' => 'required|integer|exists:chairs,id',
         ];
     }

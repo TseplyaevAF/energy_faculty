@@ -33,9 +33,6 @@ class Service
                 unset($data['work_experience']);
                 unset($data['address']);
                 unset($data['chair_id']);
-                if (isset($data['disciplines_ids'])) {
-                    unset($data['disciplines_ids']);
-                }
             } else if ($data['role_id'] == User::ROLE_EMPLOYEE) {
                 $employeeService = new EmployeeService();
                 $employeeService->store($data);
@@ -49,7 +46,7 @@ class Service
     }
 
     public function update($data, $user)
-    {        
+    {
         try {
             DB::beginTransaction();
             if ($data['role_id'] == User::ROLE_STUDENT) {
@@ -67,9 +64,6 @@ class Service
                 unset($data['work_experience']);
                 unset($data['address']);
                 unset($data['chair_id']);
-                if (isset($data['disciplines_ids'])) {
-                    unset($data['disciplines_ids']);
-                }
             }
             unset($data['user_id']);
             unset($data['role_id']);

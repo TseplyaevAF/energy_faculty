@@ -46,8 +46,6 @@
                     <tr>
                       <th>ID</th>
                       <th>Название</th>
-                      <th>Курс</th>
-                      <th>Семестр</th>
                       <th colspan="3">Действия</th>
                     </tr>
                   </thead>
@@ -56,8 +54,6 @@
                     <tr>
                       <td>{{ $group->id }}</td>
                       <td>{{ $group->title }}</td>
-                      <td>{{ $group->course }}</td>
-                      <td>{{ $group->semester }}</td>
                       <td><a href="{{ route('admin.group.show', $group->id) }}"><i class="far fa-eye"></i></a></td>
                       <td><a href="{{ route('admin.group.edit', $group->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>
                       <td>

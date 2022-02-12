@@ -3,6 +3,7 @@
 
 namespace App\Service\Task;
 
+use App\Models\Group\GroupDiscipline;
 use App\Models\Teacher\Task;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +17,10 @@ class Service
             $media = $teacher->addMedia($data['task'])->toMediaCollection(Task::PATH);
             $data['task'] = $media->getUrl();
             $data['teacher_id'] = $teacher->id;
+            $groupDiscipline = GroupDiscipline::where('id', $data['group_discipline_id'])->first();
+            $data['discipline_id'] = $groupDiscipline->discipline->id;
+            $data['group_id'] = $groupDiscipline->group->id;
+            unset($data['group_discipline_id']);
             Task::firstOrCreate($data);
             DB::commit();
         } catch (\Exception $exception) {
@@ -35,9 +40,9 @@ class Service
                     $tempImages[] = Storage::disk('public')->put($imagePath, $image);
                 }
                 $data['images'] = json_encode($tempImages);
-                // загружаем старые картинки в другой каталог, 
-                // если они не были удалены 
-                
+                // загружаем старые картинки в другой каталог,
+                // если они не были удалены
+
                 // удаляем старые
                 if (isset($news->images))
                 foreach (json_decode($news->images) as $image) {

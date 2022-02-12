@@ -22,10 +22,9 @@ class StoreRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {;
         return [
-            'discipline_id' => 'integer|exists:disciplines,id',
-            'group_id' => 'integer|exists:groups,id',
+            'group_discipline_id' => 'integer|exists:group_disciplines,id',
             'task' => 'required|mimes:doc,docx,rar,zip,xlsx,xls,pdf,txt',
         ];
     }

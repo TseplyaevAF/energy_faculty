@@ -15,7 +15,7 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-        $applications = StudentApplication::all();
+        $applications = StudentApplication::all()->where('group_id', auth()->user()->student->group_id);
         return view('personal.application.index', compact('applications'));
     }
 
@@ -47,7 +47,7 @@ class ApplicationController extends Controller
 
     public function reject(StudentApplication $application)
     {
-        
+
         return redirect()->route('personal.application.index');
     }
 }

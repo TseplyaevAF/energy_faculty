@@ -25,7 +25,6 @@ class UpdateRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:15',
-            'semester' => 'required|numeric|min:1|max:10',
             'chair_id' => 'required|integer|exists:chairs,id',
             'student_id' => 'nullable|numeric|exists:students,id',
         ];
@@ -36,10 +35,6 @@ class UpdateRequest extends FormRequest
         return [
             'title.required' => 'Это поле необходимо для заполнения',
             'title.max' => 'Название группы не должно превышать более :max символов',
-            'semester.required' => 'Это поле необходимо для заполнения',
-            'semester.numeric' => 'Номер семестра должен быть числом',
-            'semester.min' => 'Номер семестра не должен быть меньше :min',
-            'semester.max' => 'Номер семестра не должен быть больше :max',
         ];
     }
 }

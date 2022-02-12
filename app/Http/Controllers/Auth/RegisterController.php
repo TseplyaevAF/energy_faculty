@@ -68,6 +68,16 @@ class RegisterController extends Controller
         ]);
     }
 
+    function generatePassword($length = 8){
+        $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
+        $numChars = strlen($chars);
+        $string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $string .= substr($chars, rand(1, $numChars) - 1, 1);
+        }
+        return $string;
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -84,16 +94,16 @@ class RegisterController extends Controller
                 'surname' => $data['surname'],
                 'patronymic' => $data['patronymic'],
                 'email' => $data['email'],
-                'password' => Hash::make('123456789'),
-                'role_id' => User::ROLE_STUDENT,
+                'password' => Hash::make($this->generatePassword()),
+                'role_id' => User::ROLE_STUDENT
             ]);
 
             StudentApplication::create([
                 'student_id_number' => $data['student_id_number'],
                 'user_id' => $user->id,
-                'group_id' => $data['group_id'],
+                'group_id' => $data['group_id']
             ]);
-            
+
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

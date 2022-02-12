@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Employee\File;
 
 use App\Http\Controllers\Controller;
-use App\Http\Filters\NewsFilter;
 use App\Http\Requests\Employee\File\StoreRequest;
 use App\Http\Requests\Employee\File\UpdateRequest;
 use App\Http\Requests\Employee\File\FilterRequest;
@@ -50,7 +49,7 @@ class FileController extends Controller
 
         // теперь выделим id модели из имени файла
         $filename = explode('.', pathinfo($filename, PATHINFO_FILENAME));
-        
+
         // забираем название конверсии из имени файла
         $conversion = $filename[1] ?? '';
 

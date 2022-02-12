@@ -11,6 +11,10 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreRequest extends FormRequest
 {
     /**
+     * @var mixed
+     */
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -60,7 +64,7 @@ class StoreRequest extends FormRequest
             $this->cookies->all(),
             $this->files->all(),
             $this->server(),
-            $this->content,
+            $this->content
         );
     }
 
@@ -73,7 +77,7 @@ class StoreRequest extends FormRequest
             $this->cookies->all(),
             $this->files->all(),
             $this->server(),
-            $this->content,
+            $this->content
         );
     }
 
@@ -86,7 +90,7 @@ class StoreRequest extends FormRequest
             $this->cookies->all(),
             $this->files->all(),
             $this->server(),
-            $this->content,
+            $this->content
         );
     }
 }

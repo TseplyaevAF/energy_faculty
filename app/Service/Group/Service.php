@@ -14,7 +14,6 @@ class Service
     {
         try {
             DB::beginTransaction();
-            $data += ['course' => $this->getCourse($data['semester'])];
             Group::firstOrCreate($data);
             DB::commit();
         } catch (\Exception $exception) {
@@ -31,7 +30,6 @@ class Service
     public function update($data, $group) {
         try {
             DB::beginTransaction();
-            $data += ['course' => $this->getCourse($data['semester'])];
             if (!empty($data['student_id'])) {
                 $this->setHeadman($data['student_id'], $group);
             } else {
