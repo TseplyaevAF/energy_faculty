@@ -59,12 +59,12 @@
                                 <th scope="col" class="col-4">Нечётная неделя</th>
                             </tr>
                         </thead>
-                        @foreach ($days as $day)
+                        @foreach ($days as $day_id => $day)
                             <tbody>
                                 <tr>
                                     <td rowspan="7">
                                         <div class="schedule__table-day">
-                                            <h2><strong>{{$day->title}}</strong></h2>
+                                            <h2><strong>{{ $day }}</strong></h2>
                                         </div>
                                     </td>
                                 </tr>
@@ -76,7 +76,7 @@
                                         @endphp
                                         <th class="schedule__table-time" scope="row">{{ date("H:i", strtotime($time->start_time)) }}-{{ date("H:i", strtotime($time->end_time)) }}</th>
                                         @foreach ($scheduleEven as $pairEven)
-                                            @if (($pairEven->class_time_id == $time->id) && ($pairEven->day_id == $day->id))
+                                            @if (($pairEven->class_time_id == $time->id) && ($pairEven->day == $day_id))
                                                 <td class="schedule__table-discipline">
                                                     <div class="row">
                                                         {{ $pairEven->discipline->title }} ·&nbsp
@@ -95,8 +95,8 @@
                                                 @php
                                                     $firstColumn = true;
                                                 @endphp
-                                                @foreach ($scheduleOdd as $pairOdd)    
-                                                    @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day_id == $day->id))
+                                                @foreach ($scheduleOdd as $pairOdd)
+                                                    @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day == $day))
                                                         <td class="schedule__table-discipline">
                                                             <div class="row">
                                                                 {{$pairOdd->discipline->title}} ·&nbsp
@@ -128,8 +128,8 @@
                                             @continue
                                         @else
                                             <td></td>
-                                            @foreach ($scheduleOdd as $pairOdd)    
-                                                @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day_id == $day->id))
+                                            @foreach ($scheduleOdd as $pairOdd)
+                                                @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day == $day))
                                                     <td class="schedule__table-discipline">
                                                         <div class="row">
                                                             {{$pairOdd->discipline->title}} ·&nbsp

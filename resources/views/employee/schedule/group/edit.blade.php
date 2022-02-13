@@ -46,17 +46,17 @@
                         <input value="{{ $group->id }}" type="hidden" name="group_id">
                         <div class="form-group">
                             <label>Тип недели</label>
-                            <select name="week_type_id" class="form-control">
-                                @foreach($week_types as $week_type)
-                                <option value="{{$week_type->id }}" {{$week_type->id == $schedule->week_type_id ? 'selected' : ''}}>{{ $week_type->title }}</option>
+                            <select name="week_type" class="form-control">
+                                @foreach($week_types as $week_number => $week_type)
+                                <option value="{{$week_number }}" {{$week_number == $schedule->week_type_id ? 'selected' : ''}}>{{ $week_type }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label>День недели</label>
-                            <select name="day_id" class="form-control">
-                                @foreach($days as $day)
-                                <option value="{{$day->id }}" {{$day->id == $schedule->day_id ? 'selected' : ''}}>{{ $day->title }}</option>
+                            <select name="day" class="form-control">
+                                @foreach($days as $day_number => $day)
+                                <option value="{{$day_number }}" {{$day_number == $schedule->day_id ? 'selected' : ''}}>{{ $day }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -96,7 +96,9 @@
                             <label>Аудитория</label>
                             <select name="classroom_id" class="form-control">
                                 @foreach($classrooms as $classroom)
-                                <option value="{{$classroom->id }}" {{$classroom->id == $schedule->classroom_id ? 'selected' : ''}}>{{ $classroom->title }}</option>
+                                <option value="{{$classroom->id }}" {{$classroom->id == $schedule->classroom_id ? 'selected' : ''}}>
+                                    {{ $classroom->corps }}-{{ $classroom->cabinet }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>

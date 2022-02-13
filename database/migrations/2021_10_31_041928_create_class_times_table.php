@@ -15,7 +15,6 @@ class CreateClassTimesTable extends Migration
     {
         Schema::create('class_times', function (Blueprint $table) {
             $table->id();
-            $table->string('class_number');
             $table->time('start_time');
             $table->time('end_time');
 

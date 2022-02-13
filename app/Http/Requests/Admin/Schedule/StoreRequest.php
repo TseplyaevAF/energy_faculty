@@ -24,8 +24,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'week_type_id' => 'required|integer',
-            'day_id' => 'required|integer',
+            'week_type' => 'required|integer',
+            'day' => 'required|integer',
             'class_time_id' => 'required|integer',
             'discipline_id' => 'required|integer|exists:disciplines,id',
             'teacher_id' => 'required|integer|exists:teachers,id',

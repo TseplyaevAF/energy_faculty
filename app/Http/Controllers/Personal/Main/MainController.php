@@ -6,11 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Classroom;
 use App\Models\ClassTime;
 use App\Models\ClassType;
-use App\Models\Day;
 use App\Models\Discipline;
 use App\Models\Schedule;
 use App\Models\User;
-use App\Models\WeekType;
 use App\Http\Requests\Personal\Schedule\UpdateRequest;
 use App\Service\Personal\Schedule\Service;
 use Illuminate\Support\Facades\Gate;
@@ -32,21 +30,21 @@ class MainController extends Controller
     public function showSchedule()
     {
         $user = auth()->user();
-        $days = Day::all();
+        $days = Schedule::getDays();
         $class_times = ClassTime::all();
         if ($user->role_id == User::ROLE_STUDENT) {
             $group = $user->student->group;
             // расписание по чётной неделе
-            $scheduleEven = Schedule::where('group_id', $group->id)->where('week_type_id', 1)->get();
+            $scheduleEven = Schedule::where('group_id', $group->id)->where('week_type', Schedule::WEEK_UP)->get();
             // расписание по нечётной неделе
-            $scheduleOdd = Schedule::where('group_id', $group->id)->where('week_type_id', 2)->get();
+            $scheduleOdd = Schedule::where('group_id', $group->id)->where('week_type', Schedule::WEEK_LOW)->get();
             return view('personal.main.showSchedule', compact('group','days', 'class_times', 'scheduleEven', 'scheduleOdd'));
         }
         if ($user->role_id == User::ROLE_TEACHER) {
             // расписание по чётной неделе
-            $scheduleEven = Schedule::where('teacher_id', $user->teacher->id)->where('week_type_id', 1)->get();
+            $scheduleEven = Schedule::where('teacher_id', $user->teacher->id)->where('week_type', Schedule::WEEK_UP)->get();
             // расписание по нечётной неделе
-            $scheduleOdd = Schedule::where('teacher_id', $user->teacher->id)->where('week_type_id', 2)->get();
+            $scheduleOdd = Schedule::where('teacher_id', $user->teacher->id)->where('week_type', Schedule::WEEK_LOW)->get();
             return view('personal.main.showSchedule', compact('days', 'class_times', 'scheduleEven', 'scheduleOdd'));
         }
     }
@@ -54,8 +52,8 @@ class MainController extends Controller
     public function editSchedule(Schedule $schedule) {
         Gate::authorize('edit-schedule');
         $group = $schedule->group;
-        $week_types = WeekType::all();
-        $days = Day::all();
+        $week_types = Schedule::getWeekTypes();
+        $days = Schedule::getDays();
         $class_times = ClassTime::all();
         $disciplines = Discipline::all();
         $class_types = ClassType::all();

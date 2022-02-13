@@ -7,12 +7,10 @@ use App\Http\Requests\Employee\Schedule\UpdateRequest;
 use App\Models\Classroom;
 use App\Models\ClassTime;
 use App\Models\ClassType;
-use App\Models\Day;
 use App\Models\Discipline;
 use App\Models\Group\Group;
 use App\Models\Schedule;
 use App\Models\Teacher\Teacher;
-use App\Models\WeekType;
 use App\Service\Schedule\Service;
 
 class GroupController extends Controller
@@ -26,19 +24,19 @@ class GroupController extends Controller
 
     public function show(Group $group)
     {
-        $days = Day::all();
+        $days = Schedule::getDays();
         $class_times = ClassTime::all();
         // расписание по чётной неделе
-        $scheduleEven = Schedule::where('group_id', $group->id)->where('week_type_id', 1)->get();
+        $scheduleEven = Schedule::where('group_id', $group->id)->where('week_type', Schedule::WEEK_UP)->get();
         // расписание по нечётной неделе
-        $scheduleOdd = Schedule::where('group_id', $group->id)->where('week_type_id', 2)->get();
+        $scheduleOdd = Schedule::where('group_id', $group->id)->where('week_type', Schedule::WEEK_LOW)->get();
         return view('employee.schedule.group.show', compact('group', 'days', 'class_times', 'scheduleEven', 'scheduleOdd'));
     }
 
     public function edit(Schedule $schedule) {
         $group = $schedule->group;
-        $week_types = WeekType::all();
-        $days = Day::all();
+        $week_types = Schedule::getWeekTypes();
+        $days = Schedule::getDays();
         $class_times = ClassTime::all();
         $teachers = Teacher::all();
         $disciplines = Discipline::all();

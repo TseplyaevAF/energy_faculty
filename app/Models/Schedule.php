@@ -10,12 +10,31 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     use HasFactory;
-    
 
     protected $guarded = false;
 
-    public function week_type() {
-        return $this->belongsTo(WeekType::class);
+    CONST WEEK_UP = 1;
+    CONST WEEK_LOW = 2;
+
+    public static function getDays()
+    {
+        return [
+            1 => 'Понедельник',
+            2 => 'Вторник',
+            3 => 'Среда',
+            4 => 'Четверг',
+            5 => 'Пятница',
+            6 => 'Суббота',
+            7 => 'Воскресенье'
+        ];
+    }
+
+    public static function getWeekTypes()
+    {
+        return [
+            self::WEEK_UP => 'Верхняя',
+            self::WEEK_LOW => 'Нижняя'
+        ];
     }
 
     public function discipline() {
@@ -36,9 +55,5 @@ class Schedule extends Model
 
     public function group() {
         return $this->belongsTo(Group::class);
-    }
-
-    public function day() {
-        return $this->belongsTo(Day::class);
     }
 }

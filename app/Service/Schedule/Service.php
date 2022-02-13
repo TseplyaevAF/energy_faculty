@@ -54,11 +54,11 @@ class Service
 
         $schedule->update($data);
     }
-    
+
     private function getBusyTime($data) {
         $matchThese = [
-            'week_type_id' => $data['week_type_id'],
-            'day_id' => $data['day_id'],
+            'week_type' => $data['week_type'],
+            'day' => $data['day'],
             'class_time_id' => $data['class_time_id'],
             'group_id' => $data['group_id'],
         ];
@@ -67,8 +67,8 @@ class Service
 
     private function getBusyTeacher($data) {
         $matchThese = [
-            'week_type_id' => $data['week_type_id'],
-            'day_id' => $data['day_id'],
+            'week_type' => $data['week_type'],
+            'day' => $data['day'],
             'class_time_id' => $data['class_time_id'],
             'teacher_id' => $data['teacher_id'],
         ];
@@ -78,8 +78,8 @@ class Service
 
     private function getBusyClassroom($data) {
         $matchThese = [
-            'week_type_id' => $data['week_type_id'],
-            'day_id' => $data['day_id'],
+            'week_type' => $data['week_type'],
+            'day' => $data['day'],
             'class_time_id' => $data['class_time_id'],
             'classroom_id' => $data['classroom_id'],
         ];
@@ -89,8 +89,8 @@ class Service
 
     private function getBusyTeacherUpdate($data) {
         $matchThese = [
-            'week_type_id' => $data['week_type_id'],
-            'day_id' => $data['day_id'],
+            'week_type' => $data['week_type'],
+            'day' => $data['day'],
             'class_time_id' => $data['class_time_id'],
             'teacher_id' => $data['teacher_id'],
         ];
@@ -102,8 +102,8 @@ class Service
 
     private function getBusyClassroomUpdate($data) {
         $matchThese = [
-            'week_type_id' => $data['week_type_id'],
-            'day_id' => $data['day_id'],
+            'week_type' => $data['week_type'],
+            'day' => $data['day'],
             'class_time_id' => $data['class_time_id'],
             'classroom_id' => $data['classroom_id'],
         ];
