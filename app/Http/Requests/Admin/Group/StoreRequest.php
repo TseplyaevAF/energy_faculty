@@ -26,7 +26,6 @@ class StoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:15',
-            'semester' => 'required|integer|min:1|max:10',
             'chair_id' => 'required|integer|exists:chairs,id',
         ];
     }

@@ -86,7 +86,7 @@
                                                             <a class="schedule__table-group" href="#">{{ $pairEven->group->title }}</a>&nbsp·&nbsp
                                                         @endcan
                                                         <p class="schedule__table-class-type text-muted"> {{ $pairEven->class_type->title }} </p>&nbsp·&nbsp
-                                                        <p class="schedule__table-classroom">(ауд. {{$pairEven->classroom->title}}) </p>&nbsp
+                                                        <p class="schedule__table-classroom">(ауд. {{$pairEven->classroom->corps}}-{{$pairEven->classroom->cabinet}})</p>&nbsp
                                                         @can('edit-schedule')
                                                         <a href="{{ route('personal.main.editSchedule', $pairEven->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                         @endcan
@@ -106,7 +106,7 @@
                                                                     <a class="schedule__table-group" href="#">{{ $pairOdd->group->title }}</a>&nbsp·&nbsp
                                                                 @endcan
                                                                 <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
-                                                                <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->title}})</p>&nbsp
+                                                                <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
                                                                 @can('edit-schedule')
                                                                 <a href="{{ route('personal.main.editSchedule', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                                 @endcan
@@ -139,7 +139,7 @@
                                                                 <a class="schedule__table-group" href="#">{{ $pairOdd->group->title }}</a>&nbsp·&nbsp
                                                             @endcan
                                                             <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
-                                                            <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->title}})</p>&nbsp
+                                                            <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
                                                             @can('edit-schedule')
                                                             <a href="{{ route('personal.main.editSchedule', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                             @endcan

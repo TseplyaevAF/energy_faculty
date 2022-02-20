@@ -41,12 +41,12 @@
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
-              <div class="form-group">
-                <input value="{{ $group->semester }}" type="text" class="form-control" name="semester" id="semester" placeholder="Семестр группы">
-                @error('semester')
-                <p class="text-danger">{{ $message }}</p>
-                @enderror
-              </div>
+{{--              <div class="form-group">--}}
+{{--                <input value="{{ $group->semester }}" type="text" class="form-control" name="semester" id="semester" placeholder="Семестр группы">--}}
+{{--                @error('semester')--}}
+{{--                <p class="text-danger">{{ $message }}</p>--}}
+{{--                @enderror--}}
+{{--              </div>--}}
               <div class="form-group w-50">
                 <label>Выберите старосту группы</label>
                 <select name="student_id" class="form-control">
@@ -59,7 +59,7 @@
                         <option value="{{ $student->id }}" {{ $student->id == $group->headman->student_id ? 'selected' : ''}} > {{ $student->user->surname }}</option>
                       @else
                         <option value="{{ $student->id }}" {{ $student->id == $group->student_id ? 'selected' : ''}} > {{ $student->user->surname }}</option>
-                      @endif  
+                      @endif
                     @endforeach
                   @endif
                 </select>

@@ -41,12 +41,12 @@
                 @enderror
               </div>
 
-              <div class="form-group">
-                <input value="{{ old('semester') }}" type="text" class="form-control" name="semester" id="semester" placeholder="Номер семестра группы">
-                @error('semester')
-                <p class="text-danger">{{ $message }}</p>
-                @enderror
-              </div>
+{{--              <div class="form-group">--}}
+{{--                <input value="{{ old('semester') }}" type="text" class="form-control" name="semester" id="semester" placeholder="Номер семестра группы">--}}
+{{--                @error('semester')--}}
+{{--                <p class="text-danger">{{ $message }}</p>--}}
+{{--                @enderror--}}
+{{--              </div>--}}
               <div class="form-group">
                 <label>Выберите кафедру</label>
                 <select name="chair_id" class="form-control">

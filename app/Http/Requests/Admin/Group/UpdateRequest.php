@@ -25,7 +25,6 @@ class UpdateRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:15',
-            'semester' => 'required|numeric|min:1|max:10',
             'chair_id' => 'required|integer|exists:chairs,id',
             'student_id' => 'nullable|numeric|exists:students,id',
         ];

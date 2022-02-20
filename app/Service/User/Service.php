@@ -3,6 +3,7 @@
 
 namespace App\Service\User;
 
+use App\Models\Group\Group;
 use App\Models\User;
 use App\Service\User\Employee\Service as EmployeeService;
 use App\Service\User\Student\Service as StudentService;
@@ -49,11 +50,14 @@ class Service
     }
 
     public function update($data, $user)
-    {        
+    {
         try {
             DB::beginTransaction();
             if ($data['role_id'] == User::ROLE_STUDENT) {
                 $student = $user->student;
+                if (isset($student->group->headman) && $data['group_id'] != $student->group_id) {
+                    $student->group->headman->delete();
+                }
                 $studentService = new StudentService();
                 $studentService->update($data, $student);
                 unset($data['student_id_number']);
