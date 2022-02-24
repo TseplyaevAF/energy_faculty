@@ -50,6 +50,12 @@
               <p>Домашние задания</p>
             </a>
           </li>
+            <li class="nav-item">
+                <a href="{{ route('personal.news.index') }}" class="nav-link">
+                    <i class="nav-icon far fa-newspaper"></i>
+                    <p>Новости</p>
+                </a>
+            </li>
             @can('index-application')
             <li class="nav-item">
               <a href="{{ route('personal.application.index') }}" class="nav-link">

@@ -1,4 +1,4 @@
-  @extends('admin.layouts.main')
+  @extends('personal.layouts.main')
 
   @section('title-block')Редактирование новости группы@endsection
 
@@ -36,7 +36,7 @@
 
         <div class="row">
           <div class="col-12">
-            <form action="{{ route('admin.group.news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('personal.news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
               @csrf
               @method('PATCH')
               <div class="form-group w-25">

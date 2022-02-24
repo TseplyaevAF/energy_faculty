@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Group\News;
+namespace App\Http\Requests\Personal\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdatePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,9 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
-            'content' => 'required',
-            'images.*' => 'nullable|image',
-            'group_id' => 'required|exists:groups,id',
+            'old_password' => 'required|string',
+            'new_password' => 'required|string',
+            'new_password_repeat' => 'required|string'
         ];
     }
 }

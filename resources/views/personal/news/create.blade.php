@@ -1,4 +1,4 @@
-  @extends('admin.layouts.main')
+  @extends('personal.layouts.main')
 
   @section('title-block')Добавление новости группы@endsection
 
@@ -35,7 +35,7 @@
 
         <div class="row">
           <div class="col-12">
-            <form action="{{ route('admin.group.news.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('personal.news.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
 
               <div class="form-group w-25">
@@ -77,15 +77,6 @@
                 @error('image')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
-              </div>
-
-              <div class="form-group w-25">
-                <label>Выберите группу</label>
-                <select name="group_id" class="form-control">
-                  @foreach($groups as $group)
-                  <option value="{{$group->id }}" {{$group->id == old('group_id') ? 'selected' : ''}}>{{ $group->title }}</option>
-                  @endforeach
-                </select>
               </div>
               <div class="form-group">
                 <input type="submit" id="submitGroupNews" class="btn btn-primary" value="Добавить">

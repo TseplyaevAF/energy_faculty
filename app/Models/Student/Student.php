@@ -3,7 +3,6 @@
 namespace App\Models\Student;
 
 use App\Models\Group\Group;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,5 +24,9 @@ class Student extends Model implements HasMedia
 
     public function group() {
         return $this->belongsTo(Group::class);
+    }
+
+    public function headman() {
+        return $this->hasOne(Headman::class);
     }
 }

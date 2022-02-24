@@ -18,33 +18,12 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Группы
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-
-            <ul class="pl-3 nav nav-treeview">
-              <li class="nav-item">
+            <li class="nav-item">
                 <a href="{{ route('admin.group.index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-users"></i>
-                  <p>Все группы</p>
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Все группы</p>
                 </a>
-              </li>
-            </ul>
-
-            <ul class="pl-3 nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('admin.group.news.index') }}" class="nav-link">
-                  <i class="nav-icon far fa-newspaper"></i>
-                  <p>Новости</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+            </li>
 
           <li class="nav-item">
             <a href="{{ route('admin.discipline.index') }}" class="nav-link">

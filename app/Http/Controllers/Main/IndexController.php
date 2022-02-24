@@ -32,8 +32,8 @@ class IndexController extends Controller
         $r = openssl_verify($data, $signature, $public_key_pem, "sha256WithRSAEncryption");
 
         // Проверяем подлинность сертификата
-        $r2 = openssl_x509_verify($cert, $public_key_pem);
-        dd($r);
+        $r2 = openssl_x509_parse($cert);
+        dd($r2);
         return view('main.index');
     }
 

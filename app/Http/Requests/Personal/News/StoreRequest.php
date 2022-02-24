@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Group\News;
+namespace App\Http\Requests\Personal\News;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'images.*' => 'image',
+            'images.*' => 'nullable|image'
         ];
     }
 }

@@ -13,6 +13,8 @@ class Service
     {
         try {
             DB::beginTransaction();
+            $student = auth()->user()->student;
+            $data['group_id'] = $student->group_id;
             if (isset($data['images'])) {
                 foreach ($data['images'] as $image) {
                     $imagePath = 'images/groups/' . $data['group_id'] . '/news';

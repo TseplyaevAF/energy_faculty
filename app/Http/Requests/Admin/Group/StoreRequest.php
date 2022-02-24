@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:15',
+            'title' => 'required|string|max:20',
             'chair_id' => 'required|integer|exists:chairs,id',
         ];
     }
@@ -34,11 +34,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'title.required' => 'Это поле необходимо для заполнения',
-            'title.max' => 'Название группы не должно превышать более :max символов',
-            'semester.required' => 'Это поле необходимо для заполнения',
-            'semester.integer' => 'Номер семестра должен быть числом',
-            'semester.min' => 'Номер семестра не должен быть меньше :min',
-            'semester.max' => 'Номер семестра не должен быть больше :max',
+            'title.max' => 'Название группы не должно превышать более :max символов'
         ];
     }
 }

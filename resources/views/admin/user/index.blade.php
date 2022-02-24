@@ -84,17 +84,7 @@
                           @break
                         @endif
                       @endforeach
-                      <td><a href="{{ route('admin.user.show', $user->id) }}"><i class="far fa-eye"></i></a></td>
                       <td><a href="{{ route('admin.user.edit', $user->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>
-                      <td>
-                        <form action="{{ route('admin.user.delete', $user->id) }}" method="post">
-                          @csrf
-                          @method('delete')
-                          <button type="submit" class="border-0 bg-transparent">
-                            <i class="far fa-trash-alt text-danger" role="button"></i>
-                          </button>
-                        </form>
-                      </td>
                     </tr>
                     @endforeach
                   </tbody>

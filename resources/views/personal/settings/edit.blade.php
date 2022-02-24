@@ -22,14 +22,14 @@
                             <div class="col-md-6">
                                 <div class="tab-content">
                                     @if (session('error'))
-                                    <div class="col-12 alert alert-warning" role="alert">{!! session('error') !!}</div>
+                                        <div class="col-12 alert alert-warning" role="alert">{!! session('error') !!}</div>
                                     @endif
-                                    
+
                                     @if (session('success'))
                                     <div class="col-12 alert alert-success" role="alert">{!! session('success') !!}</div>
                                     @endif
                                     <!-- GENERAL SETTINGS -->
-                                    <form class="tab-pane fade active show" id="account-general" action="{{ route('personal.settings.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                                    <form class="tab-pane fade active show" id="account-general" action="{{ route('personal.settings.updateMain', $user->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PATCH')
                                         <div>
@@ -42,7 +42,7 @@
                                                     @endphp
                                                     <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}" class="d-block ui-w-80" id="blah">
                                                 @else
-                                                    <img src="{{ asset('storage/images/personal/no_photo.jpg') }}" class="d-block ui-w-80">
+                                                    <img src="{{ asset('storage/images/personal/no_photo.jpg') }}" class="d-block ui-w-80" id="blah">
                                                 @endif
                                                 <div class="media-body ml-4">
                                                     <label class="btn btn-outline-primary">
@@ -51,33 +51,13 @@
                                                     </label> &nbsp;
                                                     <button type="button" class="btn btn-default md-btn-flat" id="deletePhoto">Удалить</button>
                                                 </div>
+                                                    <input type="hidden" name="no_photo" id="noPhoto">
                                                 @error('avatar')
                                                 <p class="text-danger">{{ $message }}</p>
                                                 @enderror
                                             </div>
                                             <hr class="border-light m-0">
                                             <div class="card-body">
-                                                <div class="form-group">
-                                                    <label class="form-label">Фамилия</label>
-                                                    <input name="surname" type="text" class="form-control mb-1" value="{{ $user->surname }}">
-                                                    @error('surname')
-                                                    <p class="text-danger">{{ $message }}</p>
-                                                    @enderror
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Имя</label>
-                                                    <input name="name" type="text" class="form-control" value="{{ $user->name }}">
-                                                    @error('name')
-                                                    <p class="text-danger">{{ $message }}</p>
-                                                    @enderror
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Отчество</label>
-                                                    <input name="patronymic" type="text" class="form-control" value="{{ $user->patronymic }}">
-                                                    @error('patronymic')
-                                                    <p class="text-danger">{{ $message }}</p>
-                                                    @enderror
-                                                </div>
                                                 <div class="form-group">
                                                     <label class="form-label">Номер телефона</label>
                                                     <input name="phone_number" id="phone" type="tel" class="form-control mb-1" value="{{ $user->phone_number }}">
@@ -98,22 +78,22 @@
                                         <input type="submit" class="btn btn-primary mb-2" value="Сохранить">
                                     </form>
                                     <!-- PASSWORD SETTINGS -->
-                                    <form class="tab-pane fade" id="account-change-password" action="{{ route('personal.settings.update', $user->id) }}" method="POST">
+                                    <form class="tab-pane fade" id="account-change-password" action="{{ route('personal.settings.updatePassword', $user->id) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
                                         <div>
                                             <div class="card-body pb-2">
                                                 <div class="form-group">
                                                     <label class="form-label">Текущий пароль</label>
-                                                    <input type="password" class="form-control">
+                                                    <input type="password" name="old_password" class="form-control">
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">Новый пароль</label>
-                                                    <input type="password" class="form-control">
+                                                    <input type="password" name="new_password" class="form-control">
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">Повторите новый пароль</label>
-                                                    <input type="password" class="form-control">
+                                                    <input type="password" name="new_password_repeat" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -141,6 +121,8 @@ imgInp.onchange = evt => {
 
 deletePhoto.onclick = function () {
     document.getElementById('imgInp').value = "";
+    document.getElementById('noPhoto').value = "-1";
+    blah.src = "http://energy_faculty.com/storage/images/personal/no_photo.jpg";
 }
 </script>
 <!-- /.content-wrapper -->

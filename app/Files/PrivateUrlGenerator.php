@@ -13,13 +13,7 @@ class PrivateUrlGenerator extends BaseUrlGenerator
 
     public function getUrl(): string
     {
-        $url = sprintf('%s/%s/%s/%s', $this->media->model_id, $this->media->collection_name, $this->media->id, $this->media->file_name);
-        return $url;
         $media = $this->media;
-        // parent - это модель users, получаем её из отношения
-        $parent = $this->media->model;
-
-        // имя файла у нас - <id модели>.расширение
         $name = [];
         $name[] = $media->id;
 
@@ -31,17 +25,7 @@ class PrivateUrlGenerator extends BaseUrlGenerator
         $name[] = $media->getExtensionAttribute();
         $filename = implode('.', $name);
 
-        if (isset($parent->role->employee_id)) {
-            if ($media->collection_name == "documents") {
-                return "/private/employees/$parent->id/documents/$filename";
-            }
-            if ($media->collection_name == "archives") {
-                return "/private/employees/$parent->id/archives/$filename";
-            }
-            if ($media->collection_name == "images") {
-                return "/private/employees/$parent->id/images/$filename";
-            }
-        }
+        return sprintf('%s/%s/%s/%s', $media->model_id, $media->collection_name, $media->id, $filename);
 
     }
 

@@ -47,7 +47,7 @@ class UserController extends Controller
     }
 
     public function create()
-    {   
+    {
         $roles = User::getRoles();
         $groups = Group::all();
         $chairs = Chair::all();
@@ -58,7 +58,7 @@ class UserController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        
+
         $this->service->store($data);
 
         return redirect()->route('admin.user.index');
@@ -73,10 +73,9 @@ class UserController extends Controller
     {
         $media = $user->getMedia()->first();
         if (isset($media)) {
-            $mediaUrl = $media->getUrl();
             return redirect()->route('file.get', ['user' => $user, 'filename' => $media->id]);
         }
-        
+
         if ($user->role_id == User::ROLE_TEACHER) {
             $chairs = Chair::all();
             $disciplines = Discipline::all();
@@ -91,14 +90,14 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        $user = $this->service->update($data, $user);
+        $this->service->update($data, $user);
 
         return redirect()->route('admin.user.index');
     }
 
     public function delete(User $user)
     {
-        if ($user->role->teacher_id != null) {
+        if (!$user->role->teacher_id) {
             $user->role->teacher->delete();
         } else if ($user->role->student_id != null) {
             $user->role->student->delete();

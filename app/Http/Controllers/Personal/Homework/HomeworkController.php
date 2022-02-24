@@ -61,7 +61,6 @@ class HomeworkController extends Controller
     }
 
     public function download($studentId, $mediaId, $filename) {
-        // http://energy_faculty.com/personal/homework/3/5/%D0%A0%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5.docx
         Gate::authorize('download-homework', [$mediaId]);
         $student = Student::find($studentId);
         $media = $student->getMedia(Homework::PATH)->where('id', $mediaId)->first();

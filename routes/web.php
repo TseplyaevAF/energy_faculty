@@ -23,25 +23,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get('/', 'IndexController');
     });
     Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {
-        Route::get('/cart', 'CartController@index')->name('admin.group.cart.index');
-        Route::get('/cart/{newsId}', 'CartController@show')->name('admin.group.cart.show');
-        Route::get('/cart/{newsId}/restore', 'CartController@restore')->name('admin.group.cart.restore');
-        Route::delete('/cart/{newsId}', 'CartController@delete')->name('admin.group.cart.delete');
-
-        Route::group(['namespace' => 'News', 'prefix' => 'news'], function () {
-            Route::get('/cart', 'CartController@index')->name('admin.group.news.cart.index');
-            Route::get('/cart/{newsId}', 'CartController@show')->name('admin.group.news.cart.show');
-            Route::get('/cart/{newsId}/restore', 'CartController@restore')->name('admin.group.news.cart.restore');
-            Route::delete('/cart/{newsId}', 'CartController@delete')->name('admin.group.news.cart.delete');
-
-            Route::get('/', 'NewsController@index')->name('admin.group.news.index');
-            Route::get('/create', 'NewsController@create')->name('admin.group.news.create');
-            Route::post('/store', 'NewsController@store')->name('admin.group.news.store');
-            Route::get('/{news}', 'NewsController@show')->name('admin.group.news.show');
-            Route::get('/{news}/edit', 'NewsController@edit')->name('admin.group.news.edit');
-            Route::patch('/{news}', 'NewsController@update')->name('admin.group.news.update');
-            Route::delete('/{news}', 'NewsController@delete')->name('admin.group.news.delete');
-        });
         Route::get('/', 'GroupController@index')->name('admin.group.index');
         Route::get('/create', 'GroupController@create')->name('admin.group.create');
         Route::post('/store', 'GroupController@store')->name('admin.group.store');
@@ -114,16 +95,6 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
         Route::delete('/{news}', 'NewsController@delete')->name('employee.news.delete');
     });
 
-    Route::group(['namespace' => 'File', 'prefix' => 'files'], function () {
-        Route::get('/', 'FileController@index')->name('employee.file.index');
-        Route::post('/upload', 'FileController@upload')->name('employee.file.upload');
-        Route::get('/{file}/edit', 'FileController@edit')->name('employee.file.edit');
-        Route::patch('/{file}', 'FileController@update')->name('employee.file.update');
-        Route::delete('/{file}', 'FileController@delete')->name('employee.file.delete');
-        // для получения файла
-        Route::get('/{employee}/{collectionName}/{mediaId}/{fileName}', 'FileController@show')->name('employee.file.show');
-    });
-
     Route::group(['namespace' => 'Schedule', 'prefix' => 'schedules'], function () {
         Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {
             Route::get('{group}', 'GroupController@show')->name('employee.schedule.group.show');
@@ -131,7 +102,7 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
             Route::patch('{schedule}', 'GroupController@update')->name('employee.schedule.group.update');
         });
         Route::get('/', 'ScheduleController@index')->name('employee.schedule.index');
-        Route::post('/import', 'ScheduleController@import')->name('employee.schedule.import');  
+        Route::post('/import', 'ScheduleController@import')->name('employee.schedule.import');
     });
 });
 
@@ -144,7 +115,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     });
     Route::group(['namespace' => 'Settings', 'prefix' => 'settings'], function () {
         Route::get('/', 'SettingsController@edit')->name('personal.settings.edit');
-        Route::patch('/{user}', 'SettingsController@update')->name('personal.settings.update');
+        Route::patch('/{user}', 'SettingsController@updateMain')->name('personal.settings.updateMain');
+        Route::patch('/{user}/password', 'SettingsController@updatePassword')->name('personal.settings.updatePassword');
         Route::get('/{modelId}/{mediaId}/{filename}', 'SettingsController@showImage')->name('personal.settings.showImage');
     });
     Route::group(['namespace' => 'Application', 'prefix' => 'applications'], function () {
@@ -168,6 +140,15 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/{homework}', 'HomeworkController@show')->name('personal.homework.show');
         Route::patch('/{homework}/feedback', 'HomeworkController@feedback')->name('personal.homework.feedback');
         Route::delete('/{homework}', 'HomeworkController@delete')->name('personal.homework.delete');
+    });
+    Route::group(['namespace' => 'News', 'prefix' => 'news'], function () {
+        Route::get('/', 'NewsController@index')->name('personal.news.index');
+        Route::get('/create', 'NewsController@create')->name('personal.news.create');
+        Route::post('/store', 'NewsController@store')->name('personal.news.store');
+        Route::get('/{modelId}/{mediaId}/{filename}', 'NewsController@showImage')->name('personal.news.showImage');
+        Route::get('/{news}/edit', 'NewsController@edit')->name('personal.news.edit');
+        Route::patch('/{news}', 'NewsController@update')->name('personal.news.update');
+        Route::delete('/{news}', 'NewsController@delete')->name('personal.news.delete');
     });
 });
 

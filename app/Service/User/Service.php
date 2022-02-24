@@ -3,7 +3,6 @@
 
 namespace App\Service\User;
 
-use App\Models\Group\Group;
 use App\Models\User;
 use App\Service\User\Employee\Service as EmployeeService;
 use App\Service\User\Student\Service as StudentService;
@@ -24,23 +23,12 @@ class Service
             if ($data['role_id'] == User::ROLE_STUDENT) {
                 $studentService = new StudentService();
                 $studentService->store($data);
-                unset($data['student_id_number']);
-                unset($data['group_id']);
             } else if ($data['role_id'] == User::ROLE_TEACHER) {
                 $teacherService = new TeacherService();
                 $teacherService->store($data);
-                unset($data['post']);
-                unset($data['activity']);
-                unset($data['work_experience']);
-                unset($data['address']);
-                unset($data['chair_id']);
-                if (isset($data['disciplines_ids'])) {
-                    unset($data['disciplines_ids']);
-                }
             } else if ($data['role_id'] == User::ROLE_EMPLOYEE) {
                 $employeeService = new EmployeeService();
                 $employeeService->store($data);
-                unset($data['chair_id']);
             }
             DB::commit();
         } catch (\Exception $exception) {
@@ -60,20 +48,10 @@ class Service
                 }
                 $studentService = new StudentService();
                 $studentService->update($data, $student);
-                unset($data['student_id_number']);
-                unset($data['group_id']);
             } else if ($data['role_id'] == User::ROLE_TEACHER) {
                 $teacher = $user->teacher;
                 $teacherService = new TeacherService();
-                $teacher = $teacherService->update($data, $teacher);
-                unset($data['post']);
-                unset($data['activity']);
-                unset($data['work_experience']);
-                unset($data['address']);
-                unset($data['chair_id']);
-                if (isset($data['disciplines_ids'])) {
-                    unset($data['disciplines_ids']);
-                }
+                $teacherService->update($data, $teacher);
             }
             unset($data['user_id']);
             unset($data['role_id']);

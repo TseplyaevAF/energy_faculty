@@ -27,19 +27,13 @@
           <li class="nav-item">
             <a href="{{ route('employee.news.index') }}" class="nav-link">
               <i class="nav-icon fas fa-newspaper"></i>
-              <p>Новости</p>
+              <p>Новости кафедры</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{ route('employee.schedule.index') }}" class="nav-link">
               <i class="nav-icon fas fa-calendar-alt"></i>
               <p>Расписание занятий</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('employee.file.index') }}" class="nav-link">
-              <i class="nav-icon far fa-file"></i>
-              <p>Файлы</p>
             </a>
           </li>
         </ul>

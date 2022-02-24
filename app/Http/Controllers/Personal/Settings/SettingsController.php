@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Personal\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Personal\Settings\UpdateRequest;
+use App\Http\Requests\Personal\Settings\UpdateMainRequest;
+use App\Http\Requests\Personal\Settings\UpdatePasswordRequest;
 use App\Models\User;
 use App\Service\User\Settings\Service;
-use Spatie\MediaLibrary\Models\Media;
 
 class SettingsController extends Controller
 {
@@ -22,14 +22,24 @@ class SettingsController extends Controller
         return view('personal.settings.edit', compact('user'));
     }
 
-    public function update(UpdateRequest $request, User $user) {
+    public function updateMain(UpdateMainRequest $request, User $user) {
         $data = $request->validated();
         try {
-            $this->service->update($data, $user);
+            $this->service->updateMain($data, $user);
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
         return redirect()->back()->withSuccess('Данные аккаунта успешно обновлены!');
+    }
+
+    public function updatePassword(UpdatePasswordRequest $request, User $user) {
+        $data = $request->validated();
+        try {
+            $this->service->updatePassword($data, $user);
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        return redirect()->back()->withSuccess('Пароль был успешно обновлен!');
     }
 
     public function showImage($userId, $mediaId, $filename) {

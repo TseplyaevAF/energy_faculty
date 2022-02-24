@@ -23,7 +23,6 @@ class Service
             DB::rollBack();
             abort(500);
         }
-        return $student;
     }
 
     public function update($data, $student)

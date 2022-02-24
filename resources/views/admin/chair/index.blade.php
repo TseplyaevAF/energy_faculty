@@ -32,7 +32,7 @@
         </div>
 
         <div class="row">
-          <div class="col-6">
+          <div class="col-4">
             <div class="card">
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-wrap">
@@ -40,7 +40,7 @@
                     <tr>
                       <th>ID</th>
                       <th>Название</th>
-                      <th colspan="3">Действия</th>
+                      <th colspan="2">Действия</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -50,16 +50,6 @@
                       <td>{{ $chair->title }}</td>
                       <td><a href="{{ route('admin.chair.show', $chair->id) }}"><i class="far fa-eye"></i></a></td>
                       <td><a href="{{ route('admin.chair.edit', $chair->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>
-                      <td>
-                        <form action="{{ route('admin.chair.delete', $chair->id) }}" method="post">
-                          @csrf
-                          @method('delete')
-                          <button type="submit" class="border-0 bg-transparent">
-                            <i class="far fa-trash-alt text-danger" role="button"></i>
-                          </button>
-
-                        </form>
-                      </td>
                     </tr>
                     @endforeach
                   </tbody>

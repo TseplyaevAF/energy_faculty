@@ -28,9 +28,8 @@ class GroupController extends Controller
 
     public function create()
     {
-        $students = Student::all();
         $chairs = Chair::all();
-        return view('admin.group.create', compact('students', 'chairs'));
+        return view('admin.group.create', compact( 'chairs'));
     }
 
     public function store(StoreRequest $request)

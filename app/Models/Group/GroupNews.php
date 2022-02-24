@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GroupNews extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = false;
+
+    const PATH = 'group_news';
 
     public function group() {
         return $this->belongsTo(Group::class, 'group_id', 'id');

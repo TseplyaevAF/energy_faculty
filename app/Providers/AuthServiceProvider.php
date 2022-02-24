@@ -102,8 +102,17 @@ class AuthServiceProvider extends ServiceProvider
 
         /// APPLICATIONS
         Gate::define('index-application', function (User $user) {
-            $headman = Headman::where('student_id', '=', $user->student->id)->first();
-            return isset($headman) ? Response::allow() : Response::deny();
+            return isset($user->student->headman) ? Response::allow() : Response::deny();
+        });
+
+
+        /// GROUP NEWS
+        Gate::define('create-group-news', function (User $user) {
+            return isset($user->student->headman) ? Response::allow() : Response::deny();
+        });
+
+        Gate::define('edit-group-news', function (User $user, $post) {
+            return $user->student->group_id ==  $post->group_id? Response::allow() : Response::deny();
         });
     }
 }

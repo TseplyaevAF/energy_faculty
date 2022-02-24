@@ -32,12 +32,6 @@
         </div>
 
         <div class="row">
-          <div class="col-1 mb-3">
-            <a href="{{ route('admin.group.cart.index') }}" class="btn btn-block btn-danger">Корзина</a>
-          </div>
-        </div>
-
-        <div class="row">
           <div class="col-6">
             <div class="card">
               <div class="card-body table-responsive p-0">
@@ -60,15 +54,6 @@
                       <td>{{ $group->semester }}</td>
                       <td><a href="{{ route('admin.group.show', $group->id) }}"><i class="far fa-eye"></i></a></td>
                       <td><a href="{{ route('admin.group.edit', $group->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>
-                      <td>
-                        <form action="{{ route('admin.group.delete', $group->id) }}" method="post">
-                          @csrf
-                          @method('delete')
-                          <button type="submit" class="border-0 bg-transparent delete-btn">
-                            <i class="far fa-trash-alt text-danger" role="button"></i>
-                          </button>
-                        </form>
-                      </td>
                     </tr>
                     @endforeach
                   </tbody>
