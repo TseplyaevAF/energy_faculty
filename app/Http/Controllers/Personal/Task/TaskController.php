@@ -45,17 +45,13 @@ class TaskController extends Controller
     public function create()
     {
         Gate::authorize('index-task');
-        $teacher_id = auth()->user()->teacher->id;
-        $groupsIds = DB::table('schedules')
-            ->select('group_id')
-            ->groupBy('group_id')
-            ->where('teacher_id', $teacher_id)
-            ->get();
-        $groups = [];
-        foreach ($groupsIds as $groupId) {
-            $groups[] = Group::find($groupId->group_id);
+        $teacher = auth()->user()->teacher;
+        foreach ($teacher->lessons->unique('group_id') as $groupLesson) {
+            $groups [] = $groupLesson->group;
         }
-        $disciplines = auth()->user()->teacher->disciplines;
+        foreach ($teacher->lessons->unique('discipline_id') as $disciplineLesson) {
+            $disciplines [] = $disciplineLesson->discipline;
+        }
         return view('personal.task.create', compact('groups', 'disciplines'));
     }
 

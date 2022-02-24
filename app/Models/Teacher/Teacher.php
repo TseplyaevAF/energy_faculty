@@ -2,8 +2,8 @@
 
 namespace App\Models\Teacher;
 
-use App\Models\Discipline;
-use App\Models\Role;
+use App\Models\Group\Group;
+use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +23,7 @@ class Teacher extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
-    public function disciplines() {
-        return $this->belongsToMany(Discipline::class, 'teacher_disciplines', 'teacher_id', 'discipline_id');
+    public function lessons() {
+        return $this->hasMany(Lesson::class);
     }
 }

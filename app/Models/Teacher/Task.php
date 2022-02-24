@@ -4,7 +4,6 @@ namespace App\Models\Teacher;
 
 use App\Models\Discipline;
 use App\Models\Group\Group;
-use App\Models\Student\Homework;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,7 +34,7 @@ class Task extends Model
     public function teacher() {
         return $this->belongsTo(Teacher::class);
     }
-    
+
     public function discipline() {
         return $this->belongsTo(Discipline::class);
     }
