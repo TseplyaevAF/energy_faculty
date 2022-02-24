@@ -7,13 +7,17 @@ use App\Models\Group\Group;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Task extends Model
+class Task extends Model implements HasMedia
 {
+    use HasFactory, SoftDeletes, HasMediaTrait;
+
     protected $guarded = false;
-    use HasFactory, SoftDeletes;
 
     const PATH = 'tasks';
+
     const ACTIVE = 0;
     const COMPLETED = 1;
     const CHECK = 2;

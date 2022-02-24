@@ -36,20 +36,16 @@
           <div class="col-12">
             <form action="{{ route('personal.task.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
-              <div class="form-group w-25">
-                <label>Выберите группу</label>
-                <select name="group_id" class="form-control">
-                  @foreach($groups as $group)
-                  <option value="{{$group->id }}" {{$group->id == old('group_id') ? 'selected' : ''}}>{{ $group->title }}</option>
-                  @endforeach
-                </select>
-              </div>
 
               <div class="form-group w-25">
-                <label>Выберите дисциплину</label>
-                <select name="discipline_id" class="form-control">
-                  @foreach($disciplines as $discipline)
-                  <option value="{{ $discipline->id }}" {{$discipline->id == old('discipline_id') ? 'selected' : ''}}>{{ $discipline->title }}</option>
+                <label>Выберите кому загрузить задание</label>
+                <select name="lesson_id" class="form-control">
+                  @foreach($lessons as $lessonId => $lesson)
+                  <option value="{{ $lessonId }}" {{ $lessonId == old('lesson_id') ? 'selected' : '' }}>
+                      ({{ $lesson['group']['title'] }},
+                      {{ $lesson['discipline']['title'] }},
+                      {{ $lesson['semester'] }} семестр)
+                  </option>
                   @endforeach
                 </select>
               </div>

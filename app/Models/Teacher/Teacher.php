@@ -2,20 +2,15 @@
 
 namespace App\Models\Teacher;
 
-use App\Models\Group\Group;
 use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Teacher extends Model implements HasMedia
+class Teacher extends Model
 {
-    use HasFactory, SoftDeletes, HasMediaTrait;
-
-    const PATH = 'teachers';
+    use HasFactory, SoftDeletes;
 
     protected $guarded = false;
 

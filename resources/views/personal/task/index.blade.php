@@ -91,6 +91,7 @@
                       <th>Название файла</th>
                       <th>Дисциплина</th>
                       <th>Группа</th>
+                      <th>Семестр</th>
                       <th style="width: 30%;">Действия</th>
                     </tr>
                   </thead>
@@ -98,12 +99,7 @@
                     @foreach ($tasks as $task)
                     <tr>
                       <td>
-                        @php
-                        $modelId = explode('/', $task->task)[0];
-                        $mediaId = explode('/', $task->task)[2];
-                        $filename = explode('/', $task->task)[3];
-                        @endphp
-                        <a href="{{ route('personal.task.download', [$modelId, $mediaId, $filename]) }}">{{ $filename }}</a>
+                        <a href="{{ route('personal.task.download', $task->id) }}">{{ $filename }}</a>
                       </td>
                       <td><a href="#">{{ $task->discipline->title }}</a></td>
                       <td><a href="#">{!! $task->group->title !!}</a></td>
@@ -113,7 +109,7 @@
                           Посмотреть
                         </a>
                         @if ($task->status === 0)
-                        <form action="{{ route('personal.task.complete', $task->id) }}" method="POST" 
+                        <form action="{{ route('personal.task.complete', $task->id) }}" method="POST"
                         style="display: inline-block">
                           @csrf
                           @method('PATCH')

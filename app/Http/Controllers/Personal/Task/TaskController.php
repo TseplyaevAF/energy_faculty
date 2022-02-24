@@ -46,21 +46,26 @@ class TaskController extends Controller
     {
         Gate::authorize('index-task');
         $teacher = auth()->user()->teacher;
-        foreach ($teacher->lessons->unique('group_id') as $groupLesson) {
-            $groups [] = $groupLesson->group;
+        foreach ($teacher->lessons as  $lesson) {
+            $lessons[$lesson->id]['discipline']['id'] = $lesson->discipline->id;
+            $lessons[$lesson->id]['discipline']['title'] = $lesson->discipline->title;
+
+            $lessons[$lesson->id]['group']['id'] = $lesson->group->id;
+            $lessons[$lesson->id]['group']['title'] = $lesson->group->title;
+
+            $lessons[$lesson->id]['semester'] = $lesson->semester;
         }
-        foreach ($teacher->lessons->unique('discipline_id') as $disciplineLesson) {
-            $disciplines [] = $disciplineLesson->discipline;
-        }
-        return view('personal.task.create', compact('groups', 'disciplines'));
+
+        return view('personal.task.create', compact('lessons'));
     }
+
 
     public function store(StoreRequest $request)
     {
         Gate::authorize('index-task');
         $data = $request->validated();
 
-        $this->service->store(auth()->user()->teacher, $data);
+        $this->service->store($data);
 
         return redirect()->route('personal.task.index');
     }

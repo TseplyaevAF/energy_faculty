@@ -24,9 +24,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'discipline_id' => 'integer|exists:disciplines,id',
-            'group_id' => 'integer|exists:groups,id',
-            'task' => 'required|mimes:doc,docx,rar,zip,xlsx,xls,pdf,txt',
+            'lesson_id' => 'integer|exists:disciplines,id',
+            'task' => 'required|mimes:pdf',
         ];
     }
 }

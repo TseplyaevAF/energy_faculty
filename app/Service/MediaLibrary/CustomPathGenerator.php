@@ -4,7 +4,7 @@ namespace App\Service\MediaLibrary;
 
 use App\Models\Employee;
 use App\Models\Student\Student;
-use App\Models\Teacher\Teacher;
+use App\Models\Teacher\Task;
 use App\Models\User;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
@@ -17,8 +17,8 @@ class CustomPathGenerator implements PathGenerator
             case Employee::class:
                 return Employee::PATH.DIRECTORY_SEPARATOR . $media->model_id.DIRECTORY_SEPARATOR . $media->id.DIRECTORY_SEPARATOR;
                 break;
-            case Teacher::class:
-                return Teacher::PATH.DIRECTORY_SEPARATOR . $media->model_id.DIRECTORY_SEPARATOR . $media->id.DIRECTORY_SEPARATOR;
+            case Task::class:
+                return Task::PATH.DIRECTORY_SEPARATOR . $media->model_id.DIRECTORY_SEPARATOR . $media->id.DIRECTORY_SEPARATOR;
                 break;
             case Student::class:
                 return Student::PATH.DIRECTORY_SEPARATOR . $media->model_id.DIRECTORY_SEPARATOR . $media->id.DIRECTORY_SEPARATOR;
