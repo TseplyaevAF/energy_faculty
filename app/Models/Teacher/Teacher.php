@@ -2,6 +2,7 @@
 
 namespace App\Models\Teacher;
 
+use App\Models\Discipline;
 use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,5 +21,9 @@ class Teacher extends Model
 
     public function lessons() {
         return $this->hasMany(Lesson::class);
+    }
+
+    public function disciplines() {
+        return $this->belongsToMany(Discipline::class, 'lessons', 'teacher_id', 'discipline_id');
     }
 }

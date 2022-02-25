@@ -32,6 +32,16 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::delete('/{group}', 'GroupController@delete')->name('admin.group.delete');
     });
 
+    Route::group(['namespace' => 'Lesson', 'prefix' => 'lessons'], function () {
+        Route::get('/', 'LessonController@index')->name('admin.lesson.index');
+        Route::get('/create', 'LessonController@create')->name('admin.lesson.create');
+        Route::post('/store', 'LessonController@store')->name('admin.lesson.store');
+        Route::get('/{lesson}', 'LessonController@show')->name('admin.lesson.show');
+        Route::get('/{lesson}/edit', 'LessonController@edit')->name('admin.lesson.edit');
+        Route::patch('/{lesson}', 'LessonController@update')->name('admin.lesson.update');
+        Route::delete('/{lesson}', 'LessonController@delete')->name('admin.lesson.delete');
+    });
+
     Route::group(['namespace' => 'Discipline', 'prefix' => 'disciplines'], function () {
         Route::get('/', 'DisciplineController@index')->name('admin.discipline.index');
         Route::get('/create', 'DisciplineController@create')->name('admin.discipline.create');

@@ -23,16 +23,14 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [            
+        return [
             'post' => 'required|string',
             'activity' => 'nullable|string',
             'work_experience' => 'nullable|integer',
             'address' => 'nullable|string',
-            'chair_id' => 'required|integer|exists:chairs,id',
-            'disciplines_ids' => 'nullable|array',
-            'disciplines_ids.*' => 'integer|exists:disciplines,id',
+            'chair_id' => 'required|integer|exists:chairs,id'
         ];
     }
 
-    
+
 }

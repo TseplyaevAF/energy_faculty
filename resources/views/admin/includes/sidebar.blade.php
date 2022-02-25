@@ -39,6 +39,13 @@
             </a>
           </li>
 
+            <li class="nav-item">
+                <a href="{{ route('admin.lesson.index') }}" class="nav-link">
+                    <i class="nav-icon far fa-newspaper"></i>
+                    <p>Занятия</p>
+                </a>
+            </li>
+
           <li class="nav-item">
             <a href="{{ route('admin.schedule.index') }}" class="nav-link">
               <i class="nav-icon fas fa-calendar-alt"></i>

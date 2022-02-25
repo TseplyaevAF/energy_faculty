@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'lesson_id' => 'integer|exists:disciplines,id',
+            'lesson_id' => 'integer|exists:lessons,id',
             'task' => 'required|mimes:pdf',
         ];
     }

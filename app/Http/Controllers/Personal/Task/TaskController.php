@@ -27,18 +27,10 @@ class TaskController extends Controller
     public function index(FilterRequest $request)
     {
         Gate::authorize('index-task');
-        $teacher_id = auth()->user()->teacher->id;
-        $tasks = Task::all()->where('teacher_id', $teacher_id);
-        $groupsIds = DB::table('schedules')
-            ->select('group_id')
-            ->groupBy('group_id')
-            ->where('teacher_id', $teacher_id)
-            ->get();
-        $groups = [];
-        foreach ($groupsIds as $groupId) {
-            $groups[] = Group::find($groupId->group_id);
-        }
-        $disciplines = auth()->user()->teacher->disciplines;
+        $teacher = auth()->user()->teacher;
+        $disciplines = $teacher->disciplines;
+        $tasks = Task::all();
+
         return view('personal.task.index', compact('tasks', 'groups', 'disciplines'));
     }
 

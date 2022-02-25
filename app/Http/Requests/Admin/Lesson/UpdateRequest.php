@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\User\Teacher;
+namespace App\Http\Requests\Admin\Lesson;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,11 +24,18 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'post' => 'required|string',
-            'activity' => 'nullable|string',
-            'work_experience' => 'nullable|integer',
-            'address' => 'nullable|string',
-            'chair_id' => 'required|integer|exists:chairs,id',
+            'semester' => 'required|integer',
+            'teacher_id' => 'integer|exists:teachers,id',
+            'disciplines_ids' => 'required|array',
+            'disciplines_ids.*' => 'integer|exists:disciplines,id',
+            'group_id' => 'integer|exists:groups,id'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+
         ];
     }
 }

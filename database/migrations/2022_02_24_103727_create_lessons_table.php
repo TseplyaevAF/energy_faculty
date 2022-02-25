@@ -13,7 +13,7 @@ class CreateLessonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('lessons', function (Blueprint $table) {
+        Schema::create('lesson', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('discipline_id');
             $table->unsignedBigInteger('group_id');
@@ -41,6 +41,6 @@ class CreateLessonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('lesson');
     }
 }

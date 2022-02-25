@@ -1,8 +1,8 @@
   @extends('personal.layouts.main')
-  
+
   @section('content')
   <link rel="stylesheet" href="{{ asset('css/groups/news/style.css') }}">
-  
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -22,7 +22,7 @@
                 <div class="col-md-4 mb-3">
                   <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}" alt="image" class="thumbnail img-responsive">
                 </div>
-              </div> 
+              </div>
             @endif
             @if (auth()->user()->role_id == 2)
               <h6><b>Учебная группа:</b> {{ auth()->user()->student->group->title }}</h6>
@@ -30,12 +30,12 @@
             @elseif (auth()->user()->role_id == 3)
               <h6><b>Должность:</b> {{ auth()->user()->teacher->post }}</h6>
               <h6><b>Преподаваемые дисциплины:</b>
-                @foreach (auth()->user()->teacher->disciplines as $item)
+                @foreach (auth()->user()->teacher->disciplines->unique('discipline') as $item)
                   {{ $item->title }},
                 @endforeach
               </h6>
             @endif
-            
+
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -52,7 +52,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    
+
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
