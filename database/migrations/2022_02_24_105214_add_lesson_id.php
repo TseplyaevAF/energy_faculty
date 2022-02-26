@@ -23,7 +23,7 @@ class AddLessonId extends Migration
             $table->index('lesson_id', 'task_lesson_idx');
 
             // FK
-            $table->foreign('lesson_id', 'task_lesson_fk')->on('lesson')->references('id');
+            $table->foreign('lesson_id', 'task_lesson_fk')->on('lessons')->references('id');
         });
     }
 

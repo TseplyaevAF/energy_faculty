@@ -4,6 +4,7 @@ namespace App\Models\Teacher;
 
 use App\Models\Discipline;
 use App\Models\Group\Group;
+use App\Models\Lesson;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,15 +32,7 @@ class Task extends Model implements HasMedia
         ];
     }
 
-    public function group() {
-        return $this->belongsTo(Group::class);
-    }
-
-    public function teacher() {
-        return $this->belongsTo(Teacher::class);
-    }
-
-    public function discipline() {
-        return $this->belongsTo(Discipline::class);
+    public function lesson() {
+        return $this->belongsTo(Lesson::class);
     }
 }

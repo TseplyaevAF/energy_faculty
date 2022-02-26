@@ -28,8 +28,13 @@ class TaskController extends Controller
     {
         Gate::authorize('index-task');
         $teacher = auth()->user()->teacher;
-        $disciplines = $teacher->disciplines;
-        $tasks = Task::all();
+        $disciplines = $teacher->disciplines->unique('id');
+        foreach ($teacher->lessons as $lesson) {
+            foreach ($lesson->tasks as $task) {
+                $tasks [] = $task;
+            }
+        }
+        $groups = $teacher->groups->unique('id');
 
         return view('personal.task.index', compact('tasks', 'groups', 'disciplines'));
     }

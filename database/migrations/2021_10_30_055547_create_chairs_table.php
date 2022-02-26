@@ -16,13 +16,13 @@ class CreateChairsTable extends Migration
         Schema::create('chairs', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->string('address')->unique();
+            $table->string('address');
             $table->string('phone_number');
             $table->string('email')->unique();
             $table->text('description')->nullable();
 
             $table->softDeletes();
-            
+
             $table->timestamps();
         });
     }

@@ -30,7 +30,7 @@
             @elseif (auth()->user()->role_id == 3)
               <h6><b>Должность:</b> {{ auth()->user()->teacher->post }}</h6>
               <h6><b>Преподаваемые дисциплины:</b>
-                @foreach (auth()->user()->teacher->disciplines->unique('discipline') as $item)
+                @foreach (auth()->user()->teacher->disciplines->unique('id') as $item)
                   {{ $item->title }},
                 @endforeach
               </h6>

@@ -99,10 +99,16 @@
                     @foreach ($tasks as $task)
                     <tr>
                       <td>
-                        <a href="{{ route('personal.task.download', $task->id) }}">{{ $filename }}</a>
+                          @php
+                              $modelId = 1;
+                              $mediaId = 1;
+                              $filename = 1;
+                          @endphp
+                        <a href="{{ route('personal.task.download', [$modelId, $mediaId, $filename]) }}">{{ $filename }}</a>
                       </td>
-                      <td><a href="#">{{ $task->discipline->title }}</a></td>
-                      <td><a href="#">{!! $task->group->title !!}</a></td>
+                      <td><a href="#">{{ $task->lesson->discipline->title }}</a></td>
+                      <td><a href="#">{!! $task->lesson->group->title !!}</a></td>
+                      <td><a href="#">{!! $task->lesson->semester !!}</a></td>
                       <td class="project-actions text-left">
                         <a class="btn btn-info btn-sm" href="{{ route('personal.task.show', $task->id) }}">
                           <i class="far fa-eye"></i>

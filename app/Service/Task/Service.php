@@ -14,7 +14,8 @@ class Service
         try {
             DB::beginTransaction();
             $task = Task::Create([
-                'lesson_id' => $data['lesson_id']
+                'lesson_id' => $data['lesson_id'],
+                'task' => 'path'
             ]);
             $task->addMedia($data['task'])->toMediaCollection(Task::PATH);
             DB::commit();

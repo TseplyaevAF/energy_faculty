@@ -17,6 +17,7 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->unsignedBigInteger('discipline_id');
             $table->unsignedBigInteger('group_id');
+            $table->string('task');
             $table->timestamps();
 
             $table->softDeletes();
