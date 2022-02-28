@@ -41,7 +41,7 @@
                                   href="{{ route('employee.schedule.group.show', $group->id) }}">
                                   {{$group->title }}
                                 </a>
-                              @endif 
+                              @endif
                             @endforeach
                           </div>
                       </div>
@@ -53,7 +53,7 @@
                                 <a
                                   class="schedule__chairs-groups__item"
                                   href="{{ route('employee.schedule.group.show', $group->id) }}">{{$group->title }}</a>
-                              @endif 
+                              @endif
                             @endforeach
                           </div>
                       </div>
@@ -65,7 +65,7 @@
                                 <a
                                   class="schedule__chairs-groups__item"
                                   href="{{ route('employee.schedule.group.show', $group->id) }}">{{$group->title }}</a>
-                              @endif 
+                              @endif
                             @endforeach
                           </div>
                       </div>
@@ -77,7 +77,7 @@
                                 <a
                                   class="schedule__chairs-groups__item"
                                   href="{{ route('employee.schedule.group.show', $group->id) }}">{{$group->title }}</a>
-                              @endif 
+                              @endif
                             @endforeach
                           </div>
                       </div>
@@ -91,6 +91,6 @@
     </section>
     <!-- /.content -->
   </div>
-  
+
   <!-- /.content-wrapper -->
   @endsection

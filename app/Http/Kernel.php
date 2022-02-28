@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CertAuthorityMiddleware;
 use App\Http\Middleware\EmployeeMiddleware;
 use App\Http\Middleware\PersonalMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -66,6 +67,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'employee' => EmployeeMiddleware::class,
+        'ca' => CertAuthorityMiddleware::class,
         'personal' => PersonalMiddleware::class,
     ];
 }

@@ -1,5 +1,5 @@
   @extends('employee.layouts.main')
-  
+
   @section('content')
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -23,7 +23,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    
+
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

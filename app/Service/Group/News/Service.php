@@ -16,6 +16,7 @@ class Service
             $student = auth()->user()->student;
             $data['group_id'] = $student->group_id;
             if (isset($data['images'])) {
+                $tempImages = [];
                 foreach ($data['images'] as $image) {
                     $imagePath = 'images/groups/' . $data['group_id'] . '/news';
                     $tempImages[] = Storage::disk('public')->put($imagePath, $image);
@@ -35,6 +36,7 @@ class Service
         try {
             DB::beginTransaction();
             if (isset($data['images'])) {
+                $tempImages = [];
                 // загружаем новые картинки
                 foreach ($data['images'] as $image) {
                     $imagePath = 'images/groups/' . $news->group->id . '/news';

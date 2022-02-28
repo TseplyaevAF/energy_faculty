@@ -14,6 +14,7 @@ class Service
         try {
             DB::beginTransaction();
             if (isset($data['images'])) {
+                $tempImages = [];
                 foreach ($data['images'] as $image) {
                     $imagePath = 'images/news/categories/' . $data['category_id'];
                     $tempImages[] = Storage::disk('public')->put($imagePath, $image);
@@ -33,16 +34,13 @@ class Service
         try {
             DB::beginTransaction();
             if (isset($data['images'])) {
+                $tempImages = [];
                 // загружаем новые картинки
                 foreach ($data['images'] as $image) {
                     $imagePath = 'images/news/categories/' . $data['category_id'];
                     $tempImages[] = Storage::disk('public')->put($imagePath, $image);
                 }
                 $data['images'] = json_encode($tempImages);
-                // загружаем старые картинки в другой каталог, 
-                // если они не были удалены 
-                
-                // удаляем старые
                 if (isset($news->images))
                 foreach (json_decode($news->images) as $image) {
                     Storage::disk('public')->delete($image);

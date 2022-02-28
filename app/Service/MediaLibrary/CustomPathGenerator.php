@@ -2,6 +2,8 @@
 
 namespace App\Service\MediaLibrary;
 
+use App\Models\CentreAuthority;
+use App\Models\Certificate;
 use App\Models\Employee;
 use App\Models\Student\Student;
 use App\Models\Teacher\Task;

@@ -34,7 +34,7 @@ class Service
             'class_time_id' => $data['class_time_id'],
             'group_id' => $data['group_id'],
         ];
-        return !empty(Schedule::where($matchThese)->first()) ? true : false;
+        return !empty(Schedule::where($matchThese)->first());
     }
 
     private function getBusyTeacher($data) {

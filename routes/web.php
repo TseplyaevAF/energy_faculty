@@ -89,7 +89,6 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'IndexController');
     });
-
     Route::group(['namespace' => 'Chair', 'prefix' => 'chair'], function () {
         Route::get('{chair}/edit', 'ChairController@edit')->name('employee.chair.edit');
         Route::patch('{chair}', 'ChairController@update')->name('employee.chair.update');
@@ -116,6 +115,23 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
     });
 });
 
+Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => ['auth', 'ca', 'verified']], function () {
+    Route::group(['namespace' => 'Main'], function () {
+        Route::get('/', 'IndexController');
+    });
+    Route::group(['namespace' => 'CertApp', 'prefix' => 'cert_apps'], function () {
+        Route::get('/', 'CertAppController@index')->name('ca.cert_app.index');
+        Route::get('/{certApp}', 'CertAppController@accept')->name('ca.cert_app.accept');
+        Route::post('/store', 'CertAppController@store')->name('ca.cert_app.store');
+    });
+});
+
+Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'verified']], function () {
+    Route::group(['namespace' => 'Settings', 'prefix' => 'settings'], function () {
+        Route::get('/{modelId}/{mediaId}/{filename}', 'SettingsController@showImage')->name('personal.settings.showImage');
+    });
+});
+
 Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'personal', 'verified']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'MainController@index');
@@ -127,7 +143,6 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/', 'SettingsController@edit')->name('personal.settings.edit');
         Route::patch('/{user}', 'SettingsController@updateMain')->name('personal.settings.updateMain');
         Route::patch('/{user}/password', 'SettingsController@updatePassword')->name('personal.settings.updatePassword');
-        Route::get('/{modelId}/{mediaId}/{filename}', 'SettingsController@showImage')->name('personal.settings.showImage');
     });
     Route::group(['namespace' => 'Application', 'prefix' => 'applications'], function () {
         Route::get('/', 'ApplicationController@index')->name('personal.application.index');
@@ -159,6 +174,11 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/{news}/edit', 'NewsController@edit')->name('personal.news.edit');
         Route::patch('/{news}', 'NewsController@update')->name('personal.news.update');
         Route::delete('/{news}', 'NewsController@delete')->name('personal.news.delete');
+    });
+    Route::group(['namespace' => 'Cert', 'prefix' => 'cert'], function () {
+        Route::get('/create', 'CertController@create')->name('personal.cert.create');
+        Route::post('/store', 'CertController@store')->name('personal.cert.store');
+        Route::get('/', 'CertController@index')->name('personal.cert.index');
     });
 });
 

@@ -71,6 +71,12 @@
               <p>Расписание занятий</p>
             </a>
           </li>
+            <li class="nav-item">
+                <a href="{{ route('personal.cert.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-file-signature"></i>
+                    <p>Моя подпись</p>
+                </a>
+            </li>
         </ul>
       </div>
       <!-- /.sidebar -->

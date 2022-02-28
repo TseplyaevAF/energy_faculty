@@ -59,7 +59,7 @@
                   autocomplete="off" type="text" class="form-control" name="date[]" size="10" onClick="xCal(this)" onKeyUp="xCal()">
                 </div>
               </div>
-              
+
               <div class="form-group">
                 <div class="col">
                   <h6 class="text-muted">по </h6>

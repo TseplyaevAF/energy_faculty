@@ -23,6 +23,8 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     const ROLE_STUDENT = 2;
     const ROLE_TEACHER = 3;
     const ROLE_EMPLOYEE = 4;
+    const ROLE_CA = 5;
+
     const PATH = 'users';
 
     public function registerMediaCollections(): void
@@ -37,6 +39,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             self::ROLE_STUDENT => 'Студент',
             self::ROLE_TEACHER => 'Преподаватель',
             self::ROLE_EMPLOYEE => 'Сотрудник кафедры',
+            self::ROLE_CA => 'Сотрудник деканата'
         ];
     }
 

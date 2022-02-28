@@ -45,17 +45,19 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $roles = User::getRoles();
-        unset($roles[User::ROLE_ADMIN]);
-        return view('auth.login', compact('roles'));
+        return view('auth.login');
     }
 
     protected function redirectTo()
     {
-        if (auth()->user()->role_id == User::ROLE_EMPLOYEE) {
+        $role_id = auth()->user()->role_id;
+        if (($role_id == User::ROLE_EMPLOYEE) ||
+            ($role_id == User::ROLE_CA)
+        ) {
             return url('employee');
         }
-        if ((auth()->user()->role_id == User::ROLE_STUDENT) ||
-            (auth()->user()->role_id == User::ROLE_TEACHER)
+        if (($role_id == User::ROLE_STUDENT) ||
+            ($role_id == User::ROLE_TEACHER)
         ) {
             return url('personal');
         }

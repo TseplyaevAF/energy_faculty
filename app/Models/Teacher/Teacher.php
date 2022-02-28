@@ -2,6 +2,7 @@
 
 namespace App\Models\Teacher;
 
+use App\Models\Chair;
 use App\Models\Discipline;
 use App\Models\Group\Group;
 use App\Models\Lesson;
@@ -18,6 +19,10 @@ class Teacher extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function chair() {
+        return $this->belongsTo(Chair::class);
     }
 
     public function lessons() {

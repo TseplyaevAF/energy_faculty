@@ -57,18 +57,8 @@
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
-              <div class="input-group w-25 mb-2">
-                <div class="custom-file">
-                  <!-- multiple -->
-                  <input type="file" class="custom-file-input" name="avatar" accept=".jpg,.jpeg,.png,.bmp,.svg">
-                  <label class="custom-file-label" for="exampleInputFile">Выберите аватар</label>
-                </div>
-              </div>
-              @error('avatar')
-              <p class="text-danger">{{ $message }}</p>
-              @enderror
 
-              <label for="exampleInputFile" class="mt-4">Контактные данные</label>
+              <label for="exampleInputFile" class="mt-2">Контактные данные</label>
               <div class="input-group w-25 mb-2">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-phone"></i></span>
@@ -88,7 +78,7 @@
               <p class="text-danger">{{ $message }}</p>
               @enderror
 
-              <label for="exampleInputFile" class="mt-4">Пароль</label>
+              <label for="exampleInputFile" class="mt-2">Пароль</label>
               <div class="form-group w-25">
                 <input value="{{ old('password') }}" type="password" class="form-control" name="password" placeholder="Пароль">
                 @error('password')

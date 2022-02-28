@@ -42,6 +42,11 @@ function checkSelect() {
             hide_block(studentData);
             hide_block(teacherData);
             break;
+        case '5':
+            hide_block(studentData);
+            hide_block(employeeData);
+            hide_block(teacherData);
+            break;
     }
 }
 
