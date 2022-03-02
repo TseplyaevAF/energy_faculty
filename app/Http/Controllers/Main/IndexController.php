@@ -15,9 +15,9 @@ class IndexController extends Controller
 //        //Создает сертификат
 //        $keys = self::getCACert();
 //        openssl_x509_verify($keys['cert'], $keys['public']);
-//        file_put_contents('private_key3.pem', $keys['private']);
-//        file_put_contents('public_key3.pem', $keys['public']);
-//        file_put_contents('cert3.dat', $keys['cert']);
+//        file_put_contents('private_key.pem', $keys['private']);
+//        file_put_contents('public_key.pem', $keys['public']);
+//        file_put_contents('cert.crt', $keys['cert']);
 
 //        //Ставим подпись для данных $data
 //        $private  = file_get_contents('private_key.pem');
@@ -30,13 +30,13 @@ class IndexController extends Controller
 //        $r = openssl_verify($data, $signature, $public_key_pem, "sha256WithRSAEncryption");
 //        dd($r);
 
-        // Проверяем подлинность сертификата
-        $cert = file_get_contents('cert.dat');
-        $public_key = openssl_pkey_get_public($cert);
-        $public_key_details = openssl_pkey_get_details($public_key);
-        $public_key_string = $public_key_details['key'];
-        $r2 = openssl_x509_parse($cert);
-        dd($r2);
+//        // Проверяем подлинность сертификата
+//        $cert = file_get_contents('cert.crt');
+//        $public_key = openssl_pkey_get_public($cert);
+//        $public_key_details = openssl_pkey_get_details($public_key);
+//        $public_key_string = $public_key_details['key'];
+//        $r2 = openssl_x509_parse($cert);
+//        dd($r2);
         return view('main.index');
     }
 
@@ -49,9 +49,14 @@ class IndexController extends Controller
         $res = openssl_pkey_new($config);
         openssl_pkey_export($res, $private);
         $arr = array(
-            "organizationName" => "УЦ ЭФ",
-            "emailAddress" => "energo_zabgu@mail.ru",
-            "countryName" => "RU"
+            "organizationName" => "ЗабГУ, Энергетический факультет",
+            "commonName" => "Машкин Владимир Анатольвеич",
+            "organizationalUnitName" => "Кафедра ИВТиПМ",
+            "businessCategory" => "доцент",
+            "UID" => 1,
+            "countryName" => "RU",
+            "emailAddress" => 'mashkin@mail.ru',
+            "serialNumber" => '432423'
         );
         $csr = openssl_csr_new($arr, $private);
         $cert = openssl_csr_sign($csr, null, $private, $days = 365);

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Lesson;
 use App\Models\Student\Headman;
 use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
@@ -41,13 +42,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role_id == User::ROLE_TEACHER ? Response::allow() : Response::deny();
         });
 
-        Gate::define('download-task', function (User $user, $mediaId) {
+        Gate::define('download-task', function (User $user, $taskId, $mediaId) {
             // Если файл пытается скачать преподаватель
             if ($user->role_id == User::ROLE_TEACHER) {
-                $teacher = $user->teacher;
-                $media = $teacher->getMedia(Task::PATH)->where('id', $mediaId)->first();
+                $task = Task::find($taskId);
                 // Файл разрешено скачивать только его владельцу
-                return isset($media) ? Response::allow() : Response::deny();
+                return $task->lesson->teacher_id == $user->teacher->id ? Response::allow() : Response::deny();
             }
             // Если файл пытается скачать студент
             if ($user->role_id == User::ROLE_STUDENT) {
@@ -63,7 +63,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('show-task', function (User $user, $task) {
             return $user->role_id == User::ROLE_TEACHER &&
-                $task->teacher_id == $user->teacher->id ?
+                $task->lesson->teacher_id == $user->teacher->id ?
                 Response::allow() : Response::deny();
         });
 

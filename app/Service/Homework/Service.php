@@ -13,10 +13,11 @@ class Service
     {
         try {
             DB::beginTransaction();
-            $media = $student->addMedia($data['homework'])->toMediaCollection(Homework::PATH);
-            $data['homework'] = $media->getUrl();
-            $data['student_id'] = $student->id;
-            Homework::firstOrCreate($data);
+            $homework = Homework::create([
+                'task_id' => $data['task_id'],
+                'student_id' => $student->id
+            ]);
+            $homework->addMedia($data['homework'])->toMediaCollection(Homework::PATH);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

@@ -15,7 +15,7 @@ class PrivateUrlGenerator extends BaseUrlGenerator
     {
         $media = $this->media;
         $name = [];
-        $name[] = $media->id;
+        $name[] = $media->name;
 
         // если запрошено преобразование, его название будет в $this->conversion
         if ($this->conversion) {

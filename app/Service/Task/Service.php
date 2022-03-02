@@ -13,11 +13,14 @@ class Service
     {
         try {
             DB::beginTransaction();
-            $task = Task::Create([
+            $task = Task::create([
                 'lesson_id' => $data['lesson_id'],
                 'task' => 'path'
             ]);
             $task->addMedia($data['task'])->toMediaCollection(Task::PATH);
+            $task->update([
+                'task' => $task->getMedia(Task::PATH)->first()->getUrl()
+            ]);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

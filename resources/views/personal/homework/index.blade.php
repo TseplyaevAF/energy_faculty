@@ -92,7 +92,7 @@
                       <td>
                         @include('personal.includes.homework.task_file')
                       </td>
-                      <td><a href="#">{{ $task->discipline->title }}</a></td>
+                      <td><a href="#">{{ $task->lesson->discipline->title }}</a></td>
                       @php
                         $isWork = false;
                       @endphp
@@ -132,7 +132,6 @@
                           <td>-</td>
                         @endif
                       @endif
-
                     </tr>
                     @endforeach
                   </tbody>

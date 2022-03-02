@@ -29,9 +29,10 @@ class TaskController extends Controller
         Gate::authorize('index-task');
         $teacher = auth()->user()->teacher;
         $disciplines = $teacher->disciplines->unique('id');
+        $tasks = [];
         foreach ($teacher->lessons as $lesson) {
             foreach ($lesson->tasks as $task) {
-                $tasks [] = $task;
+                $tasks[] = $task;
             }
         }
         $groups = $teacher->groups->unique('id');
@@ -67,10 +68,10 @@ class TaskController extends Controller
         return redirect()->route('personal.task.index');
     }
 
-    public function download($teacherId, $mediaId, $filename) {
-        Gate::authorize('download-task', [$mediaId]);
-        $teacher = Teacher::find($teacherId);
-        $media = $teacher->getMedia(Task::PATH)->where('id', $mediaId)->first();
+    public function download($taskId, $mediaId, $filename) {
+        Gate::authorize('download-task', [$taskId, $mediaId]);
+        $task = Task::find($taskId);
+        $media = $task->getMedia(Task::PATH)->where('id', $mediaId)->first();
         // сервим файл из медиа-модели
         return isset($media) ? response()->file($media->getPath(), [
             'Cache-Control' => 'no-cache, no-cache, must-revalidate',
@@ -80,7 +81,8 @@ class TaskController extends Controller
     public function show(Task $task) {
         Gate::authorize('show-task', [$task]);
         $homework = Homework::all()->where('task_id', $task->id);
-        return view('personal.task.show', compact('task','homework'));
+        $taskUrl = $task->getMedia(Task::PATH)->first()->getUrl();
+        return view('personal.task.show', compact('task', 'taskUrl', 'homework'));
     }
 
     public function complete(Task $task) {

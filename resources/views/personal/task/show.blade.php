@@ -1,6 +1,6 @@
   @extends('personal.layouts.main')
 
-  @section('title-block')Задание для группы {{ $task->group->title }}@endsection
+  @section('title-block')Задание для группы {{ $task->lesson->group->title }}@endsection
 
   @section('content')
   <link rel="stylesheet" href="{{ asset('css/groups/news/style.css') }}">
@@ -12,12 +12,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Задание для группы {{ $task->group->title }}</h1>
+            <h1 class="m-0">Задание для группы {{ $task->lesson->group->title }}</h1>
             <div class="task-file mt-2">
               <p>
-                <a href="{{ route('personal.task.download', [explode('/', $task->task)[0], explode('/', $task->task)[2], explode('/', $task->task)[3]]) }}">
+                  Файл с заданием:
+                <a href="{{ route('personal.task.download', [explode('/', $taskUrl)[0], explode('/', $taskUrl)[2], explode('/', $taskUrl)[3]]) }}">
                   <i class="fas fa-file-word"></i>
-                  {{ explode('/', $task->task)[3] }}
+                  {{ explode('/', $taskUrl)[3] }}
                 </a>
               </p>
             </div>
@@ -93,7 +94,7 @@
                   </div>
                   <div class="modal-body">
                     <div class="form-group col-6">
-                      <h5>Для студента: 
+                      <h5>Для студента:
                         {{ $work->student->user->surname }}
                         {{ mb_substr($work->student->user->name, 0, 1) }}.
                         {{ mb_substr($work->student->user->patronymic, 0, 1)}}.
@@ -132,7 +133,7 @@
                   </div>
                   <div class="modal-body">
                     <div class="form-group col-6">
-                      <h5>Для студента: 
+                      <h5>Для студента:
                         {{ $work->student->user->surname }}
                         {{ mb_substr($work->student->user->name, 0, 1) }}.
                         {{ mb_substr($work->student->user->patronymic, 0, 1)}}.

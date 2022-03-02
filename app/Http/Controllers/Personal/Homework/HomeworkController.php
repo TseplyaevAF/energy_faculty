@@ -28,19 +28,16 @@ class HomeworkController extends Controller
     public function index(FilterRequest $request)
     {
         Gate::authorize('index-homework');
+        $group = auth()->user()->student->group;
         $statusVariants = Task::getStatusVariants();
-        $student = auth()->user()->student;
-        $homework = Homework::all()->where('student_id', $student->id);
-        $tasks = Task::all()->where('group_id', $student->group_id);
-        $disciplinesIds = DB::table('schedules')
-            ->select('discipline_id')
-            ->groupBy('discipline_id')
-            ->where('group_id', $student->group_id)
-            ->get();
-        $disciplines = [];
-        foreach ($disciplinesIds as $disciplineId) {
-            $disciplines[] = Discipline::find($disciplineId->discipline_id);
+        $disciplines = $group->disciplines->unique('id');
+        $tasks = [];
+        foreach ($group->lessons as $lesson) {
+            foreach ($lesson->tasks as $task) {
+                $tasks[] = $task;
+            }
         }
+        $homework = Homework::all()->where('student_id', auth()->user()->student->id);
         return view('personal.homework.index', compact('tasks', 'homework', 'disciplines', 'statusVariants'));
     }
 

@@ -16,7 +16,7 @@ class Service
         try {
             DB::beginTransaction();
             $certApp = CertApp::find($data['certAppId']);
-            $ca_cert = Storage::disk('public')->get('ca/cert.dat');
+            $ca_cert = Storage::disk('public')->get('ca/ca.crt');
             $file = $data['private_key']->openFile();
             $private_key = $file->fread($file->getSize());
 
@@ -83,8 +83,10 @@ class Service
     static private function createUserCert($serialNumber, $teacher, $private, $ca_cert)
     {
         $arr = array(
-            "organizationName" => "Энергетический факультет, кафедра: " . $teacher->chair->title,
+            "organizationName" => "ЗабГУ, Энергетический факультет",
+            "organizationalUnitName" => $teacher->chair->title,
             "commonName" => $teacher->user->surname . ' ' . $teacher->user->name . ' ' . $teacher->user->patronymic,
+            "businessCategory" => "должность",
             "UID" => $teacher->id,
             "countryName" => "RU",
             "emailAddress" => $teacher->user->email,

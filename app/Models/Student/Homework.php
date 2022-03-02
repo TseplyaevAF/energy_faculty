@@ -6,12 +6,14 @@ use App\Models\Teacher\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Homework extends Model
+class Homework extends Model implements HasMedia
 {
     protected $guarded = false;
-    
-    use HasFactory, SoftDeletes;
+
+    use HasFactory, SoftDeletes, HasMediaTrait;
 
     const PATH = 'homework';
 
