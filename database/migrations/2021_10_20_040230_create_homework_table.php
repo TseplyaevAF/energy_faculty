@@ -15,6 +15,7 @@ class CreateHomeworkTable extends Migration
     {
         Schema::create('homework', function (Blueprint $table) {
             $table->id();
+            $table->string('homework');
             $table->string('grade')->default('on check');
             $table->unsignedBigInteger('task_id');
             $table->unsignedBigInteger('student_id');
