@@ -57,10 +57,10 @@ class HomeworkController extends Controller
         return redirect()->route('personal.homework.index');
     }
 
-    public function download($studentId, $mediaId, $filename) {
-        Gate::authorize('download-homework', [$mediaId]);
-        $student = Student::find($studentId);
-        $media = $student->getMedia(Homework::PATH)->where('id', $mediaId)->first();
+    public function download($homeworkId, $mediaId, $filename) {
+        $homework = Homework::find($homeworkId);
+        Gate::authorize('download-homework', [$homework]);
+        $media = $homework->getMedia(Homework::PATH)->where('id', $mediaId)->first();
         // сервим файл из медиа-модели
         return isset($media) ? response()->file($media->getPath(), [
             'Cache-Control' => 'no-cache, no-cache, must-revalidate',

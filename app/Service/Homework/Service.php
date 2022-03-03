@@ -15,9 +15,13 @@ class Service
             DB::beginTransaction();
             $homework = Homework::create([
                 'task_id' => $data['task_id'],
-                'student_id' => $student->id
+                'student_id' => $student->id,
+                'homework' => 'path'
             ]);
             $homework->addMedia($data['homework'])->toMediaCollection(Homework::PATH);
+            $homework->update([
+                'homework' => $homework->getMedia(Homework::PATH)->first()->getUrl()
+            ]);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

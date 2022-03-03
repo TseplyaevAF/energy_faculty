@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\User\PasswordMail;
 use App\Models\Group\Group;
 use App\Models\Student\StudentApplication;
 use App\Providers\RouteServiceProvider;
@@ -10,6 +11,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -84,16 +86,17 @@ class RegisterController extends Controller
                 'surname' => $data['surname'],
                 'patronymic' => $data['patronymic'],
                 'email' => $data['email'],
-                'password' => Hash::make('123456789'),
+                'email_verified_at' => now(),
+                'password' => Hash::make('123'),
                 'role_id' => User::ROLE_STUDENT,
             ]);
 
-            StudentApplication::create([
-                'student_id_number' => $data['student_id_number'],
-                'user_id' => $user->id,
-                'group_id' => $data['group_id'],
-            ]);
-            
+//            StudentApplication::create([
+//                'student_id_number' => $data['student_id_number'],
+//                'user_id' => $user->id,
+//                'group_id' => $data['group_id'],
+//            ]);
+
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

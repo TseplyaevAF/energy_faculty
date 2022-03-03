@@ -69,8 +69,8 @@ class TaskController extends Controller
     }
 
     public function download($taskId, $mediaId, $filename) {
-        Gate::authorize('download-task', [$taskId, $mediaId]);
         $task = Task::find($taskId);
+        Gate::authorize('download-task', [$task]);
         $media = $task->getMedia(Task::PATH)->where('id', $mediaId)->first();
         // сервим файл из медиа-модели
         return isset($media) ? response()->file($media->getPath(), [

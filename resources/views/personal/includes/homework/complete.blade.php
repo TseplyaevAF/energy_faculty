@@ -23,11 +23,11 @@
                         {!! $work->grade !!}
                     </div>
                     <div class="form-group text-right">
-                        <i> 
-                            Преподаватель: 
-                            {{ $work->task->teacher->user->surname }}
-                            {{ mb_substr($work->task->teacher->user->name, 0, 1) }}.
-                            {{ mb_substr($work->task->teacher->user->patronymic, 0, 1)}}.
+                        <i>
+                            Преподаватель:
+                            {{ $work->task->lesson->teacher->user->surname }}
+                            {{ mb_substr($work->task->lesson->teacher->user->name, 0, 1) }}.
+                            {{ mb_substr($work->task->lesson->teacher->user->patronymic, 0, 1)}}.
                         </i>
                     </div>
                 </div>

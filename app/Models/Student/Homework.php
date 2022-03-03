@@ -21,10 +21,6 @@ class Homework extends Model implements HasMedia
         return $this->belongsTo(Student::class);
     }
 
-    public function getHomework($taskId) {
-        return Homework::where('task_id', $taskId)->get();
-    }
-
     public function task() {
         return $this->belongsTo(Task::class);
     }
