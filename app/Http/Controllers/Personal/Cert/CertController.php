@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Personal\Cert;
 
 use App\Http\Controllers\Controller;
-use App\Models\CertApp;
-use App\Models\Certificate;
+use App\Models\Cert\CertApp;
+use App\Models\Cert\Certificate;
 use App\Service\Personal\Schedule\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;

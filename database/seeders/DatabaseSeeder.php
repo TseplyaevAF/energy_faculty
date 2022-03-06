@@ -3,15 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Chair;
-use App\Models\ClassTime;
 use App\Models\Discipline;
 use App\Models\Group\Group;
 use App\Models\Role;
-use App\Models\Student\Student;
-use App\Models\User;
+use App\Models\Schedule\ClassTime;
+use App\Models\Speciality;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +17,6 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      *
      * @return void
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function run()
     {

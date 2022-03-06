@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CertAuthorityMiddleware;
+use App\Http\Middleware\DekanatMiddleware;
 use App\Http\Middleware\EmployeeMiddleware;
 use App\Http\Middleware\PersonalMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -69,5 +70,6 @@ class Kernel extends HttpKernel
         'employee' => EmployeeMiddleware::class,
         'ca' => CertAuthorityMiddleware::class,
         'personal' => PersonalMiddleware::class,
+        'dekanat' => DekanatMiddleware::class,
     ];
 }

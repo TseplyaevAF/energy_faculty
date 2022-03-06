@@ -11,6 +11,7 @@ use App\Models\Group\Group;
 use App\Models\Lesson;
 use App\Models\Student\Student;
 use App\Models\Teacher\Teacher;
+use App\Models\Year;
 use App\Service\Lesson\Service;
 use Illuminate\Support\Facades\DB;
 
@@ -35,7 +36,8 @@ class LessonController extends Controller
             'groups' => Group::all(),
             'disciplines' => Discipline::all(),
             'teachers' => Teacher::all(),
-            'semesters' => range(1, 8)
+            'semesters' => range(1, 8),
+            'years' => Year::all()
         ];
         return view('admin.lesson.create', compact( 'data'));
     }

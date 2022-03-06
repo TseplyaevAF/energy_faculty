@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\User\Teacher;
+namespace App\Http\Requests\Dekanat;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,11 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'post' => 'required|string',
-            'rank' => 'nullable|string',
-            'chair_id' => 'required|integer|exists:chairs,id'
+            'form_exam' => 'required|integer',
+            'lesson_id' => 'required|integer|exists:lessons,id',
+            'exam_date' => 'nullable|string',
+            'finish_date' => 'nullable|string',
+            'private_key' => 'required|file'
         ];
     }
 }

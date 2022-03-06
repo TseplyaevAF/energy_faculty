@@ -18,6 +18,7 @@ class CreateGroupsTable extends Migration
             $table->string('title')->unique();
             $table->unsignedSmallInteger('course');
             $table->unsignedSmallInteger('semester');
+            $table->unsignedBigInteger('headman')->nullable();
             $table->timestamps();
 
             $table->softDeletes();

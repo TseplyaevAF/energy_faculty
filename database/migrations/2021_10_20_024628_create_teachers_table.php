@@ -16,9 +16,7 @@ class CreateTeachersTable extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
             $table->string('post');
-            $table->text('activity')->nullable();
-            $table->unsignedSmallInteger('work_experience')->nullable();
-            $table->text('address')->nullable();
+            $table->text('rank')->nullable();
             $table->unsignedBigInteger('user_id')->nullable()->unique();
             $table->timestamps();
 

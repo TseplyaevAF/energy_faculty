@@ -17,7 +17,8 @@ class Service
             $teacher = Teacher::find($data['teacher_id']);
             $teacher->disciplines()->attach($data['disciplines_ids'], [
                 'group_id' => $data['group_id'],
-                'semester' => $data['semester']
+                'semester' => $data['semester'],
+                'year_id' => $data['year_id']
             ]);
             DB::commit();
         } catch (Exception $exception) {

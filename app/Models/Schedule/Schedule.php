@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Schedule;
 
 use App\Models\Group\Group;
 use App\Models\Teacher\Teacher;

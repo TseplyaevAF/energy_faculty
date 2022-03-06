@@ -24,6 +24,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     const ROLE_TEACHER = 3;
     const ROLE_EMPLOYEE = 4;
     const ROLE_CA = 5;
+    const ROLE_DEKANAT = 6;
 
     const PATH = 'users';
 
@@ -39,7 +40,8 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             self::ROLE_STUDENT => 'Студент',
             self::ROLE_TEACHER => 'Преподаватель',
             self::ROLE_EMPLOYEE => 'Сотрудник кафедры',
-            self::ROLE_CA => 'Сотрудник деканата'
+            self::ROLE_CA => 'Сотрудник УЦ',
+            self::ROLE_DEKANAT => 'Сотрудник деканата'
         ];
     }
 

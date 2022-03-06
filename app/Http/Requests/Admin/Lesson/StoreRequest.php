@@ -29,7 +29,8 @@ class StoreRequest extends FormRequest
             'teacher_id' => 'integer|exists:teachers,id',
             'disciplines_ids' => 'required|array',
             'disciplines_ids.*' => 'integer|exists:disciplines,id',
-            'group_id' => 'integer|exists:groups,id'
+            'group_id' => 'integer|exists:groups,id',
+            'year_id' => 'integer|exists:years,id'
         ];
     }
 

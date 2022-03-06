@@ -25,9 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'post' => 'required|string',
-            'activity' => 'nullable|string',
-            'work_experience' => 'nullable|integer',
-            'address' => 'nullable|string',
+            'rank' => 'nullable|string',
             'chair_id' => 'required|integer|exists:chairs,id'
         ];
     }

@@ -44,6 +44,27 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Выберите год обучения</label>
+                    <select name="year_id" class="form-control">
+                        @foreach($data['years'] as $year)
+                            <option value="{{ $year->id }}" {{$year == old('year_id') ? 'selected' : ''}}>
+                                {{ $year->start_year }}-{{ $year->end_year }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Выберите группу</label>
+                    <select name="group_id" class="form-control">
+                        @foreach($data['groups'] as $group)
+                            <option
+                                value="{{$group->id }}" {{$group->id == old('group_id') ? 'selected' : ''}}>{{ $group->title }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label>Выберите преподавателя</label>
                     <select name="teacher_id" class="form-control">
                         @foreach($data['teachers'] as $teacher)
@@ -65,16 +86,6 @@
                     @error('disciplines_ids')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>Выберите группу</label>
-                    <select name="group_id" class="form-control">
-                        @foreach($data['groups'] as $group)
-                            <option
-                                value="{{$group->id }}" {{$group->id == old('group_id') ? 'selected' : ''}}>{{ $group->title }}</option>
-                        @endforeach
-                    </select>
                 </div>
 
               <input type="submit" class="btn btn-primary" value="Добавить">

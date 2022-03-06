@@ -38,7 +38,7 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>Семестр</th>
+                      <th>Год обучения</th>
                       <th>Группа</th>
                       <th>Дисциплина</th>
                       <th>Преподаватель</th>
@@ -48,7 +48,7 @@
                   <tbody>
                     @foreach ($lessons as $lesson)
                     <tr>
-                        <td>{{ $lesson->semester }}</td>
+                        <td>{{ $lesson->year->start_year }}-{{ $lesson->year->end_year }}</td>
                         <td>{{ $lesson->group->title  }}</td>
                         <td>{{ $lesson->discipline->title }}</td>
                         <td>{{ $lesson->teacher->user->surname }}</td>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Group\Group;
+use App\Models\Statement\Statement;
 use App\Models\Teacher\Task;
 use App\Models\Teacher\Teacher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +25,14 @@ class Lesson extends Model
 
     public function teacher() {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function year() {
+        return $this->belongsTo(Year::class);
+    }
+
+    public function statement() {
+        return $this->hasOne(Statement::class);
     }
 
     public function tasks() {

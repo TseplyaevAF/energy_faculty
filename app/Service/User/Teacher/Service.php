@@ -14,22 +14,16 @@ class Service
             DB::beginTransaction();
             $array = [
                 'post' => $data['post'],
-                'activity' => $data['activity'],
-                'work_experience' => $data['work_experience'],
-                'address' => $data['address'],
+                'rank' => $data['rank'],
                 'chair_id' => $data['chair_id'],
                 'user_id' => $data['user_id'],
             ];
-            $teacher = Teacher::firstOrCreate($array);
-            if (isset($data['disciplines_ids'])) {
-                $teacher->disciplines()->attach($data['disciplines_ids']);
-            }
+            Teacher::firstOrCreate($array);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
             abort(500);
         }
-        return $teacher;
     }
 
     public function update($data, $teacher)

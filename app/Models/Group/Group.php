@@ -6,6 +6,7 @@ use App\Models\Chair;
 use App\Models\Discipline;
 use App\Models\Lesson;
 use App\Models\Student\Headman;
+use App\Models\Student\Student;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,6 +20,10 @@ class Group extends Model
 
     public function headman() {
         return $this->hasOne(Headman::class);
+    }
+
+    public function students() {
+        return $this->hasMany(Student::class);
     }
 
     public function chair() {

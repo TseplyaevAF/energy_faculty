@@ -6,25 +6,21 @@ use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 
-class PersonalMiddleware
+class DekanatMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
         $role_id = auth()->user()->role_id;
-        if (($role_id == User::ROLE_EMPLOYEE) ||
-            ($role_id == User::ROLE_ADMIN) ||
-            ($role_id == User::ROLE_CA) ||
-            ($role_id == User::ROLE_DEKANAT)
-        ) {
-            abort(404);
+        if ($role_id == User::ROLE_DEKANAT) {
+            return $next($request);
         }
-        return $next($request);
+        abort(404);
     }
 }

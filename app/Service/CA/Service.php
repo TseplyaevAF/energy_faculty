@@ -4,8 +4,8 @@
 namespace App\Service\CA;
 
 use App\Mail\User\PasswordMail;
-use App\Models\CertApp;
-use App\Models\Certificate;
+use App\Models\Cert\CertApp;
+use App\Models\Cert\Certificate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +26,7 @@ class Service
             // генерируем пару ключей - открытый/закрытый, которые будут принадлежать преподавателю
             $newPair = self::createNewPair();
 
-            $certPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/cert.dat';
+            $certPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/cert.crt';
             $publicKeyPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/public_key.pem';
 
             Certificate::create([
@@ -78,7 +78,7 @@ class Service
                 'public' => $public_key_pem,
                 'private' => $private_key_pem
             ];
-}
+    }
 
     static private function createUserCert($serialNumber, $teacher, $private, $ca_cert)
     {

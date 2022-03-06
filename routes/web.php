@@ -126,6 +126,19 @@ Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => 
     });
 });
 
+Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => ['auth', 'dekanat', 'verified']], function () {
+    Route::group(['namespace' => 'Main'], function () {
+        Route::get('/', 'IndexController');
+    });
+    Route::group(['namespace' => 'Statement', 'prefix' => 'statements'], function () {
+        Route::get('/', 'StatementController@index')->name('dekanat.statement.index');
+        Route::get('/getYears/{id}', 'StatementController@getYears');
+        Route::get('/create/{group}', 'StatementController@create')->name('dekanat.statement.create');
+        Route::get('/create/getDisciplines/{groupId}/{yearId}', 'StatementController@getDisciplines');
+        Route::post('/', 'StatementController@store')->name('dekanat.statement.store');
+    });
+});
+
 Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'verified']], function () {
     Route::group(['namespace' => 'Settings', 'prefix' => 'settings'], function () {
         Route::get('/{modelId}/{mediaId}/{filename}', 'SettingsController@showImage')->name('personal.settings.showImage');

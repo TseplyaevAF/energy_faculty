@@ -4,7 +4,7 @@ namespace App\Http\Controllers\CertAuthority\CertApp;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CA\StoreRequest;
-use App\Models\CertApp;
+use App\Models\Cert\CertApp;
 use Illuminate\Support\Facades\DB;
 use App\Service\CA\Service;
 
