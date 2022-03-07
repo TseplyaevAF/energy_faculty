@@ -31,9 +31,11 @@ class CertAppController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-
-        $this->service->accept($data);
-
+        try {
+            $this->service->accept($data);
+        }catch (\Exception $exception) {
+            return redirect()->back()->withError($exception->getMessage())->withInput();
+        }
         return redirect()->route('ca.cert_app.index');
     }
 }

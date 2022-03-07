@@ -7,8 +7,8 @@ use App\Http\Filters\NewsFilter;
 use App\Http\Requests\Employee\News\StoreRequest;
 use App\Http\Requests\Employee\News\UpdateRequest;
 use App\Http\Requests\News\FilterRequest;
-use App\Models\Category;
-use App\Models\News;
+use App\Models\News\Category;
+use App\Models\News\News;
 use App\Service\News\Service;
 use Illuminate\Support\Facades\DB;
 
@@ -60,7 +60,7 @@ class NewsController extends Controller
     {
         $data = $request->validated();
 
-        $news = $this->service->update($data, $news);
+        $this->service->update($data, $news);
 
         return redirect()->back()->withSuccess('Запись успешно отредактирована');
     }

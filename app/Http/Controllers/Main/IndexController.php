@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Service\CA\CentreAuthority;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,6 +13,9 @@ class IndexController extends Controller
     public function __invoke()
     {
         $data = 'my data';
+        $ca = new CentreAuthority();
+
+        $ca::getNewPair();
 //        $ca_cert = Storage::disk('public')->get('ca/ca.crt');
 //        $private_key = file_get_contents('ca.key');
 //        //Создает сертификат

@@ -24,6 +24,9 @@
 
         <section class="content">
             <div class="container-fluid">
+                @if (session('error'))
+                    <div class="col-3 alert alert-warning" role="alert">{!! session('error') !!}</div>
+                @endif
                 <div class="row w-50">
                     <div class="col-12">
                         <form action="{{ route('dekanat.statement.store') }}" method="POST" enctype="multipart/form-data">
@@ -46,7 +49,7 @@
                             <div class="form-group col-md-6">
                                 <h6>Форма контроля</h6>
                                 <select class="form-control formselect required" placeholder="Select Sub Category"
-                                        name="form_exam">
+                                        name="control_form">
                                     @foreach($controls as $key => $control)
                                         <option value="{{ $key }}">
                                             {{ $control }}</option>
@@ -56,7 +59,7 @@
                             <div class="form-group col-md-3">
                                 <h6>Дата проведения экзамена</h6>
                                 <input autocomplete="off" type="text" class="form-control"
-                                name="exam_date" size="10" onClick="xCal(this)" onKeyUp="xCal()">
+                                name="start_date" size="10" onClick="xCal(this)" onKeyUp="xCal()">
                             </div>
                             <div class="form-group col-md-3">
                                 <h6>Дата сдачи ведомости</h6>
@@ -67,7 +70,7 @@
                             <div class="input-group mb-2 w-50">
                                 <div class="custom-file">
                                     <!-- multiple -->
-                                    <input type="file" class="custom-file-input" name="private_key" accept=".pem">
+                                    <input type="file" class="custom-file-input" name="private_key" accept=".key">
                                     <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                                 </div>
                             </div>

@@ -15,10 +15,11 @@ class CreateStatementsTable extends Migration
     {
         Schema::create('statements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedSmallInteger('form_exam');
+            $table->unsignedSmallInteger('control_form');
             $table->unsignedBigInteger('lesson_id');
-            $table->date('exam_date')->nullable();
+            $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();
+            $table->text('dekan_signature');
 
             // IDX
             $table->index('lesson_id', 'statement_lesson_idx');

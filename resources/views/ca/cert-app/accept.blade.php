@@ -25,11 +25,9 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-
                 @if (session('error'))
                     <div class="col-3 alert alert-warning" role="alert">{!! session('error') !!}</div>
                 @endif
-
                 <div class="row">
                     <div class="col-12">
                         <form action="{{ route('ca.cert_app.store') }}" method="POST" enctype="multipart/form-data">
@@ -147,7 +145,7 @@
                                 <div class="input-group mb-2 w-25">
                                     <div class="custom-file">
                                         <!-- multiple -->
-                                        <input type="file" class="custom-file-input" name="private_key" accept=".pem">
+                                        <input type="file" class="custom-file-input" name="private_key" accept=".key">
                                         <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                                     </div>
                                 </div>

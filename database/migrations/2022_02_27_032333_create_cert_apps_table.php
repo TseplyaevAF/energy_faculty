@@ -15,16 +15,15 @@ class CreateCertAppsTable extends Migration
     {
         Schema::create('cert_apps', function (Blueprint $table) {
             $table->id();
-
             $table->unsignedBigInteger('teacher_id');
+            $table->text('public_key');
+            $table->timestamps();
 
             // IDX
             $table->index('teacher_id', 'cert_app_teacher_idx');
 
             // FK
             $table->foreign('teacher_id', 'cert_app_teacher_fk')->on('teachers')->references('id');
-
-            $table->timestamps();
         });
     }
 

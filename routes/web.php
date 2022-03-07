@@ -192,6 +192,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/create', 'CertController@create')->name('personal.cert.create');
         Route::post('/store', 'CertController@store')->name('personal.cert.store');
         Route::get('/', 'CertController@index')->name('personal.cert.index');
+        Route::get('/downloadFile/{filename}', 'CertController@downloadFile');
     });
 });
 

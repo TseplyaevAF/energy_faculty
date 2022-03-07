@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Cert\CertApp;
 use App\Models\Lesson;
 use App\Models\Student\Headman;
 use App\Models\Student\Homework;
@@ -107,6 +108,13 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('edit-group-news', function (User $user, $post) {
             return $user->student->group_id ==  $post->group_id? Response::allow() : Response::deny();
+        });
+
+
+        /// CERT APP
+        Gate::define('create-cert-app', function ($teacher) {
+            $teacher = CertApp::where('teacher_id', $teacher->id)->first();
+            return !isset($teacher) ? Response::allow() : Response::deny();
         });
     }
 }

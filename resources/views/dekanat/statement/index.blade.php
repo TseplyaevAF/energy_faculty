@@ -23,6 +23,9 @@
 
         <section class="content">
             <div class="container-fluid">
+                @if (session('success'))
+                    <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
+                @endif
                     <div class="row w-25">
                         <div class="form-group col-md-6">
                             <h6>Группы<span class="gcolor"></span></h6>
@@ -140,7 +143,7 @@
                         {data: 'year', name: 'year'},
                         {data: 'semester', name: 'semester'},
                         {data: 'discipline.title', name: 'discipline.title'},
-                        {data: 'form_exam', name: 'form_exam'},
+                        {data: 'control_form', name: 'control_form'},
                         {
                             data: 'action',
                             name: 'action',

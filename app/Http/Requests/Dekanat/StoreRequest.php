@@ -24,9 +24,9 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'form_exam' => 'required|integer',
+            'control_form' => 'required|integer',
             'lesson_id' => 'required|integer|exists:lessons,id',
-            'exam_date' => 'nullable|string',
+            'start_date' => 'nullable|string',
             'finish_date' => 'nullable|string',
             'private_key' => 'required|file'
         ];

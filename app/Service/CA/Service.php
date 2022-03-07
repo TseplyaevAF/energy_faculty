@@ -3,31 +3,40 @@
 
 namespace App\Service\CA;
 
-use App\Mail\User\PasswordMail;
 use App\Models\Cert\CertApp;
 use App\Models\Cert\Certificate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Service\CA\CentreAuthority;
 
 class Service
 {
     public function accept($data) {
+        $certApp = CertApp::find($data['certAppId']);
+        $file = $data['private_key']->openFile();
+        $private_key = $file->fread($file->getSize());
+
+        $centreAuth = new CentreAuthority();
+
+        // проверка, относится ли секретный ключ к корневому сертификату
+        if (!$centreAuth->checkCaCert($private_key)) {
+            throw new \Exception('Секретный ключ не соответствует корневому сертификату!');
+        }
+
+        // проверка на срок действия сертификата
+        if (!$centreAuth->checkDateValidCaCert($centreAuth->getCaCert())) {
+            throw new \Exception('Действие корневого сертификата окончено! Необходимо его перевыпустить.');
+        }
+
         try {
             DB::beginTransaction();
-            $certApp = CertApp::find($data['certAppId']);
-            $ca_cert = Storage::disk('public')->get('ca/ca.crt');
-            $file = $data['private_key']->openFile();
-            $private_key = $file->fread($file->getSize());
 
             // выдаем сертификат преподавателю
-            $teacherCert = self::createUserCert($certApp->id, $certApp->teacher, $private_key, $ca_cert);
-
-            // генерируем пару ключей - открытый/закрытый, которые будут принадлежать преподавателю
-            $newPair = self::createNewPair();
+            $teacherCert = $centreAuth->getTeacherCert($certApp->id, $certApp->teacher, $private_key, 60);
 
             $certPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/cert.crt';
-            $publicKeyPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/public_key.pem';
+            $publicKeyPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/public_key.key';
 
             Certificate::create([
                 'cert_path' => json_encode($certPath),
@@ -36,26 +45,18 @@ class Service
             ]);
 
             Storage::disk('public')->put($certPath, $teacherCert['cert']);
-            Storage::disk('public')->put($publicKeyPath, $newPair['public']);
+            Storage::disk('public')->put($publicKeyPath, $certApp->public_key);
 
-            $filename =  'private_key.pem';
-            $file = fopen('php://temp', 'w+');
-            fwrite($file, $newPair['private']);
-            rewind($file);
-
-            $teacherData["email"] = $certApp->teacher->user->email;
-            $teacherData["title"] = "Здравствуйте!";
-            $teacherData["body"] = "Это закрытый ключ Вашей электронной подписи.\n
-                            Пожалуйста, никому не передавайте данный файл!";
-
-            Mail::send('mail.teacher.signature', $teacherData, function($message) use($teacherData, $file, $filename)
-            {
-                $message->to($teacherData["email"])
-                    ->subject($teacherData["title"]);
-                $message->attachData(stream_get_contents($file), $filename);
-            });
-
-            fclose($file);
+//            $teacherData["email"] = $certApp->teacher->user->email;
+//            $teacherData["title"] = "Здравствуйте!";
+//            $teacherData["body"] = "Это сертификат, подтверждающий Вашу электронную подпись";
+//
+//            Mail::send('mail.teacher.signature', $teacherData, function($message) use($teacherData, $file, $filename)
+//            {
+//                $message->to($teacherData["email"])
+//                    ->subject($teacherData["title"]);
+//                $message->attachData(stream_get_contents($file), $filename);
+//            });
 
             $certApp->delete();
 
@@ -64,37 +65,5 @@ class Service
             DB::rollBack();
             abort(500);
         }
-    }
-
-    static private function createNewPair() {
-            $new_key_pair = openssl_pkey_new(array(
-                "private_key_bits" => 512,
-                "private_key_type" => OPENSSL_KEYTYPE_RSA,
-            ));
-            openssl_pkey_export($new_key_pair, $private_key_pem);
-            $details = openssl_pkey_get_details($new_key_pair);
-            $public_key_pem = $details['key'];
-            return [
-                'public' => $public_key_pem,
-                'private' => $private_key_pem
-            ];
-    }
-
-    static private function createUserCert($serialNumber, $teacher, $private, $ca_cert)
-    {
-        $arr = array(
-            "organizationName" => "ЗабГУ, Энергетический факультет",
-            "organizationalUnitName" => $teacher->chair->title,
-            "commonName" => $teacher->user->surname . ' ' . $teacher->user->name . ' ' . $teacher->user->patronymic,
-            "businessCategory" => "должность",
-            "UID" => $teacher->id,
-            "countryName" => "RU",
-            "emailAddress" => $teacher->user->email,
-            "serialNumber" => $serialNumber
-        );
-        $csr = openssl_csr_new($arr, $private);
-        $cert = openssl_csr_sign($csr, $ca_cert, $private, $days = 30);
-        openssl_x509_export($cert, $str_cert);
-        return array('cert' => $str_cert);
     }
 }

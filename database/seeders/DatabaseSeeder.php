@@ -7,7 +7,6 @@ use App\Models\Discipline;
 use App\Models\Group\Group;
 use App\Models\Role;
 use App\Models\Schedule\ClassTime;
-use App\Models\Speciality;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 

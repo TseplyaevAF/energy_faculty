@@ -3,7 +3,7 @@
 
 namespace App\Service\News;
 
-use App\Models\News;
+use App\Models\News\News;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 

@@ -65,7 +65,7 @@ class StatementController extends Controller
             $data[$statement->id]['year'] = $statement->lesson->year->start_year . '-' .
                 $statement->lesson->year->end_year;
             $data[$statement->id]['discipline'] = $statement->lesson->discipline;
-            $data[$statement->id]['form_exam'] = $controlForms[$statement->form_exam];
+            $data[$statement->id]['control_form'] = $controlForms[$statement->control_form];
             $data[$statement->id]['semester'] = $statement->lesson->semester;
         }
         return $data;
@@ -113,7 +113,11 @@ class StatementController extends Controller
 
     public function store(StoreRequest $request) {
         $data = $request->validated();
-
-        $this->service->store($data);
+        try {
+            $this->service->store($data);
+            return redirect()->route('dekanat.statement.index')->withSuccess('Ведомость была успешно добавлена!');
+        }catch (\Exception $exception) {
+            return redirect()->back()->withError($exception->getMessage())->withInput();
+        }
     }
 }
