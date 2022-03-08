@@ -45,14 +45,16 @@ class GroupController extends Controller
 
     public function show(Group $group)
     {
-        return view('admin.group.show', compact('group'));
+        $headman = $group->getHeadman();
+        return view('admin.group.show', compact('group', 'headman'));
     }
 
     public function edit(Group $group)
     {
+        $headman = $group->getHeadman();
         $students = Student::all()->where('group_id', $group->id);
         $chairs = Chair::all();
-        return view('admin.group.edit', compact('group', 'students', 'chairs'));
+        return view('admin.group.edit', compact('group', 'students', 'chairs', 'headman'));
     }
 
     public function update(UpdateRequest $request, Group $group)

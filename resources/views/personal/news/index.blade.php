@@ -27,7 +27,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                @can('create-group-news')
+                @can('isHeadman')
                 <div class="row">
                     <div class="col-1 mb-3">
                         <a href="{{ route('personal.news.create') }}" class="btn btn-block btn-primary">Добавить запись</a>
@@ -46,7 +46,7 @@
                                                 <img src="{{ asset('storage/images/personal/no_photo.jpg') }}"
                                                      class="d-block ui-w-40 rounded-circle" alt="">
                                                 <div class="media-body ml-3">
-                                                    {{ $post->group->headman->student->user->surname  }}
+                                                    {{ $headman->user->surname }}
                                                     <div class="text-muted small">Опубликовано: {{ date('d.m.Y', strtotime($post->created_at)) }} в {{ date('H:i', strtotime($post->created_at)) }}</div>
                                                 </div>
                                             </div>
@@ -62,12 +62,12 @@
                                             <a href="javascript:void(0)" class="d-inline-block text-muted">
                                                 <strong>123</strong> Likes</small>
                                             </a>
-                                            @can('create-group-news')
+                                            @can('isHeadman')
                                             <a class="btn btn-info btn-sm mr-1" href="{{ route('personal.news.edit', $post->id) }}">
                                                 <i class="fas fa-pencil-alt"></i>
                                                 Редактировать
                                             </a>
-                                                @endcan
+                                            @endcan
                                         </div>
                                     </div>
                                 @endforeach

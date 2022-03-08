@@ -30,29 +30,6 @@
       <div class="container-fluid">
 
         <div class="row">
-          <div class="filters-block col-2">
-            <form action="{{route('personal.task.index')}}" method="GET">
-              <label>Дата добавления заявки:</label>
-              <div class="form-group">
-                <div class="col">
-                  <h6 class="text-muted">с </h6>
-                  <input @if(isset($_GET['date'][0])) value="{{$_GET['date'][0]}}" @endif autocomplete="off" type="text" class="form-control" name="date[]" size="10" onClick="xCal(this)" onKeyUp="xCal()">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div class="col">
-                  <h6 class="text-muted">по </h6>
-                  <input @if(isset($_GET['date'][1])) value="{{$_GET['date'][1]}}" @endif autocomplete="off" type="text" class="form-control" name="date[]" size="10" onClick="xCal(this)" onKeyUp="xCal()">
-                </div>
-              </div>
-              <button type="submit" class="btn btn-success mb-2">Применить</button>
-            </form>
-            <form action="{{ route('personal.application.index') }}" method="GET">
-              <input value="" type="hidden" name="date[]">
-              <button type="submit" class="btn btn-default">Сбросить</button>
-            </form>
-          </div>
           <div class="col-6">
             <div class="card">
               <div class="card-body table-responsive">

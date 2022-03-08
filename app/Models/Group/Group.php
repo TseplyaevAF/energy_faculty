@@ -5,7 +5,6 @@ namespace App\Models\Group;
 use App\Models\Chair;
 use App\Models\Discipline;
 use App\Models\Lesson;
-use App\Models\Student\Headman;
 use App\Models\Student\Student;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,8 +17,10 @@ class Group extends Model
 
     protected $guarded = false;
 
-    public function headman() {
-        return $this->hasOne(Headman::class);
+    public function getHeadman() {
+        if (isset($this->headman)) {
+            return $this->students->where('id', $this->headman)->first();
+        }
     }
 
     public function students() {

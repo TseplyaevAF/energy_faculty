@@ -17,7 +17,7 @@ class Service
                 'group_id' => $data['group_id'],
                 'user_id' =>  $data['user_id'],
             ];
-            $student = Student::firstOrCreate($array);
+            Student::firstOrCreate($array);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

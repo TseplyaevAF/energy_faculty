@@ -7,6 +7,7 @@ use App\Mail\User\PasswordMail;
 use App\Models\Student\Student;
 use App\Models\Student\StudentApplication;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -15,12 +16,14 @@ class ApplicationController extends Controller
 {
     public function index()
     {
+        Gate::authorize('isHeadman');
         $applications = StudentApplication::all();
         return view('personal.application.index', compact('applications'));
     }
 
     public function accept(StudentApplication $application)
     {
+        Gate::authorize('isHeadman');
         try {
             DB::beginTransaction();
 
@@ -47,7 +50,7 @@ class ApplicationController extends Controller
 
     public function reject(StudentApplication $application)
     {
-        
+        Gate::authorize('isHeadman');
         return redirect()->route('personal.application.index');
     }
 }

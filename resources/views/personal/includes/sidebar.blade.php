@@ -35,7 +35,7 @@
               <p>Настройки</p>
             </a>
           </li>
-          @can('index-task')
+          @can('isTeacher')
           <li class="nav-item">
             <a href="{{ route('personal.task.index') }}" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
@@ -43,7 +43,7 @@
             </a>
           </li>
           @endcan
-          @can('index-homework')
+          @can('isStudent')
           <li class="nav-item">
             <a href="{{ route('personal.homework.index') }}" class="nav-link">
               <i class="nav-icon fas fa-file-word"></i>
@@ -56,7 +56,7 @@
                     <p>Новости</p>
                 </a>
             </li>
-            @can('index-application')
+            @can('isHeadman')
             <li class="nav-item">
               <a href="{{ route('personal.application.index') }}" class="nav-link">
                 <i class="nav-icon far fa-address-card"></i>
@@ -71,12 +71,14 @@
               <p>Расписание занятий</p>
             </a>
           </li>
+            @can('isTeacher')
             <li class="nav-item">
                 <a href="{{ route('personal.cert.index') }}" class="nav-link">
                     <i class="nav-icon fas fa-file-signature"></i>
                     <p>Моя подпись</p>
                 </a>
             </li>
+            @endcan
         </ul>
       </div>
       <!-- /.sidebar -->

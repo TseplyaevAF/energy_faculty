@@ -26,6 +26,7 @@ class CertController extends Controller
 
     public function index()
     {
+        Gate::authorize('isTeacher');
         $teacher = auth()->user()->teacher;
         $cert = Certificate::where('teacher_id', $teacher->id)->first();
         if (!isset($cert)) {
@@ -42,13 +43,15 @@ class CertController extends Controller
     }
 
     public function create() {
+        Gate::authorize('isTeacher');
         Gate::authorize('create-cert-app', [auth()->user()->teacher]);
         return view('personal.cert.create');
     }
 
     public function store(Request $request) {
+        Gate::authorize('isTeacher');
+        Gate::authorize('create-cert-app', [auth()->user()->teacher]);
         try {
-            Gate::authorize('create-cert-app', [auth()->user()->teacher]);
             // генерируем пару ключей - открытый/закрытый, которые будут принадлежать преподавателю
             $newPair = CentreAuthority::getNewPair();
             $teacher = Teacher::find($request->teacher_id);
@@ -67,16 +70,5 @@ class CertController extends Controller
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
-    }
-
-    public function downloadFile(Request $request, $filename) {
-        if ($request->ajax()) {
-            $contents = json_decode($request->private_key);
-            return response()->streamDownload(function () use ($contents) {
-                echo $contents;
-            }, $filename);
-        }
-
-
     }
 }

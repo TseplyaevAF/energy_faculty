@@ -42,9 +42,9 @@
                                     @else
                                         <option value="">-- Староста не выбран</option>
                                         @foreach($students as $student)
-                                            @if (!empty($group->headman))
+                                            @if (!empty($headman))
                                                 <option
-                                                    value="{{ $student->id }}" {{ $student->id == $group->headman->student_id ? 'selected' : ''}} > {{ $student->user->surname }}</option>
+                                                    value="{{ $student->id }}" {{ $student->id == $headman->id ? 'selected' : ''}} > {{ $student->user->surname }}</option>
                                             @else
                                                 <option
                                                     value="{{ $student->id }}" {{ $student->id == $group->student_id ? 'selected' : ''}} > {{ $student->user->surname }}</option>

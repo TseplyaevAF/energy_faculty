@@ -3,10 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Cert\CertApp;
-use App\Models\Lesson;
-use App\Models\Student\Headman;
-use App\Models\Student\Homework;
-use App\Models\Teacher\Task;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Auth\Access\Response;
@@ -33,16 +29,20 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        /// SCHEDULE
-        Gate::define('edit-schedule', function (User $user) {
+        Gate::define('isTeacher', function (User $user) {
             return $user->role_id == User::ROLE_TEACHER ? Response::allow() : Response::deny();
         });
+
+        Gate::define('isStudent', function (User $user) {
+            return $user->role_id == User::ROLE_STUDENT ? Response::allow() : Response::deny();
+        });
+
+        Gate::define('isHeadman', function (User $user) {
+            return $user->student->group->headman == $user->student->id ? Response::allow() : Response::deny();
+        });
+
 
         /// TASKS
-        Gate::define('index-task', function (User $user) {
-            return $user->role_id == User::ROLE_TEACHER ? Response::allow() : Response::deny();
-        });
-
         Gate::define('download-task', function (User $user, $task) {
             // Если файл пытается скачать преподаватель
             if ($user->role_id == User::ROLE_TEACHER) {
@@ -67,10 +67,6 @@ class AuthServiceProvider extends ServiceProvider
 
 
         /// HOMEWORK
-        Gate::define('index-homework', function (User $user) {
-            return $user->role_id == User::ROLE_STUDENT ? Response::allow() : Response::deny();
-        });
-
         Gate::define('download-homework', function (User $user, $homework) {
             // Если файл пытается скачать преподаватель
             if ($user->role_id == User::ROLE_TEACHER) {
@@ -95,19 +91,9 @@ class AuthServiceProvider extends ServiceProvider
         });
 
 
-        /// APPLICATIONS
-        Gate::define('index-application', function (User $user) {
-            return isset($user->student->headman) ? Response::allow() : Response::deny();
-        });
-
-
         /// GROUP NEWS
-        Gate::define('create-group-news', function (User $user) {
-            return isset($user->student->headman) ? Response::allow() : Response::deny();
-        });
-
         Gate::define('edit-group-news', function (User $user, $post) {
-            return $user->student->group_id ==  $post->group_id? Response::allow() : Response::deny();
+            return $user->student->group_id == $post->group_id? Response::allow() : Response::deny();
         });
 
 

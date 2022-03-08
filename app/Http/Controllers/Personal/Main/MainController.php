@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Personal\Main;
 
 use App\Http\Controllers\Controller;
-use App\Models\Classroom;
-use App\Models\ClassTime;
-use App\Models\ClassType;
+use App\Models\Schedule\Classroom;
+use App\Models\Schedule\ClassTime;
+use App\Models\Schedule\ClassType;
 use App\Models\Discipline;
-use App\Models\Schedule;
+use App\Models\Schedule\Schedule;
 use App\Models\User;
 use App\Http\Requests\Personal\Schedule\UpdateRequest;
 use App\Service\Personal\Schedule\Service;

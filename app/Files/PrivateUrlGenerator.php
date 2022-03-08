@@ -2,7 +2,6 @@
 
 namespace App\Files;
 
-use App\User;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;

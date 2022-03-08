@@ -26,7 +26,7 @@ class TaskController extends Controller
 
     public function index(FilterRequest $request)
     {
-        Gate::authorize('index-task');
+        Gate::authorize('isTeacher');
         $teacher = auth()->user()->teacher;
         $disciplines = $teacher->disciplines->unique('id');
         $tasks = [];
@@ -42,7 +42,7 @@ class TaskController extends Controller
 
     public function create()
     {
-        Gate::authorize('index-task');
+        Gate::authorize('isTeacher');
         $teacher = auth()->user()->teacher;
         foreach ($teacher->lessons as  $lesson) {
             $lessons[$lesson->id]['discipline']['id'] = $lesson->discipline->id;
@@ -60,7 +60,8 @@ class TaskController extends Controller
 
     public function store(StoreRequest $request)
     {
-        Gate::authorize('index-task');
+        Gate::authorize('isTeacher');
+
         $data = $request->validated();
 
         $this->service->store($data);

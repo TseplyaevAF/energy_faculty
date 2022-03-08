@@ -27,7 +27,7 @@ class HomeworkController extends Controller
 
     public function index(FilterRequest $request)
     {
-        Gate::authorize('index-homework');
+        Gate::authorize('isStudent');
         $group = auth()->user()->student->group;
         $statusVariants = Task::getStatusVariants();
         $disciplines = $group->disciplines->unique('id');
@@ -43,13 +43,13 @@ class HomeworkController extends Controller
 
     public function create(Task $task)
     {
-        Gate::authorize('index-homework');
+        Gate::authorize('isStudent');
         return view('personal.homework.create', compact('task'));
     }
 
     public function store(StoreRequest $request)
     {
-        Gate::authorize('index-homework');
+        Gate::authorize('isStudent');
         $data = $request->validated();
 
         $this->service->store(auth()->user()->student, $data);
@@ -86,6 +86,7 @@ class HomeworkController extends Controller
 
     public function delete(Homework $homework)
     {
+        Gate::authorize('isStudent');
         $homework->delete();
         return redirect()->route('personal.homework.index');
     }

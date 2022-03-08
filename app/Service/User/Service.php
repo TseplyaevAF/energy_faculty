@@ -44,7 +44,9 @@ class Service
             if ($data['role_id'] == User::ROLE_STUDENT) {
                 $student = $user->student;
                 if (isset($student->group->headman) && $data['group_id'] != $student->group_id) {
-                    $student->group->headman->delete();
+                    $student->group->update([
+                        'headman' => null
+                    ]);
                 }
                 $studentService = new StudentService();
                 $studentService->update($data, $student);
