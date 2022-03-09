@@ -65,6 +65,7 @@ class RegisterController extends Controller
             'surname' => 'required|string',
             'patronymic' => 'nullable|string',
             'email' => 'required|string|email|unique:users',
+            'phone_number' => ['required', 'max:255', 'unique:users'],
             'group_id' => 'required|integer|exists:groups,id',
             'student_id_number' => 'required|integer|unique:students',
         ]);
@@ -96,7 +97,7 @@ class RegisterController extends Controller
                 'surname' => $data['surname'],
                 'patronymic' => $data['patronymic'],
                 'email' => $data['email'],
-                'email_verified_at' => now(),
+                'phone_number' => $data['phone_number'],
                 'password' => Hash::make($this->generatePassword()),
                 'role_id' => User::ROLE_STUDENT,
             ]);

@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'ca' => CertAuthorityMiddleware::class,
         'personal' => PersonalMiddleware::class,
         'dekanat' => DekanatMiddleware::class,
+        '2fa' => \App\Http\Middleware\TwoFactorAuth::class
     ];
 }

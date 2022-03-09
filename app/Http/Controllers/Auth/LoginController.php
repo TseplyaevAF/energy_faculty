@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -44,7 +45,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        $roles = User::getRoles();
         return view('auth.login');
     }
 
@@ -61,6 +61,29 @@ class LoginController extends Controller
         ) {
             return url('personal');
         }
+    }
+
+    public function login(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($validated)) {
+            if (auth()->user()->is_active_2fa) {
+                auth()->user()->generateCode();
+
+                return redirect()->route('2fa.index');
+            }
+            else {
+                return $this->redirectTo();
+            }
+        }
+
+        return redirect()
+            ->route('login')
+            ->with('error', 'Данные введены неверно');
     }
 
     protected function loggedOut(Request $request)

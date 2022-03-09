@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TwoFactorAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -145,7 +146,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     });
 });
 
-Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'personal', 'verified']], function () {
+Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', '2fa', 'verified', 'personal']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'MainController@index');
         Route::get('/schedule', 'MainController@showSchedule')->name('personal.main.schedule');
@@ -156,6 +157,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/', 'SettingsController@edit')->name('personal.settings.edit');
         Route::patch('/{user}', 'SettingsController@updateMain')->name('personal.settings.updateMain');
         Route::patch('/{user}/password', 'SettingsController@updatePassword')->name('personal.settings.updatePassword');
+        Route::patch('/{user}/security', 'SettingsController@changeSecurity')->name('personal.settings.changeSecurity');
     });
     Route::group(['namespace' => 'Application', 'prefix' => 'applications'], function () {
         Route::get('/', 'ApplicationController@index')->name('personal.application.index');
@@ -194,6 +196,10 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/', 'CertController@index')->name('personal.cert.index');
     });
 });
+
+Route::get('two-factor-auth', [TwoFactorAuthController::class, 'index'])->name('2fa.index');
+Route::post('two-factor-auth', [TwoFactorAuthController::class, 'store'])->name('2fa.store');
+Route::get('two-factor-auth/resent', [TwoFactorAuthController::class, 'resend'])->name('2fa.resend');
 
 Auth::routes(['verify' => true]);
 

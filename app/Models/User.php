@@ -13,6 +13,9 @@ use App\Models\Traits\Filterable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Twilio\Rest\Client;
+
+require_once 'D:/programs/xampp/htdocs/energy_faculty/vendor/autoload.php';
 
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
@@ -75,6 +78,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'email',
         'password',
         'role_id',
+        'is_active_2fa'
     ];
 
     /**
@@ -95,4 +99,36 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * generate OTP and send sms
+     *
+     */
+    public function generateCode()
+    {
+        $code = rand(100000, 999999);
+
+        UserCode::updateOrCreate([
+            'user_id' => auth()->user()->id,
+            'code' => $code
+        ]);
+
+        $receiverNumber = '+' . auth()->user()->phone_number;
+        $message = "Ваш код для входа на сайт ЭФ ЗабГУ: ". $code;
+        $test = '';
+
+        try {
+            $account_sid = getenv("TWILIO_SID");
+            $auth_token = getenv("TWILIO_TOKEN");
+            $number = getenv("TWILIO_FROM");
+
+            $client = new Client($account_sid, $auth_token);
+            $test = $client->messages->create($receiverNumber, [
+                'from' => $number,
+                'body' => $message]);
+        } catch (\Exception $e) {
+            //
+        }
+        print($test->sid);
+    }
 }

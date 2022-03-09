@@ -7,6 +7,7 @@ use App\Http\Requests\Personal\Settings\UpdateMainRequest;
 use App\Http\Requests\Personal\Settings\UpdatePasswordRequest;
 use App\Models\User;
 use App\Service\User\Settings\Service;
+use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
@@ -40,6 +41,18 @@ class SettingsController extends Controller
             return back()->withError($exception->getMessage())->withInput();
         }
         return redirect()->back()->withSuccess('Пароль был успешно обновлен!');
+    }
+
+    public function changeSecurity(Request $request, User $user) {
+        if ($user->is_active_2fa) {
+            $user->update([
+                'is_active_2fa' => false
+            ]);
+            return redirect()->back()->withSuccess('Двухфакторная аутентификация отключена');
+        } else {
+            return redirect()->back()->withSuccess('Двухфакторная аутентификация включена.
+            При каждом входе вам нужно будет приходить СМС на телефон');
+        }
     }
 
     public function showImage($userId, $mediaId, $filename) {

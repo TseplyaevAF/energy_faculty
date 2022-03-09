@@ -17,6 +17,7 @@
                                 <div class="list-group list-group-flush account-settings-links">
                                     <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">Основные</a>
                                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Изменить пароль</a>
+                                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-security">Безопасность</a>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -99,6 +100,33 @@
                                         </div>
                                         <input value="{{ $user->id }}" class="form-control" type="hidden" name="user_id">
                                         <input type="submit" class="btn btn-primary mb-2" value="Сохранить">
+                                    </form>
+                                    <!-- SECURITY SETTINGS -->
+                                    <form class="tab-pane fade" id="account-security" action="{{ route('personal.settings.changeSecurity', $user->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div>
+                                            <div class="card-body pb-2">
+                                                <label class="form-label">Двухфакторная аутентификация</label>
+                                                @if (!auth()->user()->is_active_2fa)
+                                                    <footer class="blockquote-footer">
+                                                        Добавьте еще один уровень безопасности Вашего аккаунта, включив
+                                                        подтверждение входа по СМС.
+                                                        <cite title="Source Title"></cite>
+                                                    </footer>
+                                                    <input type="submit" class="btn btn-primary mb-2" value="Включить">
+                                                @else
+                                                    <div class="form-group">
+                                                        <footer class="blockquote-footer">
+                                                            В данный момент двухфакторная аутентификация активна.
+                                                            <cite title="Source Title"></cite>
+                                                        </footer>
+                                                        <input type="submit" class="btn btn-danger mb-2" value="Отключить">
+                                                    </div>
+                                                @endif
+                                                <input value="{{ $user->id }}" class="form-control" type="hidden" name="user_id">
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
