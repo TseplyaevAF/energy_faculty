@@ -129,6 +129,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         } catch (\Exception $e) {
             //
         }
-        print($test->sid);
+//        print($test->sid);
     }
 }

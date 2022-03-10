@@ -35,6 +35,10 @@ class Lesson extends Model
         return $this->hasOne(Statement::class);
     }
 
+    public function statements() {
+        return $this->hasMany(Statement::class);
+    }
+
     public function tasks() {
         return $this->hasMany(Task::class);
     }

@@ -25,7 +25,7 @@ class Service
         }
 
         // проверка на срок действия сертификата
-        if (!$centreAuth->checkDateValidCaCert($centreAuth->getCaCert())) {
+        if (!$centreAuth->checkDateValidCaCert()) {
             throw new \Exception('Действие корневого сертификата окончено! Необходимо его перевыпустить.');
         }
 

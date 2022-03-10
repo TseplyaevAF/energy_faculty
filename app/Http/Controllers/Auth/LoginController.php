@@ -73,11 +73,11 @@ class LoginController extends Controller
         if (Auth::attempt($validated)) {
             if (auth()->user()->is_active_2fa) {
                 auth()->user()->generateCode();
-
+l
                 return redirect()->route('2fa.index');
             }
             else {
-                return $this->redirectTo();
+                return redirect()->route('home');
             }
         }
 
@@ -86,7 +86,7 @@ class LoginController extends Controller
             ->with('error', 'Данные введены неверно');
     }
 
-    protected function loggedOut(Request $request)
+    protected function loggedOut()
     {
         return redirect()->route('login');
     }

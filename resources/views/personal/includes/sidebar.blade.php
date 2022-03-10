@@ -79,6 +79,14 @@
                 </a>
             </li>
             @endcan
+            @can('isTeacher')
+                <li class="nav-item">
+                    <a href="{{ route('personal.statement.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-poll-h"></i>
+                        <p>Ведомости</p>
+                    </a>
+                </li>
+            @endcan
         </ul>
       </div>
       <!-- /.sidebar -->

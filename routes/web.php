@@ -195,6 +195,10 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::post('/store', 'CertController@store')->name('personal.cert.store');
         Route::get('/', 'CertController@index')->name('personal.cert.index');
     });
+    Route::group(['namespace' => 'Statement', 'prefix' => 'statements'], function () {
+        Route::get('/', 'StatementController@index')->name('personal.statement.index');
+        Route::get('/getYears/{id}', 'StatementController@getYears');
+    });
 });
 
 Route::get('two-factor-auth', [TwoFactorAuthController::class, 'index'])->name('2fa.index');
