@@ -73,7 +73,7 @@ class LoginController extends Controller
         if (Auth::attempt($validated)) {
             if (auth()->user()->is_active_2fa) {
                 auth()->user()->generateCode();
-l
+
                 return redirect()->route('2fa.index');
             }
             else {

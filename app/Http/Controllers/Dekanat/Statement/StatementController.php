@@ -36,8 +36,8 @@ class StatementController extends Controller
             }
             if (isset($lessons)) {
                 foreach ($lessons as $lesson) {
-                    if (isset($lesson->statement)) {
-                        $statements[] = $lesson->statement;
+                    foreach ($lesson->statements as $statement) {
+                        $statements[] = $statement;
                     }
                 }
             } else {

@@ -197,7 +197,10 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     });
     Route::group(['namespace' => 'Statement', 'prefix' => 'statements'], function () {
         Route::get('/', 'StatementController@index')->name('personal.statement.index');
+        Route::get('/{statement}', 'StatementController@show')->name('personal.statement.show');
         Route::get('/getYears/{id}', 'StatementController@getYears');
+        Route::post('/saveData', 'StatementController@saveData')->name('personal.statement.saveData');
+        Route::post('/{statement}', 'StatementController@signStatement')->name('personal.statement.signStatement');
     });
 });
 

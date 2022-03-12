@@ -48,7 +48,7 @@
                                     id="year"></select>
                         </div>
                     </div>
-                    <div class="card w-50">
+                    <div class="card w-75">
                         <div class="card-header"><b>Экзаменационные ведомости ЭФ</b></div>
                         <div class="card-body ">
                             <a href="javascript:void(0)"

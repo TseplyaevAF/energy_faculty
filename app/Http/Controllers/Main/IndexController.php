@@ -12,15 +12,15 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
-        $data = 'my data';
-        $ca = new CentreAuthority();
+//        $data = 'my data';
+//        $ca = new CentreAuthority();
+//        CentreAuthority::getNewPair();
 
-        $ca::getNewPair();
+
 //        $ca_cert = Storage::disk('public')->get('ca/ca.crt');
 //        $private_key = file_get_contents('ca.key');
-//        //Создает сертификат
-//        $keys = self::getCACert($ca_cert, $private_key);
-//        openssl_x509_verify($keys['cert'], $keys['public']);
+        //Создает сертификат
+//        $keys = self::getCACert();
 //        file_put_contents('private_key.pem', $keys['private']);
 //        file_put_contents('public_key.pem', $keys['public']);
 //        file_put_contents('cert.crt', $keys['cert']);
@@ -47,7 +47,7 @@ class IndexController extends Controller
         return view('main.index');
     }
 
-    static private function getCACert($ca_cert, $private_key_ca)
+    static private function getCACert()
     {
         $config = array(
             "private_key_type" => OPENSSL_KEYTYPE_RSA,
@@ -57,16 +57,11 @@ class IndexController extends Controller
         openssl_pkey_export($res, $private);
         $arr = array(
             "organizationName" => "ЗабГУ, энергетический факультет",
-            "commonName" => "Батухтин Андрей Геннадьевич",
-            "organizationalUnitName" => "Кафедра энергетики",
-            "businessCategory" => "декан энергетического факультета, доцент кафедры энергетики",
-            "UID" => 1,
             "countryName" => "RU",
-            "emailAddress" => 'kafedra_ivtipm@mail.ru',
-            "serialNumber" => '1'
+            "emailAddress" => 'energo_zabgu@mail.ru',
         );
-        $csr = openssl_csr_new($arr, $private_key_ca);
-        $cert = openssl_csr_sign($csr, $ca_cert, $private_key_ca, $days = 365);
+        $csr = openssl_csr_new($arr, $private);
+        $cert = openssl_csr_sign($csr, null, $private, $days = 365);
         openssl_x509_export($cert, $str_cert);
         $public_key = openssl_pkey_get_public($str_cert);
         $public_key_details = openssl_pkey_get_details($public_key);

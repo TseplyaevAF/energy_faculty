@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Personal\Statement;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lesson;
+use App\Models\Statement\Individual;
 use App\Models\Statement\Statement;
-use App\Service\Dekanat\Service;
+use App\Service\Personal\Statement\Service;
 use Illuminate\Http\Request;
 use DataTables;
 
@@ -33,8 +34,8 @@ class StatementController extends Controller
             }
             if (isset($lessons)) {
                 foreach ($lessons as $lesson) {
-                    if (isset($lesson->statement)) {
-                        $statements[] = $lesson->statement;
+                    foreach ($lesson->statements as $statement) {
+                        $statements[] = $statement;
                     }
                 }
             } else {
@@ -48,12 +49,24 @@ class StatementController extends Controller
             $data = self::getArrayStatements($statements);
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', 'personal.statement.action')
-                ->rawColumns(['action'])
+                ->addColumn('show', 'personal.statement.action.show')
+                ->rawColumns(['show'])
                 ->make(true);
         }
-        $groups = $teacher->groups;
+        $groups = $teacher->groups->unique('id');
         return view('personal.statement.index', compact('groups'));
+    }
+
+    public function show(Request $request, Statement $statement)
+    {
+        $individuals = $statement->individuals;
+        $data = self::getArrayIndividuals($individuals);
+        if ($request->ajax()) {
+            return DataTables::of($data)
+                ->make(true);
+        }
+        $controlForms = Statement::getControlForms();
+        return view('personal.statement.show', compact('statement', 'controlForms'));
     }
 
     private function getArrayStatements($statements)
@@ -77,12 +90,8 @@ class StatementController extends Controller
         echo(json_encode($this->getArrayYear($groupId)));
     }
 
-    public function getDisciplines($groupId, $yearId)
+    private function getArrayYear($groupId)
     {
-        echo(json_encode($this->getArrayDisciplines($groupId, $yearId)));
-    }
-
-    private function getArrayYear($groupId) {
         $lessons = Lesson::where('group_id', $groupId)->get()->unique('year_id');
         $years = [];
         foreach ($lessons as $lesson) {
@@ -91,18 +100,61 @@ class StatementController extends Controller
         return $years;
     }
 
-    private function getArrayDisciplines($groupId, $yearId) {
-        $lessons = Lesson::where([
-            ['group_id', $groupId],
-            ['year_id', $yearId]
-        ])->get();
-        $disciplines = [];
-        foreach ($lessons as $lesson) {
-            $disciplines[$lesson->id]['id'] = $lesson->id;
-            $disciplines[$lesson->id]['discipline'] = $lesson->discipline->title;
-            $disciplines[$lesson->id]['teacher'] = $lesson->teacher->user->surname;
-            $disciplines[$lesson->id]['semester'] = $lesson->semester;
+    private function getArrayIndividuals($individuals)
+    {
+        $data = [];
+        foreach ($individuals as $individual) {
+            if (!isset($individual->teacher_signature)) {
+                $data[$individual->id]['id'] = $individual->id;
+                $data[$individual->id]['studentFIO'] = $individual->student->user->surname . ' ' .
+                    $individual->student->user->name . ' ' . $individual->student->user->patronymic;
+                $data[$individual->id]['student_id_number'] = $individual->student->student_id_number;
+                $data[$individual->id]['eval'] = !isset($individual->eval) ? '' : $individual->eval;
+
+            }
         }
-        return $disciplines;
+        return $data;
+    }
+
+    public function saveData(Request $request)
+    {
+        $request->validate([
+            'required|rows' => 'array',
+            'rows.*.id' => 'required|integer|exists:individuals,id',
+            'rows.*.eval' => 'nullable|string'
+        ]);
+        $individuals = $request->rows;
+
+        foreach ($individuals as $individual) {
+            Individual::where('id', $individual['id'])->
+            update([
+                'eval' => $individual['eval']
+            ]);
+        }
+
+        return response('Ведомость успешно сохранена!', 200);
+    }
+
+    public function signStatement(Request $request, Statement $statement)
+    {
+        $private_key = $request->private_key;
+        $request->validate([
+            'required|individuals' => 'array',
+            'individuals.*.id' => 'required|integer|exists:individuals,id',
+            'individuals.*.eval' => 'nullable|string',
+            'private_key' => 'required|file'
+        ]);
+        $individuals = json_decode($request->individuals, true);
+        $data = [
+            'statement' => $statement,
+            'individuals' => $individuals,
+            'private_key' => $private_key
+        ];
+        try {
+            $this->service->signData($data);
+            return response('Ведомость успешно подписана!', 200);
+        }catch (\Exception $exception) {
+
+        }
     }
 }

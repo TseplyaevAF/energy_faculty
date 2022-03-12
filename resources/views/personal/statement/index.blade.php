@@ -48,7 +48,7 @@
                                     id="year"></select>
                         </div>
                     </div>
-                    <div class="card w-50">
+                    <div class="card w-75">
                         <div class="card-header"><b>Экзаменационные ведомости ЭФ</b></div>
                         <div class="card-body ">
                             <table class="table table-bordered table-striped" id="statements-table">
@@ -113,8 +113,8 @@
                         {data: 'discipline.title', name: 'discipline.title'},
                         {data: 'control_form', name: 'control_form'},
                         {
-                            data: 'action',
-                            name: 'action',
+                            data: 'show',
+                            name: 'show',
                             orderable: false,
                             searchable: false
                         },

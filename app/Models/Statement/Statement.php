@@ -32,4 +32,8 @@ class Statement extends Model
     public function lesson() {
         return $this->belongsTo(Lesson::class);
     }
+
+    public function individuals() {
+        return $this->hasMany(Individual::class);
+    }
 }

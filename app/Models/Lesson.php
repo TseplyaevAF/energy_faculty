@@ -31,10 +31,6 @@ class Lesson extends Model
         return $this->belongsTo(Year::class);
     }
 
-    public function statement() {
-        return $this->hasOne(Statement::class);
-    }
-
     public function statements() {
         return $this->hasMany(Statement::class);
     }
