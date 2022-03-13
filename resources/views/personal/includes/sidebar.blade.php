@@ -87,6 +87,14 @@
                     </a>
                 </li>
             @endcan
+            @can('isStudent')
+                <li class="nav-item">
+                    <a href="{{ route('personal.exam_sheet.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-poll-h"></i>
+                        <p>Допуски</p>
+                    </a>
+                </li>
+            @endcan
         </ul>
       </div>
       <!-- /.sidebar -->

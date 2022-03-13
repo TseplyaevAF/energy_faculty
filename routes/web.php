@@ -202,6 +202,11 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::post('/saveData', 'StatementController@saveData')->name('personal.statement.saveData');
         Route::post('/{statement}', 'StatementController@signStatement')->name('personal.statement.signStatement');
     });
+    Route::group(['namespace' => 'ExamSheet', 'prefix' => 'exam_sheets'], function () {
+        Route::get('/', 'ExamSheetController@index')->name('personal.exam_sheet.index');
+        Route::get('/{sheet}', 'ExamSheetController@show')->name('personal.exam_sheet.show');
+        Route::patch('/{sheet}', 'ExamSheetController@sign')->name('personal.exam_sheet.sign');
+    });
 });
 
 Route::get('two-factor-auth', [TwoFactorAuthController::class, 'index'])->name('2fa.index');
@@ -211,3 +216,5 @@ Route::get('two-factor-auth/resent', [TwoFactorAuthController::class, 'resend'])
 Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/qrcode', [App\Http\Controllers\HomeController::class, 'qrcode'])->name('qrcode');

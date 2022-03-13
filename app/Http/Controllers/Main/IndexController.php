@@ -15,7 +15,9 @@ class IndexController extends Controller
 //        $data = 'my data';
 //        $ca = new CentreAuthority();
 //        CentreAuthority::getNewPair();
-
+        if (! extension_loaded('imagick') ){
+            echo '<b>Imagick</b> расширение для php не установлено!';
+        }
 
 //        $ca_cert = Storage::disk('public')->get('ca/ca.crt');
 //        $private_key = file_get_contents('ca.key');

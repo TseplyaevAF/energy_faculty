@@ -6,33 +6,33 @@
     <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet"/>
 
     <style>
-        .block {
-            display: block;
-            padding: 3px 6px 3px 6px;
-            border-radius: 2px;
+        /*.block {*/
+        /*    display: block;*/
+        /*    padding: 3px 6px 3px 6px;*/
+        /*    border-radius: 2px;*/
 
-            height: 20px;
-            background: green;
-            margin: 10px;
-            color: white;
-            animation: error .4s;
-        }
+        /*    height: 20px;*/
+        /*    background: green;*/
+        /*    margin: 10px;*/
+        /*    color: white;*/
+        /*    animation: error .4s;*/
+        /*}*/
 
-        .inner {
-            position: absolute;
-            bottom: 0;
-        }
+        /*.inner {*/
+        /*    position: absolute;*/
+        /*    bottom: 0;*/
+        /*}*/
 
-        @keyframes error {
-            0% {
-                height: 0px;
-                margin-top: -16px;
-            }
-            100% {
-                height: 20px;
-                margin-bottom: '';
-            }
-        }
+        /*@keyframes error {*/
+        /*    0% {*/
+        /*        height: 0px;*/
+        /*        margin-top: -16px;*/
+        /*    }*/
+        /*    100% {*/
+        /*        height: 20px;*/
+        /*        margin-bottom: '';*/
+        /*    }*/
+        /*}*/
     </style>
 
     <div class="content-wrapper">
@@ -103,7 +103,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="postForm" name="postForm" action="" enctype="multipart/form-data" method="POST">
+                                            <form id="postForm" name="postForm" enctype="multipart/form-data" method="POST">
                                                 @csrf
                                                 Подписать ведомость для следующих студентов:
                                                 <ul class="studentsList" id="studentsList"></ul>
@@ -152,70 +152,64 @@
     <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js" defer></script>
     <script>
         $(document).ready(function () {
-            getIndividuals();
-
-            // GET ALL INDIVIDUALS
-            function getIndividuals() {
-                table = $('#individuals-table').DataTable({
-                    language: {
-                        processing: "Подождите...",
-                        search: "Поиск:",
-                        lengthMenu: "Показать _MENU_ записей",
-                        info: "Записи с _START_ до _END_ из _TOTAL_ записей",
-                        infoFiltered: "(отфильтровано из _MAX_ записей)",
-                        loadingRecords: "Загрузка...",
-                        zeroRecords: "Записи отсутствуют.",
-                        emptyTable: "Студенты не найдены"
-                    },
-                    processing: true,
-                    serverSide: true,
-                    info: true,
-                    paging: false,
-                    stateSave: true,
-                    ajax: {
-                        url: "{{ route('personal.statement.show', $statement->id ) }}"
-                    },
-                    columns: [
-                        {data: 'id', name: 'id'},
-                        {data: 'studentFIO', name: 'studentFIO'},
-                        {data: 'student_id_number', name: 'student_id_number'},
-                        {
-                            data: "eval", name: "eval",
-                            render: function (data, type, row) {
-                                return '<input class="form-control evalInput" id="eval" name="eval" type="text"' +
-                                    'value = ' + row.eval + '>';
-                            }
-                        },
-                        {
-                            defaultContent: "",
-                            // 02: SETUP CHECKBOX IN THE HEADER
-                            sTitle: '<input class="select-checkbox" type="checkbox" id="selectAll"></input>'
+            let table = $('#individuals-table').DataTable({
+                language: {
+                    processing: "Подождите...",
+                    search: "Поиск:",
+                    lengthMenu: "Показать _MENU_ записей",
+                    info: "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    infoFiltered: "(отфильтровано из _MAX_ записей)",
+                    loadingRecords: "Загрузка...",
+                    zeroRecords: "Записи отсутствуют.",
+                    emptyTable: "Студенты не найдены"
+                },
+                processing: true,
+                serverSide: true,
+                info: true,
+                paging: false,
+                stateSave: true,
+                ajax: {
+                    url: "{{ route('personal.statement.show', $statement->id ) }}"
+                },
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'studentFIO', name: 'studentFIO'},
+                    {data: 'student_id_number', name: 'student_id_number'},
+                    {
+                        data: "evaluation", name: "evaluation",
+                        render: function (data, type, row) {
+                            return '<input class="form-control evalInput" id="evaluation" name="evaluation" type="text"' +
+                                'value = ' + row.evaluation + '>';
                         }
-                    ],
-                    "drawCallback": function (settings) {
-                        $(".evalInput").on("change", function () {
-                            var $row = $(this).parents("tr");
-                            var rowData = table.row($row).data();
+                    },
+                    {
+                        defaultContent: "",
+                        // 02: SETUP CHECKBOX IN THE HEADER
+                        sTitle: '<input class="select-checkbox" type="checkbox" id="selectAll"></input>'
+                    }
+                ],
+                "drawCallback": function (settings) {
+                    $(".evalInput").on("change", function () {
+                        var $row = $(this).parents("tr");
+                        var rowData = table.row($row).data();
 
-                            rowData.eval = $(this).val();
-                        })
-                    },
-                    columnDefs: [
-                        {
-                            orderable: false,
-                            className: 'select-checkbox',
-                            targets: 4
-                        }
-                    ],
-                    select: {
-                        style: 'multi',
-                        selector: 'td:last-child' // 01: ONLY CHECK ROW WHEN FIRST TD ROW IS CLICKED
-                    },
-                });
-            }
+                        rowData.evaluation = $(this).val();
+                    })
+                },
+                columnDefs: [
+                    {
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: 4
+                    }
+                ],
+                select: {
+                    style: 'multi',
+                    selector: 'td:last-child' // 01: ONLY CHECK ROW WHEN FIRST TD ROW IS CLICKED
+                },
+            });
 
             document.addEventListener('click', function (e) {
-                let table = $('#individuals-table').DataTable();
                 table.on("click", "th.select-checkbox", function () {
                     if ($("th.select-checkbox").hasClass("selected")) {
                         table.rows().deselect();
@@ -225,7 +219,6 @@
                         $("th.select-checkbox").addClass("selected");
                     }
                 }).on("select deselect", function () {
-                    ("Some selection or deselection going on")
                     if (table.rows({
                         selected: true
                     }).count() !== table.rows().count()) {
@@ -237,12 +230,8 @@
             });
 
             $('#saveStatement').on('click', function () {
-                var table = $('#individuals-table').DataTable();
                 let token = $("input[name='_token']").val();
-                var data = table
-                    .rows()
-                    .data();
-
+                const data = table.rows().data();
                 let requestRows = [];
                 data.each(function (value) {
                     requestRows.push(value);
@@ -256,24 +245,22 @@
                     url: "{{ route('personal.statement.saveData')  }}",
                     datatype: 'json',
                     success: function (response) {
-                        $('.inner').append(`<div class="block">${response}`);
-                        setTimeout()
+                        // $('.inner').append(`<div class="block">${response}`);
+                        alert(response);
                     }
                 });
             });
 
             $('#signStatement').on('click', function () {
-                let table = $('#individuals-table').DataTable();
-                var data = table.rows('.selected').data();
+                const data = table.rows('.selected').data();
                 const button = document.querySelector('.signData');
                 let students = [];
-                data.each(function (value, index) {
+                data.each(function (value) {
                     $('.studentsList').append(
                         '<li class="list-student-item d-flex justify-content-between align-items-center">\
                                 <div class="studentFIO">' + value.studentFIO + '</div>\
-                        <span class="badge badge-primary badge-pill">' + value.eval + '</span>\
+                        <span class="badge badge-primary badge-pill">' + value.evaluation + '</span>\
                         </li>');
-                    console.log(value);
                     students.push(value);
                 });
 
@@ -290,7 +277,7 @@
             $("#signData").on("click", function () {
                 var formData = new FormData()
                 formData.append('_token', $("input[name='_token']").val());
-                formData.append('individuals', JSON.stringify(document.getElementsByName('individuals[]').value));
+                formData.append('individuals', JSON.stringify(document.getElementsByName('individuals[]').value) );
                 formData.append('private_key', $('#file')[0].files[0]);
                 $.ajax({
                     method: 'POST',
@@ -300,9 +287,12 @@
                     url: "{{ route('personal.statement.signStatement', $statement->id) }}",
                     datatype: 'json',
                     success: function (response) {
+                        alert(response);
                         $('#ajaxModal').modal('hide');
-                        let table = $('#individuals-table').DataTable();
                         table.draw();
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
                     }
                 });
             })

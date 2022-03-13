@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class HomeController extends Controller
 {
@@ -22,5 +23,10 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function qrcode()
+    {
+        return QrCode::size(300)->generate(route('personal.statement.index'));
     }
 }

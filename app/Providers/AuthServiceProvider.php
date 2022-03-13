@@ -102,5 +102,11 @@ class AuthServiceProvider extends ServiceProvider
             $teacher = CertApp::where('teacher_id', $teacher->id)->first();
             return !isset($teacher) ? Response::allow() : Response::deny();
         });
+
+
+        /// EXAM SHEETS
+        Gate::define('show-exam-sheet', function (User $user, $sheet) {
+            return $sheet->individual->statement->lesson->teacher->id == $user->teacher->id ? Response::allow() : Response::deny();
+        });
     }
 }

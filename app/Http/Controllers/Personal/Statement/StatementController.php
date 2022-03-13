@@ -9,6 +9,7 @@ use App\Models\Statement\Statement;
 use App\Service\Personal\Statement\Service;
 use Illuminate\Http\Request;
 use DataTables;
+use Validator;
 
 class StatementController extends Controller
 {
@@ -109,7 +110,7 @@ class StatementController extends Controller
                 $data[$individual->id]['studentFIO'] = $individual->student->user->surname . ' ' .
                     $individual->student->user->name . ' ' . $individual->student->user->patronymic;
                 $data[$individual->id]['student_id_number'] = $individual->student->student_id_number;
-                $data[$individual->id]['eval'] = !isset($individual->eval) ? '' : $individual->eval;
+                $data[$individual->id]['evaluation'] = !isset($individual->eval) ? '' : $individual->eval;
 
             }
         }
@@ -119,16 +120,16 @@ class StatementController extends Controller
     public function saveData(Request $request)
     {
         $request->validate([
-            'required|rows' => 'array',
+            'rows' => 'required|array',
             'rows.*.id' => 'required|integer|exists:individuals,id',
-            'rows.*.eval' => 'nullable|string'
+            'rows.*.evaluation' => 'nullable|string'
         ]);
         $individuals = $request->rows;
 
         foreach ($individuals as $individual) {
             Individual::where('id', $individual['id'])->
             update([
-                'eval' => $individual['eval']
+                'eval' => $individual['evaluation']
             ]);
         }
 
@@ -137,14 +138,21 @@ class StatementController extends Controller
 
     public function signStatement(Request $request, Statement $statement)
     {
-        $private_key = $request->private_key;
-        $request->validate([
-            'required|individuals' => 'array',
+        $individuals = json_decode($request->individuals, true);
+        $rules = [
+            'individuals' => 'required|array',
             'individuals.*.id' => 'required|integer|exists:individuals,id',
-            'individuals.*.eval' => 'nullable|string',
+            'individuals.*.evaluation' => 'required|string',
+        ];
+
+        $validator = Validator::make(['individuals' => $individuals], $rules);
+        if (!$validator->passes()) {
+            return response('Необходимо заполнить оценки для всех студентов', 404);
+        }
+        $request->validate([
             'private_key' => 'required|file'
         ]);
-        $individuals = json_decode($request->individuals, true);
+        $private_key = $request->private_key;
         $data = [
             'statement' => $statement,
             'individuals' => $individuals,
@@ -154,7 +162,7 @@ class StatementController extends Controller
             $this->service->signData($data);
             return response('Ведомость успешно подписана!', 200);
         }catch (\Exception $exception) {
-
+            return response($exception->getMessage(), 403);
         }
     }
 }

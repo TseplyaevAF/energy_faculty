@@ -12,7 +12,18 @@ class Individual extends Model
 
     protected $guarded = false;
 
+    static public function getSignature($individual) {
+        return [
+            'Студент' => $individual['studentFIO'],
+            '№ студенческого билета: ' => $individual['student_id_number']
+        ];
+    }
+
     public function student() {
         return $this->belongsTo(Student::class);
+    }
+
+    public function statement() {
+        return $this->belongsTo(Statement::class);
     }
 }

@@ -24,6 +24,13 @@ class CentreAuthority
         return openssl_x509_parse($this->caCert);
     }
 
+    public function certVerify($cert) {
+        $publicKey = openssl_pkey_get_public($this->caCert);
+        $details = openssl_pkey_get_details($publicKey);
+        $public_key_pem = $details['key'];
+        return openssl_x509_verify($cert, $public_key_pem);
+    }
+
     /**
      * Создание новой пары - открытый/закрытый ключи
      */
