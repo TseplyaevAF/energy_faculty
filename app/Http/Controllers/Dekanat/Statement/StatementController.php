@@ -44,7 +44,7 @@ class StatementController extends Controller
                 $statements = Statement::all();
             }
 
-            $data = self::getArrayStatements($statements);
+            $data = Statement::getArrayStatements($statements);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'dekanat.statement.action')
@@ -53,22 +53,6 @@ class StatementController extends Controller
         }
         $groups = Group::all();
         return view('dekanat.statement.index', compact('groups'));
-    }
-
-    private function getArrayStatements($statements)
-    {
-        $data = [];
-        $controlForms = Statement::getControlForms();
-        foreach ($statements as $statement) {
-            $data[$statement->id]['id'] = $statement->id;
-            $data[$statement->id]['group'] = $statement->lesson->group;
-            $data[$statement->id]['year'] = $statement->lesson->year->start_year . '-' .
-                $statement->lesson->year->end_year;
-            $data[$statement->id]['discipline'] = $statement->lesson->discipline;
-            $data[$statement->id]['control_form'] = $controlForms[$statement->control_form];
-            $data[$statement->id]['semester'] = $statement->lesson->semester;
-        }
-        return $data;
     }
 
     public function getYears($groupId)

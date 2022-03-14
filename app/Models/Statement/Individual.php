@@ -26,4 +26,35 @@ class Individual extends Model
     public function statement() {
         return $this->belongsTo(Statement::class);
     }
+
+    private static function getIndividual($individual) {
+        $data[$individual->id]['id'] = $individual->id;
+        $data[$individual->id]['studentFIO'] = $individual->student->user->surname . ' ' .
+            $individual->student->user->name . ' ' . $individual->student->user->patronymic;
+        $data[$individual->id]['student_id_number'] = $individual->student->student_id_number;
+        $data[$individual->id]['evaluation'] = !isset($individual->eval) ? '' : $individual->eval;
+        return $data;
+    }
+
+    public static function getArrayIndividuals($individuals)
+    {
+        $data = [];
+        foreach ($individuals as $individual) {
+            if (!isset($individual->teacher_signature)) {
+                $data += self::getIndividual($individual);
+            }
+        }
+        return $data;
+    }
+
+    public static function getArrayCompletedSheets($individuals)
+    {
+        $data = [];
+        foreach ($individuals as $individual) {
+            $data += self::getIndividual($individual);
+            $data[$individual->id]['exam_finish_date'] = !isset($individual->exam_finish_date) ?
+                '' : $individual->exam_finish_date;
+        }
+        return $data;
+    }
 }

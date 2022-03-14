@@ -80,7 +80,7 @@
               </div>
 
               <div class="form-group">
-                <input type="submit" id="submitGroupNews" class="btn btn-primary" value="Сохранить">
+                <input type="submit" id="submitNews" class="btn btn-primary" value="Сохранить">
               </div>
             </form>
           </div>
@@ -101,6 +101,6 @@
   </div>
 
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('js/groups/news/loadingImages.js') }}"></script>
+  <script src="{{ asset('js/news/loadingImages.js') }}"></script>
   <!-- /.content-wrapper -->
   @endsection

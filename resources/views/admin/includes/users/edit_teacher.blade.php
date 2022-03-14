@@ -31,7 +31,7 @@
         <label>Выберите кафедру</label>
         <select name="chair_id" class="form-control">
             @foreach($chairs as $chair)
-            <option value="{{$chair->id }}" {{$chair->id == $teacher->chair_id ? 'selected' : ''}}>{{ $chair->title }}</option>
+            <option value="{{$chair->id }}" {{ $chair->id == $teacher->chair_id ? 'selected' : ''}}>{{ $chair->title }}</option>
             @endforeach
         </select>
     </div>
@@ -39,7 +39,7 @@
         <label>Выберите преподаваемые дисциплины</label>
         <select class="select2" name="disciplines_ids[]" multiple="multiple" data-placeholder="Выберите дисциплины" style="width: 100%;">
             @foreach ($disciplines as $discipline)
-            <option {{ is_array($teacher->disciplines->pluck('id')->toArray()) 
+            <option {{ is_array($teacher->disciplines->pluck('id')->toArray())
                     && in_array($discipline->id, $teacher->disciplines->pluck('id')->toArray())
                     ? 'selected' : ''}} value="{{ $discipline->id }}">{{ $discipline->title }}</option>
             @endforeach

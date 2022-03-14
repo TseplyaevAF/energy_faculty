@@ -42,12 +42,20 @@
                                     <div class="card mb-4">
                                         <div class="card-body">
                                             <div class="media mb-3">
-
                                                 <img src="{{ asset('storage/images/personal/no_photo.jpg') }}"
                                                      class="d-block ui-w-40 rounded-circle" alt="">
                                                 <div class="media-body ml-3">
                                                     {{ $headman->user->surname }}
-                                                    <div class="text-muted small">Опубликовано: {{ date('d.m.Y', strtotime($post->created_at)) }} в {{ date('H:i', strtotime($post->created_at)) }}</div>
+                                                    <div class="row">
+                                                        <div class="text-muted small mt-1">Опубликовано: {{ date('d.m.Y', strtotime($post->created_at)) }} в {{ date('H:i', strtotime($post->created_at)) }}</div>
+                                                        @can('isHeadman')
+                                                            <a class="btn btn-info btn-sm ml-2 " href="{{ route('personal.news.edit', $post->id) }}">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                                Редактировать
+                                                            </a>
+                                                        @endcan
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <p>{!! $post->content !!}</p>
@@ -59,15 +67,7 @@
                                             @endif
                                         </div>
                                         <div class="card-footer">
-                                            <a href="javascript:void(0)" class="d-inline-block text-muted">
-                                                <strong>123</strong> Likes</small>
-                                            </a>
-                                            @can('isHeadman')
-                                            <a class="btn btn-info btn-sm mr-1" href="{{ route('personal.news.edit', $post->id) }}">
-                                                <i class="fas fa-pencil-alt"></i>
-                                                Редактировать
-                                            </a>
-                                            @endcan
+
                                         </div>
                                     </div>
                                 @endforeach

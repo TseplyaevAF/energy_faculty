@@ -5,42 +5,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet"/>
 
-    <style>
-        /*.block {*/
-        /*    display: block;*/
-        /*    padding: 3px 6px 3px 6px;*/
-        /*    border-radius: 2px;*/
-
-        /*    height: 20px;*/
-        /*    background: green;*/
-        /*    margin: 10px;*/
-        /*    color: white;*/
-        /*    animation: error .4s;*/
-        /*}*/
-
-        /*.inner {*/
-        /*    position: absolute;*/
-        /*    bottom: 0;*/
-        /*}*/
-
-        /*@keyframes error {*/
-        /*    0% {*/
-        /*        height: 0px;*/
-        /*        margin-top: -16px;*/
-        /*    }*/
-        /*    100% {*/
-        /*        height: 20px;*/
-        /*        margin-bottom: '';*/
-        /*    }*/
-        /*}*/
-    </style>
-
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0">Ведомость № {{ $statement->id  }}</h1>
+                        <input type="hidden" class="inputStatement" value="{{ $statement->id }}">
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -68,12 +39,16 @@
                         <div class="form-group">
                             Наименование дисциплины: {{ $statement->lesson->discipline->title }}
                         </div>
+                        @if (isset($statement->start_date))
                         <div class="form-group">
                             Дата экзамена: {{ date('d.m.Y', strtotime($statement->start_date) ) }}
                         </div>
+                        @endif
+                        @if (isset($statement->finish_date))
                         <div class="form-group">
                             Дата сдачи ведомости: {{ date('d.m.Y', strtotime($statement->finish_date)) }}
                         </div>
+                        @endif
                     </div>
                     <div class="card-body">
                         <form method="POST">
@@ -91,56 +66,71 @@
                                 <tbody></tbody>
                             </table>
                         </form>
-                            <!-- Modal -->
-                            <div class="modal fade" id="ajaxModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Подписать ведомость</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="postForm" name="postForm" enctype="multipart/form-data" method="POST">
-                                                @csrf
-                                                Подписать ведомость для следующих студентов:
-                                                <ul class="studentsList" id="studentsList"></ul>
-                                                <input type="hidden" class="individualsList" name="individuals[]">
-                                                <h5>Выберите файл с Вашим секретным ключом:</h5>
-                                                <div class="input-group mb-2 w-50">
-                                                    <div class="custom-file">
-                                                        <input type="file" id="file" class="custom-file-input" name="private_key"
-                                                               accept=".key">
-                                                        <label class="custom-file-label" for="exampleInputFile">Выберите
-                                                            файл</label>
-                                                    </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="ajaxModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Подписать ведомость</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="postForm" name="postForm" enctype="multipart/form-data" method="POST">
+                                            @csrf
+                                            Подписать ведомость для следующих студентов:
+                                            <ul class="studentsList" id="studentsList"></ul>
+                                            <input type="hidden" class="individualsList" name="individuals[]">
+                                            <h5>Выберите файл с Вашим секретным ключом:</h5>
+                                            <div class="input-group mb-2 w-50">
+                                                <div class="custom-file">
+                                                    <input type="file" id="file" class="custom-file-input"
+                                                           name="private_key"
+                                                           accept=".key">
+                                                    <label class="custom-file-label" for="exampleInputFile">Выберите
+                                                        файл</label>
                                                 </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" id="closeModal" class="btn btn-secondary"
-                                                    data-dismiss="modal">Закрыть
-                                            </button>
-                                            <button type="button" id="signData" class="btn btn-primary signData">
-                                                Подписать
-                                            </button>
-                                        </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="closeModal" class="btn btn-secondary"
+                                                data-dismiss="modal">Закрыть
+                                        </button>
+                                        <button type="button" id="signData" class="btn btn-primary signData">
+                                            Подписать
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="inner"></div>
-                            <div class="form-group mr-3">
-                                <a href="javascript:void(0)"
-                                   class="btn btn-success btn-sm mb-3" id="saveStatement">
-                                    Сохранить
-                                </a>
-                                <a href="javascript:void(0)"
-                                   class="btn btn-success btn-sm mb-3" id="signStatement">
-                                    Сохранить и подписать
-                                </a>
-                            </div>
+                        </div>
+                        <div class="form-group mr-3">
+                            <a href="javascript:void(0)"
+                               class="btn btn-success btn-sm mb-3" id="saveStatement">
+                                Сохранить
+                            </a>
+                            <a href="javascript:void(0)"
+                               class="btn btn-success btn-sm mb-3" id="signStatement">
+                                Подписать
+                            </a>
+                        </div>
+                        <div class="form-group">
+                            <h5>Студенты, прошедшие контроль:</h5>
+                            <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>ФИО</th>
+                                    <th>№ зачетной книжки</th>
+                                    <th>Оценка</th>
+                                    <th>Дата сдачи</th>
+                                </tr>
+                                </thead>
+                                <tbody class="completed-sheets"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -152,6 +142,18 @@
     <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js" defer></script>
     <script>
         $(document).ready(function () {
+            let evalTypes;
+
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('personal.statement.getEvalTypes') }}',
+                success: function (response) {
+                    evalTypes = JSON.parse(response);
+                }
+            });
+
+            getCompletedSheets();
+
             let table = $('#individuals-table').DataTable({
                 language: {
                     processing: "Подождите...",
@@ -178,8 +180,19 @@
                     {
                         data: "evaluation", name: "evaluation",
                         render: function (data, type, row) {
-                            return '<input class="form-control evalInput" id="evaluation" name="evaluation" type="text"' +
-                                'value = ' + row.evaluation + '>';
+                            var select = '<select class="form-control evalSelect" type="text" name="evaluation">';
+                            select += '<option value="">-- Оценка не выбрана</option>';
+                            let count = 1;
+                            for (var i = 0; i < Object.keys(evalTypes).length; i++) {
+                                if (evalTypes[count] === evalTypes[row.evaluation]) {
+                                    select += '<option value="' + row.evaluation + '" selected="true">' + evalTypes[row.evaluation] + '</option>';
+                                } else {
+                                    select += '<option value="' + count + '">' + evalTypes[count] + '</option>';
+                                }
+                                count++;
+                            }
+                            select += '</select>';
+                            return select;
                         }
                     },
                     {
@@ -189,7 +202,7 @@
                     }
                 ],
                 "drawCallback": function (settings) {
-                    $(".evalInput").on("change", function () {
+                    $(".evalSelect").on("change", function () {
                         var $row = $(this).parents("tr");
                         var rowData = table.row($row).data();
 
@@ -208,6 +221,27 @@
                     selector: 'td:last-child' // 01: ONLY CHECK ROW WHEN FIRST TD ROW IS CLICKED
                 },
             });
+
+            function getCompletedSheets() {
+                let id = $('.inputStatement').val();
+                $.ajax({
+                    type: 'GET',
+                    url: 'getCompletedSheets/' + id,
+                    success: function (response) {
+                        let data = JSON.parse(response);
+                        $('.completed-sheets').find('tr').remove();
+                        $.each(data, function (key, item) {
+                            $('.completed-sheets').append('<tr>\
+                            <td>' + key + '</td>\
+                            <td>' + item.studentFIO + '</td>\
+                            <td>' + item.student_id_number + '</td>\
+                            <td>' + evalTypes[item.evaluation] + '</td>\
+                            <td>' + item.exam_finish_date + '</td>\
+                            </tr>');
+                        })
+                    }
+                });
+            }
 
             document.addEventListener('click', function (e) {
                 table.on("click", "th.select-checkbox", function () {
@@ -256,10 +290,19 @@
                 const button = document.querySelector('.signData');
                 let students = [];
                 data.each(function (value) {
+                    let eval;
+                    let count = 1;
+                    for (let i = 0; i < Object.keys(evalTypes).length; i++) {
+                        if (evalTypes[count] === evalTypes[value.evaluation]) {
+                            eval = evalTypes[value.evaluation];
+                            break;
+                        }
+                        count++;
+                    }
                     $('.studentsList').append(
                         '<li class="list-student-item d-flex justify-content-between align-items-center">\
                                 <div class="studentFIO">' + value.studentFIO + '</div>\
-                        <span class="badge badge-primary badge-pill">' + value.evaluation + '</span>\
+                        <span class="badge badge-primary badge-pill">' + eval + '</span>\
                         </li>');
                     students.push(value);
                 });
@@ -277,7 +320,7 @@
             $("#signData").on("click", function () {
                 var formData = new FormData()
                 formData.append('_token', $("input[name='_token']").val());
-                formData.append('individuals', JSON.stringify(document.getElementsByName('individuals[]').value) );
+                formData.append('individuals', JSON.stringify(document.getElementsByName('individuals[]').value));
                 formData.append('private_key', $('#file')[0].files[0]);
                 $.ajax({
                     method: 'POST',
@@ -290,6 +333,7 @@
                         alert(response);
                         $('#ajaxModal').modal('hide');
                         table.draw();
+                        getCompletedSheets();
                     },
                     error: function (response) {
                         alert(response.responseText);
