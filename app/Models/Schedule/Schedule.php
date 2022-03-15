@@ -3,6 +3,7 @@
 namespace App\Models\Schedule;
 
 use App\Models\Group\Group;
+use App\Models\Lesson;
 use App\Models\Teacher\Teacher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,13 +20,12 @@ class Schedule extends Model
     public static function getDays()
     {
         return [
-            1 => 'Понедельник',
-            2 => 'Вторник',
-            3 => 'Среда',
-            4 => 'Четверг',
-            5 => 'Пятница',
-            6 => 'Суббота',
-            7 => 'Воскресенье'
+            1 => 'ПН',
+            2 => 'ВТ',
+            3 => 'СР',
+            4 => 'ЧГ',
+            5 => 'ПТ',
+            6 => 'СБ'
         ];
     }
 
@@ -37,12 +37,8 @@ class Schedule extends Model
         ];
     }
 
-    public function discipline() {
-        return $this->belongsTo(Discipline::class);
-    }
-
-    public function teacher() {
-        return $this->belongsTo(Teacher::class);
+    public function lesson() {
+        return $this->belongsTo(Lesson::class);
     }
 
     public function class_type() {
@@ -51,9 +47,5 @@ class Schedule extends Model
 
     public function classroom() {
         return $this->belongsTo(Classroom::class);
-    }
-
-    public function group() {
-        return $this->belongsTo(Group::class);
     }
 }

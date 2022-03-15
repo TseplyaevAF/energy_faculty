@@ -32,44 +32,39 @@ class MainController extends Controller
         $user = auth()->user();
         $days = Schedule::getDays();
         $class_times = ClassTime::all();
+        $scheduleEven = [];
+        $scheduleOdd = [];
         if ($user->role_id == User::ROLE_STUDENT) {
             $group = $user->student->group;
-            // расписание по чётной неделе
-            $scheduleEven = Schedule::where('group_id', $group->id)->where('week_type', Schedule::WEEK_UP)->get();
-            // расписание по нечётной неделе
-            $scheduleOdd = Schedule::where('group_id', $group->id)->where('week_type', Schedule::WEEK_LOW)->get();
-            return view('personal.main.showSchedule', compact('group','days', 'class_times', 'scheduleEven', 'scheduleOdd'));
+            foreach ($group->lessons as $lesson) {
+                if ($lesson->semester === $group->semester) {
+                    // расписание по чётной неделе
+                    foreach ($lesson->schedules->where('week_type', Schedule::WEEK_UP) as $item) {
+                        $scheduleEven [] = $item;
+                    }
+                    // расписание по нечётной неделе
+                    foreach ($lesson->schedules->where('week_type', Schedule::WEEK_LOW) as $item) {
+                        $scheduleOdd [] = $item;
+                    }
+                }
+            }
+            return view('personal.main.showSchedule',
+                compact('group','days', 'class_times', 'scheduleEven', 'scheduleOdd'));
         }
         if ($user->role_id == User::ROLE_TEACHER) {
-            // расписание по чётной неделе
-            $scheduleEven = Schedule::where('teacher_id', $user->teacher->id)->where('week_type', Schedule::WEEK_UP)->get();
-            // расписание по нечётной неделе
-            $scheduleOdd = Schedule::where('teacher_id', $user->teacher->id)->where('week_type', Schedule::WEEK_LOW)->get();
-            return view('personal.main.showSchedule', compact('days', 'class_times', 'scheduleEven', 'scheduleOdd'));
+            $teacher = $user->teacher;
+            foreach ($teacher->lessons as $lesson) {
+                // расписание по чётной неделе
+                foreach ($lesson->schedules->where('week_type', Schedule::WEEK_UP) as $item) {
+                    $scheduleEven [] = $item;
+                }
+                // расписание по нечётной неделе
+                foreach ($lesson->schedules->where('week_type', Schedule::WEEK_LOW) as $item) {
+                    $scheduleOdd [] = $item;
+                }
+            }
+            return view('personal.main.showSchedule',
+                compact('days', 'class_times', 'scheduleEven', 'scheduleOdd'));
         }
-    }
-
-    public function editSchedule(Schedule $schedule) {
-        Gate::authorize('edit-schedule');
-        $group = $schedule->group;
-        $week_types = Schedule::getWeekTypes();
-        $days = Schedule::getDays();
-        $class_times = ClassTime::all();
-        $disciplines = Discipline::all();
-        $class_types = ClassType::all();
-        $classrooms = Classroom::all();
-        return view('personal.main.editSchedule', compact('schedule', 'group', 'week_types', 'days', 'class_times', 'disciplines', 'class_types', 'classrooms'));
-    }
-
-    public function updateSchedule(UpdateRequest $request, Schedule $schedule) {
-        Gate::authorize('edit-schedule');
-        $data = $request->validated();
-        $data['teacher_id'] = auth()->user()->teacher->id;
-        try {
-            $this->service->update($data, $schedule);
-        } catch (\Exception $exception) {
-            return back()->withError($exception->getMessage())->withInput();
-        }
-        return redirect()->route('personal.main.schedule')->withSuccess('Расписание успешно обновлено!');
     }
 }

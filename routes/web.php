@@ -150,8 +150,6 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'MainController@index');
         Route::get('/schedule', 'MainController@showSchedule')->name('personal.main.schedule');
-        Route::get('/schedule/{schedule}/edit', 'MainController@editSchedule')->name('personal.main.editSchedule');
-        Route::patch('/schedule/{schedule}', 'MainController@updateSchedule')->name('personal.main.updateSchedule');
     });
     Route::group(['namespace' => 'Settings', 'prefix' => 'settings'], function () {
         Route::get('/', 'SettingsController@edit')->name('personal.settings.edit');

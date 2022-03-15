@@ -33,7 +33,7 @@
             <div class="col-12 alert alert-success" role="alert">{!! session('success') !!}</div>
             @endif
         </div>
-            @can('index-homework')
+            @can('isStudent')
             <div class="schedule__title">
                 <h1 class="schedule__title-h1">
                     <strong>{{ $group->title }}</strong>
@@ -41,13 +41,14 @@
             </div>
             <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $group->course }}, семестр: {{ $group->semester }}</span></span></small></strong>
             @endcan
-            @can('index-task')
+            @can('isTeacher')
             <div class="schedule__title">
                 <h5 class="schedule__title-h1">
                     <strong>Преподаватель: {{ auth()->user()->surname }} {{ auth()->user()->name }} {{ auth()->user()->patronymic }}</strong>
                 </h5>
             </div>
             @endcan
+
             <div class="row mt-2">
                 <div class="col-8">
                     <table class="table table-bordered text-wrap">
@@ -79,37 +80,31 @@
                                             @if (($pairEven->class_time_id == $time->id) && ($pairEven->day == $day_id))
                                                 <td class="schedule__table-discipline">
                                                     <div class="row">
-                                                        {{ $pairEven->discipline->title }} ·&nbsp
-                                                        @can('index-homework')
-                                                            <a class="schedule__table-teacher" href="#">{{ $pairEven->teacher->user->surname }} {{ mb_substr($pairEven->teacher->user->name, 0, 1) }}. {{ mb_substr($pairEven->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
-                                                        @elsecan('index-task')
-                                                            <a class="schedule__table-group" href="#">{{ $pairEven->group->title }}</a>&nbsp·&nbsp
+                                                        {{ $pairEven->lesson->discipline->title }} ·&nbsp
+                                                        @can('isStudent')
+                                                            <a class="schedule__table-teacher" href="#">{{ $pairEven->lesson->teacher->user->surname }} {{ mb_substr($pairEven->lesson->teacher->user->name, 0, 1) }}. {{ mb_substr($pairEven->lesson->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
+                                                        @elsecan('isTeacher')
+                                                            <a class="schedule__table-group" href="#">{{ $pairEven->lesson->group->title }}</a>&nbsp·&nbsp
                                                         @endcan
                                                         <p class="schedule__table-class-type text-muted"> {{ $pairEven->class_type->title }} </p>&nbsp·&nbsp
                                                         <p class="schedule__table-classroom">(ауд. {{$pairEven->classroom->corps}}-{{$pairEven->classroom->cabinet}})</p>&nbsp
-                                                        @can('edit-schedule')
-                                                        <a href="{{ route('personal.main.editSchedule', $pairEven->id) }}" class="text-success"><i class="far fa-edit"></i></a>
-                                                        @endcan
                                                     </div>
                                                 </td>
                                                 @php
                                                     $firstColumn = true;
                                                 @endphp
                                                 @foreach ($scheduleOdd as $pairOdd)
-                                                    @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day == $day))
+                                                    @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day == $day_id))
                                                         <td class="schedule__table-discipline">
                                                             <div class="row">
-                                                                {{$pairOdd->discipline->title}} ·&nbsp
-                                                                @can('index-homework')
-                                                                <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->user->surname }} {{ mb_substr($pairOdd->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
-                                                                @elsecan('index-task')
-                                                                    <a class="schedule__table-group" href="#">{{ $pairOdd->group->title }}</a>&nbsp·&nbsp
+                                                                {{$pairOdd->lesson->discipline->title}} ·&nbsp
+                                                                @can('isStudent')
+                                                                <a class="schedule__table-teacher" href="#">{{ $pairOdd->lesson->teacher->user->surname }} {{ mb_substr($pairOdd->lesson->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->lesson->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
+                                                                @elsecan('isTeacher')
+                                                                    <a class="schedule__table-group" href="#">{{ $pairOdd->lesson->group->title }}</a>&nbsp·&nbsp
                                                                 @endcan
                                                                 <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                                 <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
-                                                                @can('edit-schedule')
-                                                                <a href="{{ route('personal.main.editSchedule', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
-                                                                @endcan
                                                             </div>
                                                         </td>
                                                         @php
@@ -129,20 +124,17 @@
                                         @else
                                             <td></td>
                                             @foreach ($scheduleOdd as $pairOdd)
-                                                @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day == $day))
+                                                @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day == $day_id))
                                                     <td class="schedule__table-discipline">
                                                         <div class="row">
-                                                            {{$pairOdd->discipline->title}} ·&nbsp
-                                                            @can('index-homework')
-                                                            <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->user->surname }} {{ mb_substr($pairOdd->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
-                                                            @elsecan('index-task')
-                                                                <a class="schedule__table-group" href="#">{{ $pairOdd->group->title }}</a>&nbsp·&nbsp
+                                                            {{$pairOdd->lesson->discipline->title}} ·&nbsp
+                                                            @can('isStudent')
+                                                            <a class="schedule__table-teacher" href="#">{{ $pairOdd->lesson->teacher->user->surname }} {{ mb_substr($pairOdd->lesson->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->lesson->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
+                                                            @elsecan('isTeacher')
+                                                                <a class="schedule__table-group" href="#">{{ $pairOdd->lesson->group->title }}</a>&nbsp·&nbsp
                                                             @endcan
                                                             <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                             <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
-                                                            @can('edit-schedule')
-                                                            <a href="{{ route('personal.main.editSchedule', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
-                                                            @endcan
                                                         </div>
                                                     </td>
                                                     @php

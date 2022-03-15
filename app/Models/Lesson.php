@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Group\Group;
+use App\Models\Schedule\Schedule;
 use App\Models\Statement\Statement;
 use App\Models\Teacher\Task;
 use App\Models\Teacher\Teacher;
@@ -37,5 +38,9 @@ class Lesson extends Model
 
     public function tasks() {
         return $this->hasMany(Task::class);
+    }
+
+    public function schedules() {
+        return $this->hasMany(Schedule::class);
     }
 }

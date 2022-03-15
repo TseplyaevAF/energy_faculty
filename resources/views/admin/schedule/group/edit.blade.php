@@ -37,7 +37,13 @@
                     <strong>{{ $group->title }}</strong>
                 </h1>
             </div>
-            <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $group->course }}, семестр: {{ $group->semester }}</span></span></small></strong>
+            <small class="schedule__title-week-type">
+                <span class="uniform-bg">
+                    <span>
+                        курс: {{ $group->course }}, семестр: {{ $group->semester }}
+                    </span>
+                </span>
+            </small></strong>
             <div class="row mt-4">
                 <div class="col-12">
                     <form action="{{ route('admin.schedule.group.update', $schedule->id) }}" method="POST" class="w-25">
@@ -47,7 +53,7 @@
                         <div class="form-group">
                             <label>Тип недели</label>
                             <select name="week_type" class="form-control">
-                                @foreach($week_types as $week_type_number => $week_type)
+                                @foreach($data['week_types'] as $week_type_number => $week_type)
                                 <option value="{{ $week_type_number }}" {{ $week_type_number == $schedule->week_type ? 'selected' : ''}}>{{ $week_type }}</option>
                                 @endforeach
                             </select>
@@ -55,7 +61,7 @@
                         <div class="form-group">
                             <label>День недели</label>
                             <select name="day" class="form-control">
-                                @foreach($days as $day_number => $day)
+                                @foreach($data['days'] as $day_number => $day)
                                 <option value="{{ $day_number }}" {{ $day_number == $schedule->day ? 'selected' : ''}}>{{ $day }}</option>
                                 @endforeach
                             </select>
@@ -63,31 +69,26 @@
                         <div class="form-group">
                             <label>Время занятия</label>
                             <select name="class_time_id" class="form-control">
-                                @foreach($class_times as $class_time)
+                                @foreach($data['class_times'] as $class_time)
                                 <option value="{{$class_time->id }}" {{$class_time->id == $schedule->class_time_id ? 'selected' : ''}}>{{ date("H:i", strtotime($class_time->start_time)) }}-{{ date("H:i", strtotime($class_time->end_time)) }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Дисциплина</label>
-                            <select name="discipline_id" class="form-control">
-                                @foreach($disciplines as $discipline)
-                                <option value="{{$discipline->id }}" {{$discipline->id == $schedule->discipline_id ? 'selected' : ''}}>{{ $discipline->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Преподаватель</label>
-                            <select name="teacher_id" class="form-control">
-                                @foreach($teachers as $teacher)
-                                <option value="{{$teacher->id }}" {{$teacher->id == $schedule->teacher_id ? 'selected' : ''}}>{{ $teacher->user->surname }}</option>
+                            <label>Нагрузка</label>
+                            <select name="lesson_id" class="form-control">
+                                @foreach($data['lessons'] as $lesson)
+                                <option value="{{$lesson->id }}" {{$lesson->id == $schedule->lesson_id ? 'selected' : ''}}>
+                                    {{ $lesson->teacher->user->surname }},
+                                    {{ $lesson->semester }} семестр
+                                </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Вид занятия</label>
                             <select name="class_type_id" class="form-control">
-                                @foreach($class_types as $class_type)
+                                @foreach($data['class_types'] as $class_type)
                                 <option value="{{$class_type->id }}" {{$class_type->id == $schedule->class_type_id ? 'selected' : ''}}>{{ $class_type->title }}</option>
                                 @endforeach
                             </select>
@@ -95,13 +96,14 @@
                         <div class="form-group">
                             <label>Аудитория</label>
                             <select name="classroom_id" class="form-control">
-                                @foreach($classrooms as $classroom)
+                                @foreach($data['classrooms'] as $classroom)
                                 <option value="{{$classroom->id }}" {{$classroom->id == $schedule->classroom_id ? 'selected' : ''}}>
                                     {{ $classroom->corps }}-{{ $classroom->cabinet }}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
+                        <input type="hidden" name="group_id" value="{{ $group->id }}">
                         <input type="submit" class="btn btn-primary mb-2" value="Сохранить">
                     </form>
                 </div>

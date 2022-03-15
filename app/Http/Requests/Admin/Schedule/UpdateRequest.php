@@ -27,11 +27,10 @@ class UpdateRequest extends FormRequest
             'week_type' => 'required|integer',
             'day' => 'required|integer',
             'class_time_id' => 'required|integer',
-            'discipline_id' => 'required|integer|exists:disciplines,id',
-            'teacher_id' => 'required|integer|exists:teachers,id',
-            'group_id' => 'required|integer|exists:groups,id',
+            'lesson_id' => 'required|integer|exists:lessons,id',
             'class_type_id' => 'required|integer',
             'classroom_id' => 'required|integer',
+            'group_id' => 'required|integer|exists:groups,id',
         ];
     }
 }
