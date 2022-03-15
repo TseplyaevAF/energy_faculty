@@ -26,6 +26,7 @@ class FilterRequest extends FormRequest
         return [
             'content' => 'nullable|string',
             'category_id' => 'nullable|integer|exists:categories,id',
+            'is_slider_item' => 'nullable|boolean',
             'date' => 'nullable|array',
             'date.*' => 'nullable|string',
         ];

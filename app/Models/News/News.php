@@ -14,4 +14,9 @@ class News extends Model
     use Filterable;
 
     protected $guarded = false;
+
+
+    public function event() {
+        return $this->hasOne(Event::class);
+    }
 }

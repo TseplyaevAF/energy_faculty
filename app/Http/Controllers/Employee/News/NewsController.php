@@ -25,13 +25,12 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         $filter = app()->make(NewsFilter::class, ['queryParams' => array_filter($data)]);
-        $all_news = News::where('chair_id', auth()->user()->employee->chair_id)->filter($filter)->paginate(5);
+        $all_news = News::where('chair_id', auth()->user()->employee->chair_id)
+            ->filter($filter)
+            ->orderBy('updated_at', 'desc')
+            ->paginate(5);
         $categories = Category::all();
         return view('employee.news.index', compact('all_news', 'categories'));
-
-        // $all_news = DB::table('news')->orderBy('updated_at', 'desc')->where('deleted_at', null)->get();
-        // $categories = Category::all();
-        // return view('employee.news.index', compact('all_news', 'categories'));
     }
 
     public function create()

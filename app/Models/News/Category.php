@@ -12,4 +12,19 @@ class Category extends Model
     use SoftDeletes;
 
     protected $guarded = false;
+
+    const NEWS = 1;
+    const EVENTS = 2;
+    const CONFERENCES = 3;
+    const OLYMPICS = 4;
+
+    public static function getCategories()
+    {
+        return [
+            self::NEWS => 'Новости',
+            self::EVENTS => 'События',
+            self::CONFERENCES => 'Конференции',
+            self::OLYMPICS => 'Олимпиады'
+        ];
+    }
 }
