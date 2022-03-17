@@ -17,8 +17,8 @@ class CreateExamSheetsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('individual_id');
-            $table->date('before');
-            $table->text('dekan_signature');
+            $table->date('before')->nullable();
+            $table->text('dekan_signature')->nullable();
 
             // IDX
             $table->index('student_id', 'exam_sheet_student_idx');

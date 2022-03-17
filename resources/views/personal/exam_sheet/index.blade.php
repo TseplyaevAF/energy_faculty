@@ -8,7 +8,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Допуски</h1>
+                        <h1 class="m-0">Задолженности</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -19,51 +19,123 @@
                 </div>
             </div>
         </div>
-
         <section class="content">
             <div class="container-fluid">
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
-                @foreach($exam_sheets as $sheet)
-                    <div class="col-lg-4">
-                        <div class="card card-margin">
-                            <div class="card-header no-border">
-                                <h5 class="card-title">Экзаменационный лист</h5>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="widget-49">
-                                    <div class="widget-49-title-wrapper">
-                                        <div class="widget-49-date-primary">
-                                            <span class="widget-49-date-day">
-                                                {!! QrCode::size(50)->generate(route('personal.exam_sheet.show', $sheet->id)) !!}
-                                            </span>
-                                            <span class="widget-49-date-month"></span>
+                <div class="form-group">
+                    <h5>Мои долги:</h5>
+                    <table class="table table-hover text-wrap w-75">
+                        <thead>
+                        <tr>
+                            <th>Ведомость от</th>
+                            <th>Дисциплина</th>
+                            <th>Преподаватель</th>
+                            <th>Оценка</th>
+                            <th>Дата сдачи</th>
+                            <th>Допуск</th>
+                        </tr>
+                        </thead>
+                        <tbody class="completed-sheets">
+                        @foreach($individuals as $individual)
+                            <tr>
+                                <td>
+                                    {{ $individual->statement->lesson->year->start_year }}-
+                                    {{ $individual->statement->lesson->year->end_year }},
+                                    {{ $individual->statement->lesson->semester }} семестр
+                                </td>
+                                <td>
+                                    {{ $individual->statement->lesson->discipline->title }}
+                                </td>
+                                <td>
+                                    {{ $individual->statement->lesson->teacher->user->surname }}
+                                </td>
+                                <td>
+                                    {{ $evals[$individual->eval] }}
+                                </td>
+                                <td>
+                                    {{ $individual->exam_finish_date }}
+                                </td>
+                                <td class="project-actions text-left">
+                                    @if (!isset($individual->exam_sheet))
+                                        <form action="{{ route('personal.exam_sheet.store') }}" METHOD="POST">
+                                            @csrf
+                                            <input type="hidden" name="individual_id" value="{{ $individual->id }}">
+                                            <button class="btn btn-info btn-sm">
+                                                <i class="far fa-plus-square"></i>
+                                                Получить
+                                            </button>
+                                        </form>
+                                    @elseif (isset($individual->exam_sheet->dekan_signature))
+                                        <a href="javascript:void(0)" data-toggle="modal"
+                                           class="show btn btn-primary btn-sm"
+                                           data-target="#sheet_{{ $individual->exam_sheet->id }}">
+                                            Открыть
+                                        </a>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="sheet_{{ $individual->exam_sheet->id }}"
+                                             style="display: none; padding-right: 17px;" aria-hidden="true" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Допуск</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            <div class="card card-margin">
+                                                                <div class="card-header no-border">
+                                                                    <h5 class="card-title">Экзаменационный лист</h5>
+                                                                </div>
+                                                                <div class="card-body pt-0">
+                                                                    <div class="widget-49">
+                                                                        <div class="widget-49-title-wrapper">
+                                                                            <div class="widget-49-date-primary">
+                                                                    <span class="widget-49-date-day">
+                                                                        {!! QrCode::size(50)->generate(route('personal.exam_sheet.show', $individual->exam_sheet->id)) !!}
+                                                                    </span>
+                                                                                <span class="widget-49-date-month"></span>
+                                                                            </div>
+                                                                            <div class="widget-49-meeting-info">
+                                                                    <span class="widget-49-pro-title">
+                                                                        Студент: {{ $student->user->surname }} {{ $student->user->name }} {{ $student->user->patronymic }}
+                                                                    </span>
+                                                                                <span class="widget-49-meeting-time"><b>Действителен до: {{ $individual->exam_sheet->before }}</b> </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <ol class="widget-49-meeting-points">
+                                                                <span>
+                                                                    <div>Дисциплина: {{ $individual->statement->lesson->discipline->title }}</div>
+                                                                    <div>Группа: {{ $student->group->title }}, {{ $individual->statement->lesson->semester }} семестр</div>
+                                                                </span>
+                                                                        </ol>
+                                                                        <div class="widget-49-meeting-action">
+                                                                            Подписано деканом факультета
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                            Закрыть
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="widget-49-meeting-info">
-                                            <span class="widget-49-pro-title">
-                                                Студент: {{ $student->user->surname }} {{ $student->user->name }} {{ $student->user->patronymic }}
-                                            </span>
-                                            <span class="widget-49-meeting-time"><b>Действителен до: {{ $sheet->before }}</b> </span>
-                                        </div>
-                                    </div>
-                                    <ol class="widget-49-meeting-points">
-                                        <li class="widget-49-meeting-item">
-                                            <span>
-                                                Дисциплина: {{ $sheet->individual->statement->lesson->discipline->title }},
-                                                {{ $student->group->title }}, {{ $sheet->individual->statement->lesson->semester }} семестр
-                                            </span></li>
-                                    </ol>
-                                    <div class="widget-49-meeting-action">
-                                        Подписано деканом факультета
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+                                    @else
+                                        <i>Допуск скоро выдадут...</i>
+                                    @endif
+                                </td>
+                            </tr>
+
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </div>
-
 @endsection

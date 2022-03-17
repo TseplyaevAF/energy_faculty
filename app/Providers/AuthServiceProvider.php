@@ -98,7 +98,7 @@ class AuthServiceProvider extends ServiceProvider
 
 
         /// CERT APP
-        Gate::define('create-cert-app', function ($teacher) {
+        Gate::define('create-cert-app', function (User $user, $teacher) {
             $teacher = CertApp::where('teacher_id', $teacher->id)->first();
             return !isset($teacher) ? Response::allow() : Response::deny();
         });
@@ -106,7 +106,10 @@ class AuthServiceProvider extends ServiceProvider
 
         /// EXAM SHEETS
         Gate::define('show-exam-sheet', function (User $user, $sheet) {
-            return $sheet->individual->statement->lesson->teacher->id == $user->teacher->id ? Response::allow() : Response::deny();
+            return
+                $sheet->individual->statement->lesson->teacher->id == $user->teacher->id
+                    && $sheet->dekan_signature != null
+                    ? Response::allow() : Response::deny();
         });
     }
 }

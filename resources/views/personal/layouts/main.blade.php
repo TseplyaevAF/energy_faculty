@@ -135,6 +135,11 @@
 
     $('.select2').select2()
     $('#phone').inputmask("+9-(999)-999-99-99");
+    $('.pasport').inputmask({
+        mask: "9{2}-9{2}-9{6}",
+    });
+    $('.mask-inn-individual').inputmask('999999999999');
+    $('.mask-snils').inputmask('999-999-999 99');
   </script>
 
 </body>

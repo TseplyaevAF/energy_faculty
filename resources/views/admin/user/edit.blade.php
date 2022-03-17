@@ -36,7 +36,7 @@
 
         <div class="row">
           <div class="col-12">
-            <form action="{{ route('admin.user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.user.update', $user->id) }}" method="POST">
               @csrf
               @method('PATCH')
               <label for="exampleInputFile">Личные данные</label>
@@ -58,18 +58,8 @@
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
-              <div class="input-group mb-2 w-25">
-                <div class="custom-file">
-                  <!-- multiple -->
-                  <input type="file" class="custom-file-input" name="avatar" accept=".jpg,.jpeg,.png,.bmp,.svg">
-                  <label class="custom-file-label" for="exampleInputFile">Выберите аватар</label>
-                </div>
-              </div>
-              @error('avatar')
-              <p class="text-danger">{{ $message }}</p>
-              @enderror
 
-              <label for="exampleInputFile" class="mt-4">Контактные данные</label>
+              <label for="exampleInputFile" class="mt-2">Контактные данные</label>
               <div class="input-group mb-2 w-25">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-phone"></i></span>

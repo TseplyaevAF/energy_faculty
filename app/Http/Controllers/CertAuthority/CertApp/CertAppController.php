@@ -5,7 +5,6 @@ namespace App\Http\Controllers\CertAuthority\CertApp;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CA\StoreRequest;
 use App\Models\Cert\CertApp;
-use Illuminate\Support\Facades\DB;
 use App\Service\CA\Service;
 
 class CertAppController extends Controller
@@ -25,7 +24,8 @@ class CertAppController extends Controller
     public function accept(CertApp $certApp)
     {
         $teacher = $certApp->teacher;
-        return view('ca.cert-app.accept', compact('certApp', 'teacher'));
+        $data = json_decode($certApp->data);
+        return view('ca.cert-app.accept', compact('certApp', 'teacher', 'data'));
     }
 
     public function store(StoreRequest $request)

@@ -129,8 +129,13 @@ Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => 
 
 Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => ['auth', 'dekanat', 'verified']], function () {
     Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', 'IndexController');
+        Route::get('/', 'MainController@index');
     });
+    Route::group(['namespace' => 'ExamSheet', 'prefix' => 'exam_sheets'], function () {
+        Route::get('/', 'ExamSheetController@index')->name('dekanat.exam_sheet.index');
+        Route::post('/{sheet}', 'ExamSheetController@issue')->name('dekanat.exam_sheet.issue');
+    });
+
     Route::group(['namespace' => 'Statement', 'prefix' => 'statements'], function () {
         Route::get('/', 'StatementController@index')->name('dekanat.statement.index');
         Route::get('/getYears/{id}', 'StatementController@getYears');
@@ -205,6 +210,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::group(['namespace' => 'ExamSheet', 'prefix' => 'exam_sheets'], function () {
         Route::get('/', 'ExamSheetController@index')->name('personal.exam_sheet.index');
         Route::get('/{sheet}', 'ExamSheetController@show')->name('personal.exam_sheet.show');
+        Route::post('/', 'ExamSheetController@store')->name('personal.exam_sheet.store');
         Route::patch('/{sheet}', 'ExamSheetController@sign')->name('personal.exam_sheet.sign');
     });
 });

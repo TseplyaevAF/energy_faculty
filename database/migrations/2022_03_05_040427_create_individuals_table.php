@@ -20,6 +20,7 @@ class CreateIndividualsTable extends Migration
             $table->unsignedBigInteger('statement_id');
             $table->text('teacher_signature')->nullable();
             $table->date('exam_finish_date')->nullable();
+            $table->text('history')->nullable();
 
             $table->timestamps();
 

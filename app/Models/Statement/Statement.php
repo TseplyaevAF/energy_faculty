@@ -18,11 +18,11 @@ class Statement extends Model
     const FORM_Internship = 4;
     const FORM_undergraduate_practice = 5;
 
-    const EVAL_ZACHET = 1;
-    const EVAL_3 = 2;
-    const EVAL_4 = 3;
-    const EVAL_5 = 4;
-    const EVAL_ABSENCE = 5;
+    public const EVAL_ZACHET = 1;
+    public const EVAL_3 = 2;
+    public const EVAL_4 = 3;
+    public const EVAL_5 = 4;
+    public const EVAL_ABSENCE = 5;
 
     public static function getControlForms()
     {

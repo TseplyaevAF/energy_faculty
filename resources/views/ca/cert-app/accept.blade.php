@@ -96,6 +96,42 @@
                                                             <td>
                                                                 <strong>
                                                                     <span
+                                                                        class="glyphicon glyphicon-user  text-primary"></span>
+                                                                    Паспортные данные
+                                                                </strong>
+                                                            </td>
+                                                            <td class="text-primary">
+                                                                {{ $data->pasport  }}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>
+                                                                    <span
+                                                                        class="glyphicon glyphicon-user  text-primary"></span>
+                                                                    ИНН
+                                                                </strong>
+                                                            </td>
+                                                            <td class="text-primary">
+                                                                {{ $data->inn  }}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>
+                                                                    <span
+                                                                        class="glyphicon glyphicon-user  text-primary"></span>
+                                                                    СНИЛС
+                                                                </strong>
+                                                            </td>
+                                                            <td class="text-primary">
+                                                                {{ $data->snils  }}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>
+                                                                    <span
                                                                         class="glyphicon glyphicon-eye-open text-primary"></span>
                                                                     Преподаваемые дисциплины
                                                                 </strong>

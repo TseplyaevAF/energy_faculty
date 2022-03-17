@@ -17,6 +17,7 @@ class CreateCertAppsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('teacher_id');
             $table->text('public_key');
+            $table->text('data')->nullable();
             $table->timestamps();
 
             // IDX

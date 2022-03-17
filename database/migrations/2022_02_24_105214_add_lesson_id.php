@@ -35,10 +35,10 @@ class AddLessonId extends Migration
     public function down()
     {
         Schema::table('tasks', function (Blueprint $table) {
+            $table->dropColumn('lesson_id');
             $table->unsignedBigInteger('teacher_id');
             $table->unsignedBigInteger('discipline_id');
             $table->unsignedBigInteger('group_id');
-            $table->dropColumn('lesson_id');
 
             // IDX
             $table->index('teacher_id', 'task_teacher_idx');

@@ -31,20 +31,20 @@ class AddColumnLessonToSchedulesTable extends Migration
     public function down()
     {
         Schema::table('schedules', function (Blueprint $table) {
+            $table->dropColumn('lesson_id');
             $table->unsignedBigInteger('teacher_id');
             $table->unsignedBigInteger('discipline_id');
             $table->unsignedBigInteger('group_id');
-            $table->dropColumn('lesson_id');
 
             // IDX
-            $table->index('teacher_id', 'task_teacher_idx');
-            $table->index('discipline_id', 'task_discipline_idx');
-            $table->index('group_id', 'task_group_idx');
+            $table->index('teacher_id', 'schedule_teacher_idx');
+            $table->index('discipline_id', 'schedule_discipline_idx');
+            $table->index('group_id', 'schedule_group_idx');
 
             // FK
-            $table->foreign('teacher_id', 'task_teacher_fk')->on('teachers')->references('id');
-            $table->foreign('discipline_id', 'task_discipline_fk')->on('disciplines')->references('id');
-            $table->foreign('group_id', 'task_group_fk')->on('groups')->references('id');
+            $table->foreign('teacher_id', 'schedule_teacher_fk')->on('teachers')->references('id');
+            $table->foreign('discipline_id', 'schedule_discipline_fk')->on('disciplines')->references('id');
+            $table->foreign('group_id', 'schedule_group_fk')->on('groups')->references('id');
         });
     }
 }

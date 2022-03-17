@@ -11,8 +11,6 @@ use App\Service\Personal\Schedule\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class CertController extends Controller
@@ -55,9 +53,15 @@ class CertController extends Controller
             // генерируем пару ключей - открытый/закрытый, которые будут принадлежать преподавателю
             $newPair = CentreAuthority::getNewPair();
             $teacher = Teacher::find($request->teacher_id);
+            $request->validate([
+                'data' => 'required|array',
+                'data.*' => 'required|string',
+            ]);
+            $data = $request->data;
             CertApp::create([
                 'teacher_id' => $teacher->id,
-                'public_key' => $newPair['public']
+                'public_key' => $newPair['public'],
+                'data' => json_encode($data)
             ]);
             $filename =  'private_key_' . $teacher->user->surname . '.key';
             return redirect()->route('personal.cert.index')

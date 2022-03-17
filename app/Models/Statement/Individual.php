@@ -2,6 +2,7 @@
 
 namespace App\Models\Statement;
 
+use App\Models\ExamSheet;
 use App\Models\Student\Student;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,10 @@ class Individual extends Model
 
     public function statement() {
         return $this->belongsTo(Statement::class);
+    }
+
+    public function exam_sheet() {
+        return $this->hasOne(ExamSheet::class);
     }
 
     private static function getIndividual($individual) {

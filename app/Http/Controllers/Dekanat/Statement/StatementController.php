@@ -98,7 +98,7 @@ class StatementController extends Controller
     public function store(StoreRequest $request) {
         $data = $request->validated();
         try {
-            $this->service->store($data);
+            $this->service->signStatement($data);
             return redirect()->route('dekanat.statement.index')->withSuccess('Ведомость была успешно добавлена!');
         }catch (\Exception $exception) {
             return redirect()->back()->withError($exception->getMessage())->withInput();
