@@ -48,19 +48,39 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    public function redirectPath()
+    {
+        if (method_exists($this, 'redirectTo')) {
+            return $this->redirectTo();
+        }
+
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
+    }
+
     protected function redirectTo()
     {
         $role_id = auth()->user()->role_id;
         if (($role_id == User::ROLE_EMPLOYEE) ||
             ($role_id == User::ROLE_CA)
         ) {
-            return url('employee');
+            return redirect()->route('employee.main.index');
         }
+
         if (($role_id == User::ROLE_STUDENT) ||
             ($role_id == User::ROLE_TEACHER)
         ) {
-            return url('personal');
+            return redirect()->route('personal.main.index');
         }
+
+        if ($role_id == User::ROLE_CA) {
+            return redirect()->route('ca.main.index');
+        }
+
+        if ($role_id == User::ROLE_DEKANAT) {
+            return redirect()->route('dekanat.main.index');
+        }
+
+        return redirect()->route('home');
     }
 
     public function login(Request $request)
@@ -75,15 +95,12 @@ class LoginController extends Controller
                 auth()->user()->generateCode();
 
                 return redirect()->route('2fa.index');
-            }
-            else {
-                return redirect()->route('home');
+            } else {
+                return $this->redirectPath();
             }
         }
 
-        return redirect()
-            ->route('login')
-            ->with('error', 'Данные введены неверно');
+        return $this->sendFailedLoginResponse($request);
     }
 
     protected function loggedOut()

@@ -88,7 +88,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 
 Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' => ['auth', 'employee', 'verified']], function () {
     Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', 'IndexController');
+        Route::get('/', 'IndexController')->name('employee.main.index');
     });
     Route::group(['namespace' => 'Chair', 'prefix' => 'chair'], function () {
         Route::get('{chair}/edit', 'ChairController@edit')->name('employee.chair.edit');
@@ -118,7 +118,7 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
 
 Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => ['auth', 'ca', 'verified']], function () {
     Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', 'IndexController');
+        Route::get('/', 'IndexController')->name('ca.main.index');
     });
     Route::group(['namespace' => 'CertApp', 'prefix' => 'cert_apps'], function () {
         Route::get('/', 'CertAppController@index')->name('ca.cert_app.index');
@@ -129,7 +129,7 @@ Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => 
 
 Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => ['auth', 'dekanat', 'verified']], function () {
     Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', 'MainController@index');
+        Route::get('/', 'MainController@index')->name('dekanat.main.index');
     });
     Route::group(['namespace' => 'ExamSheet', 'prefix' => 'exam_sheets'], function () {
         Route::get('/', 'ExamSheetController@index')->name('dekanat.exam_sheet.index');
@@ -153,7 +153,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
 
 Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', '2fa', 'verified', 'personal']], function () {
     Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', 'MainController@index');
+        Route::get('/', 'MainController@index')->name('personal.main.index');
         Route::get('/schedule', 'MainController@showSchedule')->name('personal.main.schedule');
     });
     Route::group(['namespace' => 'Settings', 'prefix' => 'settings'], function () {
