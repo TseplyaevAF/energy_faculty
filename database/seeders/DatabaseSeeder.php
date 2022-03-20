@@ -5,9 +5,12 @@ namespace Database\Seeders;
 use App\Models\Chair;
 use App\Models\Discipline;
 use App\Models\Group\Group;
+use App\Models\News\Category;
+use App\Models\News\Event;
 use App\Models\News\News;
 use App\Models\Role;
 use App\Models\Schedule\ClassTime;
+use Database\Factories\News\NewsFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
@@ -21,35 +24,54 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 //        User::factory(100)->create();
-//        News::factory(10)->create();
-        $pathJsons = [
-            'class_times' => 'assets/class_times.json',
-            'roles' => 'assets/roles.json',
-            'chairs' => 'assets/chairs.json',
-            'groups' => 'assets/groups.json',
-            'disciplines' => 'assets/disciplines.json'
-        ];
-        foreach ($pathJsons as $key => $path) {
-            $array = json_decode(File::get(public_path($path)), true);
-            if ($key == 'class_times') {
-                self::createLessonTime($array);
-                continue;
+//        $pathJsons = [
+//            'class_times' => 'assets/class_times.json',
+//            'roles' => 'assets/roles.json',
+//            'chairs' => 'assets/chairs.json',
+//            'groups' => 'assets/groups.json',
+//            'disciplines' => 'assets/disciplines.json',
+//            'categories' => 'assets/categories.json'
+//        ];
+//        foreach ($pathJsons as $key => $path) {
+//            $array = json_decode(File::get(public_path($path)), true);
+//            if ($key == 'class_times') {
+//                self::createLessonTime($array);
+//                continue;
+//            }
+//            if ($key == 'roles') {
+//                self::createUserRoles($array);
+//                continue;
+//            }
+//            if ($key == 'chairs') {
+//                self::createChairs($array);
+//                continue;
+//            }
+//            if ($key == 'groups') {
+//                self::createGroups($array);
+//                continue;
+//            }
+//            if ($key == 'disciplines') {
+//                self::createDisciplines($array);
+//                continue;
+//            }
+//            if ($key == 'categories') {
+//                self::createDisciplines($array);
+//                continue;
+//            }
+//        }
+        $news = News::factory(10)->create();
+        foreach ($news as $newsEl) {
+            if ($newsEl->category_id != Category::NEWS) {
+                Event::firstOrCreate([
+                    'news_id' => $newsEl->id,
+                    'start_date' => date('Y-m-d'),
+                    'finish_date' => date('Y-m-d')
+                ]);
             }
-            if ($key == 'roles') {
-                self::createUserRoles($array);
-                continue;
-            }
-            if ($key == 'chairs') {
-                self::createChairs($array);
-                continue;
-            }
-            if ($key == 'groups') {
-                self::createGroups($array);
-                continue;
-            }
-            if ($key == 'disciplines') {
-                self::createDisciplines($array);
-                continue;
+            if ($newsEl->is_slider_item) {
+                $newsEl->update([
+                    'preview' => 'https://via.placeholder.com/640x480.png/0022dd?text=nulla'
+                ]);
             }
         }
     }
@@ -94,6 +116,15 @@ class DatabaseSeeder extends Seeder
         foreach ($disciplines as $discipline) {
             Discipline::firstOrcreate([
                 'title' => $discipline['title']
+            ]);
+        }
+    }
+
+    // создать категории
+    public function createCategories($categories) {
+        foreach ($categories as $category) {
+            Category::firstOrcreate([
+                'title' => $category['title']
             ]);
         }
     }

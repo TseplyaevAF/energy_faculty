@@ -25,10 +25,10 @@ class NewsController extends Controller
         $data = $request->validated();
         $filter = app()->make(NewsFilter::class, ['queryParams' => array_filter($data)]);
         if (isset($data['is_slider_item'])) {
-            return NewsSliderResource::collection(News::filter($filter)->get());
+            return NewsSliderResource::collection(News::filter($filter)->orderBy('updated_at', 'desc')->get());
         }
-        if ($data['category_id'] == Category::EVENTS) {
-            return NewsEventsResource::collection(News::filter($filter)->get());
+        if (isset($data['category_id']) && ($data['category_id'] != Category::NEWS)) {
+            return NewsEventsResource::collection(News::filter($filter)->orderBy('updated_at', 'desc')->get());
         }
         return NewsResource::collection(News::filter($filter)->orderBy('updated_at', 'desc')->get());
     }

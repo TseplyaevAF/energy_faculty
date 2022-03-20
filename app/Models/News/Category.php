@@ -22,7 +22,7 @@ class Category extends Model
     {
         return [
             self::NEWS => 'Новости',
-            self::EVENTS => 'События',
+            self::EVENTS => 'Мероприятия',
             self::CONFERENCES => 'Конференции',
             self::OLYMPICS => 'Олимпиады'
         ];

@@ -24,6 +24,8 @@ class NewsFactory extends Factory
             'images' => json_encode([$this->faker->imageUrl]),
             'category_id' => Category::get()->random()->id,
             'chair_id' => Chair::get()->random()->id,
+            'is_slider_item' => rand(0,1) == 1
         ];
     }
+
 }
