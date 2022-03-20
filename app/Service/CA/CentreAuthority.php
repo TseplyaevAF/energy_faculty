@@ -24,7 +24,7 @@ class CentreAuthority
         return openssl_x509_parse($this->caCert);
     }
 
-    public function certVerify($cert) {
+    public function isVerifyCert($cert) {
         $publicKey = openssl_pkey_get_public($this->caCert);
         $details = openssl_pkey_get_details($publicKey);
         $public_key_pem = $details['key'];
@@ -34,7 +34,7 @@ class CentreAuthority
     /**
      * Создание новой пары - открытый/закрытый ключи
      */
-    static public function getNewPair()
+    static public function createNewPair()
     {
         $new_key_pair = openssl_pkey_new(array(
             "private_key_bits" => 512,
@@ -57,7 +57,7 @@ class CentreAuthority
      * @param int $days
      * @return array
      */
-    public function getTeacherCert($serialNumber, $teacher, $caPrivateKey, $days = 365)
+    public function createTeacherCert($serialNumber, $teacher, $caPrivateKey, $days = 365)
     {
         $arr = array(
             "organizationName" => "ЗабГУ, Энергетический факультет",
@@ -77,22 +77,22 @@ class CentreAuthority
         return array('cert' => $str_cert);
     }
 
-    public function checkCaCert($privateKey) {
+    public function isPrivateKeyToCaCert($privateKey) {
         return openssl_x509_check_private_key($this->caCert, $privateKey);
     }
 
-    public function checkDateValidCaCert($cert = null) {
+    public function isExpiredCaCert($cert = null) {
         $cert = !isset($cert) ? $this->getCaCert() : openssl_x509_parse($cert);
         return date('Y-m-d H:i:s', $cert['validFrom_time_t'])
             < date('Y-m-d H:i:s');
     }
 
-    public function getSignature($data, $privateKey) {
+    public function sign($data, $privateKey) {
         openssl_sign($data, $signature, $privateKey, OPENSSL_ALGO_SHA256);
         return $signature;
     }
 
-    public function checkSignature($data, $signature, $publicKey) {
+    public function signIsVerify($data, $signature, $publicKey) {
         return openssl_verify($data, $signature, $publicKey, "sha256WithRSAEncryption");
     }
 }

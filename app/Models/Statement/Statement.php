@@ -68,4 +68,14 @@ class Statement extends Model
         }
         return $data;
     }
+
+    public static function getStatementInfo($statement, $control) {
+        return 'Экзаменационная ведомость №: ' . $statement->id . '\n' .
+            'Учебная группа: ' . $statement->lesson->group->title . ', ' .
+            $statement->lesson->semester . ' семестр, ' .
+            $statement->lesson->year->start_year . '-' .
+            $statement->lesson->year->end_year . '\n' .
+            'Форма контроля: ' . $control . '\n';
+
+    }
 }

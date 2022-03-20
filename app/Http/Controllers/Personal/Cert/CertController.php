@@ -51,7 +51,7 @@ class CertController extends Controller
         Gate::authorize('create-cert-app', [auth()->user()->teacher]);
         try {
             // генерируем пару ключей - открытый/закрытый, которые будут принадлежать преподавателю
-            $newPair = CentreAuthority::getNewPair();
+            $newPair = CentreAuthority::createNewPair();
             $teacher = Teacher::find($request->teacher_id);
             $request->validate([
                 'data' => 'required|array',

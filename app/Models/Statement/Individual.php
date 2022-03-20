@@ -13,7 +13,7 @@ class Individual extends Model
 
     protected $guarded = false;
 
-    static public function getSignature($individual) {
+    static public function getIndividualInfo($individual) {
         return [
             'Студент' => $individual['studentFIO'],
             '№ студенческого билета: ' => $individual['student_id_number']

@@ -20,12 +20,12 @@ class Service
         $centreAuth = new CentreAuthority();
 
         // проверка, относится ли секретный ключ к корневому сертификату
-        if (!$centreAuth->checkCaCert($private_key)) {
+        if (!$centreAuth->isPrivateKeyToCaCert($private_key)) {
             throw new \Exception('Секретный ключ не соответствует корневому сертификату!');
         }
 
         // проверка на срок действия сертификата
-        if (!$centreAuth->checkDateValidCaCert()) {
+        if (!$centreAuth->isExpiredCaCert()) {
             throw new \Exception('Действие корневого сертификата окончено! Необходимо его перевыпустить.');
         }
 
@@ -33,7 +33,7 @@ class Service
             DB::beginTransaction();
 
             // выдаем сертификат преподавателю
-            $teacherCert = $centreAuth->getTeacherCert($certApp->id, $certApp->teacher, $private_key, 60);
+            $teacherCert = $centreAuth->createTeacherCert($certApp->id, $certApp->teacher, $private_key, 60);
 
             $certPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/cert.crt';
             $publicKeyPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/public_key.key';

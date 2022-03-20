@@ -211,7 +211,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/', 'ExamSheetController@index')->name('personal.exam_sheet.index');
         Route::get('/{sheet}', 'ExamSheetController@show')->name('personal.exam_sheet.show');
         Route::post('/', 'ExamSheetController@store')->name('personal.exam_sheet.store');
-        Route::patch('/{sheet}', 'ExamSheetController@sign')->name('personal.exam_sheet.sign');
+        Route::patch('/{examSheet}', 'ExamSheetController@sign')->name('personal.exam_sheet.sign');
     });
 });
 

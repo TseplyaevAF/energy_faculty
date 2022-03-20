@@ -9,6 +9,7 @@ use App\Models\Statement\Statement;
 use App\Service\Personal\Statement\Service;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Gate;
 use Validator;
 
 class StatementController extends Controller
@@ -22,6 +23,7 @@ class StatementController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('isTeacher');
         $teacher = auth()->user()->teacher;
         if ($request->ajax()) {
             $statements = [];
@@ -59,6 +61,7 @@ class StatementController extends Controller
 
     public function show(Request $request, Statement $statement)
     {
+        Gate::authorize('isTeacher');
         $individuals = $statement->individuals;
         $evalTypes = Statement::getEvalTypes();
         $data = Individual::getArrayIndividuals($individuals);
@@ -87,6 +90,7 @@ class StatementController extends Controller
 
     public function saveData(Request $request)
     {
+        Gate::authorize('isTeacher');
         $request->validate([
             'rows' => 'required|array',
             'rows.*.id' => 'required|integer|exists:individuals,id',
@@ -105,6 +109,7 @@ class StatementController extends Controller
 
     public function signStatement(Request $request, Statement $statement)
     {
+        Gate::authorize('isTeacher');
         $individuals = json_decode($request->individuals, true);
         $rules = [
             'individuals' => 'required|array',
@@ -127,11 +132,12 @@ class StatementController extends Controller
         $private_key = $request->private_key;
         $data = [
             'statement' => $statement,
+            'teacher_id' => auth()->user()->teacher->id,
             'individuals' => $individuals,
             'private_key' => $private_key
         ];
         try {
-            $this->service->signData($data);
+            $this->service->signIndividuals($data);
             return response('Ведомость успешно подписана!', 200);
         }catch (\Exception $exception) {
             return response($exception->getMessage(), 403);

@@ -22,25 +22,18 @@
 
         <section class="content">
             <div class="container-fluid">
-                @if (session('success'))
-                    <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
+                @if (session('error'))
+                    <div class="col-3 alert alert-warning" role="alert">{!! session('error') !!}</div>
                 @endif
                 <div class="row">
                     <div class="col-12">
-                        <form action="{{ route('personal.exam_sheet.sign', $sheet) }}" method="POST">
+                        <form action="{{ route('personal.exam_sheet.sign', $sheet) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PATCH')
                             <label for="exampleInputFile">ФИО студента: </label>
                             <div class="form-group w-25">
                                 <input value="{{ $studentFIO }}" type="text" class="form-control"
                                        placeholder="Фамилия" readonly>
-                            </div>
-
-                            <label for="exampleInputFile">Дисциплина: </label>
-                            <div class="form-group w-25">
-                                <input
-                                    value="{{ $sheet->individual->statement->lesson->discipline->title }}"
-                                    type="text" class="form-control"
-                                    readonly>
                             </div>
 
                             <label for="exampleInputFile">Группа: </label>
@@ -51,17 +44,28 @@
                                     readonly>
                             </div>
 
-                            <label for="exampleInputFile">Резульаты экзаменационной ведомости №{{ $sheet->individual->statement->id  }}:</label>
+                            <label for="exampleInputFile">Контроль: </label>
                             <div class="form-group w-25">
                                 <input
-                                    value="{{ $sheet->individual->eval }}"
+                                    value="{{ $sheet->individual->statement->lesson->discipline->title }}, {{ $controlForms[$sheet->individual->statement->control_form] }}"
+                                    type="text" class="form-control" readonly>
+                            </div>
+
+                            <label for="exampleInputFile">Результаты экзаменационной ведомости №{{ $sheet->individual->statement->id  }}:</label>
+                            <div class="form-group w-25">
+                                <input
+                                    value="{{ $evalTypes[$sheet->individual->eval] }}"
                                     type="text" class="form-control"
                                     readonly>
                             </div>
 
                             <label for="exampleInputFile">Оценка:</label>
                             <div class="form-group w-25">
-                                <input type="text" class="form-control" name="eval">
+                                <select name="eval" class="form-control">
+                                    @foreach($evalTypes as $id => $evalType)
+                                        <option value="{{ $id }}" {{$id == old('id') ? 'selected' : ''}}>{{ $evalType }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <h5>Выберите файл с Вашим секретным ключом:</h5>
