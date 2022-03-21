@@ -82,8 +82,7 @@
                                                         <h5 class="modal-title" id="exampleModalLabel">Допуск</h5>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <div>
-                                                            <div class="card card-margin">
+                                                        <div class="card card-margin">
                                                                 <div class="card-header no-border">
                                                                     <h5 class="card-title">Экзаменационный лист</h5>
                                                                 </div>
@@ -115,7 +114,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">

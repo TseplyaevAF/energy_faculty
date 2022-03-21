@@ -117,7 +117,7 @@
                             </a>
                         </div>
                         <div class="form-group">
-                            <h5>Студенты, прошедшие контроль:</h5>
+                            <h5>Результаты контроля:</h5>
                             <table class="table table-sm">
                                 <thead>
                                 <tr>

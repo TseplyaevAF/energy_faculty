@@ -38,6 +38,7 @@ class Individual extends Model
             $individual->student->user->name . ' ' . $individual->student->user->patronymic;
         $data[$individual->id]['student_id_number'] = $individual->student->student_id_number;
         $data[$individual->id]['evaluation'] = !isset($individual->eval) ? '' : $individual->eval;
+        $data[$individual->id]['history'] = $individual->history;
         return $data;
     }
 

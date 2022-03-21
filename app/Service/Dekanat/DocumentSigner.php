@@ -36,6 +36,7 @@ class DocumentSigner
     public function getSignature($dataForSign, $privateKey, $cert) {
         $file = $privateKey->openFile();
         $privateKey = $file->fread($file->getSize());
+        $dataForSign = hash('sha256', $dataForSign);
 
         //1. подписать документ электронной подписью
         try {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dekanat\StoreRequest;
 use App\Models\Group\Group;
 use App\Models\Lesson;
+use App\Models\Statement\Individual;
 use App\Models\Statement\Statement;
 use App\Service\Dekanat\Service;
 use Illuminate\Http\Request;
@@ -87,6 +88,14 @@ class StatementController extends Controller
             $disciplines[$lesson->id]['semester'] = $lesson->semester;
         }
         return $disciplines;
+    }
+
+    public function show(Statement $statement) {
+        $individuals = Individual::getArrayCompletedSheets($statement->individuals->where('teacher_signature', '!=', ''));
+        $evalTypes = Statement::getEvalTypes();
+        $controlForms = Statement::getControlForms();
+        return view('dekanat.statement.show',
+            compact('individuals', 'evalTypes', 'statement', 'controlForms'));
     }
 
     public function create(Group $group) {

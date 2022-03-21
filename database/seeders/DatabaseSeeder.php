@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
 //                continue;
 //            }
 //            if ($key == 'categories') {
-//                self::createDisciplines($array);
+//                self::createCategories($array);
 //                continue;
 //            }
 //        }
