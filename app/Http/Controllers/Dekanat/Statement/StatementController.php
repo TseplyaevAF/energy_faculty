@@ -11,6 +11,8 @@ use App\Models\Statement\Statement;
 use App\Service\Dekanat\Service;
 use Illuminate\Http\Request;
 use DataTables;
+use App\Exports\IndividualsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StatementController extends Controller
 {
@@ -108,9 +110,22 @@ class StatementController extends Controller
         $data = $request->validated();
         try {
             $this->service->signStatement($data);
-            return redirect()->route('dekanat.statement.index')->withSuccess('Ведомость была успешно добавлена!');
         }catch (\Exception $exception) {
             return redirect()->back()->withError($exception->getMessage())->withInput();
         }
+        return redirect()->route('dekanat.statement.index')->withSuccess('Ведомость была успешно добавлена!');
+    }
+
+    public function export(Statement $statement) {
+        try {
+            $this->service->export($statement);
+        } catch (\Exception $exception) {
+            return redirect()->back()->withError($exception->getMessage())->withInput();
+        }
+        return redirect()->back()->withSuccess('Отчет сгенерирован и доступен для скачивания!');
+    }
+
+    public function download(Statement $statement) {
+        return Excel::download(new IndividualsExport($statement), $statement->report);
     }
 }

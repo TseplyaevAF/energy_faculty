@@ -26,6 +26,9 @@
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
+                @if (session('error'))
+                    <div class="col-3 alert alert-danger" role="alert">{!! session('error') !!}</div>
+                @endif
                 <div class="card w-75">
                     <div class="card-header">
                         <div class="form-group">
@@ -38,15 +41,34 @@
                             Контроль:
                             {{ $statement->lesson->discipline->title }}, {{ $controlForms[$statement->control_form] }}
                         </div>
+                        <div class="form-group">
+                            Преподаватель: {{ $statement->lesson->teacher->user->surname }}
+                        </div>
                         @if (isset($statement->start_date))
                             <div class="form-group">
-                                Дата экзамена: {{ date('d.m.Y', strtotime($statement->start_date) ) }}
+                                Дата проведения экзамена: {{ date('d.m.Y', strtotime($statement->start_date) ) }}
                             </div>
                         @endif
-                        @if (isset($statement->finish_date))
-                            <div class="form-group">
-                                Дата сдачи ведомости: {{ date('d.m.Y', strtotime($statement->finish_date)) }}
-                            </div>
+                        <div class="form-group">
+                            Дата сдачи ведомости: {{ date('d.m.Y', strtotime($statement->finish_date)) }}
+                        </div>
+                        @if ($statement->finish_date < now())
+                            @if (isset($statement->report))
+                                <div class="form-group">
+                                    Скачать отчёт:
+                                    <a href="{{ route('dekanat.statement.download', $statement->id) }}"
+                                       class="btn btn-success btn-sm">
+                                        {{$statement->report}}
+                                    </a>
+                                </div>
+                            @else
+                                <div class="form-group">
+                                    <a href="{{ route('dekanat.statement.export', $statement->id) }}"
+                                       class="btn btn-success">
+                                        Сгенерировать отчёт
+                                    </a>
+                                </div>
+                            @endif
                         @endif
                     </div>
                     <div class="card-body">

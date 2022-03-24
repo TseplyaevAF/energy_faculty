@@ -109,33 +109,6 @@
                                 <button class="btn btn-primary" type="submit">Отправить форму</button>
                             </div>
                         </form>
-                        {{--                        <form action="{{ route('personal.cert.store') }}" method="POST">--}}
-                        {{--                            @csrf--}}
-                        {{--                            <label for="exampleInputFile">Личные данные</label>--}}
-                        {{--                            <div class="form-group w-25">--}}
-                        {{--                                <input value="{{ auth()->user()->surname }}" type="text" class="form-control"--}}
-                        {{--                                       placeholder="Фамилия" readonly>--}}
-                        {{--                            </div>--}}
-                        {{--                            <div class="form-group w-25">--}}
-                        {{--                                <input value="{{ auth()->user()->name }}" type="text" class="form-control"--}}
-                        {{--                                       placeholder="Имя" readonly>--}}
-                        {{--                            </div>--}}
-                        {{--                            <div class="form-group w-25">--}}
-                        {{--                                <input value="{{ auth()->user()->patronymic }}" type="text" class="form-control"--}}
-                        {{--                                       placeholder="Отчество" readonly>--}}
-                        {{--                            </div>--}}
-                        {{--                            <div class="form-group w-25">--}}
-                        {{--                                <input value="{{ auth()->user()->email }}" type="text" class="form-control"--}}
-                        {{--                                       placeholder="Email" readonly>--}}
-                        {{--                            </div>--}}
-                        {{--                            <input type="hidden" name="teacher_id" value="{{ auth()->user()->teacher->id }}">--}}
-
-                        {{--                            <div class="form-group">--}}
-                        {{--                                <button type="submit" class="btn btn-warning btn-sm btn-complete">--}}
-                        {{--                                    Отправить заявку--}}
-                        {{--                                </button>--}}
-                        {{--                            </div>--}}
-                        {{--                        </form>--}}
                     </div>
                 </div>
 

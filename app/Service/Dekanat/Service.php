@@ -3,6 +3,7 @@
 
 namespace App\Service\Dekanat;
 
+use App\Exports\IndividualsExport;
 use App\Models\ExamSheet;
 use App\Models\Lesson;
 use App\Models\Statement\Individual;
@@ -10,6 +11,7 @@ use App\Models\Statement\Statement;
 use App\Models\Teacher\Teacher;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Service
 {
@@ -107,5 +109,36 @@ class Service
                 throw new \Exception($exception->getMessage());
             }
         }
+    }
+
+    public function export($statement) {
+        $fileName = 'Экзаменационная_ведомость_№'. $statement->id .'.xlsx';
+        $path = 'statements/' . $statement->id . '/' . $fileName;
+        $teacher = Teacher::where('id', $statement->lesson->teacher->id)->first();
+        if (!$teacher) {
+            throw new \Exception('Преподаватель не найден');
+        }
+        try {
+            $teacherCert = $this->docSigner->getCert($teacher);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+        $individuals = Individual::getArrayCompletedSheets($statement->individuals);
+        $publicKey = Storage::disk('public')->get(json_decode($teacherCert->public_key_path));
+        foreach ($individuals as $individual) {
+            $dataForSign = implode(",",Individual::getIndividualInfo($individual));
+            $dataForSign = hash('sha256', $dataForSign);
+            $signature = Storage::disk('public')->get($individual['teacher_signature']);
+
+            $res = $this->docSigner->verifyDoc($dataForSign, $signature, $publicKey);
+            if ($res === 0 || $res !== 1) {
+                throw new \Exception('Подпись не совпадает');
+            }
+        }
+
+        Excel::store(new IndividualsExport($statement), $path, 'private');
+        $statement->update([
+            'report' => $fileName
+        ]);
     }
 }

@@ -34,7 +34,7 @@ class Service
             DB::beginTransaction();
             // подписать каждый индивидуальный лист студента электронной подписью
             foreach ($data['individuals'] as $individual) {
-                $dataForSign = json_encode(Individual::getIndividualInfo($individual));
+                $dataForSign = implode(",",Individual::getIndividualInfo($individual));
 
                 $signature = $this->docSigner->getSignature($dataForSign, $data['private_key'], $teacherCert);
 

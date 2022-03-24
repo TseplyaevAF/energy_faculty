@@ -26,7 +26,7 @@ class DocumentSigner
         }
 
         //2. проверка на срок действия сертификата
-        if (!$this->centreAuth->isExpiredCaCert($certFile)) {
+        if (!$this->centreAuth->isExpiredCert($certFile)) {
             throw new \Exception('Действие сертификата окончено! Пожалуйста, обратитесь в УЦ ЭФ, чтобы
             перевыпустить сертификат.');
         }
@@ -52,5 +52,9 @@ class DocumentSigner
             throw new \Exception('Секретный ключ не соответствует публичному ключу! Подписать невозможно.',-1);
         }
         return $signature;
+    }
+
+    public function verifyDoc($dataForSign, $signature, $publicKey) {
+        return $this->centreAuth->signIsVerify($dataForSign, $signature, $publicKey);
     }
 }

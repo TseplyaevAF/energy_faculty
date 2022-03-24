@@ -51,7 +51,7 @@ class SettingsController extends Controller
             return redirect()->back()->withSuccess('Двухфакторная аутентификация отключена');
         } else {
             return redirect()->back()->withSuccess('Двухфакторная аутентификация включена.
-            При каждом входе вам нужно будет приходить СМС на телефон');
+            При каждом входе вам будет приходить СМС на телефон');
         }
     }
 

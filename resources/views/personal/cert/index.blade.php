@@ -1,6 +1,6 @@
 @extends('personal.layouts.main')
 
-@section('title-block')Мой сертификат@endsection
+@section('title-block')Моя электронная цифровая подпись@endsection
 
 @section('content')
 
@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 mb-2">Сертификат электронной подписи</h1>
+                        <h1 class="m-0 mb-2">Сертификат электронной цифровой подписи</h1>
 
                     </div><!-- /.col -->
                     <div class="col-sm-6">
@@ -69,7 +69,7 @@
                                         <h6 class="mb-0">Дата выдачи</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{date('Y-m-d H:i:s', $cert['validFrom_time_t'])}}
+                                        {{date('d.m.Y', $cert['validFrom_time_t'])}}
                                     </div>
                                 </div>
                                 <hr>
@@ -78,7 +78,7 @@
                                         <h6 class="mb-0">Действителен до</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{date('Y-m-d H:i:s', $cert['validTo_time_t'])}}
+                                        {{date('d.m.Y', $cert['validTo_time_t'])}}
                                     </div>
                                 </div>
                                 <hr>

@@ -26,13 +26,13 @@ class TwoFactorAuthController extends Controller
             'code' => 'required',
         ]);
 
-        $exists = UserCode::where('user_id', auth()->user()->id)
+        $userCode = UserCode::where('user_id', auth()->user()->id)
             ->where('code', $validated['code'])
-            ->where('updated_at', '>=', now()->subMinutes(5))
-            ->exists();
+            ->where('updated_at', '>=', now()->subMinutes(5));
 
-        if ($exists) {
+        if ($userCode->exists()) {
             session(['2fa' => auth()->user()->id]);
+            $userCode->delete();
 
             return redirect()->route('home');
         }

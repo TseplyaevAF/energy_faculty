@@ -5,6 +5,7 @@ namespace App\Service\CA;
 
 use App\Models\Cert\CertApp;
 use App\Models\Cert\Certificate;
+use App\Service\Dekanat\DocumentSigner;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -12,20 +13,25 @@ use App\Service\CA\CentreAuthority;
 
 class Service
 {
+    private $centreAuth;
+
+    public function __construct(CentreAuthority $centreAuth)
+    {
+        $this->centreAuth = $centreAuth;
+    }
+
     public function accept($data) {
         $certApp = CertApp::find($data['certAppId']);
         $file = $data['private_key']->openFile();
         $private_key = $file->fread($file->getSize());
 
-        $centreAuth = new CentreAuthority();
-
         // проверка, относится ли секретный ключ к корневому сертификату
-        if (!$centreAuth->isPrivateKeyToCaCert($private_key)) {
+        if (!$this->centreAuth->isPrivateKeyToCaCert($private_key)) {
             throw new \Exception('Секретный ключ не соответствует корневому сертификату!');
         }
 
-        // проверка на срок действия сертификата
-        if (!$centreAuth->isExpiredCaCert()) {
+        // проверка на срок действия корневого сертификата
+        if (!$this->centreAuth->isExpiredCert()) {
             throw new \Exception('Действие корневого сертификата окончено! Необходимо его перевыпустить.');
         }
 
@@ -33,7 +39,7 @@ class Service
             DB::beginTransaction();
 
             // выдаем сертификат преподавателю
-            $teacherCert = $centreAuth->createTeacherCert($certApp->id, $certApp->teacher, $private_key, 60);
+            $teacherCert = $this->centreAuth->createTeacherCert($certApp->id, $certApp->teacher, $private_key, 60);
 
             $certPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/cert.crt';
             $publicKeyPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/public_key.key';

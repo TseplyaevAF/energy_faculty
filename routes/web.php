@@ -139,6 +139,8 @@ Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => [
     Route::group(['namespace' => 'Statement', 'prefix' => 'statements'], function () {
         Route::get('/', 'StatementController@index')->name('dekanat.statement.index');
         Route::get('/{statement}', 'StatementController@show')->name('dekanat.statement.show');
+        Route::get('/{statement}/export', 'StatementController@export')->name('dekanat.statement.export');
+        Route::get('/{statement}/download', 'StatementController@download')->name('dekanat.statement.download');
         Route::get('/getYears/{id}', 'StatementController@getYears');
         Route::get('/create/{group}', 'StatementController@create')->name('dekanat.statement.create');
         Route::get('/create/getDisciplines/{groupId}/{yearId}', 'StatementController@getDisciplines');

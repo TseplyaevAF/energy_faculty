@@ -81,7 +81,7 @@ class CentreAuthority
         return openssl_x509_check_private_key($this->caCert, $privateKey);
     }
 
-    public function isExpiredCaCert($cert = null) {
+    public function isExpiredCert($cert = null) {
         $cert = !isset($cert) ? $this->getCaCert() : openssl_x509_parse($cert);
         return date('Y-m-d H:i:s', $cert['validFrom_time_t'])
             < date('Y-m-d H:i:s');

@@ -16,7 +16,8 @@ class Individual extends Model
     static public function getIndividualInfo($individual) {
         return [
             'Студент' => $individual['studentFIO'],
-            '№ студенческого билета: ' => $individual['student_id_number']
+            '№ студенческого билета: ' => $individual['student_id_number'],
+            'Оценка: ' => $individual['evaluation'],
         ];
     }
 
@@ -60,6 +61,7 @@ class Individual extends Model
             $data += self::getIndividual($individual);
             $data[$individual->id]['exam_finish_date'] = !isset($individual->exam_finish_date) ?
                 '' : $individual->exam_finish_date;
+            $data[$individual->id]['teacher_signature'] = $individual->teacher_signature;
         }
         return $data;
     }

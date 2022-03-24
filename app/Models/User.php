@@ -118,18 +118,18 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         $message = "Ваш код для входа на сайт ЭФ ЗабГУ: ". $code;
         $test = '';
 
-        try {
-            $account_sid = getenv("TWILIO_SID");
-            $auth_token = getenv("TWILIO_TOKEN");
-            $number = getenv("TWILIO_FROM");
-
-            $client = new Client($account_sid, $auth_token);
-            $test = $client->messages->create($receiverNumber, [
-                'from' => $number,
-                'body' => $message]);
-        } catch (\Exception $e) {
-            //
-        }
+//        try {
+//            $account_sid = getenv("TWILIO_SID");
+//            $auth_token = getenv("TWILIO_TOKEN");
+//            $number = getenv("TWILIO_FROM");
+//
+//            $client = new Client($account_sid, $auth_token);
+//            $test = $client->messages->create($receiverNumber, [
+//                'from' => $number,
+//                'body' => $message]);
+//        } catch (\Exception $e) {
+//            //
+//        }
 //        print($test->sid);
     }
 
