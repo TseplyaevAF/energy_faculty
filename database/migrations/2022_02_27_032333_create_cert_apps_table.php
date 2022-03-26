@@ -16,7 +16,7 @@ class CreateCertAppsTable extends Migration
         Schema::create('cert_apps', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('teacher_id');
-            $table->text('public_key');
+            $table->text('csr');
             $table->text('data')->nullable();
             $table->timestamps();
 

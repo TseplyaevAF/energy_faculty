@@ -19,7 +19,7 @@ class NewsFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(rand(10,30)),
+            'title' => $this->faker->sentence(rand(10,20)),
             'content' => $this->faker->text,
             'images' => json_encode([$this->faker->imageUrl]),
             'category_id' => Category::get()->random()->id,

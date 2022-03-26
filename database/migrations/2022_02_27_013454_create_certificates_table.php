@@ -16,7 +16,6 @@ class CreateCertificatesTable extends Migration
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
             $table->string('cert_path');
-            $table->string('public_key_path');
             $table->unsignedBigInteger('teacher_id');
 
             // IDX

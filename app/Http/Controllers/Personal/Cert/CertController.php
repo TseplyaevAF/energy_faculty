@@ -50,23 +50,29 @@ class CertController extends Controller
         Gate::authorize('isTeacher');
         Gate::authorize('create-cert-app', [auth()->user()->teacher]);
         try {
-            // генерируем пару ключей - открытый/закрытый, которые будут принадлежать преподавателю
-            $newPair = CentreAuthority::createNewPair();
-            $teacher = Teacher::find($request->teacher_id);
             $request->validate([
                 'data' => 'required|array',
                 'data.*' => 'required|string',
             ]);
             $data = $request->data;
+
+            // генерируем пару ключей - открытый/закрытый, которые будут принадлежать преподавателю
+            $newPair = CentreAuthority::createNewPair();
+            $teacher = Teacher::find($request->teacher_id);
+
+            // генерируем csr - запрос на получение сертификата
+            $csr = CentreAuthority::createCSR($teacher, $newPair['private']);
+
             CertApp::create([
                 'teacher_id' => $teacher->id,
-                'public_key' => $newPair['public'],
+                'csr' => $csr,
                 'data' => json_encode($data)
             ]);
+
             $filename =  'private_key_' . $teacher->user->surname . '.key';
             return redirect()->route('personal.cert.index')
                 ->withSuccess('Заявка была успешно отправлена!
-                После её одобрения вы сможете пользоваться ключом, который был скачан.')
+                После её одобрения вам станет доступен для использования Ваш закрытый ключ.')
                 ->with('data', [
                     'private_key' => $newPair['private'],
                     'filename' => $filename

@@ -60,16 +60,8 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         $role_id = auth()->user()->role_id;
-        if (($role_id == User::ROLE_EMPLOYEE) ||
-            ($role_id == User::ROLE_CA)
-        ) {
+        if ($role_id == User::ROLE_EMPLOYEE) {
             return redirect()->route('employee.main.index');
-        }
-
-        if (($role_id == User::ROLE_STUDENT) ||
-            ($role_id == User::ROLE_TEACHER)
-        ) {
-            return redirect()->route('personal.main.index');
         }
 
         if ($role_id == User::ROLE_CA) {
@@ -78,6 +70,12 @@ class LoginController extends Controller
 
         if ($role_id == User::ROLE_DEKANAT) {
             return redirect()->route('dekanat.main.index');
+        }
+
+        if (($role_id == User::ROLE_STUDENT) ||
+            ($role_id == User::ROLE_TEACHER)
+        ) {
+            return redirect()->route('personal.main.index');
         }
 
         return redirect()->route('home');

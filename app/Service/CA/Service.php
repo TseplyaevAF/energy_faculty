@@ -39,19 +39,16 @@ class Service
             DB::beginTransaction();
 
             // выдаем сертификат преподавателю
-            $teacherCert = $this->centreAuth->createTeacherCert($certApp->id, $certApp->teacher, $private_key, 60);
+            $teacherCert = $this->centreAuth->createTeacherCert($certApp->csr, $private_key, 60);
 
             $certPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/cert.crt';
-            $publicKeyPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/public_key.key';
 
             Certificate::create([
                 'cert_path' => json_encode($certPath),
-                'public_key_path' => json_encode($publicKeyPath),
                 'teacher_id' => $certApp->teacher->id
             ]);
 
             Storage::disk('public')->put($certPath, $teacherCert['cert']);
-            Storage::disk('public')->put($publicKeyPath, $certApp->public_key);
 
 //            $teacherData["email"] = $certApp->teacher->user->email;
 //            $teacherData["title"] = "Здравствуйте!";

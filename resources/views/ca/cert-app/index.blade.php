@@ -53,7 +53,7 @@
                                   </td>
                                   <td class="project-actions text-left">
                                       <a class="btn btn-info btn-sm mr-1" href="{{ route('ca.cert_app.accept', $certApp->id) }}">
-                                          <i class="fas fa-pencil-alt"></i>
+                                          <i class="fas fa-id-card"></i>
                                           Выдать сертификат
                                       </a>
                                       <form action="" method="post"
@@ -61,7 +61,7 @@
                                           @csrf
                                           @method('delete')
                                           <button type="submit" class="btn btn-danger btn-sm delete-btn" href="#">
-                                              <i class="fas fa-trash">
+                                              <i class="fas fa-minus-circle"></i>
                                               </i>
                                               Отклонить заявку
                                           </button>

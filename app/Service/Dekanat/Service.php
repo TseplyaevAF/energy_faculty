@@ -124,13 +124,12 @@ class Service
             return $e->getMessage();
         }
         $individuals = Individual::getArrayCompletedSheets($statement->individuals);
-        $publicKey = Storage::disk('public')->get(json_decode($teacherCert->public_key_path));
         foreach ($individuals as $individual) {
             $dataForSign = implode(",",Individual::getIndividualInfo($individual));
             $dataForSign = hash('sha256', $dataForSign);
             $signature = Storage::disk('public')->get($individual['teacher_signature']);
 
-            $res = $this->docSigner->verifyDoc($dataForSign, $signature, $publicKey);
+            $res = $this->docSigner->verifyDoc($dataForSign, $signature, $teacherCert);
             if ($res === 0 || $res !== 1) {
                 throw new \Exception('Подпись не совпадает');
             }

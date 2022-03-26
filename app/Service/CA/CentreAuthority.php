@@ -49,30 +49,34 @@ class CentreAuthority
         ];
     }
 
+    static public function createCSR($subject, $privateKey) {
+        $arr = array(
+            "organizationName" => "ЗабГУ, Энергетический факультет",
+            "organizationalUnitName" => $subject->chair->title,
+            "commonName" => $subject->user->surname . ' ' . $subject->user->name . ' ' . $subject->user->patronymic,
+            "businessCategory" => $subject->post,
+            "UID" => $subject->id,
+            "countryName" => "RU",
+            "emailAddress" => $subject->user->email,
+            "serialNumber" => $subject->id
+        );
+        $csr = openssl_csr_new($arr, $privateKey, [
+            'digest_alg' => 'sha256'
+        ]);
+        openssl_csr_export($csr, $out);
+        return $out;
+    }
+
     /**
      * Создание сертификата для преподавателя ЭФ
-     * @param $serialNumber
-     * @param $teacher
+     * @param $csr
      * @param $caPrivateKey
      * @param int $days
      * @return array
      */
-    public function createTeacherCert($serialNumber, $teacher, $caPrivateKey, $days = 365)
+    public function createTeacherCert($csr, $caPrivateKey, $days = 365)
     {
-        $arr = array(
-            "organizationName" => "ЗабГУ, Энергетический факультет",
-            "organizationalUnitName" => $teacher->chair->title,
-            "commonName" => $teacher->user->surname . ' ' . $teacher->user->name . ' ' . $teacher->user->patronymic,
-            "businessCategory" => $teacher->post,
-            "UID" => $teacher->id,
-            "countryName" => "RU",
-            "emailAddress" => $teacher->user->email,
-            "serialNumber" => $serialNumber
-        );
-        $csr = openssl_csr_new($arr, $caPrivateKey, [
-            'digest_alg' => 'sha256'
-        ]);
-        $cert = openssl_csr_sign($csr, $this->caCert, $caPrivateKey, $days);
+        $cert = openssl_csr_sign($csr, $this->caCert, $caPrivateKey, $days, array('digest_alg'=>'sha256'));
         openssl_x509_export($cert, $str_cert);
         return array('cert' => $str_cert);
     }
@@ -92,7 +96,10 @@ class CentreAuthority
         return $signature;
     }
 
-    public function signIsVerify($data, $signature, $publicKey) {
-        return openssl_verify($data, $signature, $publicKey, "sha256WithRSAEncryption");
+    public function signIsVerify($data, $signature, $cert) {
+        $public_key = openssl_pkey_get_public($cert);
+        $public_key_details = openssl_pkey_get_details($public_key);
+        $public_key_string = $public_key_details['key'];
+        return openssl_verify($data, $signature, $public_key_string, "sha256WithRSAEncryption");
     }
 }

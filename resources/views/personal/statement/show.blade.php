@@ -93,6 +93,12 @@
                                                         файл</label>
                                                 </div>
                                             </div>
+                                            <b>
+                                                Подпись должен поставить:
+                                                {{ $statement->lesson->teacher->user->surname }}
+                                                {{ mb_substr($statement->lesson->teacher->user->name, 0, 1) }}.
+                                                {{ mb_substr($statement->lesson->teacher->user->patronymic, 0, 1) }}.
+                                            </b>
                                         </form>
                                     </div>
                                     <div class="modal-footer">

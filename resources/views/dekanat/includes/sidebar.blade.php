@@ -18,7 +18,7 @@
             </li>
             <li class="nav-item">
                 <a href="{{ route('dekanat.exam_sheet.index') }}" class="nav-link">
-                    <i class="nav-icon fas fa-poll-h"></i>
+                    <i class="nav-icon fas fa-list-ol"></i>
                     <p>Заявки на пересдачу</p>
                 </a>
             </li>

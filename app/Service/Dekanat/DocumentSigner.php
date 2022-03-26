@@ -30,7 +30,7 @@ class DocumentSigner
             throw new \Exception('Действие сертификата окончено! Пожалуйста, обратитесь в УЦ ЭФ, чтобы
             перевыпустить сертификат.');
         }
-        return $cert;
+        return $certFile;
     }
 
     public function getSignature($dataForSign, $privateKey, $cert) {
@@ -46,8 +46,7 @@ class DocumentSigner
         }
 
         //2. проверка, что подпись корректна для dataForSign и publicKey
-        $publicKey = Storage::disk('public')->get(json_decode($cert->public_key_path));
-        $res = $this->centreAuth->signIsVerify($dataForSign, $signature, $publicKey);
+        $res = $this->centreAuth->signIsVerify($dataForSign, $signature, $cert);
         if ($res === 0 || $res !== 1) {
             throw new \Exception('Секретный ключ не соответствует публичному ключу! Подписать невозможно.',-1);
         }

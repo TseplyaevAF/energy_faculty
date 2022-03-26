@@ -23,42 +23,41 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        User::factory(100)->create();
-//        $pathJsons = [
-//            'class_times' => 'assets/class_times.json',
-//            'roles' => 'assets/roles.json',
-//            'chairs' => 'assets/chairs.json',
-//            'groups' => 'assets/groups.json',
-//            'disciplines' => 'assets/disciplines.json',
-//            'categories' => 'assets/categories.json'
-//        ];
-//        foreach ($pathJsons as $key => $path) {
-//            $array = json_decode(File::get(public_path($path)), true);
-//            if ($key == 'class_times') {
-//                self::createLessonTime($array);
-//                continue;
-//            }
-//            if ($key == 'roles') {
-//                self::createUserRoles($array);
-//                continue;
-//            }
-//            if ($key == 'chairs') {
-//                self::createChairs($array);
-//                continue;
-//            }
-//            if ($key == 'groups') {
-//                self::createGroups($array);
-//                continue;
-//            }
-//            if ($key == 'disciplines') {
-//                self::createDisciplines($array);
-//                continue;
-//            }
-//            if ($key == 'categories') {
-//                self::createCategories($array);
-//                continue;
-//            }
-//        }
+        $pathJsons = [
+            'class_times' => 'assets/class_times.json',
+            'roles' => 'assets/roles.json',
+            'chairs' => 'assets/chairs.json',
+            'groups' => 'assets/groups.json',
+            'disciplines' => 'assets/disciplines.json',
+            'categories' => 'assets/categories.json'
+        ];
+        foreach ($pathJsons as $key => $path) {
+            $array = json_decode(File::get(public_path($path)), true);
+            if ($key == 'class_times') {
+                self::createLessonTime($array);
+                continue;
+            }
+            if ($key == 'roles') {
+                self::createUserRoles($array);
+                continue;
+            }
+            if ($key == 'chairs') {
+                self::createChairs($array);
+                continue;
+            }
+            if ($key == 'groups') {
+                self::createGroups($array);
+                continue;
+            }
+            if ($key == 'disciplines') {
+                self::createDisciplines($array);
+                continue;
+            }
+            if ($key == 'categories') {
+                self::createCategories($array);
+                continue;
+            }
+        }
         $news = News::factory(10)->create();
         foreach ($news as $newsEl) {
             if ($newsEl->category_id != Category::NEWS) {
@@ -74,6 +73,9 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+
+//        User::factory(100)->create();
     }
 
     // создать расписание звонков

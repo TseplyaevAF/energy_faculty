@@ -36,7 +36,7 @@
                                 <select class="form-control formselect required" placeholder="Select Sub Category"
                                         id="year">
                                     @foreach($years as $year)
-                                        <option value="{{ $year['id'] }}">
+                                        <option value="{{ $year['id'] }}" {{$year['id'] == old('year') ? 'selected' : ''}}>
                                             {{ $year['start_year'] }}-{{ $year['end_year'] }}</option>
                                     @endforeach
                                 </select>
@@ -51,7 +51,7 @@
                                 <select class="form-control formselect required" placeholder="Select Sub Category"
                                         name="control_form">
                                     @foreach($controls as $key => $control)
-                                        <option value="{{ $key }}">
+                                        <option value="{{ $key }}" {{ $key == old('control_form') ? 'selected' : '' }}>
                                             {{ $control }}</option>
                                     @endforeach
                                 </select>

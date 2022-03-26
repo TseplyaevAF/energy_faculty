@@ -5,11 +5,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <style>
         .finish-date {
-            background-color: rgba(210, 22, 22, 0.27) !important;
+            background-color: rgba(17, 163, 32, 0.27) !important;
         }
 
         .not-finish-date {
-            background-color: rgba(17, 163, 66, 0.27) !important;
+            background-color: rgba(12, 97, 187, 0.27) !important;
         }
     </style>
 
