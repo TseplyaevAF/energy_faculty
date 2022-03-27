@@ -58,6 +58,7 @@ class UserController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
+        $data['phone_number'] = str_replace(array('+', ' ', '(' , ')', '-'), '', $data['phone_number']);
 
         $this->service->store($data);
 
@@ -71,6 +72,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $user->phone_number = mb_substr($user->phone_number, 1, strlen($user->phone_number));
         $media = $user->getMedia()->first();
         if (isset($media)) {
             return redirect()->route('file.get', ['user' => $user, 'filename' => $media->id]);
@@ -89,6 +91,7 @@ class UserController extends Controller
     public function update(UpdateRequest $request, User $user)
     {
         $data = $request->validated();
+        $data['phone_number'] = str_replace(array('+', ' ', '(' , ')', '-'), '', $data['phone_number']);
 
         $this->service->update($data, $user);
 

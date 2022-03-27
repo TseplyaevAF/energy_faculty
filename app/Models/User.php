@@ -107,30 +107,30 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
      */
     public function generateCode()
     {
-        $code = rand(100000, 999999);
+        $ch = curl_init("https://sms.ru/code/call");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
+            "phone" => auth()->user()->phone_number, // номер телефона пользователя
+            "ip" => $_SERVER["REMOTE_ADDR"], // ip адрес пользователя
+            "api_id" => getenv("API_ID")
+        )));
+        $body = curl_exec($ch);
+        curl_close($ch);
+        $json = json_decode($body);
+        if ($json) { // Получен ответ от сервера
+            if ($json->status == "OK") { // Запрос выполнился
+                UserCode::updateOrCreate([
+                    'user_id' => auth()->user()->id,
+                    'code' => $json->code
+                ]);
+            } else { // Ошибка в запросе
+                throw new \Exception("Звонок не может быть выполнен: " . $json->status_text);
+            }
 
-        UserCode::updateOrCreate([
-            'user_id' => auth()->user()->id,
-            'code' => $code
-        ]);
-
-        $receiverNumber = '+' . auth()->user()->phone_number;
-        $message = "Ваш код для входа на сайт ЭФ ЗабГУ: ". $code;
-        $test = '';
-
-//        try {
-//            $account_sid = getenv("TWILIO_SID");
-//            $auth_token = getenv("TWILIO_TOKEN");
-//            $number = getenv("TWILIO_FROM");
-//
-//            $client = new Client($account_sid, $auth_token);
-//            $test = $client->messages->create($receiverNumber, [
-//                'from' => $number,
-//                'body' => $message]);
-//        } catch (\Exception $e) {
-//            //
-//        }
-//        print($test->sid);
+        } else {
+            throw new \Exception("Запрос не выполнился. Не удалось установить связь с сервером.");
+        }
     }
 
     public function sendEmailVerificationNotification()

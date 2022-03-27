@@ -11,7 +11,10 @@
                         <form method="POST" action="{{ route('2fa.store') }}">
                             @csrf
 
-                            <p class="text-center">Мы отправили код на Ваш телефон: {{ substr(auth()->user()->phone_number, 0, 5) . '******' . substr(auth()->user()->phone_number,  -2) }}</p>
+                            <p class="text-center">На ваш номер: {{ substr(auth()->user()->phone_number, 0, 5) . '******' . substr(auth()->user()->phone_number,  -2) }}
+                            будет совершен звонок.
+                                Введите <b>4 последних</b> цифр номера, с которого мы Вам позвоним.
+                            </p>
 
                             @if ($message = Session::get('success'))
                                 <div class="row">
@@ -51,14 +54,14 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <a class="btn btn-link" href="{{ route('2fa.resend') }}">Отправить код еще раз?</a>
+                                    <a class="btn btn-link" href="{{ route('2fa.resend') }}">Я не получил звонок</a>
                                 </div>
                             </div>
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        Подтвердить код
+                                        Продолжить
                                     </button>
                                 </div>
                             </div>

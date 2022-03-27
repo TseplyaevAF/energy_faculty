@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
             'title' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'phone_number' => 'required|regex:%^\\+\\d[-]\\(\\d{3}\\)[-]\\d{3}[-]\\d{2}[-]\\d{2}$%',
-            'email' => ['required', 'string', 'email', 'unique:users,email,' . $this->chair_id, 'regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/'],
+            'email' => ['required', 'string', 'email', 'unique:users,email,' . $this->chair_id, 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
             'description' => 'nullable',
         ];
     }

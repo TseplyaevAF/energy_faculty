@@ -90,8 +90,12 @@ class LoginController extends Controller
 
         if (Auth::attempt($validated)) {
             if (auth()->user()->is_active_2fa) {
-                auth()->user()->generateCode();
-
+                try {
+                    auth()->user()->generateCode();
+                } catch (\Exception $exception) {
+                    $message = $exception->getMessage();
+                    return view('error.error-info', compact('message'));
+                }
                 return redirect()->route('2fa.index');
             } else {
                 return $this->redirectPath();

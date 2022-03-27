@@ -108,7 +108,7 @@
 
     $('.select2').select2()
 
-    $('#phone').inputmask("+9-(999)-999-99-99");
+    $('#phone').inputmask("+8-(999)-999-99-99");
 
     $('#group_title').inputmask({
         mask: "a{1,15}-99-9",

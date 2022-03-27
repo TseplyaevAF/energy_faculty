@@ -39,7 +39,7 @@ class TwoFactorAuthController extends Controller
 
         return redirect()
             ->back()
-            ->with('error', 'Вы ввели не правильный код.');
+            ->with('error', 'Вы ввели неправильный код.');
     }
     /**
      * resend otp code
@@ -47,9 +47,14 @@ class TwoFactorAuthController extends Controller
      */
     public function resend()
     {
-        auth()->user()->generateCode();
+        try {
+            auth()->user()->generateCode();
+        } catch (\Exception $exception) {
+            $message = $exception->getMessage();
+            return view('error.error-info', compact('message'));
+        }
 
         return back()
-            ->with('success', 'На Ваш номер телефона было отправлено СМС с кодом для входа.');
+            ->with('success', 'Дождитесь звонка на Ваш номер.');
     }
 }
