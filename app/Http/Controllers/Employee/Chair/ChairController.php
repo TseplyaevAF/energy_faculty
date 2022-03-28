@@ -19,6 +19,6 @@ class ChairController extends Controller
 
         $chair->update($data);
 
-        return redirect()->route('employee.chair.edit', compact('chair'));
+        return redirect()->back()->withSuccess('Данные о кафедре успешно обновлены');
     }
 }

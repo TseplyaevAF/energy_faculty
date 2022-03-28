@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Employee\Schedule\Group;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Employee\Schedule\UpdateRequest;
-use App\Models\Classroom;
-use App\Models\ClassTime;
-use App\Models\ClassType;
-use App\Models\Discipline;
+use App\Models\Schedule\Classroom;
+use App\Models\Schedule\ClassTime;
+use App\Models\Schedule\ClassType;
 use App\Models\Group\Group;
-use App\Models\Schedule;
-use App\Models\Teacher\Teacher;
+use App\Models\Schedule\Schedule;
 use App\Service\Schedule\Service;
 
 class GroupController extends Controller
@@ -26,23 +24,37 @@ class GroupController extends Controller
     {
         $days = Schedule::getDays();
         $class_times = ClassTime::all();
-        // расписание по чётной неделе
-        $scheduleEven = Schedule::where('group_id', $group->id)->where('week_type', Schedule::WEEK_UP)->get();
-        // расписание по нечётной неделе
-        $scheduleOdd = Schedule::where('group_id', $group->id)->where('week_type', Schedule::WEEK_LOW)->get();
-        return view('employee.schedule.group.show', compact('group', 'days', 'class_times', 'scheduleEven', 'scheduleOdd'));
+        $scheduleEven = [];
+        $scheduleOdd = [];
+
+        foreach ($group->lessons as $lesson) {
+            if ($lesson->semester === $group->semester) {
+                // расписание по чётной неделе
+                foreach ($lesson->schedules->where('week_type', Schedule::WEEK_UP) as $item) {
+                    $scheduleEven [] = $item;
+                }
+                // расписание по нечётной неделе
+                foreach ($lesson->schedules->where('week_type', Schedule::WEEK_LOW) as $item) {
+                    $scheduleOdd [] = $item;
+                }
+            }
+        }
+        return view('employee.schedule.group.show',
+            compact('group', 'days', 'class_times', 'scheduleEven', 'scheduleOdd'));
     }
 
     public function edit(Schedule $schedule) {
-        $group = $schedule->group;
-        $week_types = Schedule::getWeekTypes();
-        $days = Schedule::getDays();
-        $class_times = ClassTime::all();
-        $teachers = Teacher::all();
-        $disciplines = Discipline::all();
-        $class_types = ClassType::all();
-        $classrooms = Classroom::all();
-        return view('employee.schedule.group.edit', compact('schedule', 'group', 'week_types', 'days', 'class_times', 'disciplines', 'teachers', 'class_types', 'classrooms'));
+        $group = $schedule->lesson->group;
+        $data = [
+            'week_types' => Schedule::getWeekTypes(),
+            'days' => Schedule::getDays(),
+            'class_times' => ClassTime::all(),
+            'class_types' => ClassType::all(),
+            'classrooms' => Classroom::all(),
+            'lessons' => $group->lessons
+        ];
+        return view('employee.schedule.group.edit',
+            compact('schedule','group', 'data'));
     }
 
     public function update(UpdateRequest $request, Schedule $schedule) {

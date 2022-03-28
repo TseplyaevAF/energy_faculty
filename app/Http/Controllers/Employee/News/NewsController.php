@@ -9,8 +9,8 @@ use App\Http\Requests\Employee\News\UpdateRequest;
 use App\Http\Requests\News\FilterRequest;
 use App\Models\News\Category;
 use App\Models\News\News;
+use App\Models\User;
 use App\Service\News\Service;
-use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -25,12 +25,15 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         $filter = app()->make(NewsFilter::class, ['queryParams' => array_filter($data)]);
-        $all_news = News::where('chair_id', auth()->user()->employee->chair_id)
+        $charId = auth()->user()->role_id != User::ROLE_TEACHER ?
+            auth()->user()->employee->chair_id : auth()->user()->teacher->chair_id;
+        $all_news = News::where('chair_id', $charId)
             ->filter($filter)
             ->orderBy('updated_at', 'desc')
             ->paginate(5);
         $categories = Category::all();
-        return view('employee.news.index', compact('all_news', 'categories'));
+        return view('employee.news.index',
+            compact('all_news', 'categories'));
     }
 
     public function create()
@@ -66,8 +69,7 @@ class NewsController extends Controller
 
     public function delete(News $news)
     {
-        dd(1);
         $news->delete();
-        return redirect()->route('admin.group.news.index');
+        return redirect()->back()->withSuccess('Запись была удалена');
     }
 }

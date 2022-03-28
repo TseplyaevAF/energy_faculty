@@ -49,7 +49,6 @@
                     <form action="{{ route('admin.schedule.group.update', $schedule->id) }}" method="POST" class="w-25">
                         @csrf
                         @method('PATCH')
-                        <input value="{{ $group->id }}" type="hidden" name="group_id">
                         <div class="form-group">
                             <label>Тип недели</label>
                             <select name="week_type" class="form-control">

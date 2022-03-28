@@ -18,7 +18,7 @@ class EmployeeMiddleware
     public function handle(Request $request, Closure $next)
     {
         $role_id = auth()->user()->role_id;
-        if ($role_id == User::ROLE_EMPLOYEE) {
+        if (($role_id == User::ROLE_EMPLOYEE) || ($role_id == User::ROLE_TEACHER)) {
             return $next($request);
         }
         abort(404);

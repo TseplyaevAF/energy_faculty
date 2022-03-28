@@ -34,6 +34,9 @@
                   {{ $item->title }},
                 @endforeach
               </h6>
+              <h6><b>Кафедра:</b>
+                  <a href="{{route('employee.main.index')}}">{{ auth()->user()->teacher->chair->title  }}</a>
+              </h6>
             @endif
 
           </div><!-- /.col -->

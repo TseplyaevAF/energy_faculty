@@ -9,7 +9,11 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 mb-2">Личный кабинет сотрудника</h1>
-            <h6>{{ auth()->user()->employee->chair->title }}</h6>
+              @if (auth()->user()->role_id != $roleTeacher)
+                  <h6>{{ auth()->user()->employee->chair->title }}</h6>
+              @else
+                  <h6>{{ auth()->user()->teacher->chair->title }}</h6>
+              @endif
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

@@ -14,15 +14,26 @@
             @endif
           </div>
           <div class="info">
+              @if(auth()->user()->role_id != $roleTeacher)
             <a href="#" class="d-block">{{ auth()->user()->surname }} {{auth()->user()->name}}</a>
+                  @else
+                  <a href="{{route('personal.main.index')}}" class="d-block">{{ auth()->user()->surname }} {{auth()->user()->name}}</a>
+              @endif
           </div>
         </div>
         <ul class="pt-2 nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
+              @if (auth()->user()->role_id != $roleTeacher)
             <a href="{{ route('employee.chair.edit', auth()->user()->employee->chair->id) }}" class="nav-link">
               <i class="nav-icon fas fa-info"></i>
               <p>Информация о кафедре</p>
             </a>
+              @else
+              <a href="{{ route('employee.chair.edit', auth()->user()->teacher->chair->id) }}" class="nav-link">
+                  <i class="nav-icon fas fa-info"></i>
+                  <p>Информация о кафедре</p>
+              </a>
+              @endif
           </li>
           <li class="nav-item">
             <a href="{{ route('employee.news.index') }}" class="nav-link">

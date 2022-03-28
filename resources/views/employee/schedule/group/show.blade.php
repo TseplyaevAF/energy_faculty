@@ -79,10 +79,10 @@
                                             @if (($pairEven->class_time_id == $time->id) && ($pairEven->day == $day_id))
                                                 <td class="schedule__table-discipline">
                                                     <div class="row">
-                                                        {{ $pairEven->discipline->title }} ·&nbsp
-                                                        <a class="schedule__table-teacher" href="#">{{ $pairEven->teacher->user->surname }} {{ mb_substr($pairEven->teacher->user->name, 0, 1) }}. {{ mb_substr($pairEven->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
+                                                        {{ $pairEven->lesson->discipline->title }} ·&nbsp
+                                                        <a class="schedule__table-teacher" href="#">{{ $pairEven->lesson->teacher->user->surname }} {{ mb_substr($pairEven->lesson->teacher->user->name, 0, 1) }}. {{ mb_substr($pairEven->lesson->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
                                                         <p class="schedule__table-class-type text-muted"> {{ $pairEven->class_type->title }} </p>&nbsp·&nbsp
-                                                        <p class="schedule__table-classroom">(ауд. {{$pairEven->classroom->title}}) </p>&nbsp
+                                                        <p class="schedule__table-classroom">(ауд. {{$pairEven->classroom->corps}}-{{$pairEven->classroom->cabinet}}) </p>&nbsp
                                                         <a href="{{ route('employee.schedule.group.edit', $pairEven->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                     </div>
                                                 </td>
@@ -93,10 +93,10 @@
                                                     @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day == $day_id))
                                                         <td class="schedule__table-discipline">
                                                             <div class="row">
-                                                                {{$pairOdd->discipline->title}} ·&nbsp
-                                                                <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->user->surname }} {{ mb_substr($pairOdd->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
+                                                                {{$pairOdd->lesson->discipline->title}} ·&nbsp
+                                                                <a class="schedule__table-teacher" href="#">{{ $pairOdd->lesson->teacher->user->surname }} {{ mb_substr($pairOdd->lesson->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->lesson->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
                                                                 <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
-                                                                <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->title}})</p>&nbsp
+                                                                <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
                                                                 <a href="{{ route('employee.schedule.group.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                             </div>
                                                         </td>
@@ -120,10 +120,10 @@
                                                 @if (($pairOdd->class_time_id == $time->id) && ($pairOdd->day == $day_id))
                                                     <td class="schedule__table-discipline">
                                                         <div class="row">
-                                                            {{$pairOdd->discipline->title}} ·&nbsp
-                                                            <a class="schedule__table-teacher" href="#">{{ $pairOdd->teacher->user->surname }} {{ mb_substr($pairOdd->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
+                                                            {{$pairOdd->lesson->discipline->title}} ·&nbsp
+                                                            <a class="schedule__table-teacher" href="#">{{ $pairOdd->lesson->teacher->user->surname }} {{ mb_substr($pairOdd->lesson->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->lesson->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
                                                             <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
-                                                            <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->title}})</p>&nbsp
+                                                            <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
                                                             <a href="{{ route('employee.schedule.group.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                         </div>
                                                     </td>

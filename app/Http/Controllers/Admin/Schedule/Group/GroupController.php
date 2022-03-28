@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Admin\Schedule\Group;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Schedule\StoreRequest;
 use App\Http\Requests\Admin\Schedule\UpdateRequest;
-use App\Models\Lesson;
 use App\Models\Schedule\Classroom;
 use App\Models\Schedule\ClassTime;
 use App\Models\Schedule\ClassType;
-use App\Models\Discipline;
 use App\Models\Group\Group;
 use App\Models\Schedule\Schedule;
-use App\Models\Teacher\Teacher;
 use App\Service\Schedule\Service;
 
 class GroupController extends Controller

@@ -24,7 +24,9 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-
+        @if (session('success'))
+            <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
+        @endif
       <div class="row">
         <div class="col-12">
           <form action="{{ route('employee.chair.update', $chair->id) }}" method="POST">
