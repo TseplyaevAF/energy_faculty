@@ -100,7 +100,7 @@
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
-                @if (isset($news->eventы))
+                @if (isset($news->event))
                 <div class="form-group w-25">
                     <h6>Дата начала события</h6>
                     <input value="{{$news->event->start_date}}" autocomplete="off" type="text" class="form-control"

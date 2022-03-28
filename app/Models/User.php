@@ -14,9 +14,6 @@ use App\Models\Traits\Filterable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Twilio\Rest\Client;
-
-require_once 'D:/programs/xampp/htdocs/energy_faculty/vendor/autoload.php';
 
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
