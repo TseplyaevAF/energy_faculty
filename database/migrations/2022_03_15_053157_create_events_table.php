@@ -15,15 +15,8 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('news_id');
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();
-
-            // IDX
-            $table->index('news_id', 'events_news_idx');
-
-            // FK
-            $table->foreign('news_id', 'events_new_fk')->on('news')->references('id');
         });
     }
 

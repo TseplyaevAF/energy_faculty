@@ -15,8 +15,7 @@ class News extends Model
 
     protected $guarded = false;
 
-
     public function event() {
-        return $this->hasOne(Event::class);
+        return $this->belongsTo(Event::class);
     }
 }

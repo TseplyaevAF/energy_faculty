@@ -18,8 +18,11 @@ class NewsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
+            'preview' => $this->preview,
             'images' => json_decode($this->images),
             'created_at' => $this->created_at,
+            'start_date' => isset($this->event) ? $this->event->start_date : null,
+            'finish_date' => isset($this->event) ? $this->event->finish_date : null
         ];
     }
 }

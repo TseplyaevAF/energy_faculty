@@ -26,8 +26,20 @@ class UpdateRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required',
+            'preview' => 'nullable|image',
             'images.*' => 'nullable|image',
             'category_id' => 'required|exists:categories,id',
+            'start_date' => 'nullable|date',
+            'finish_date' => 'nullable|date|after_or_equal:start_date',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'finish_date.after_or_equal' => 'Дата окончания должна быть равна дате проведения или больше её',
+            'title.required' => 'Новость должна содержать заголовок',
+            'content.required' => 'Напишите что-нибудь...'
         ];
     }
 }

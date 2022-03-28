@@ -10,7 +10,6 @@ use App\Models\News\Event;
 use App\Models\News\News;
 use App\Models\Role;
 use App\Models\Schedule\ClassTime;
-use Database\Factories\News\NewsFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
@@ -58,22 +57,15 @@ class DatabaseSeeder extends Seeder
                 continue;
             }
         }
+        Event::factory(5)->create();
         $news = News::factory(10)->create();
         foreach ($news as $newsEl) {
-            if ($newsEl->category_id != Category::NEWS) {
-                Event::firstOrCreate([
-                    'news_id' => $newsEl->id,
-                    'start_date' => date('Y-m-d'),
-                    'finish_date' => date('Y-m-d')
-                ]);
-            }
             if ($newsEl->is_slider_item) {
                 $newsEl->update([
                     'preview' => 'https://via.placeholder.com/640x480.png/0022dd?text=nulla'
                 ]);
             }
         }
-
 
 //        User::factory(100)->create();
     }

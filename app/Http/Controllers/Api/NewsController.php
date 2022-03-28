@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\NewsFilter;
 use App\Http\Requests\News\FilterRequest;
-use App\Http\Resources\NewsEventsResource;
 use App\Http\Resources\NewsResource;
 use App\Http\Resources\NewsSliderResource;
-use App\Models\News\Category;
 use App\Models\News\News;
 use Illuminate\Http\Request;
 
@@ -26,9 +24,6 @@ class NewsController extends Controller
         $filter = app()->make(NewsFilter::class, ['queryParams' => array_filter($data)]);
         if (isset($data['is_slider_item'])) {
             return NewsSliderResource::collection(News::filter($filter)->orderBy('updated_at', 'desc')->get());
-        }
-        if (isset($data['category_id']) && ($data['category_id'] != Category::NEWS)) {
-            return NewsEventsResource::collection(News::filter($filter)->orderBy('updated_at', 'desc')->get());
         }
         return NewsResource::collection(News::filter($filter)->orderBy('updated_at', 'desc')->get());
     }

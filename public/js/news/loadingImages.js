@@ -72,7 +72,7 @@ function setImages(files) {
       imageBlock[i].children[0].id = "prevImage" + uniqueName;
       imageBlock[i].children[1].textContent = files[i].name;
       imageBlock[i].children[2].children[0].dataset.id = uniqueName;
-      imageBlock[i].children[2].children[0].addEventListener('click', deleteFromImgList);
+      imageBlock[i].children[2].children[0].addEventListener('click', deleteFromImgList, {passive: true});
       imageSize++;
       var imagesList = document.getElementById("load-img-list");
       un_hide_block(imagesList);
@@ -84,7 +84,7 @@ function setImages(files) {
       imageBlock[imageSize].children[0].id = "prevImage" + uniqueName;
       imageBlock[imageSize].children[1].textContent = files[i].name;
       imageBlock[imageSize].children[2].children[0].dataset.id = uniqueName;
-      imageBlock[imageSize].children[2].children[0].addEventListener('click', deleteFromImgList);
+      imageBlock[imageSize].children[2].children[0].addEventListener('click', deleteFromImgList, {passive: true});
       imageSize++;
     }
     readURL(images.get(uniqueName), uniqueName);
@@ -112,7 +112,7 @@ $(document).ready(function () {
   var imageList = document.getElementById("load-img-list");
   hide_block(imageList);
   var imagesLinks = $('div.hidden').data('images');
-  if (imagesLinks != "") {
+  if (imagesLinks !== undefined && imagesLinks !== "") {
     imagesLinks = imagesLinks.split('|');
     for (let i = 0; i < imagesLinks.length; i++) {
       toImgList(imagesLinks[i]);
@@ -121,7 +121,9 @@ $(document).ready(function () {
 });
 
 $('form input[type=file]').on('change', function () {
-  setImages(this.files);
+    if (this.name === 'images[]') {
+        setImages(this.files);
+    }
 });
 
 $('#submitNews').on('click', function () {

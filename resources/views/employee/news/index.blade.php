@@ -3,7 +3,7 @@
   @section('title-block')Новости групп@endsection
 
   @section('content')
-  <link rel="stylesheet" href="{{ asset('css/employee/news/filter_news.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/news/filter_news.css') }}">
   <link rel="stylesheet" href="{{ asset('css/datepicker/cssworld.ru-xcal.css') }}">
 
   <!-- Content Wrapper. Contains page content -->

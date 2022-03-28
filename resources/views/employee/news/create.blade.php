@@ -3,7 +3,8 @@
   @section('title-block')Добавление новости группы@endsection
 
   @section('content')
-  <link rel="stylesheet" href="{{ asset('css/employee/news/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/news/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/datepicker/cssworld.ru-xcal.css') }}">
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -57,6 +58,20 @@
               </div>
 
               <div class="form-group w-25">
+                    <label for="exampleInputFile">Добавьте превью</label>
+                    <div class="input-group mb-2">
+                        <div class="custom-file">
+                            <!-- multiple -->
+                            <input type="file" class="custom-file-input" name="preview" accept=".jpg,.jpeg,.png,.bmp,.svg">
+                            <label class="custom-file-label" for="exampleInputFile">Выберите изображение</label>
+                        </div>
+                    </div>
+                    @error('preview')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+
+              <div class="form-group w-25">
                 <label for="exampleInputFile">Добавьте изображения</label>
                 <div class="input-group mb-2">
                   <div class="custom-file">
@@ -77,10 +92,27 @@
                     </li>
                   </ul>
                 </div>
-
-                @error('image')
+                @error('images')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
+              </div>
+
+              <div class="form-group w-25">
+                <h6>Дата начала события</h6>
+                <input autocomplete="off" type="text" class="form-control"
+                       value="{{ old('start_date') }}"name="start_date" size="10" onClick="xCal(this)" onKeyUp="xCal()">
+                  @error('start_date')
+                  <p class="text-danger">{{ $message }}</p>
+                  @enderror
+              </div>
+
+              <div class="form-group w-25">
+                <h6>Дата окончания события</h6>
+                <input autocomplete="off" type="text" class="form-control"
+                       value="{{ old('finish_date') }}" name="finish_date" size="10" onClick="xCal(this)" onKeyUp="xCal()">
+                  @error('finish_date')
+                  <p class="text-danger">{{ $message }}</p>
+                  @enderror
               </div>
 
               <div class="form-group w-25">
@@ -105,6 +137,7 @@
   </div>
 
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/news/cssworld.ru-xcal-en.js') }}"></script>
   <script src="{{ asset('js/news/loadingImages.js') }}"></script>
 
   <!-- /.content-wrapper -->
