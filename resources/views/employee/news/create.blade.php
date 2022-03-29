@@ -62,7 +62,7 @@
                     <div class="input-group mb-2">
                         <div class="custom-file">
                             <!-- multiple -->
-                            <input type="file" class="custom-file-input" name="preview" accept=".jpg,.jpeg,.png,.bmp,.svg">
+                            <input type="file" class="custom-file-input" name="preview" accept=".jpg,.jpeg,.png">
                             <label class="custom-file-label" for="exampleInputFile">Выберите изображение</label>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                 <div class="input-group mb-2">
                   <div class="custom-file">
                     <!-- multiple -->
-                    <input type="file" class="custom-file-input" id="imageFiles" name="images[]" accept=".jpg,.jpeg,.png,.bmp,.svg" multiple>
+                    <input type="file" class="custom-file-input" id="imageFiles" name="images[]" accept=".jpg,.jpeg,.png" multiple>
                     <label class="custom-file-label" for="exampleInputFile">Выберите изображение</label>
                   </div>
                 </div>
@@ -92,7 +92,7 @@
                     </li>
                   </ul>
                 </div>
-                @error('images')
+                @error('images.*')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>

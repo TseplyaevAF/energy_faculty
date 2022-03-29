@@ -26,8 +26,8 @@ class StoreRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'preview' => 'nullable|image',
-            'images.*' => 'nullable|image',
+            'preview' => 'nullable|file|mimes:jpg,jpeg,png',
+            'images.*' => 'nullable|file|mimes:jpg,jpeg,png',
             'category_id' => 'required|exists:categories,id',
             'chair_id' => 'required|exists:chairs,id',
             'start_date' => 'nullable|date|after_or_equal:' . date('d.m.Y'),
@@ -41,7 +41,11 @@ class StoreRequest extends FormRequest
             'start_date.after_or_equal' => 'Дата окончания должна быть равна текущей дате или больше её',
             'finish_date.after_or_equal' => 'Дата окончания должна быть равна дате проведения или больше её',
             'title.required' => 'Новость должна содержать заголовок',
-            'content.required' => 'Напишите что-нибудь...'
+            'content.required' => 'Напишите что-нибудь...',
+            'preview.mimes' => 'Файл должен иметь один из следующих форматов: jpg,jpeg,png',
+            'preview.file' => 'Необходимо загрузить изображение',
+            'images.*.mimes' => 'Файл должен иметь один из следующих форматов: jpg,jpeg,png',
+            'images.*.file' => 'Необходимо загрузить изображение'
         ];
     }
 }

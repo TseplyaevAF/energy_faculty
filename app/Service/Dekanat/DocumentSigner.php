@@ -48,7 +48,7 @@ class DocumentSigner
         //2. проверка, что подпись корректна для dataForSign и publicKey
         $res = $this->centreAuth->signIsVerify($dataForSign, $signature, $cert);
         if ($res === 0 || $res !== 1) {
-            throw new \Exception('Секретный ключ не соответствует публичному ключу! Подписать невозможно.',-1);
+            throw new \Exception('Закрытый ключ не соответствует открытому ключу! Подписать невозможно.',-1);
         }
         return $signature;
     }

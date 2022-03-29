@@ -7,7 +7,6 @@ use App\Models\Cert\CertApp;
 use App\Models\Cert\Certificate;
 use App\Models\Teacher\Teacher;
 use App\Service\CA\CentreAuthority;
-use App\Service\Personal\Schedule\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -15,13 +14,6 @@ use Illuminate\Support\Facades\Storage;
 
 class CertController extends Controller
 {
-    private $service;
-
-    public function __construct(Service $service)
-    {
-        $this->service = $service;
-    }
-
     public function index()
     {
         Gate::authorize('isTeacher');

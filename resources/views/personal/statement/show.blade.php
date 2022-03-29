@@ -83,8 +83,8 @@
                                             Подписать ведомость для следующих студентов:
                                             <ul class="studentsList" id="studentsList"></ul>
                                             <input type="hidden" class="individualsList" name="individuals[]">
-                                            <h5>Выберите файл с Вашим секретным ключом:</h5>
-                                            <div class="input-group mb-2 w-50">
+                                            <h5>Выберите файл с Вашим ключом:</h5>
+                                            <div class="input-group mb-2">
                                                 <div class="custom-file">
                                                     <input type="file" id="file" class="custom-file-input"
                                                            name="private_key"
@@ -149,84 +149,90 @@
     <script>
         $(document).ready(function () {
             let evalTypes;
+            let table;
 
             $.ajax({
                 type: 'GET',
                 url: '{{ route('personal.statement.getEvalTypes') }}',
                 success: function (response) {
                     evalTypes = JSON.parse(response);
+                    getCompletedSheets();
+                    table = getTables();
+                },
+                error: function (response) {
+                    console.log(response);
                 }
             });
 
-            getCompletedSheets();
-
-            let table = $('#individuals-table').DataTable({
-                language: {
-                    processing: "Подождите...",
-                    search: "Поиск:",
-                    lengthMenu: "Показать _MENU_ записей",
-                    info: "Записи с _START_ до _END_ из _TOTAL_ записей",
-                    infoFiltered: "(отфильтровано из _MAX_ записей)",
-                    loadingRecords: "Загрузка...",
-                    zeroRecords: "Записи отсутствуют.",
-                    emptyTable: "Студенты не найдены"
-                },
-                processing: true,
-                serverSide: true,
-                info: true,
-                paging: false,
-                stateSave: true,
-                ajax: {
-                    url: "{{ route('personal.statement.show', $statement->id ) }}"
-                },
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'studentFIO', name: 'studentFIO'},
-                    {data: 'student_id_number', name: 'student_id_number'},
-                    {
-                        data: "evaluation", name: "evaluation",
-                        render: function (data, type, row) {
-                            var select = '<select class="form-control evalSelect" type="text" name="evaluation">';
-                            select += '<option value="">-- Оценка не выбрана</option>';
-                            let count = 1;
-                            for (var i = 0; i < Object.keys(evalTypes).length; i++) {
-                                if (evalTypes[count] === evalTypes[row.evaluation]) {
-                                    select += '<option value="' + row.evaluation + '" selected="true">' + evalTypes[row.evaluation] + '</option>';
-                                } else {
-                                    select += '<option value="' + count + '">' + evalTypes[count] + '</option>';
-                                }
-                                count++;
-                            }
-                            select += '</select>';
-                            return select;
-                        }
+            function getTables() {
+                return $('#individuals-table').DataTable({
+                    language: {
+                        processing: "Подождите...",
+                        search: "Поиск:",
+                        lengthMenu: "Показать _MENU_ записей",
+                        info: "Записи с _START_ до _END_ из _TOTAL_ записей",
+                        infoFiltered: "(отфильтровано из _MAX_ записей)",
+                        loadingRecords: "Загрузка...",
+                        zeroRecords: "Записи отсутствуют.",
+                        emptyTable: "Студенты не найдены"
                     },
-                    {
-                        defaultContent: "",
-                        // 02: SETUP CHECKBOX IN THE HEADER
-                        sTitle: '<input class="select-checkbox" type="checkbox" id="selectAll"></input>'
-                    }
-                ],
-                "drawCallback": function (settings) {
-                    $(".evalSelect").on("change", function () {
-                        var $row = $(this).parents("tr");
-                        var rowData = table.row($row).data();
+                    processing: true,
+                    serverSide: true,
+                    info: true,
+                    paging: false,
+                    stateSave: true,
+                    ajax: {
+                        url: "{{ route('personal.statement.show', $statement->id ) }}"
+                    },
+                    columns: [
+                        {data: 'id', name: 'id'},
+                        {data: 'studentFIO', name: 'studentFIO'},
+                        {data: 'student_id_number', name: 'student_id_number'},
+                        {
+                            data: "evaluation", name: "evaluation",
+                            render: function (data, type, row) {
+                                var select = '<select class="form-control evalSelect" type="text" name="evaluation">';
+                                select += '<option value="">-- Оценка не выбрана</option>';
+                                let count = 1;
+                                for (var i = 0; i < Object.keys(evalTypes).length; i++) {
+                                    if (evalTypes[count] === evalTypes[row.evaluation]) {
+                                        select += '<option value="' + row.evaluation + '" selected="true">' + evalTypes[row.evaluation] + '</option>';
+                                    } else {
+                                        select += '<option value="' + count + '">' + evalTypes[count] + '</option>';
+                                    }
+                                    count++;
+                                }
+                                select += '</select>';
+                                return select;
+                            }
+                        },
+                        {
+                            defaultContent: "",
+                            // 02: SETUP CHECKBOX IN THE HEADER
+                            sTitle: '<input class="select-checkbox" type="checkbox" id="selectAll"></input>'
+                        }
+                    ],
+                    "drawCallback": function (settings) {
+                        $(".evalSelect").on("change", function () {
+                            var $row = $(this).parents("tr");
+                            var rowData = table.row($row).data();
 
-                        rowData.evaluation = $(this).val();
-                    })
-                },
-                columnDefs: [
-                    {
-                        orderable: false,
-                        className: 'select-checkbox',
-                        targets: 4
-                    }
-                ],
-                select: {
-                    style: 'multi',
-                    selector: 'td:last-child' // 01: ONLY CHECK ROW WHEN FIRST TD ROW IS CLICKED
-                },
-            });
+                            rowData.evaluation = $(this).val();
+                        })
+                    },
+                    columnDefs: [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: 4
+                        }
+                    ],
+                    select: {
+                        style: 'multi',
+                        selector: 'td:last-child' // 01: ONLY CHECK ROW WHEN FIRST TD ROW IS CLICKED
+                    },
+                });
+            }
 
             function getCompletedSheets() {
                 let id = $('.inputStatement').val();
