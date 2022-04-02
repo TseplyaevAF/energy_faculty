@@ -20,5 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResources([
     'news' => 'Api\NewsController',
-    'schedule' => 'Api\ScheduleController',
+    'schedules' => 'Api\ScheduleController',
+    'categories' => 'Api\CategoryController',
 ]);
