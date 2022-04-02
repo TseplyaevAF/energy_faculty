@@ -38,8 +38,9 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>Год обучения</th>
                       <th>Группа</th>
+                      <th>Год обучения</th>
+                      <th>Семестр</th>
                       <th>Дисциплина</th>
                       <th>Преподаватель</th>
                       <th colspan="3">Действия</th>
@@ -48,8 +49,9 @@
                   <tbody>
                     @foreach ($lessons as $lesson)
                     <tr>
-                        <td>{{ $lesson->year->start_year }}-{{ $lesson->year->end_year }}</td>
                         <td>{{ $lesson->group->title  }}</td>
+                        <td>{{ $lesson->year->start_year }}-{{ $lesson->year->end_year }}</td>
+                        <td>{{ $lesson->semester  }}</td>
                         <td>{{ $lesson->discipline->title }}</td>
                         <td>{{ $lesson->teacher->user->surname }}</td>
                       <td><a href="{{ route('admin.lesson.edit', $lesson->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>

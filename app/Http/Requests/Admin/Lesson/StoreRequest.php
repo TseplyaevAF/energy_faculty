@@ -30,14 +30,15 @@ class StoreRequest extends FormRequest
             'disciplines_ids' => 'required|array',
             'disciplines_ids.*' => 'integer|exists:disciplines,id',
             'group_id' => 'integer|exists:groups,id',
-            'year_id' => 'integer|exists:years,id'
+            'year' => 'required|string'
         ];
     }
 
     public function messages()
     {
         return [
-
+            'year.required' => 'Необходимо заполнить год обучения',
+            'disciplines_ids.required' => 'Необходимо заполнить дисциплины',
         ];
     }
 }

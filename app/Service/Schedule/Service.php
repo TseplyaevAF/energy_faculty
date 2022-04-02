@@ -4,8 +4,9 @@
 namespace App\Service\Schedule;
 
 use App\Models\Lesson;
+use App\Models\Schedule\Classroom;
+use App\Models\Schedule\ClassType;
 use App\Models\Schedule\Schedule;
-use App\Models\Teacher\Teacher;
 use Exception;
 
 class Service
@@ -13,6 +14,14 @@ class Service
     public function store($data)
     {
         $lesson = Lesson::find($data['lesson_id']);
+        $classroomInput = explode('-',$data['classroom_id']);
+        $classroom = Classroom::firstOrCreate([
+            'corps' => intval($classroomInput[0]),
+            'cabinet' => intval($classroomInput[1]),
+        ]);
+        $class_type = ClassType::firstOrCreate(['title' => $data['class_type_id']]);
+        $data['class_type_id'] = $class_type->id;
+        $data['classroom_id'] = $classroom->id;
 
         $result = $this->groupIsBusy($data, $lesson);
         if (!empty($result)) {

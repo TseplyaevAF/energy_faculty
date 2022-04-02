@@ -114,6 +114,18 @@
         mask: "a{1,15}-99-9",
         definitions: {'5': {validator: "[0-5]"}}
     });
+
+    $('#year').inputmask({
+        mask: "9999-9999"
+    });
+
+    $('#classroom').inputmask({
+        mask: "09-999"
+    });
+
+    let classTypes = ['практика', 'лабораторная работа', 'лекция'];
+
+    $('#class_type').autocomplete({source: classTypes});
   </script>
 
 </body>

@@ -48,8 +48,8 @@
                             <tr>
                                 <th scope="col" class="col-1">День</th>
                                 <th scope="col" class="col-1">Время</th>
-                                <th scope="col" class="col-4">Чётная неделя</th>
-                                <th scope="col" class="col-4">Нечётная неделя</th>
+                                <th scope="col" class="col-4">Верхняя неделя</th>
+                                <th scope="col" class="col-4">Нижняя неделя</th>
                             </tr>
                         </thead>
                         @foreach ($days as $day_id => $day)

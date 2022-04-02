@@ -44,14 +44,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Выберите год обучения</label>
-                    <select name="year_id" class="form-control">
-                        @foreach($data['years'] as $year)
-                            <option value="{{ $year->id }}" {{$year == old('year_id') ? 'selected' : ''}}>
-                                {{ $year->start_year }}-{{ $year->end_year }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <label>Введите год обучения</label>
+                    <input value="{{ old('year') }}" type="text" id="year" class="form-control" name="year"
+                    placeholder="2021-2022">
+                    @error('year')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">

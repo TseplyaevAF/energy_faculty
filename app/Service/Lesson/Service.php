@@ -5,6 +5,7 @@ namespace App\Service\Lesson;
 
 use App\Models\Group\Group;
 use App\Models\Teacher\Teacher;
+use App\Models\Year;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -15,10 +16,15 @@ class Service
         try {
             DB::beginTransaction();
             $teacher = Teacher::find($data['teacher_id']);
+            $yearInput = explode('-',$data['year']);
+            $year = Year::firstOrCreate([
+                'start_year' => $yearInput[0],
+                'end_year' => $yearInput[1],
+            ]);
             $teacher->disciplines()->attach($data['disciplines_ids'], [
                 'group_id' => $data['group_id'],
                 'semester' => $data['semester'],
-                'year_id' => $data['year_id']
+                'year_id' => $year->id
             ]);
             DB::commit();
         } catch (Exception $exception) {

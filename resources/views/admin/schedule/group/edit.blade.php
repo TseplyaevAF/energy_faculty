@@ -79,6 +79,7 @@
                                 @foreach($data['lessons'] as $lesson)
                                 <option value="{{$lesson->id }}" {{$lesson->id == $schedule->lesson_id ? 'selected' : ''}}>
                                     {{ $lesson->teacher->user->surname }},
+                                    {{ $lesson->discipline->title }},
                                     {{ $lesson->semester }} семестр
                                 </option>
                                 @endforeach

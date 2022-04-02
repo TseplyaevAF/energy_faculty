@@ -2,6 +2,8 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css\schedule\style.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.min.css') }}">
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -73,28 +75,28 @@
                                 @foreach($data['lessons'] as $lesson)
                                 <option value="{{$lesson->id }}" {{$lesson->id == old('lesson_id') ? 'selected' : ''}}>
                                     {{ $lesson->teacher->user->surname }},
+                                    {{ $lesson->discipline->title }},
                                     {{ $lesson->semester }} семестр
                                 </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Вид занятия</label>
-                            <select name="class_type_id" class="form-control">
-                                @foreach($data['class_types'] as $class_type)
-                                <option value="{{$class_type->id }}" {{$class_type->id == old('class_type_id') ? 'selected' : ''}}>{{ $class_type->title }}</option>
-                                @endforeach
-                            </select>
+                            <label>Тип занятия</label>
+                            <input value="{{ old('class_type_id') }}" type="text" class="form-control"
+                                   name="class_type_id" id="class_type" placeholder="практика">
+                            @error('class_type_id')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label>Аудитория</label>
-                            <select name="classroom_id" class="form-control">
-                                @foreach($data['classrooms'] as $classroom)
-                                <option value="{{$classroom->id }}" {{$classroom->id == old('classroom_id') ? 'selected' : ''}}>
-                                    {{ $classroom->corps }}-{{ $classroom->cabinet }}
-                                </option>
-                                @endforeach
-                            </select>
+                            <input value="{{ old('classroom_id') }}" type="text" id="classroom"
+                                   autocomplete="off" class="form-control"
+                                   name="classroom_id" placeholder="03-401">
+                            @error('classroom_id')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <input type="hidden" name="group_id" value="{{ $group->id }}">
                         <input type="submit" class="btn btn-primary mb-2" value="Добавить">
@@ -107,6 +109,7 @@
 </div>
 
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('js/schedules/showGroups.js') }}"></script>
 <!-- /.content-wrapper -->
 @endsection

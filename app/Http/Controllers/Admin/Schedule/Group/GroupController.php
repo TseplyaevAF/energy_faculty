@@ -27,9 +27,8 @@ class GroupController extends Controller
         $class_times = ClassTime::all();
         $scheduleEven = [];
         $scheduleOdd = [];
-
-        foreach ($group->lessons as $lesson) {
-            if ($lesson->semester === $group->semester) {
+        if (!empty($group->lessons->groupBy('semester')->max())) {
+            foreach ($group->lessons->groupBy('semester')->max() as $lesson) {
                 // расписание по чётной неделе
                 foreach ($lesson->schedules->where('week_type', Schedule::WEEK_UP) as $item) {
                     $scheduleEven [] = $item;
@@ -40,6 +39,7 @@ class GroupController extends Controller
                 }
             }
         }
+
         return view('admin.schedule.group.show',
             compact('group', 'days', 'class_times', 'scheduleEven', 'scheduleOdd'));
     }
