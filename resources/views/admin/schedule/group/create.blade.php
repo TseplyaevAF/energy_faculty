@@ -3,7 +3,6 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css\schedule\style.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.min.css') }}">
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">

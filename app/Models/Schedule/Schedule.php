@@ -3,12 +3,14 @@
 namespace App\Models\Schedule;
 
 use App\Models\Lesson;
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Schedule extends Model
 {
     use HasFactory;
+    use Filterable;
 
     protected $guarded = false;
 
@@ -21,7 +23,7 @@ class Schedule extends Model
             1 => 'ПН',
             2 => 'ВТ',
             3 => 'СР',
-            4 => 'ЧГ',
+            4 => 'ЧТ',
             5 => 'ПТ',
             6 => 'СБ'
         ];

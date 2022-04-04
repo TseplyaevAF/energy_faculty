@@ -73,8 +73,6 @@ class GroupController extends Controller
             'week_types' => Schedule::getWeekTypes(),
             'days' => Schedule::getDays(),
             'class_times' => ClassTime::all(),
-            'class_types' => ClassType::all(),
-            'classrooms' => Classroom::all(),
             'lessons' => $group->lessons
         ];
         return view('admin.schedule.group.edit',
