@@ -3,12 +3,14 @@
 namespace App\Models\Statement;
 
 use App\Models\Lesson;
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Statement extends Model
 {
     use HasFactory;
+    use Filterable;
 
     protected $guarded = false;
 
@@ -41,7 +43,7 @@ class Statement extends Model
             self::EVAL_3 => 'удовлетворительно',
             self::EVAL_4 => 'хорошо',
             self::EVAL_5 => 'отлично',
-            self::EVAL_ABSENCE => 'неявка'
+            self::EVAL_ABSENCE => 'не явился'
         ];
     }
 

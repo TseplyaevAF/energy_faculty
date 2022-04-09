@@ -87,6 +87,14 @@
                     </a>
                 </li>
             @endcan
+            @can('isTeacher')
+                <li class="nav-item">
+                    <a href="{{ route('personal.mark.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-check-double"></i>
+                        <p>Успеваемость</p>
+                    </a>
+                </li>
+            @endcan
             @can('isStudent')
                 <li class="nav-item">
                     <a href="{{ route('personal.exam_sheet.index') }}" class="nav-link">

@@ -65,6 +65,7 @@ class Service
             $imagePath = 'images/news/' . $news->id;
 
             if (isset($data['preview'])) {
+                Storage::disk('public')->delete($news->preview);
                 $data['preview'] = Storage::disk('public')
                     ->put($imagePath . '/preview', $data['preview']);
                 $news->update([

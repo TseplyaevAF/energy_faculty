@@ -216,6 +216,11 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::post('/', 'ExamSheetController@store')->name('personal.exam_sheet.store');
         Route::patch('/{examSheet}', 'ExamSheetController@sign')->name('personal.exam_sheet.sign');
     });
+    Route::group(['namespace' => 'Mark', 'prefix' => 'marks'], function () {
+        Route::get('/', 'MarkController@index')->name('personal.mark.index');
+        Route::get('/groups/all', 'MarkController@getGroups')->name('personal.mark.getGroups');
+        Route::get('/getStatements', 'MarkController@getStatements')->name('personal.mark.getStatements');
+    });
 });
 
 Route::get('two-factor-auth', [TwoFactorAuthController::class, 'index'])->name('2fa.index');

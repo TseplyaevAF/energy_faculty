@@ -35,7 +35,7 @@ class ScheduleFilter extends AbstractFilter
     {
         $ids = [];
         $user = User::where('surname', $value)->first();
-        if (isset($user) || isset($user->teacher)) {
+        if (isset($user) && isset($user->teacher)) {
             $teacher = $user->teacher;
             $lessons = $teacher->lessons;
             $lessons->transform(function ($lesson) {

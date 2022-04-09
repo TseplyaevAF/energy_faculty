@@ -1,7 +1,6 @@
   @extends('personal.layouts.main')
 
   @section('content')
-  <link rel="stylesheet" href="{{ asset('css/groups/news/style.css') }}">
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
