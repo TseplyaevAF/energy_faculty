@@ -44,7 +44,7 @@ class Service
             ]);
 
             // создание индивидуальных экзаменационных листов для каждого студента
-            $lesson = Lesson::find($data['lesson_id'])->first();
+            $lesson = Lesson::find($data['lesson_id']);
             $students = $lesson->group->students;
             foreach ($students as $student) {
                 Individual::firstOrCreate([

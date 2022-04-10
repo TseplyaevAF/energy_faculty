@@ -18,7 +18,7 @@ class IndividualsExport implements FromView
 
     public function view(): View
     {
-        return view('dekanat.export.individuals', [
+        return view('export.individuals', [
             'individuals' => Individual::getArrayCompletedSheets($this->statement->individuals),
             'statement' => $this->statement,
             'evalTypes' => Statement::getEvalTypes(),

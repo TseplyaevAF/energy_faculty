@@ -218,8 +218,11 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     });
     Route::group(['namespace' => 'Mark', 'prefix' => 'marks'], function () {
         Route::get('/', 'MarkController@index')->name('personal.mark.index');
-        Route::get('/groups/all', 'MarkController@getGroups')->name('personal.mark.getGroups');
+        Route::get('/controlForms/all', 'MarkController@getControlForms')->name('personal.mark.getControlForms');
+        Route::get('/disciplines/{group}', 'MarkController@getDisciplines')->name('personal.mark.getDisciplines');
         Route::get('/getStatements', 'MarkController@getStatements')->name('personal.mark.getStatements');
+        Route::get('/statements/{statement}', 'MarkController@getStatementInfo')->name('personal.mark.getStatementInfo');
+        Route::get('/statements/{statement}/download', 'MarkController@statementDownload')->name('personal.mark.statementDownload');
     });
 });
 

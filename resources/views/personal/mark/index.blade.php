@@ -10,7 +10,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Успеваемость</h1>
+                        <h1 class="m-0">Панель управления куратора</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -26,25 +26,39 @@
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
+                    <div class="form-group w-25">
+                        <h6>Мои группы<span class="gcolor"></span></h6>
+                        <div class="form-s2 selectGroup">
+                            <div>
+                                <select class="form-control formselect required" id="statement_group_name">
+                                    @foreach($groups as $group)
+                                        <option value="{{ $group->id }}">
+                                            {{ $group->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="tabs vertical">
                             <ul class="tabs__caption">
                                 <li data-id="statements">Ведомости</li>
-                                <li data-id="tasks">Задания</li>
-                                <li data-id="monthly-marks">Месячные оценки</li>
+                                <li data-id="tasks">Успеваемость</li>
+                                <li data-id="monthly-marks">Оценки по месяцам</li>
                             </ul>
                             <div class="tabs__content">
                                 <div id="preloader">
-                                    <img src="{{ asset('storage/loading.gif') }}" alt=
-                                    "AJAX loader" title="AJAX loader"/>
+                                    <img src="{{ asset('storage/loading.gif') }}"
+                                        alt="AJAX loader" title="AJAX loader"/>
                                 </div>
                                 <div class="row filters w-50">
-                                    <div class="form-group col-md-6" id="groups">
-                                        <h6>Мои группы<span class="gcolor"></span></h6>
-                                        <div class="form-s2 selectGroup">
+                                    <div class="form-group col-md-6" id="control_forms">
+                                        <h6>Форма контроля<span class="gcolor"></span></h6>
+                                        <div class="form-s2 selectControlForm">
                                             <div>
-                                                <select class="form-control formselect required" id="statement_group_name">
-                                                    <option value="reset_filter_group">Все группы</option>
+                                                <select class="form-control formselect required"
+                                                        id="statement_control_form">
+                                                    <option value="reset_filter_control_form">Все</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -52,14 +66,15 @@
                                     <div class="form-group col-md-6">
                                         <h6>Семестр</h6>
                                         <select class="form-control formselect required" id="semester">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
+                                            <option value="">-- Не выбрано</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -71,34 +86,56 @@
                                 </div>
                                 <div class="form-group">
                                     <h5>Экзаменационные ведомости:</h5>
-                                    <table class="table table-sm" id="statements-table">
-                                        <thead>
-                                        <tr>
-                                            <th>№ ведомости</th>
-                                            <th>Группа</th>
-                                            <th>Дисциплина</th>
-                                            <th>Форма контроля</th>
-                                            <th>Семестр</th>
-                                            <th>Учебный год</th>
-                                            <th>Действия</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="group-statements"></tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm" id="statements-table">
+                                            <thead>
+                                            <tr>
+                                                <th>№ ведомости</th>
+                                                <th>Группа</th>
+                                                <th>Дисциплина</th>
+                                                <th>Форма контроля</th>
+                                                <th>Семестр</th>
+                                                <th>Учебный год</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="group-statements"></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tabs__content">
-                                Содержимое второго блока
+                                Раздел Успеваемость
+                            </div>
+                            <div class="tabs__content">
+                                Раздел Оценки по месяцам
                             </div>
                         </div><!-- .tabs-->
                     </div>
             </div>
         </section>
     </div>
+    <div class="modal fade bd-example-modal-lg" id="statementModal" tabindex="-1" role="dialog"
+         aria-labelledby="statementModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content modal-xl">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-<script>
+    <script>
     $(document).ready(function () {
         $('#preloader').hide();
+        let choiceGroup = $("#statement_group_name").val();
+
         $('ul.tabs__caption').on('click', 'li:not(.active)', function() {
             $(this).closest('div.tabs').find('div.tabs__content').children('.row').hide();
             let id = $(this).attr('data-id');
@@ -115,22 +152,24 @@
         }
 
         $('#filter').click(function () {
-            let filterGroup = $('#statement_group_name').val();
+            $(this).attr('disabled', true);
+            $('#preloader').show();
+            let filterControlForm = $('#statement_control_form').val();
             let filterSemester = $('#semester').val();
-            getStatements(filterGroup, filterSemester);
+            getStatements(filterControlForm, filterSemester);
         })
 
-        function getStatements(filterGroup = '', filterSemester = '') {
+        function getStatements(filterControlForm = '', filterSemester = '') {
             $.ajax({
                 type: 'GET',
                 url: 'marks/getStatements',
                 data: {
                     'semester': filterSemester,
-                    'group': filterGroup
+                    'group': choiceGroup,
+                    'control_form': filterControlForm
                 },
                 success: function (response) {
                     let data = JSON.parse(response);
-                    console.log(data)
                     $('.group-statements').find('tr').remove();
                     $.each(data, function (key, item) {
                         $('.group-statements').append('<tr>\
@@ -146,29 +185,59 @@
                             </a></td>\
                             </tr>');
                     })
+                    $('#preloader').hide();
+                    $('#filter').attr('disabled', false);
                 }
             });
         }
 
         $("#statements-table").on('click', '.showStatement', function() {
-            var id = $(this).attr('id');
-            alert(id)
+            $.ajax({
+                url: "/personal/marks/statements/" + $(this).attr('id').split('_')[1],
+                beforeSend: function() {
+                    $('#preloader').show();
+                },
+                success: function(result) {
+                    $('#statementModal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function() {
+                    $('#preloader').hide();
+                },
+                error: function(jqXHR, status, error) {
+                    if (jqXHR.status === 404) {
+                        alert(jqXHR.responseText);
+                    } else {
+                        alert("Невозможно получить данные. Ошибка: " + jqXHR.responseText);
+                    }
+                    $('#preloader').hide();
+                },
+                timeout: 8000
+            });
+        });
+
+        $('#statement_group_name').on('change', function () {
+            $('#preloader').show();
+            choiceGroup = $(this).val();
+            getStatements();
         });
 
         function showStatementReport(el) {
             $('#preloader').show();
+            getControlForms(el);
+            getStatements();
+            $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
+        }
+
+        function getControlForms(el) {
             $.ajax({
                 type: 'GET',
-                url: "{{ route('personal.mark.getGroups') }}",
+                url: "{{ route('personal.mark.getControlForms') }}",
                 success: function (response) {
                     let data = JSON.parse(response);
-                    let select = createSelect(data, 'statement_group_name');
-                    $(el).closest('div.tabs').find('.selectGroup').replaceWith(
-                        select
-                    );
-                    $('#statement_group_name').on('change', changeSelect);
-                    $('#preloader').hide();
-                    $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
+                    let select = createSelect(data, 'statement_control_form');
+                    $(el).closest('div.tabs').find('.selectControlForm').replaceWith(select);
+                    $('#statement_control_form').on('change', changeSelect);
                 }
             });
         }
@@ -176,12 +245,13 @@
         function createSelect(data, id) {
             let select = '<select class="form-control" type="text" id=' + id + '>';
             select += '<option value="">-- Не выбрано</option>';
-            for (let i = 0; i < data.length; i++) {
-                select += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
+            let count = 1;
+            for (let i = 0; i < Object.keys(data).length; i++) {
+                select += '<option value="' + count + '">' + data[count] + '</option>';
+                count++;
             }
-            select += '</select>';
-            return select;
+            return select += '</select>';
         }
     });
-</script>
+    </script>
 @endsection
