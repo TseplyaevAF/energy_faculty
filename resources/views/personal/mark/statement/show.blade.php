@@ -53,6 +53,7 @@
 </style>
 
 <div class="card card-margin">
+    <h5>Экзаменационная ведомость №{{$statement->id}}</h5>
     @if (session('success'))
         <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
     @endif
@@ -91,7 +92,7 @@
     <div class="card-body">
         <h5>Студенты, прошедшие контроль:</h5>
         <div class="form-group scroll-table-body">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table-responsive" id="individuals-table">
                 <thead>
                 <tr>
                     <th>№ записи</th>
@@ -111,45 +112,27 @@
                         <td>{{ $evalTypes[$individual['evaluation']] }}</td>
                         <td>{{ $individual['exam_finish_date'] }}</td>
                         <td style="min-width:100px">
-                            @if (isset($individual['history']))
-                                <a href="javascript:void(0)" data-toggle="modal"
-                                   class="show btn btn-primary btn-sm"
-                                   data-target="#history_{{ $individual['id'] }}">
-                                    Открыть
-                                </a>
-                                <div class="modal fade" id="history_{{$individual['id']}}" role="dialog"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">История
-                                                    сдач</h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="col-md-12">
-                                                    <div id="content">
-                                                        <ul class="timeline">
-                                                            @foreach(json_decode($individual['history'], true) as $individual)
-                                                                <li class="event">
-                                                                    <p><small>Дата
-                                                                            сдачи: </small>{{ date('d.m.Y', strtotime($individual['exam_finish_date'])) }}
-                                                                    </p>
-                                                                    <p>
-                                                                        <b>Оценка: </b>{{ $individual['eval'] }}
-                                                                    </p>
-                                                                    <p><b>Экзамен
-                                                                            принял: </b>{{ $individual['teacher'] }}
-                                                                    </p>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                        <a type="button" class="btn btn-primary btn-sm mb-2 showHistory"
+                        id="{{$individual['id']}}">
+                            Открыть
+                        </a>
+                        <div class="form-group history" id="history_{{$individual['id']}}" style="display: none;">
+                            <ul class="timeline" >
+                                @foreach(json_decode($individual['history'], true) as $individual)
+                                    <li class="event">
+                                        <p><small>Дата
+                                                сдачи: </small>{{ date('d.m.Y', strtotime($individual['exam_finish_date'])) }}
+                                        </p>
+                                        <p>
+                                            <b>Оценка: </b>{{ $individual['eval'] }}
+                                        </p>
+                                        <p><b>Экзамен
+                                                принял: </b>{{ $individual['teacher'] }}
+                                        </p>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                         </td>
                     </tr>
                 @endforeach
@@ -158,7 +141,6 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
         $('.statementReportDownload').on('click', function () {
@@ -182,5 +164,10 @@
                 }
             });
         })
+
+        $(".showHistory").on('click', function() {
+            $('#history_'+ $(this).attr('id')).slideToggle(300);
+            return false;
+        });
     });
 </script>

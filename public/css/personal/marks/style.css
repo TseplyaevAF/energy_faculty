@@ -91,11 +91,19 @@ a:hover {
     overflow: hidden;
 }
 
-@media screen and (max-width: 650px) {
+.table-responsive {
+    min-height: .01%;
+    overflow-x: auto;
+    width: 100%;
+}
+@media screen and (max-width: 776px) {
     .tabs__caption li {
         -webkit-flex: 1 0 auto;
         -ms-flex: 1 0 auto;
         flex: 1 0 auto;
+    }
+    .tabs__content {
+        overflow-x: auto;
     }
     .vertical .tabs__caption {
         float: none;
@@ -114,5 +122,17 @@ a:hover {
         width: auto;
         height: 5px;
         background: #FFF;
+    }
+    table#statements-table tr{
+        display:block;
+        margin-bottom: 30px;
+    }
+    table#statements-table th, table#statements-table td{
+        display:block;
+        text-align: center;
+    }
+
+    table#statements-table td{
+        border-right: none;
     }
 }

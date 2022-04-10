@@ -2,9 +2,7 @@
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/personal/marks/style.css') }}">
-<style>
 
-</style>
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
@@ -22,21 +20,20 @@
             </div>
         </div>
         <section class="content">
-            <div class="container-fluid">
+            <div class="container-fluid breakpoints">
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
-                    <div class="form-group w-25">
+                    <div class="form-group selectGroup">
                         <h6>Мои группы<span class="gcolor"></span></h6>
-                        <div class="form-s2 selectGroup">
-                            <div>
-                                <select class="form-control formselect required" id="statement_group_name">
-                                    @foreach($groups as $group)
-                                        <option value="{{ $group->id }}">
-                                            {{ $group->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div>
+                            <select class="col-md-2 form-control formselect statement_group_name"
+                                    id="statement_group_name">
+                                @foreach($groups as $group)
+                                    <option value="{{ $group->id }}">
+                                        {{ $group->title }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="row">
@@ -51,7 +48,7 @@
                                     <img src="{{ asset('storage/loading.gif') }}"
                                         alt="AJAX loader" title="AJAX loader"/>
                                 </div>
-                                <div class="row filters w-50">
+                                <div class="row filters">
                                     <div class="form-group col-md-6" id="control_forms">
                                         <h6>Форма контроля<span class="gcolor"></span></h6>
                                         <div class="form-s2 selectControlForm">
@@ -84,24 +81,23 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <h5>Экзаменационные ведомости:</h5>
-                                    <div class="table-responsive">
-                                        <table class="table table-sm" id="statements-table">
-                                            <thead>
-                                            <tr>
-                                                <th>№ ведомости</th>
-                                                <th>Группа</th>
-                                                <th>Дисциплина</th>
-                                                <th>Форма контроля</th>
-                                                <th>Семестр</th>
-                                                <th>Учебный год</th>
-                                                <th>Действия</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="group-statements"></tbody>
-                                        </table>
-                                    </div>
+                                <h5>Экзаменационные ведомости:</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover"
+                                           id="statements-table">
+                                        <thead>
+                                        <tr>
+                                            <th>№ ведомости</th>
+                                            <th>Группа</th>
+                                            <th>Дисциплина</th>
+                                            <th>Форма контроля</th>
+                                            <th>Семестр</th>
+                                            <th>Учебный год</th>
+                                            <th>Действия</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="group-statements"></tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="tabs__content">
@@ -115,9 +111,9 @@
             </div>
         </section>
     </div>
-    <div class="modal fade bd-example-modal-lg" id="statementModal" tabindex="-1" role="dialog"
+    <div class="modal fade bd-example-modal-xl" id="statementModal" tabindex="-1" role="dialog"
          aria-labelledby="statementModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content modal-xl">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
