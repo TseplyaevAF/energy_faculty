@@ -10,6 +10,7 @@ class Year extends Model
     use HasFactory;
 
     protected $guarded = false;
+    public $timestamps = false;
 
     public static function getArrayYearsByGroup($groupId)
     {

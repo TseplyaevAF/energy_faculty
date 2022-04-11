@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Dekanat\Statement;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\StatementFilter;
 use App\Http\Requests\Dekanat\StoreRequest;
+use App\Http\Requests\Statement\FilterRequest;
 use App\Models\Group\Group;
 use App\Models\Lesson;
 use App\Models\Statement\Individual;
@@ -23,31 +25,12 @@ class StatementController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request)
+    public function index(FilterRequest $request)
     {
         if ($request->ajax()) {
-            $statements = [];
-            $lessons = null;
-            if (!empty($request->filter_group) && empty($request->filter_year)) {
-                $lessons = Lesson::where('group_id', $request->filter_group)
-                    ->get();
-            }
-            if (!empty($request->filter_year)) {
-                $lessons = Lesson::where('year_id', $request->filter_year)
-                    ->where('group_id', $request->filter_group)
-                    ->get();
-            }
-            if (isset($lessons)) {
-                foreach ($lessons as $lesson) {
-                    foreach ($lesson->statements as $statement) {
-                        $statements[] = $statement;
-                    }
-                }
-            } else {
-                $statements = Statement::all();
-            }
-
-            $data = Statement::getArrayStatements($statements);
+            $data = $request->validated();
+            $filter = app()->make(StatementFilter::class, ['queryParams' => array_filter($data)]);
+            $data = Statement::getArrayStatements(Statement::filter($filter)->orderBy('updated_at', 'desc')->get());
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'dekanat.statement.action')

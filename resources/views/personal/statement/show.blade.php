@@ -37,7 +37,10 @@
                             -{{ $statement->lesson->year->end_year  }}
                         </div>
                         <div class="form-group">
-                            Наименование дисциплины: {{ $statement->lesson->discipline->title }}
+                            Контроль: {{ $statement->lesson->discipline->title }}
+                        </div>
+                        <div class="form-group">
+                            Форма контроля: {{ $controlForms[$statement->control_form] }}
                         </div>
                         @if (isset($statement->start_date))
                         <div class="form-group">

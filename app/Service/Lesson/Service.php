@@ -29,7 +29,7 @@ class Service
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
-            return $exception->getMessage();
+            throw new Exception($exception->getMessage());
         }
     }
 

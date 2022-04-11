@@ -11,6 +11,7 @@ use App\Models\Schedule\ClassType;
 use App\Models\Group\Group;
 use App\Models\Schedule\Schedule;
 use App\Service\Schedule\Service;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
@@ -25,21 +26,9 @@ class GroupController extends Controller
     {
         $days = Schedule::getDays();
         $class_times = ClassTime::all();
-        $scheduleEven = [];
-        $scheduleOdd = [];
-        if (!empty($group->lessons->groupBy('semester')->max())) {
-            foreach ($group->lessons->groupBy('semester')->max() as $lesson) {
-                // расписание по чётной неделе
-                foreach ($lesson->schedules->where('week_type', Schedule::WEEK_UP) as $item) {
-                    $scheduleEven [] = $item;
-                }
-                // расписание по нечётной неделе
-                foreach ($lesson->schedules->where('week_type', Schedule::WEEK_LOW) as $item) {
-                    $scheduleOdd [] = $item;
-                }
-            }
-        }
-
+        $schedule = Schedule::getSchedule($group);
+        $scheduleEven = $schedule['even'];
+        $scheduleOdd = $schedule['odd'];
         return view('admin.schedule.group.show',
             compact('group', 'days', 'class_times', 'scheduleEven', 'scheduleOdd'));
     }

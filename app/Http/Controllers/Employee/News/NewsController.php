@@ -67,7 +67,7 @@ class NewsController extends Controller
         return redirect()->back()->withSuccess('Запись успешно отредактирована');
     }
 
-    public function delete(News $news)
+    public function destroy(News $news)
     {
         $news->delete();
         return redirect()->back()->withSuccess('Запись была удалена');

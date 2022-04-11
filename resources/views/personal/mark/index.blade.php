@@ -158,16 +158,15 @@
         function getStatements(filterControlForm = '', filterSemester = '') {
             $.ajax({
                 type: 'GET',
-                url: 'marks/getStatements',
+                url: '{{ getenv('APP_URL') }}api/statements',
                 data: {
                     'semester': filterSemester,
                     'group': choiceGroup,
                     'control_form': filterControlForm
                 },
                 success: function (response) {
-                    let data = JSON.parse(response);
                     $('.group-statements').find('tr').remove();
-                    $.each(data, function (key, item) {
+                    $.each(response, function (key, item) {
                         $('.group-statements').append('<tr>\
                             <td>' + item.id + '</td>\
                             <td>' + item.lesson.group + '</td>\
@@ -188,12 +187,17 @@
         }
 
         $("#statements-table").on('click', '.showStatement', function() {
+            const url = '{{ route('personal.mark.getStatementInfo', ':id') }}';
             $.ajax({
-                url: "/personal/marks/statements/" + $(this).attr('id').split('_')[1],
+                url:  url.replace(':id', $(this).attr('id').split('_')[1]),
                 beforeSend: function() {
                     $('#preloader').show();
                 },
                 success: function(result) {
+                    if (result === undefined) {
+                        alert('Отчет по данной ведомости еще не готов');
+                        return;
+                    }
                     $('#statementModal').modal("show");
                     $('#mediumBody').html(result).show();
                 },
@@ -201,11 +205,8 @@
                     $('#preloader').hide();
                 },
                 error: function(jqXHR, status, error) {
-                    if (jqXHR.status === 404) {
-                        alert(jqXHR.responseText);
-                    } else {
-                        alert("Невозможно получить данные. Ошибка: " + jqXHR.responseText);
-                    }
+                    alert('Невозможно получить отчёт');
+                    console.log(jqXHR.responseText);
                     $('#preloader').hide();
                 },
                 timeout: 8000
@@ -228,10 +229,9 @@
         function getControlForms(el) {
             $.ajax({
                 type: 'GET',
-                url: "{{ route('personal.mark.getControlForms') }}",
+                url: '{{ getenv('APP_URL') }}api/control-forms',
                 success: function (response) {
-                    let data = JSON.parse(response);
-                    let select = createSelect(data, 'statement_control_form');
+                    let select = createSelect(response, 'statement_control_form');
                     $(el).closest('div.tabs').find('.selectControlForm').replaceWith(select);
                     $('#statement_control_form').on('change', changeSelect);
                 }

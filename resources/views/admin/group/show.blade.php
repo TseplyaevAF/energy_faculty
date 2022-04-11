@@ -12,13 +12,6 @@
           <div class="col-sm-6 d-flex align-items-center">
             <h1 class="m-0 mr-2">{{ $group->title }}</h1>
             <td><a href="{{ route('admin.group.edit', $group->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>
-            <form action="{{ route('admin.group.delete', $group->id) }}" method="post">
-              @csrf
-              @method('delete')
-              <button type="submit" class="border-0 bg-transparent">
-                <i class="far fa-trash-alt text-danger" role="button"></i>
-              </button>
-            </form>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

@@ -145,7 +145,7 @@
                     info: true,
                     ajax    : {
                         url: "{{ route('dekanat.statement.index')  }}",
-                        data: {filter_group: filter_group, filter_year: filter_year}
+                        data: {group: filter_group, year: filter_year}
                     },
                     columns: [
                         {data: 'id', name: 'id'},

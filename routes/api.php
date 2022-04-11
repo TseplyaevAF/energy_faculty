@@ -21,5 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResources([
     'news' => 'Api\NewsController',
     'schedules' => 'Api\ScheduleController',
-    'categories' => 'Api\CategoryController',
+    'categories' => 'Api\CategoryController'
 ]);
+
+Route::group(['middleware' => ['auth:web', 'personal']], function () {
+    Route::apiResource('statements', 'Api\StatementController');
+    Route::get('/control-forms', 'Api\StatementController@getControlForms');
+});

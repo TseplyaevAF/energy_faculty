@@ -104,7 +104,7 @@
                           <i class="fas fa-pencil-alt"></i>
                           Редактировать
                         </a>
-                        <form action="{{ route('employee.news.delete', $news->id) }}" method="post"
+                        <form action="{{ route('employee.news.destroy', $news->id) }}" method="post"
                         style="display: inline-block">
                           @csrf
                           @method('delete')

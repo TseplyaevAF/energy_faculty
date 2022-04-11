@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Personal\Statement;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\StatementFilter;
+use App\Http\Requests\Statement\FilterRequest;
 use App\Models\Year;
 use App\Models\Statement\Individual;
 use App\Models\Statement\Statement;
@@ -21,34 +23,14 @@ class StatementController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request)
+    public function index(FilterRequest $request)
     {
         Gate::authorize('isTeacher');
         $teacher = auth()->user()->teacher;
         if ($request->ajax()) {
-            $statements = [];
-            $lessons = null;
-            if (!empty($request->filter_group) && empty($request->filter_year)) {
-                $lessons = $teacher->lessons->where('group_id', $request->filter_group);
-            }
-            if (!empty($request->filter_year)) {
-                $lessons = $teacher->lessons->where('group_id', $request->filter_group)
-                    ->where('year_id', $request->filter_year);
-            }
-            if (isset($lessons)) {
-                foreach ($lessons as $lesson) {
-                    foreach ($lesson->statements as $statement) {
-                        $statements[] = $statement;
-                    }
-                }
-            } else {
-                foreach ($teacher->lessons as $lesson) {
-                    foreach ($lesson->statements as $statement) {
-                        $statements[] = $statement;
-                    }
-                }
-            }
-            $data = Statement::getArrayStatements($statements);
+            $data = $request->validated();
+            $filter = app()->make(StatementFilter::class, ['queryParams' => array_filter($data)]);
+            $data = Statement::getArrayStatements(Statement::filter($filter)->orderBy('updated_at', 'desc')->get());
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('show', 'personal.statement.action.show')

@@ -3,6 +3,15 @@
 @section('content')
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+    <style>
+        .finish-date {
+            background-color: rgba(17, 163, 32, 0.27) !important;
+        }
+
+        .not-finish-date {
+            background-color: rgba(12, 97, 187, 0.27) !important;
+        }
+    </style>
 
     <div class="content-wrapper">
         <div class="content-header">
@@ -103,7 +112,7 @@
                     info: true,
                     ajax    : {
                         url: "{{ route('personal.statement.index') }}",
-                        data: {filter_group: filter_group, filter_year: filter_year}
+                        data: {group: filter_group, year: filter_year}
                     },
                     columns: [
                         {data: 'id', name: 'id'},
@@ -120,9 +129,19 @@
                         },
                     ],
                     columnDefs: [
-                        {width: '23%', targets: 3},
-                        {width: '13%', targets: 4}
-                    ]
+                        {width: '5%', targets: 3},
+                        {width: '35%', targets: 4}
+                    ],
+                    "createdRow": function( row, data){
+                        let now = new Date();
+                        let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+                        let finish_date = new Date(data.finish_date.replace(pattern,'$3-$2-$1'));
+                        if( finish_date <  now){
+                            $(row).addClass('finish-date');
+                        } else {
+                            $(row).addClass('not-finish-date');
+                        }
+                    }
                 });
             }
 

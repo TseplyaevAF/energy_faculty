@@ -48,7 +48,7 @@ class DisciplineController extends Controller
         return redirect()->route('admin.discipline.index');
     }
 
-    public function delete(Discipline $discipline)
+    public function destroy(Discipline $discipline)
     {
         $discipline->delete();
         return redirect()->route('admin.discipline.index');

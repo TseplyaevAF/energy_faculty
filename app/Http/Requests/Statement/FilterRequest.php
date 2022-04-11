@@ -26,7 +26,8 @@ class FilterRequest extends FormRequest
         return [
             'group' => 'nullable|integer|exists:groups,id',
             'control_form' => 'nullable|integer',
-            'semester' => 'nullable|integer'
+            'semester' => 'nullable|integer',
+            'year' => 'nullable|integer:exists:years,id'
         ];
     }
 }

@@ -65,11 +65,6 @@ class UserController extends Controller
         return redirect()->route('admin.user.index');
     }
 
-    public function show(User $user)
-    {
-        return view('admin.discipline.show', compact('user'));
-    }
-
     public function edit(User $user)
     {
         $user->phone_number = mb_substr($user->phone_number, 1, strlen($user->phone_number));
@@ -98,7 +93,7 @@ class UserController extends Controller
         return redirect()->route('admin.user.index');
     }
 
-    public function delete(User $user)
+    public function destroy(User $user)
     {
         if (!$user->role->teacher_id) {
             $user->role->teacher->delete();

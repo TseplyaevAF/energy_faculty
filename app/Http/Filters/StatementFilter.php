@@ -12,13 +12,15 @@ class StatementFilter extends AbstractFilter
     public const GROUP = 'group';
     public const SEMESTER = 'semester';
     public const CONTROL_FORM = 'control_form';
+    public const YEAR = 'year';
 
     protected function getCallbacks(): array
     {
         return [
             self::GROUP => [$this, 'group'],
             self::SEMESTER => [$this, 'semester'],
-            self::CONTROL_FORM => [$this, 'controlForm']
+            self::CONTROL_FORM => [$this, 'controlForm'],
+            self::YEAR => [$this, 'year']
         ];
     }
 
@@ -33,6 +35,13 @@ class StatementFilter extends AbstractFilter
     public function semester(Builder $builder, $value)
     {
         $lessons = Lesson::where('semester', $value)->get();
+        $ids = self::getLessonsIds($lessons);
+        $builder->whereIn('lesson_id', $ids);
+    }
+
+    public function year(Builder $builder, $value)
+    {
+        $lessons = Lesson::where('year_id', $value)->get();
         $ids = self::getLessonsIds($lessons);
         $builder->whereIn('lesson_id', $ids);
     }

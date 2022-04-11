@@ -144,12 +144,13 @@
 <script>
     $(document).ready(function () {
         $('.statementReportDownload').on('click', function () {
+            const url = '{{ route('personal.mark.statementDownload', ':id') }}';
             $.ajax({
                 xhrFields: {
                     responseType: 'blob',
                 },
                 type: 'GET',
-                url: 'marks/statements/' + $(this).attr('id') + '/download',
+                url: url.replace(':id', $(this).attr('id')),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 success: function (data) {
                     const blob = new Blob([data], {

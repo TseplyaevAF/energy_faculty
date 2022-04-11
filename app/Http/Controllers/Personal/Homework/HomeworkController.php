@@ -81,7 +81,7 @@ class HomeworkController extends Controller
         return redirect()->route('personal.task.show', compact('task'));
     }
 
-    public function delete(Homework $homework)
+    public function destroy(Homework $homework)
     {
         Gate::authorize('isStudent');
         $homework->delete();

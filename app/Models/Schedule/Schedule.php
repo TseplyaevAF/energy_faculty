@@ -29,6 +29,26 @@ class Schedule extends Model
         ];
     }
 
+    public static function getSchedule($group) {
+        $scheduleEven = [];
+        $scheduleOdd = [];
+        $lessons = $group->lessons;
+        if ($lessons->count() !== 0) {
+            $maxSemester = $lessons->max('semester');
+            foreach ($lessons->groupBy('semester')[$maxSemester] as $lesson) {
+                // расписание по чётной неделе
+                foreach ($lesson->schedules->where('week_type', Schedule::WEEK_UP) as $item) {
+                    $scheduleEven [] = $item;
+                }
+                // расписание по нечётной неделе
+                foreach ($lesson->schedules->where('week_type', Schedule::WEEK_LOW) as $item) {
+                    $scheduleOdd [] = $item;
+                }
+            }
+        }
+        return ['even' => $scheduleEven, 'odd' => $scheduleOdd];
+    }
+
     public static function getWeekTypes()
     {
         return [
