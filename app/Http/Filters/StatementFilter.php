@@ -5,6 +5,7 @@ namespace App\Http\Filters;
 
 use App\Models\Group\Group;
 use App\Models\Lesson;
+use App\Models\Teacher\Teacher;
 use Illuminate\Database\Eloquent\Builder;
 
 class StatementFilter extends AbstractFilter
@@ -13,6 +14,7 @@ class StatementFilter extends AbstractFilter
     public const SEMESTER = 'semester';
     public const CONTROL_FORM = 'control_form';
     public const YEAR = 'year';
+    public const TEACHER = 'teacher';
 
     protected function getCallbacks(): array
     {
@@ -20,7 +22,8 @@ class StatementFilter extends AbstractFilter
             self::GROUP => [$this, 'group'],
             self::SEMESTER => [$this, 'semester'],
             self::CONTROL_FORM => [$this, 'controlForm'],
-            self::YEAR => [$this, 'year']
+            self::YEAR => [$this, 'year'],
+            self::TEACHER => [$this, 'teacher']
         ];
     }
 
@@ -28,6 +31,14 @@ class StatementFilter extends AbstractFilter
     {
         $group = Group::find($value);
         $lessons = $group->lessons;
+        $ids = self::getLessonsIds($lessons);
+        $builder->whereIn('lesson_id', $ids);
+    }
+
+    public function teacher(Builder $builder, $value)
+    {
+        $teacher = Teacher::find($value);
+        $lessons = $teacher->lessons;
         $ids = self::getLessonsIds($lessons);
         $builder->whereIn('lesson_id', $ids);
     }

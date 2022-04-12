@@ -125,6 +125,9 @@ class Service
         }
         $individuals = Individual::getArrayCompletedSheets($statement->individuals);
         foreach ($individuals as $individual) {
+            if (!isset($individual['teacher_signature'])) {
+                throw new \Exception('Не всем студентам проставлены оценки');
+            }
             $dataForSign = implode(",",Individual::getIndividualInfo($individual));
             $dataForSign = hash('sha256', $dataForSign);
             $signature = Storage::disk('public')->get($individual['teacher_signature']);

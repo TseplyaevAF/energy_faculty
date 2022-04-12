@@ -20,15 +20,15 @@
             </div>
         </div>
         <section class="content">
-            <div class="container-fluid breakpoints">
+            <div class="container-fluid">
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
                     <div class="form-group selectGroup">
                         <h6>Мои группы<span class="gcolor"></span></h6>
                         <div>
-                            <select class="col-md-2 form-control formselect statement_group_name"
-                                    id="statement_group_name">
+                            <select class="col-md-2 form-control formselect group_name"
+                                    id="group_name">
                                 @foreach($groups as $group)
                                     <option value="{{ $group->id }}">
                                         {{ $group->title }}</option>
@@ -40,7 +40,7 @@
                         <div class="tabs vertical">
                             <ul class="tabs__caption">
                                 <li data-id="statements">Ведомости</li>
-                                <li data-id="tasks">Успеваемость</li>
+                                <li data-id="semester-statements">Семестровки</li>
                                 <li data-id="monthly-marks">Оценки по месяцам</li>
                             </ul>
                             <div class="tabs__content">
@@ -49,7 +49,7 @@
                                         alt="AJAX loader" title="AJAX loader"/>
                                 </div>
                                 <div class="row filters">
-                                    <div class="form-group col-md-6" id="control_forms">
+                                    <div class=" col-md-6 mb-2" id="control_forms">
                                         <h6>Форма контроля<span class="gcolor"></span></h6>
                                         <div class="form-s2 selectControlForm">
                                             <div>
@@ -60,31 +60,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class=" col-md-6 mb-2">
                                         <h6>Семестр</h6>
-                                        <select class="form-control formselect required" id="semester">
+                                        <select class="form-control formselect required" id="statement-semester">
                                             <option value="">-- Не выбрано</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
+                                            @for($i=1; $i<=8; $i++)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <button type="button" name="filter"
-                                                id="filter" class="btn btn-info">
-                                            Показать
-                                        </button>
-                                    </div>
                                 </div>
+                                <button type="button" id="statements-filter" class="btn btn-info mb-3">
+                                    Показать
+                                </button>
                                 <h5>Экзаменационные ведомости:</h5>
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-hover"
-                                           id="statements-table">
+                                    <table class="table table-striped table-hover" id="statements-table">
                                         <thead>
                                         <tr>
                                             <th>№ ведомости</th>
@@ -101,7 +92,26 @@
                                 </div>
                             </div>
                             <div class="tabs__content">
-                                Раздел Успеваемость
+                                <div id="semester_statements_preloader">
+                                    <img src="{{ asset('storage/loading.gif') }}"
+                                         alt="AJAX loader" title="AJAX loader"/>
+                                </div>
+                                <div class="row filters">
+                                    <div class=" col-md-6 mb-2">
+                                        <h6>Семестр</h6>
+                                        <select class="form-control formselect required" id="semester-statements-semester">
+                                            @for($i=1; $i<=8; $i++)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="button" id="semester-statements-filter" class="btn btn-info mb-3">
+                                    Показать
+                                </button>
+                                <div class="form-group" id="semesterStatementsBody">
+                                    <div></div>
+                                </div>
                             </div>
                             <div class="tabs__content">
                                 Раздел Оценки по месяцам
@@ -127,127 +137,78 @@
         </div>
     </div>
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/personal/mark/statements.js') }}"></script>
+    <script src="{{ asset('js/personal/mark/semester_statements.js') }}"></script>
     <script>
     $(document).ready(function () {
-        $('#preloader').hide();
-        let choiceGroup = $("#statement_group_name").val();
+        let choiceGroup = $("#group_name").val();
+        let tabId;
 
         $('ul.tabs__caption').on('click', 'li:not(.active)', function() {
             $(this).closest('div.tabs').find('div.tabs__content').children('.row').hide();
-            let id = $(this).attr('data-id');
+            tabId = $(this).attr('data-id');
             $(this)
                 .addClass('active').siblings().removeClass('active')
                 .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
-            if (id === 'statements') {
-                showStatementReport(this);
+            if (tabId === 'statements') {
+                showStatementsTab(this);
+                return;
+            }
+            if (tabId === 'semester-statements') {
+                showSemesterStatementsTab(this);
+                return;
             }
         });
 
+        // на всякий пожарный
         function changeSelect() {
             let id = $(this).find(":selected").val();
         }
 
-        $('#filter').click(function () {
+        // отфильтровать таблицу с ведомостями
+        $('#statements-filter').click(function () {
             $(this).attr('disabled', true);
-            $('#preloader').show();
             let filterControlForm = $('#statement_control_form').val();
-            let filterSemester = $('#semester').val();
-            getStatements(filterControlForm, filterSemester);
+            let filterSemester = $('#statement-semester').val();
+            getStatements(choiceGroup, '{{ getenv('APP_URL') }}api/statements',  filterControlForm, filterSemester);
         })
 
-        function getStatements(filterControlForm = '', filterSemester = '') {
-            $.ajax({
-                type: 'GET',
-                url: '{{ getenv('APP_URL') }}api/statements',
-                data: {
-                    'semester': filterSemester,
-                    'group': choiceGroup,
-                    'control_form': filterControlForm
-                },
-                success: function (response) {
-                    $('.group-statements').find('tr').remove();
-                    $.each(response, function (key, item) {
-                        $('.group-statements').append('<tr>\
-                            <td>' + item.id + '</td>\
-                            <td>' + item.lesson.group + '</td>\
-                            <td>' + item.lesson.discipline + '</td>\
-                            <td>' + item.control_form + '</td>\
-                            <td>' + item.lesson.semester + '</td>\
-                            <td>' + item.lesson.year + '</td>\
-                            <td><a type="button" a-toggle="modal" id="statement_' + item.id +'"\
-                                data-attr="" data-target="#smallModal" class="showStatement">\
-                                <i class="fas fa-eye text-success fa-lg"></i>\
-                            </a></td>\
-                            </tr>');
-                    })
-                    $('#preloader').hide();
-                    $('#filter').attr('disabled', false);
-                }
-            });
-        }
+        // отфильтровать таблицу с семестровками
+        $('#semester-statements-filter').click(function () {
+            $(this).attr('disabled', true);
+            getSemesterStatementsTable(choiceGroup);
+        })
 
-        $("#statements-table").on('click', '.showStatement', function() {
-            const url = '{{ route('personal.mark.getStatementInfo', ':id') }}';
-            $.ajax({
-                url:  url.replace(':id', $(this).attr('id').split('_')[1]),
-                beforeSend: function() {
-                    $('#preloader').show();
-                },
-                success: function(result) {
-                    if (result === undefined) {
-                        alert('Отчет по данной ведомости еще не готов');
-                        return;
-                    }
-                    $('#statementModal').modal("show");
-                    $('#mediumBody').html(result).show();
-                },
-                complete: function() {
-                    $('#preloader').hide();
-                },
-                error: function(jqXHR, status, error) {
-                    alert('Невозможно получить отчёт');
-                    console.log(jqXHR.responseText);
-                    $('#preloader').hide();
-                },
-                timeout: 8000
-            });
-        });
-
-        $('#statement_group_name').on('change', function () {
-            $('#preloader').show();
-            choiceGroup = $(this).val();
-            getStatements();
-        });
-
-        function showStatementReport(el) {
-            $('#preloader').show();
-            getControlForms(el);
-            getStatements();
+        // показать контент вкладки "Ведомости"
+        function showStatementsTab(el) {
+            getControlForms(el, '{{ getenv('APP_URL') }}api/control-forms');
+            getStatements(choiceGroup, '{{ getenv('APP_URL') }}api/statements');
             $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
         }
 
-        function getControlForms(el) {
-            $.ajax({
-                type: 'GET',
-                url: '{{ getenv('APP_URL') }}api/control-forms',
-                success: function (response) {
-                    let select = createSelect(response, 'statement_control_form');
-                    $(el).closest('div.tabs').find('.selectControlForm').replaceWith(select);
-                    $('#statement_control_form').on('change', changeSelect);
-                }
-            });
+        // показать контент вкладки "Семестровки"
+        function showSemesterStatementsTab(el) {
+            getSemesterStatementsTable(choiceGroup);
+            $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
         }
 
-        function createSelect(data, id) {
-            let select = '<select class="form-control" type="text" id=' + id + '>';
-            select += '<option value="">-- Не выбрано</option>';
-            let count = 1;
-            for (let i = 0; i < Object.keys(data).length; i++) {
-                select += '<option value="' + count + '">' + data[count] + '</option>';
-                count++;
+        // загрузить отчёт по ведомости
+        $("#statements-table").on('click', '.showStatement', function() {
+            getStatementReport('{{ route('personal.mark.getStatementInfo', ':id') }}', $(this).attr('id').split('_')[1])
+        });
+
+        // Загрузить контент соответствующей вкладки при смене учебной группы
+        $('#group_name').on('change', function () {
+            choiceGroup = $(this).val();
+            if (tabId === 'statements') {
+                getStatements(choiceGroup, '{{ getenv('APP_URL') }}api/statements');
+                return;
             }
-            return select += '</select>';
-        }
+            if (tabId === 'semester-statements') {
+                getSemesterStatementsTable(choiceGroup);
+                return;
+            }
+        });
     });
     </script>
 @endsection

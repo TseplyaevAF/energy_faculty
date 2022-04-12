@@ -29,6 +29,7 @@ class StatementController extends Controller
         $teacher = auth()->user()->teacher;
         if ($request->ajax()) {
             $data = $request->validated();
+            $data['teacher'] = $teacher->id;
             $filter = app()->make(StatementFilter::class, ['queryParams' => array_filter($data)]);
             $data = Statement::getArrayStatements(Statement::filter($filter)->orderBy('updated_at', 'desc')->get());
             return DataTables::of($data)
