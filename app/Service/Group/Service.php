@@ -33,13 +33,7 @@ class Service
             DB::beginTransaction();
             $data += ['semester' => $this->getSemester($data['title'])];
             $data += ['course' => $this->getCourse($data['semester'])];
-            if (!empty($data['student_id'])) {
-                $this->setHeadman($data['student_id'], $group);
-            } else {
-                if (!empty($group->getHeadman())) {
-                    $group->headman = null;
-                }
-            }
+            self::setNewHeadman($group, $data['student_id']);
             unset($data['student_id']);
             $group->update($data);
             DB::commit();
@@ -53,6 +47,16 @@ class Service
         return $group;
     }
 
+
+    public static function setNewHeadman($group, $studentId) {
+        if (!empty($studentId)) {
+            self::setHeadman($studentId, $group);
+        } else {
+            if (!empty($group->getHeadman())) {
+                $group->headman = null;
+            }
+        }
+    }
 
     private function getCoursesArray() {
         return [
@@ -89,7 +93,7 @@ class Service
         return intval(floor(($semester+1)/2));
     }
 
-    private function setHeadman($student_id, $group) {
+    private static function setHeadman($student_id, $group) {
         $group->headman = $group->students->where('id', $student_id)->first()->id;
     }
 }

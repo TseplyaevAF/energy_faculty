@@ -5,10 +5,15 @@ namespace App\Http\Controllers\Personal\Mark;
 use App\Exports\IndividualsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\StatementFilter;
+use App\Http\Resources\StudentResource;
 use App\Models\Group\Group;
 use App\Models\Statement\Individual;
 use App\Models\Statement\Statement;
+use App\Models\Student\Student;
+use App\Service\Group\Service;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Exception;
 
 class MarkController extends Controller
 {
@@ -60,5 +65,29 @@ class MarkController extends Controller
             $count++;
         }
         return view('personal.mark.semester.show', compact('statements', 'studentsMarks'));
+    }
+
+    public function getStudents(Group $group) {
+        echo json_encode(StudentResource::collection($group->students));
+    }
+
+    public function setNewHeadman(Group $group, $headmanId) {
+        $student = Student::find($headmanId)->first();
+        if (isset($student)) {
+            try {
+                DB::beginTransaction();
+                Service::setNewHeadman($group, $headmanId);
+                $group->update([
+                    'headman' => $headmanId
+                ]);
+                DB::commit();
+            } catch (Exception $exception) {
+                DB::rollBack();
+                return response($exception->getMessage(), 500);
+            }
+        } else {
+            return response('Студент не найден', 404);
+        }
+        return response('Назначен новый староста', 200);
     }
 }

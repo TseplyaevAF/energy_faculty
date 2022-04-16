@@ -146,6 +146,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/statements-report/{statement}', 'MarkController@getStatementInfo')->name('personal.mark.getStatementInfo');
         Route::get('/statements-download/{statement}', 'MarkController@statementDownload')->name('personal.mark.statementDownload');
         Route::get('/semesters-report/{group}/{semester}', 'MarkController@getSemesters')->name('personal.mark.getSemesters');
+        Route::get('/group-students/{group}', 'MarkController@getStudents');
+        Route::get('/set-new-headman/{group}/{headmanId}', 'MarkController@setNewHeadman');
     });
 });
 

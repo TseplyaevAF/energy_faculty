@@ -39,10 +39,39 @@
                     <div class="row">
                         <div class="tabs vertical">
                             <ul class="tabs__caption">
+                                <li data-id="about-group">О группе</li>
                                 <li data-id="statements">Ведомости</li>
                                 <li data-id="semester-statements">Семестровки</li>
                                 <li data-id="monthly-marks">Оценки по месяцам</li>
                             </ul>
+                            <div class="tabs__content">
+                                <div id="about_group_preloader">
+                                    <img src="{{ asset('storage/loading.gif') }}"
+                                         alt="AJAX loader" title="AJAX loader"/>
+                                </div>
+                                <div class="row filters">
+
+                                </div>
+                                <h5>Староста группы:</h5>
+                                <div class="group-headman-info mb-3">
+                                    Ларионова Мария Анатольева, 89121212214
+                                </div>
+                                <h5>Студенты группы:</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover" id="students-table">
+                                        <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>ФИО</th>
+                                            <th>№ зач. книжки</th>
+                                            <th>Телефон</th>
+                                            <th>Действия</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="group-students"></tbody>
+                                    </table>
+                                </div>
+                            </div>
                             <div class="tabs__content">
                                 <div id="preloader">
                                     <img src="{{ asset('storage/loading.gif') }}"
@@ -139,6 +168,7 @@
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/personal/mark/statements.js') }}"></script>
     <script src="{{ asset('js/personal/mark/semester_statements.js') }}"></script>
+    <script src="{{ asset('js/personal/mark/about_group.js') }}"></script>
     <script>
     $(document).ready(function () {
         let choiceGroup = $("#group_name").val();
@@ -156,6 +186,10 @@
             }
             if (tabId === 'semester-statements') {
                 showSemesterStatementsTab(this);
+                return;
+            }
+            if (tabId === 'about-group') {
+                showAboutGroupTab(this);
                 return;
             }
         });
@@ -192,9 +226,20 @@
             $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
         }
 
+        // показать контент вкладки "О группе"
+        function showAboutGroupTab(el) {
+            getStudentsTable(choiceGroup);
+            $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
+        }
+
         // загрузить отчёт по ведомости
         $("#statements-table").on('click', '.showStatement', function() {
             getStatementReport('{{ route('personal.mark.getStatementInfo', ':id') }}', $(this).attr('id').split('_')[1])
+        });
+
+        // назначить новую старосту группы
+        $("#students-table").on('click', '.setNewHeadman', function() {
+            setNewHeadman(choiceGroup, $(this).attr('id').split('_')[1]);
         });
 
         // Загрузить контент соответствующей вкладки при смене учебной группы
@@ -206,6 +251,10 @@
             }
             if (tabId === 'semester-statements') {
                 getSemesterStatementsTable(choiceGroup);
+                return;
+            }
+            if (tabId === 'about-group') {
+                getStudentsTable(choiceGroup);
                 return;
             }
         });
