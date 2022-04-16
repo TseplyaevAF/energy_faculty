@@ -42,7 +42,7 @@
                                 <li data-id="about-group">О группе</li>
                                 <li data-id="statements">Ведомости</li>
                                 <li data-id="semester-statements">Семестровки</li>
-                                <li data-id="monthly-marks">Оценки по месяцам</li>
+                                <li data-id="tasks">Задания</li>
                             </ul>
                             <div class="tabs__content">
                                 <div id="about_group_preloader">
@@ -143,7 +143,36 @@
                                 </div>
                             </div>
                             <div class="tabs__content">
-                                Раздел Оценки по месяцам
+                                <div id="tasks_preloader">
+                                    <img src="{{ asset('storage/loading.gif') }}"
+                                         alt="AJAX loader" title="AJAX loader"/>
+                                </div>
+                                <div class="row filters">
+                                    <div class=" col-md-6 mb-2">
+                                        <h6>Дисциплины</h6>
+                                        <div class="form-s2 selectDiscipline">
+                                            <select class="form-control formselect required"
+                                                    id="tasks_discipline">
+                                                <option value="reset_filter_control_form">Все</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 mb-2">
+                                        <h6>Год обучения</h6>
+                                        <div class="form-s2 selectYear">
+                                            <select class="form-control formselect required"
+                                                    id="tasks_year">
+                                                <option value="reset_filter_control_form">Весь период обучения</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="tasks-filter" class="btn btn-info mb-3">
+                                    Показать
+                                </button>
+                                <div class="form-group" id="tasksBody">
+                                    <div></div>
+                                </div>
                             </div>
                         </div><!-- .tabs-->
                     </div>
@@ -169,6 +198,7 @@
     <script src="{{ asset('js/personal/mark/statements.js') }}"></script>
     <script src="{{ asset('js/personal/mark/semester_statements.js') }}"></script>
     <script src="{{ asset('js/personal/mark/about_group.js') }}"></script>
+    <script src="{{ asset('js/personal/mark/tasks.js') }}"></script>
     <script>
     $(document).ready(function () {
         let choiceGroup = $("#group_name").val();
@@ -182,22 +212,14 @@
                 .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
             if (tabId === 'statements') {
                 showStatementsTab(this);
-                return;
-            }
-            if (tabId === 'semester-statements') {
+            } else if (tabId === 'semester-statements') {
                 showSemesterStatementsTab(this);
-                return;
-            }
-            if (tabId === 'about-group') {
+            } else if (tabId === 'about-group') {
                 showAboutGroupTab(this);
-                return;
+            } else if (tabId === 'tasks') {
+                showTasksTab(this);
             }
         });
-
-        // на всякий пожарный
-        function changeSelect() {
-            let id = $(this).find(":selected").val();
-        }
 
         // отфильтровать таблицу с ведомостями
         $('#statements-filter').click(function () {
@@ -211,6 +233,12 @@
         $('#semester-statements-filter').click(function () {
             $(this).attr('disabled', true);
             getSemesterStatementsTable(choiceGroup);
+        })
+
+        //отфильтровать таблицу с заданиями
+        $('#tasks-filter').click(function () {
+            $(this).attr('disabled', true);
+            getTasksTable(choiceGroup);
         })
 
         // показать контент вкладки "Ведомости"
@@ -232,6 +260,13 @@
             $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
         }
 
+        // показать контент вкладки "Задания"
+        function showTasksTab(el) {
+            $('#tasks_preloader').show();
+            getDisciplines(el, choiceGroup);
+            $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
+        }
+
         // загрузить отчёт по ведомости
         $("#statements-table").on('click', '.showStatement', function() {
             getStatementReport('{{ route('personal.mark.getStatementInfo', ':id') }}', $(this).attr('id').split('_')[1])
@@ -247,15 +282,14 @@
             choiceGroup = $(this).val();
             if (tabId === 'statements') {
                 getStatements(choiceGroup, '{{ getenv('APP_URL') }}api/statements');
-                return;
-            }
-            if (tabId === 'semester-statements') {
+            } else if (tabId === 'semester-statements') {
                 getSemesterStatementsTable(choiceGroup);
-                return;
-            }
-            if (tabId === 'about-group') {
+            } else if (tabId === 'about-group') {
                 getStudentsTable(choiceGroup);
-                return;
+            } else if (tabId === 'tasks') {
+                $('#tasks_year').empty();
+                $('.group-tasks').find('tr').remove();
+                showTasksTab($('li:not(.active)'))
             }
         });
     });

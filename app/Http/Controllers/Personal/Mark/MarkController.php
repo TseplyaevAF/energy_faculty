@@ -6,11 +6,14 @@ use App\Exports\IndividualsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\StatementFilter;
 use App\Http\Resources\StudentResource;
+use App\Models\Discipline;
 use App\Models\Group\Group;
+use App\Models\Lesson;
 use App\Models\Statement\Individual;
 use App\Models\Statement\Statement;
 use App\Models\Student\Student;
 use App\Service\Group\Service;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Exception;
@@ -89,5 +92,74 @@ class MarkController extends Controller
             return response('Студент не найден', 404);
         }
         return response('Назначен новый староста', 200);
+    }
+
+    public function getDisciplines(Group $group) {
+        $disciplines = [];
+        $lessons = $group->lessons->unique('discipline_id');
+        foreach ($lessons as $lesson) {
+            $disciplines[] = $lesson->discipline;
+        }
+        echo json_encode($disciplines);
+    }
+
+    public function getYears(Group $group, Discipline $discipline) {
+        $lessons = Lesson::where('group_id', $group->id)
+            ->where('discipline_id', $discipline->id)
+            ->get()->unique('year_id');
+        $years = [];
+        foreach ($lessons as $lesson) {
+            $years[] = $lesson->year;
+        }
+        echo json_encode($years);
+    }
+
+    public function getTasks(Request $request, Group $group, Discipline $discipline) {
+        if (isset($request->filter_year)) {
+            $kek = $request->filter_year;
+            $lessons = $group->lessons
+                ->where('discipline_id', $discipline->id)
+                ->where('year_id', $request->filter_year);
+        } else {
+            $lessons = $group->lessons->where('discipline_id', $discipline->id);
+        }
+        $arrayTasks = [];
+        $tasksCount = 0;
+        $arrayHomework = [];
+        foreach ($lessons as $lesson) {
+            $tempTaskArray = [];
+            foreach ($lesson->tasks as $task) {
+                $tasksCount++;
+                $month = $this->getRusMonthName(intval($task->created_at->format('m')))
+                    . ' ' . $task->created_at->format('Y');
+                $tempTaskArray[$month][$task->id] = $task->task;
+
+                foreach ($lesson->group->students as $student) {
+                    $studentWork = null;
+                    foreach ($task->homework as $homework) {
+                        if ($student->id == $homework->student_id) {
+                            $studentWork = $homework->grade;
+                            break;
+                        }
+                    }
+                    $arrayHomework[$student->user->surname
+                        . ' ' . $student->user->name
+                        . ' ' . $student->user->patronymic][$task->id] = $studentWork;
+                }
+            }
+            $arrayTasks[$lesson->year->start_year . '-' . $lesson->year->end_year] = $tempTaskArray;
+        }
+
+        return view('personal.mark.task.show', compact( 'arrayTasks', 'tasksCount', 'arrayHomework'));
+    }
+
+    private function getRusMonthName($n)
+    {
+        $rusMonthNames = [
+            1 => 'Январь', 'Февраль', 'Март', 'Апрель',
+            'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь',
+            'Октябрь', 'Ноябрь', 'Декабрь'
+        ];
+        return $rusMonthNames[$n];
     }
 }

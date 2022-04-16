@@ -5,6 +5,7 @@ namespace App\Models\Teacher;
 use App\Models\Discipline;
 use App\Models\Group\Group;
 use App\Models\Lesson;
+use App\Models\Student\Homework;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,5 +35,9 @@ class Task extends Model implements HasMedia
 
     public function lesson() {
         return $this->belongsTo(Lesson::class);
+    }
+
+    public function homework() {
+        return $this->hasMany(Homework::class);
     }
 }
