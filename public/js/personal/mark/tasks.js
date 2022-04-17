@@ -52,12 +52,16 @@ function getTasksTable(choiceGroup) {
         $('#tasks-filter').attr('disabled', false);
         return;
     }
-    let url = 'marks/get-tasks/'+ choiceGroup +'/' + discipline;
+    let url = 'marks/get-tasks/';
     const year = $('#tasks_year').val() !== '' ? $('#tasks_year').find(":selected").val() : '';
     $.ajax({
         type: 'GET',
         url:  url,
-        data: {filter_year: year},
+        data: {
+            'year_id': year,
+            'group_id': choiceGroup,
+            'discipline_id': discipline,
+        },
         beforeSend: function() {
             $('#tasks_preloader').show();
         },

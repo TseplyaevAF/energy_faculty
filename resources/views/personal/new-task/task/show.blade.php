@@ -4,7 +4,7 @@
             <thead>
             <tr>
                 <th rowspan="3" style="width: 20px">№</th>
-                <th rowspan="3" style="width: 25%;">ФИО</th>
+                <th rowspan="3" style="width: 25%">ФИО</th>
                 <th colspan="{{ $data['tasksCount'] }}">Задания по месяцам</th>
             </tr>
             </thead>

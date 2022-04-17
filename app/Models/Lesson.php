@@ -7,12 +7,13 @@ use App\Models\Schedule\Schedule;
 use App\Models\Statement\Statement;
 use App\Models\Teacher\Task;
 use App\Models\Teacher\Teacher;
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     protected $guarded = false;
 
