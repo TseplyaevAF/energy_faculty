@@ -65,6 +65,7 @@ class TaskController extends Controller
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
         $lessons = Lesson::filter($filter)->get();
         $data = $this->service->getTasks($lessons);
+        $data += ['lesson_id' => $lessons[0]->id];
         return view('personal.new-task.task.show', compact('data'));
     }
 
@@ -94,7 +95,7 @@ class TaskController extends Controller
 
         $this->service->store($data);
 
-        return redirect()->route('personal.task.index');
+        return response('Задание успешно добавлено!', 200);
     }
 
     public function download($taskId, $mediaId, $filename) {
@@ -105,13 +106,6 @@ class TaskController extends Controller
         return isset($media) ? response()->file($media->getPath(), [
             'Cache-Control' => 'no-cache, no-cache, must-revalidate',
             ]) : abort(404);
-    }
-
-    public function show(Task $task) {
-        Gate::authorize('show-task', [$task]);
-        $homework = Homework::all()->where('task_id', $task->id);
-        $taskUrl = $task->getMedia(Task::PATH)->first()->getUrl();
-        return view('personal.task.show', compact('task', 'taskUrl', 'homework'));
     }
 
     public function complete(Task $task) {

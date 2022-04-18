@@ -111,12 +111,12 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/{application}/reject', 'ApplicationController@reject')->name('personal.application.reject');
     });
 
-    Route::resource('tasks', 'Task\TaskController', ['names' => 'personal.task']);
+    Route::resource('tasks', 'Task\TaskController', ['names' => 'personal.task'])->only(['index', 'store']);
     Route::get('tasks/{modelId}/{mediaId}/{filename}', 'Task\TaskController@download')->name('personal.task.download');
     Route::patch('tasks/{task}', 'Task\TaskController@complete')->name('personal.task.complete');
     Route::get('tasks/get-groups/{discipline}', 'Task\TaskController@getGroups');
     Route::get('tasks/get/semesters/{discipline}/{group}', 'Task\TaskController@getSemesters');
-    Route::get('tasks/get/tasks', 'Task\TaskController@getTasks');
+    Route::get('tasks/get-tasks', 'Task\TaskController@getTasks');
 
     Route::resource('homework', 'Homework\HomeworkController', ['names' => 'personal.homework'])
         ->only('index', 'store', 'destroy');

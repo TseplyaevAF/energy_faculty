@@ -62,21 +62,6 @@
             </div>
         </section>
     </div>
-{{--    <div class="modal fade bd-example-modal-xl" id="homeworkModal" tabindex="-1" role="dialog"--}}
-{{--         aria-labelledby="statementModalLabel" aria-hidden="true">--}}
-{{--        <div class="modal-dialog modal-xl" role="document">--}}
-{{--            <div class="modal-content modal-xl">--}}
-{{--                <div class="modal-header">--}}
-{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                        <span aria-hidden="true">&times;</span>--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--                <div class="modal-body" id="mediumBody">--}}
-{{--                    <div></div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <script>
     $(document).ready(function () {
@@ -84,6 +69,31 @@
         let choiceGroup;
 
         getGroups(choiceDiscipline);
+
+        $('.content').on('click', '.createTask', function () {
+            let formData = new FormData()
+            formData.append('_token', $("input[name='_token']").val());
+            formData.append('task', $('#file')[0].files[0]);
+            formData.append('lesson_id', $("input[name='lesson_id']").val())
+            $.ajax({
+                method: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                url: "{{ route('personal.task.store') }}",
+                datatype: 'json',
+                success: function (response) {
+                    alert(response);
+                    $('#createTask').modal('hide');
+                    getTasksTable(choiceDiscipline, choiceGroup, $('#semester_name').find(":selected").val())
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }).on('click', '.homeworkLoad', function () {
+            console.log($(this).attr('id').split('_')[1])
+        });
 
         function getGroups(choiceDiscipline) {
             $('#semester_name').empty();
@@ -120,7 +130,7 @@
         }
 
         function getTasksTable(choiceDiscipline, choiceGroup, choiceSemester) {
-            let url = 'tasks/get/tasks';
+            let url = 'tasks/get-tasks';
             $.ajax({
                 type: 'GET',
                 url:  url,

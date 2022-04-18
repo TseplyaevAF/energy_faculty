@@ -46,7 +46,7 @@
                             @foreach($tasks as $taskId => $task)
                                 @if (isset($data['arrayHomework'][$student][$taskId]))
                                 <td>
-                                    {{ $homework[$taskId] }}
+                                    {{ $data['arrayHomework'][$student][$taskId]->grade }}
                                 </td>
                                 @else
                                     <td></td>

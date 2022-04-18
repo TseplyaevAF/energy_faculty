@@ -44,13 +44,18 @@ class Service
                     $studentWork = null;
                     foreach ($task->homework as $homework) {
                         if ($student->id == $homework->student_id) {
-                            $studentWork = $homework->grade;
+                            $studentWork = $homework;
                             break;
                         }
                     }
-                    $arrayHomework[$student->user->surname
-                    . ' ' . $student->user->name
-                    . ' ' . $student->user->patronymic][$task->id] = $studentWork;
+                    $studentFIO = $student->user->surname
+                        . ' ' . $student->user->name
+                        . ' ' . $student->user->patronymic;
+                    if (isset($studentWork)) {
+                        $arrayHomework[$studentFIO][$task->id] = $studentWork;
+                    } else {
+                        $arrayHomework[$studentFIO][$task->id] = null;
+                    }
                 }
             }
             $arrayTasks[$lesson->year->start_year . '-' . $lesson->year->end_year] = $tempTaskArray;
