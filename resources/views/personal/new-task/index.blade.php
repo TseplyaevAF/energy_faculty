@@ -67,13 +67,20 @@
     $(document).ready(function () {
         let choiceDiscipline = $("#discipline_name").val();
         let choiceGroup;
+        let homeworkId;
 
         getGroups(choiceDiscipline);
 
-        $('.content').on('click', '.createTask', function () {
+        $('.content')
+            .on('click', '.createTask', function () {
+            const file = $('#file')[0].files[0];
+            if (file === undefined) {
+                alert('Необходимо выбрать файл с заданием');
+                return;
+            }
             let formData = new FormData()
             formData.append('_token', $("input[name='_token']").val());
-            formData.append('task', $('#file')[0].files[0]);
+            formData.append('task', file);
             formData.append('lesson_id', $("input[name='lesson_id']").val())
             $.ajax({
                 method: 'POST',
@@ -91,9 +98,75 @@
                     alert(response.responseText);
                 }
             });
-        }).on('click', '.homeworkLoad', function () {
-            console.log($(this).attr('id').split('_')[1])
-        });
+        })
+            .on('click', '.homeworkLoad', function () {
+            homeworkId = $(this).attr('id').split('_')[1];
+            $.ajax({
+                type: 'GET',
+                url:  'tasks/load-homework/' + homeworkId,
+                success: function(response) {
+                    $('#loadHomeworkModal').modal("show");
+                    $('#loadHomeworkModalBody').html(response).show();
+                },
+                error: function(jqXHR, status, error) {
+                    alert('Невозможно получить информацию о задании');
+                    console.log(jqXHR.responseText);
+                },
+                timeout: 8000
+            });
+        })
+            .on('click', '.workFile', function () {
+            const filePath = $(this).text().split('/');
+            $.ajax({
+                type: 'GET',
+                xhrFields: {
+                    responseType: 'blob',
+                },
+                url:  'homework/'+filePath[0]+'/'+filePath[2]+'/'+filePath[3],
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                success: function(response) {
+                    const blob = new Blob([response], {type: 'application/pdf'});
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = filePath[3];
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                },
+                error: function(jqXHR, status, error) {
+                    alert('Невозможно получить информацию о задании');
+                    console.log(jqXHR.responseText);
+                },
+                timeout: 8000
+            });
+        })
+            .on('click', '.checkHomework', function () {
+                const grade = $('#grade').val();
+                if (grade === '') {
+                    alert('Пожалуйста оставьте комментарий');
+                    return;
+                }
+                $.ajax({
+                    type: 'PATCH',
+                    url:  'homework/' + homeworkId + '/feedback',
+                    data: {
+                        '_token': $("input[name='_token']").val(),
+                        'grade': grade,
+                        'task_id': $("input[name='task_id']").val()
+                    },
+                    success: function(response) {
+                        $('#loadHomeworkModal').modal('hide');
+                        getTasksTable(choiceDiscipline, choiceGroup, $('#semester_name').find(":selected").val())
+                    },
+                    error: function(jqXHR, status, error) {
+                        alert('Произошла ошибка');
+                        console.log(jqXHR.responseText);
+                    },
+                    timeout: 8000
+                });
+            });
 
         function getGroups(choiceDiscipline) {
             $('#semester_name').empty();
@@ -151,7 +224,7 @@
                         console.log(error);
                     }
                 },
-                // timeout: 8000
+                timeout: 8000
             });
         }
 

@@ -1,3 +1,13 @@
+<style>
+    .workIsDone {
+        background-color: rgba(10, 147, 10, 0.6);
+        color: white;
+    }
+    .workOnVerification {
+        background-color: rgba(52, 93, 170, 0.56);
+        color: white;
+    }
+</style>
 <div class="table-responsive">
     <div class="form-group scroll-table-body">
         <table class="table table-bordered table-hover" id="tasks-table">
@@ -45,9 +55,11 @@
                         @foreach($months as $month => $tasks)
                             @foreach($tasks as $taskId => $task)
                                 @if (isset($data['arrayHomework'][$student][$taskId]))
-                                <td>
-                                    {{ $data['arrayHomework'][$student][$taskId]->grade }}
-                                </td>
+                                    @if ($data['arrayHomework'][$student][$taskId]->grade != 'on check')
+                                        <td class="workIsDone">Проверено</td>
+                                    @else
+                                        <td class="workOnVerification">Работа на проверке</td>
+                                    @endif
                                 @else
                                     <td></td>
                                 @endif

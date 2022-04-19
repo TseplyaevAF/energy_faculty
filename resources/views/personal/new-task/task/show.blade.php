@@ -1,3 +1,13 @@
+<style>
+    .workIsDone {
+        background-color: rgba(10, 147, 10, 0.6);
+    }
+    .studentsWorks__content {
+        background-color: white;
+        padding: 7px 40px;
+    }
+</style>
+
 <input value="{{ $data['lesson_id'] }}" type="hidden" name="lesson_id">
 
 {{--Модальное окно для добавления нового задания--}}
@@ -22,17 +32,19 @@
                 <button type="button" id="createTask" class="btn btn-primary createTask">
                     Сохранить
                 </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
             </div>
         </div>
     </div>
 </div>
 
 {{--Модальное окно для проставления оценки студенту за его работу--}}
-<div class="modal fade" id="loadHomework" tabindex="-1" role="dialog"
+<div class="modal fade" id="loadHomeworkModal" tabindex="-1" role="dialog"
      aria-labelledby="loadHomeworkModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h5 class="card-title">Проверка домашнего задания</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -43,7 +55,11 @@
     </div>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive studentsWorks__content">
+    <div class="form-group">
+        <h5><b>{{$lesson->discipline->title}}</b></h5>
+        <h6><b>Группа: </b>{{$lesson->group->title}}, {{$lesson->semester}} семестр</h6>
+    </div>
     <div class="mb-2">
         <a href="javascript:void(0)" data-toggle="modal"
            class="show btn btn-primary"
@@ -97,11 +113,21 @@
                         @foreach($months as $month => $tasks)
                             @foreach($tasks as $taskId => $task)
                                 @if (isset($data['arrayHomework'][$student][$taskId]))
-                                <td><a type="button" class="homeworkLoad"
-                                       id="homework_{{$data['arrayHomework'][$student][$taskId]->id }}">
-                                        {{ $data['arrayHomework'][$student][$taskId]->homework }}
-                                    </a>
-                                </td>
+                                    @if ($data['arrayHomework'][$student][$taskId]->grade != 'on check')
+                                    <td class="workIsDone">
+                                        <a type="button" class="homeworkLoad" style="color: white"
+                                           id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
+                                            Проверено
+                                        </a>
+                                    </td>
+                                    @else
+                                    <td>
+                                        <a type="button" class="homeworkLoad"
+                                           id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
+                                            Посмотреть работу
+                                        </a>
+                                    </td>
+                                    @endif
                                 @else
                                     <td></td>
                                 @endif

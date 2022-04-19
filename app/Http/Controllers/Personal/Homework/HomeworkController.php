@@ -78,7 +78,7 @@ class HomeworkController extends Controller
             DB::rollBack();
             abort(500);
         }
-        return redirect()->route('personal.task.show', compact('task'));
+        return response('Работа успешно проверена!', 200);
     }
 
     public function destroy(Homework $homework)
