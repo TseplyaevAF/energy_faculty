@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 class Homework extends Model implements HasMedia
 {
     protected $guarded = false;
+    protected $dates = ['created_at', 'updated_at'];
 
     use HasFactory, SoftDeletes, HasMediaTrait;
 

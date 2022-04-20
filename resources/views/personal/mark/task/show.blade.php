@@ -9,8 +9,12 @@
     }
 </style>
 <div class="table-responsive">
+    <div class="form-group">
+        <h5><b>{{$lesson->discipline->title}}</b></h5>
+        <h6><b>Группа: </b>{{$lesson->group->title}}, {{$lesson->semester}} семестр</h6>
+    </div>
     <div class="form-group scroll-table-body">
-        <table class="table table-bordered table-hover" id="tasks-table">
+        <table class="table table-bordered table-hover" id="statements-table">
             <thead>
             <tr>
                 <th rowspan="3" style="width: 20px">№</th>
@@ -22,25 +26,20 @@
             <tr>
                 <td></td>
                 <td></td>
-                @foreach($data['arrayTasks'] as $year => $months)
-                    @foreach($months as $month => $tasks)
+                @foreach($data['arrayTasks'] as $month => $tasks)
                     <td colspan="{{count($tasks)}}">
                         {{ $month }}
                     </td>
-                    @endforeach
                 @endforeach
-
             </tr>
             <tr>
                 <td></td>
                 <td></td>
-                @foreach($data['arrayTasks'] as $year => $months)
-                    @foreach($months as $month => $tasks)
-                        @foreach($tasks as $task)
-                        <td>
-                            {{ $task }}
-                        </td>
-                        @endforeach
+                @foreach($data['arrayTasks'] as $month => $tasks)
+                    @foreach($tasks as $task)
+                    <td>
+                        {{ $task }}
+                    </td>
                     @endforeach
                 @endforeach
             </tr>
@@ -51,19 +50,19 @@
                 <tr>
                     <td>{{$count++}}</td>
                     <td>{{$student}}</td>
-                    @foreach($data['arrayTasks'] as $year => $months)
-                        @foreach($months as $month => $tasks)
-                            @foreach($tasks as $taskId => $task)
-                                @if (isset($data['arrayHomework'][$student][$taskId]))
-                                    @if ($data['arrayHomework'][$student][$taskId]->grade != 'on check')
-                                        <td class="workIsDone">Проверено</td>
-                                    @else
-                                        <td class="workOnVerification">Работа на проверке</td>
-                                    @endif
+                    @foreach($data['arrayTasks'] as $month => $tasks)
+                        @foreach($tasks as $taskId => $task)
+                            @if (isset($data['arrayHomework'][$student][$taskId]))
+                                @if ($data['arrayHomework'][$student][$taskId]->grade != 'on check')
+                                    <td class="workIsDone">Зачтено
+                                        ({{$data['arrayHomework'][$student][$taskId]->updated_at->format('d.m.Y')}})
+                                    </td>
                                 @else
-                                    <td></td>
+                                    <td class="workOnVerification">Работа на проверке</td>
                                 @endif
-                            @endforeach
+                            @else
+                                <td></td>
+                            @endif
                         @endforeach
                     @endforeach
                 </tr>

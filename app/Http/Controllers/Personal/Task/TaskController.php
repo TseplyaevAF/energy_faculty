@@ -63,9 +63,8 @@ class TaskController extends Controller
     public function getTasks(FilterRequest $request) {
         $data = $request->validated();
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
-        $lessons = Lesson::filter($filter)->get();
-        $data = $this->service->getTasks($lessons);
-        $lesson = $lessons[0];
+        $lesson = Lesson::filter($filter)->first();
+        $data = $this->service->getTasks($lesson);
         $data += ['lesson_id' => $lesson->id];
         return view('personal.new-task.task.show', compact('data', 'lesson'));
     }

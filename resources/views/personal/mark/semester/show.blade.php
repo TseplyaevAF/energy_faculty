@@ -17,8 +17,8 @@
 <div class="table-responsive">
     @if (count($statements) !== 0)
     <h4>Ведомость сдачи зачетов и экзаменов сессии
-        {{$statements[0]->lesson->year->start_year}}-{{$statements[0]->lesson->year->end_year}}
-        учебного года {{$statements[0]->lesson->semester}} семестра
+        {{$statements->first()->lesson->year->start_year}}-{{$statements->first()->lesson->year->end_year}}
+        учебного года {{$statements->first()->lesson->semester}} семестра
     </h4>
     @endif
     <div class="form-group scroll-table-body">

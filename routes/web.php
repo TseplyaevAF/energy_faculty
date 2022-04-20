@@ -149,11 +149,11 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/', 'MarkController@index')->name('personal.mark.index');
         Route::get('/statements-report/{statement}', 'MarkController@getStatementInfo')->name('personal.mark.getStatementInfo');
         Route::get('/statements-download/{statement}', 'MarkController@statementDownload')->name('personal.mark.statementDownload');
-        Route::get('/semesters-report/{group}/{semester}', 'MarkController@getSemesters')->name('personal.mark.getSemesters');
+        Route::get('/semesters-report/{group}/{semester}', 'MarkController@getSemesterStatements');
         Route::get('/group-students/{group}', 'MarkController@getStudents');
         Route::get('/set-new-headman/{group}/{headmanId}', 'MarkController@setNewHeadman');
-        Route::get('/get-disciplines/{group}', 'MarkController@getDisciplines');
-        Route::get('/get-years/{group}/{discipline}', 'MarkController@getYears');
+        Route::get('/get-semesters/{group}', 'MarkController@getSemesters');
+        Route::get('/get-disciplines/{group}/{semester}', 'MarkController@getDisciplines');
         Route::get('/get-tasks', 'MarkController@getTasks');
     });
 });

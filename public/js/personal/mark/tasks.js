@@ -1,69 +1,72 @@
-function getDisciplines(el, choiceGroup) {
+function getSemesters(el, choiceGroup) {
     $.ajax({
         type: 'GET',
-        url: 'marks/get-disciplines/' + choiceGroup,
+        url: 'marks/get-semesters/' + choiceGroup,
         success: function (response) {
-            let select = createTaskSelect(JSON.parse(response), 'tasks_discipline', choiceGroup);
-            $(el).closest('div.tabs').find('.selectDiscipline').replaceWith(select);
-            $('#tasks_discipline').on('change', changeSelect);
+            let select = createTaskSelect(JSON.parse(response).sort(), 'tasks_semester');
+            $(el).closest('div.tabs').find('.selectSemester').replaceWith(select);
+            $('#tasks_semester').on('change', changeSelect);
             $('#tasks_preloader').hide();
         }
     });
 }
 
-function createTaskSelect(data, id, choiceGroup) {
-    let select = '<div class="form-s2 selectDiscipline">';
+function createTaskSelect(data, id) {
+    let select = '<div class="form-s2 selectSemester">';
     select += '<select class="form-control" type="text" id=' + id + '>';
     select += '<option value="">-- Не выбрано</option>';
     for (let i = 0; i < Object.keys(data).length; i++) {
 
-        select += '<option value="' + choiceGroup + '_' + data[i].id +'">' + data[i].title + '</option>';
+        select += '<option value="' + data[i] +'">' + data[i] + '</option>';
     }
     select += '</select>'
     return select += '</div>';
 }
 
 function changeSelect() {
-    let taskInfo = $(this).find(":selected").val();
-    if (taskInfo === '') {
-        $('#tasks_year').empty();
+    let choiceSemester = $('#tasks_semester').val();
+    let tasksDisciplineSelect = $('#tasks_discipline');
+    if (choiceSemester === '') {
+        tasksDisciplineSelect.empty();
         return;
     }
-    taskInfo = taskInfo.split('_');
-    $('#tasks_year').empty();
-    $('#tasks_year').append(`<option value="0" disabled selected>Поиск...</option>`);
+    tasksDisciplineSelect.empty();
+    tasksDisciplineSelect.append(`<option value="0" disabled selected>Поиск...</option>`);
     $.ajax({
         type: 'GET',
-        url: 'marks/get-years/' + taskInfo[0] + '/' + taskInfo[1],
+        url: 'marks/get-disciplines/' + window.choiceGroup + '/' + choiceSemester,
         success: function (response) {
-            $('#tasks_year').empty();
-            $('#tasks_year').append(`<option value="">Весь период обучения</option>`);
+            tasksDisciplineSelect.empty();
             JSON.parse(response).forEach(element => {
-                $('#tasks_year').append(`<option value="${element['id']}">${element['start_year']}-${element['end_year']}</option>`);
+                tasksDisciplineSelect.append(`<option value="${element['id']}">${element['title']}</option>`);
             });
+        },
+        complete: function () {
+            $('#tasks_preloader').hide();
         }
     });
 }
 
 function getTasksTable(choiceGroup) {
-    const discipline = $('#tasks_discipline').val().split('_')[1];
-    if (discipline === undefined) {
-        alert('Обязательно выберите дисциплину');
+    const semester = $('#tasks_semester').val();
+    if (semester === '') {
+        alert('Фильтры не заданы');
         $('#tasks-filter').attr('disabled', false);
         return;
     }
     let url = 'marks/get-tasks/';
-    const year = $('#tasks_year').val() !== '' ? $('#tasks_year').find(":selected").val() : '';
+    const discipline = $('#tasks_discipline option:selected').val();
     $.ajax({
         type: 'GET',
         url:  url,
         data: {
-            'year_id': year,
+            'semester': semester,
             'group_id': choiceGroup,
             'discipline_id': discipline,
         },
         beforeSend: function() {
             $('#tasks_preloader').show();
+            $('#tasksBody').html('').show();
         },
         success: function(result) {
             $('#tasksBody').html(result).show();
@@ -78,6 +81,6 @@ function getTasksTable(choiceGroup) {
                 console.log(error);
             }
         },
-        timeout: 8000
+        // timeout: 8000
     });
 }

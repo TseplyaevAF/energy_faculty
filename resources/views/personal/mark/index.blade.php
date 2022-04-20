@@ -149,20 +149,19 @@
                                 </div>
                                 <div class="row filters">
                                     <div class=" col-md-6 mb-2">
-                                        <h6>Дисциплины</h6>
-                                        <div class="form-s2 selectDiscipline">
+                                        <h6>Семестр</h6>
+                                        <div class="form-s2 selectSemester">
                                             <select class="form-control formselect required"
-                                                    id="tasks_discipline">
+                                                    id="tasks_semester">
                                                 <option value="reset_filter_control_form">Все</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class=" col-md-6 mb-2">
-                                        <h6>Год обучения</h6>
-                                        <div class="form-s2 selectYear">
+                                        <h6>Дисциплина</h6>
+                                        <div class="form-s2 selectDiscipline">
                                             <select class="form-control formselect required"
-                                                    id="tasks_year">
-                                                <option value="reset_filter_control_form">Весь период обучения</option>
+                                                    id="tasks_discipline">
                                             </select>
                                         </div>
                                     </div>
@@ -202,6 +201,7 @@
     <script>
     $(document).ready(function () {
         let choiceGroup = $("#group_name").val();
+        window.choiceGroup = choiceGroup
         let tabId;
 
         $('ul.tabs__caption').on('click', 'li:not(.active)', function() {
@@ -263,7 +263,9 @@
         // показать контент вкладки "Задания"
         function showTasksTab(el) {
             $('#tasks_preloader').show();
-            getDisciplines(el, choiceGroup);
+            $('#tasksBody').html('').show();
+            $('#tasks_discipline').empty();
+            getSemesters(el, choiceGroup);
             $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
         }
 
@@ -280,6 +282,7 @@
         // Загрузить контент соответствующей вкладки при смене учебной группы
         $('#group_name').on('change', function () {
             choiceGroup = $(this).val();
+            window.choiceGroup = choiceGroup;
             if (tabId === 'statements') {
                 getStatements(choiceGroup, '{{ getenv('APP_URL') }}api/statements');
             } else if (tabId === 'semester-statements') {
@@ -287,7 +290,7 @@
             } else if (tabId === 'about-group') {
                 getStudentsTable(choiceGroup);
             } else if (tabId === 'tasks') {
-                $('#tasks_year').empty();
+                $('#tasks_discipline').empty();
                 $('.group-tasks').find('tr').remove();
                 showTasksTab($('li:not(.active)'))
             }

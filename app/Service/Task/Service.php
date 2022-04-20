@@ -28,37 +28,34 @@ class Service
         }
     }
 
-    public static function getTasks($lessons) {
+    // получить задания для заданной нагрузки
+    public static function getTasks($lesson) {
         $arrayTasks = [];
         $tasksCount = 0;
         $arrayHomework = [];
-        foreach ($lessons as $lesson) {
-            $tempTaskArray = [];
-            foreach ($lesson->tasks as $task) {
-                $tasksCount++;
-                $month = self::getRusMonthName(intval($task->created_at->format('m')))
-                    . ' ' . $task->created_at->format('Y');
-                $tempTaskArray[$month][$task->id] = $task->task;
+        foreach ($lesson->tasks as $task) {
+            $tasksCount++;
+            $month = self::getRusMonthName(intval($task->created_at->format('m')))
+                . ' ' . $task->created_at->format('Y');
+            $arrayTasks[$month][$task->id] = $task->task;
 
-                foreach ($lesson->group->students as $student) {
-                    $studentWork = null;
-                    foreach ($task->homework as $homework) {
-                        if ($student->id == $homework->student_id) {
-                            $studentWork = $homework;
-                            break;
-                        }
-                    }
-                    $studentFIO = $student->user->surname
-                        . ' ' . $student->user->name
-                        . ' ' . $student->user->patronymic;
-                    if (isset($studentWork)) {
-                        $arrayHomework[$studentFIO][$task->id] = $studentWork;
-                    } else {
-                        $arrayHomework[$studentFIO][$task->id] = null;
+            foreach ($lesson->group->students as $student) {
+                $studentWork = null;
+                foreach ($task->homework as $homework) {
+                    if ($student->id == $homework->student_id) {
+                        $studentWork = $homework;
+                        break;
                     }
                 }
+                $studentFIO = $student->user->surname
+                    . ' ' . $student->user->name
+                    . ' ' . $student->user->patronymic;
+                if (isset($studentWork)) {
+                    $arrayHomework[$studentFIO][$task->id] = $studentWork;
+                } else {
+                    $arrayHomework[$studentFIO][$task->id] = null;
+                }
             }
-            $arrayTasks[$lesson->year->start_year . '-' . $lesson->year->end_year] = $tempTaskArray;
         }
         return [
             'arrayTasks' => $arrayTasks,

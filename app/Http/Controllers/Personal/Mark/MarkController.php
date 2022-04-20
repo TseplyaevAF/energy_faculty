@@ -42,7 +42,7 @@ class MarkController extends Controller
         return Excel::download(new IndividualsExport($statement), $statement->report);
     }
 
-    public function getSemesters(Group $group, $semester) {
+    public function getSemesterStatements(Group $group, $semester) {
         $data = [
             'group' => $group->id,
             'semester' => $semester,
@@ -95,35 +95,35 @@ class MarkController extends Controller
         return response('Назначен новый староста', 200);
     }
 
-    public function getDisciplines(Group $group) {
+    public function getSemesters(Group $group) {
+        $semesters = [];
+        $lessons = $group->lessons->unique('semester');
+        foreach ($lessons as $lesson) {
+            $semesters[] = $lesson->semester;
+        }
+        echo json_encode($semesters);
+    }
+
+    public function getDisciplines(Group $group, $semester) {
+        $lessons = Lesson::where('group_id', $group->id)
+            ->where('semester', $semester)
+            ->get()->unique('discipline_id');
         $disciplines = [];
-        $lessons = $group->lessons->unique('discipline_id');
         foreach ($lessons as $lesson) {
             $disciplines[] = $lesson->discipline;
         }
         echo json_encode($disciplines);
     }
 
-    public function getYears(Group $group, Discipline $discipline) {
-        $lessons = Lesson::where('group_id', $group->id)
-            ->where('discipline_id', $discipline->id)
-            ->get()->unique('year_id');
-        $years = [];
-        foreach ($lessons as $lesson) {
-            $years[] = $lesson->year;
-        }
-        echo json_encode($years);
-    }
-
     public function getTasks(FilterRequest $request) {
         $data = $request->validated();
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
 
-        $lessons = Lesson::filter($filter)->get();
+        $lesson = Lesson::filter($filter)->first();
 
-        $data = \App\Service\Task\Service::getTasks($lessons);
+        $data = \App\Service\Task\Service::getTasks($lesson);
 
-        return view('personal.mark.task.show', compact( 'data'));
+        return view('personal.mark.task.show', compact( 'data', 'lesson'));
     }
 
 }

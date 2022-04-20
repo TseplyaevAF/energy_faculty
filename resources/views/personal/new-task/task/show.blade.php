@@ -80,25 +80,20 @@
             <tr>
                 <td></td>
                 <td></td>
-                @foreach($data['arrayTasks'] as $year => $months)
-                    @foreach($months as $month => $tasks)
-                    <td colspan="{{count($tasks)}}">
-                        {{ $month }}
-                    </td>
-                    @endforeach
+                @foreach($data['arrayTasks'] as $month => $tasks)
+                <td colspan="{{count($tasks)}}">
+                    {{ $month }}
+                </td>
                 @endforeach
-
             </tr>
             <tr>
                 <td></td>
                 <td></td>
-                @foreach($data['arrayTasks'] as $year => $months)
-                    @foreach($months as $month => $tasks)
-                        @foreach($tasks as $task)
-                        <td>
-                            {{ $task }}
-                        </td>
-                        @endforeach
+                @foreach($data['arrayTasks'] as $month => $tasks)
+                    @foreach($tasks as $task)
+                    <td>
+                        {{ $task }}
+                    </td>
                     @endforeach
                 @endforeach
             </tr>
@@ -109,29 +104,27 @@
                 <tr>
                     <td>{{$count++}}</td>
                     <td>{{$student}}</td>
-                    @foreach($data['arrayTasks'] as $year => $months)
-                        @foreach($months as $month => $tasks)
-                            @foreach($tasks as $taskId => $task)
-                                @if (isset($data['arrayHomework'][$student][$taskId]))
-                                    @if ($data['arrayHomework'][$student][$taskId]->grade != 'on check')
-                                    <td class="workIsDone">
-                                        <a type="button" class="homeworkLoad" style="color: white"
-                                           id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
-                                            Проверено
-                                        </a>
-                                    </td>
-                                    @else
-                                    <td>
-                                        <a type="button" class="homeworkLoad"
-                                           id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
-                                            Посмотреть работу
-                                        </a>
-                                    </td>
-                                    @endif
+                    @foreach($data['arrayTasks'] as $month => $tasks)
+                        @foreach($tasks as $taskId => $task)
+                            @if (isset($data['arrayHomework'][$student][$taskId]))
+                                @if ($data['arrayHomework'][$student][$taskId]->grade != 'on check')
+                                <td class="workIsDone">
+                                    <a type="button" class="homeworkLoad" style="color: white"
+                                       id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
+                                        Проверено
+                                    </a>
+                                </td>
                                 @else
-                                    <td></td>
+                                <td>
+                                    <a type="button" class="homeworkLoad"
+                                       id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
+                                        Посмотреть работу
+                                    </a>
+                                </td>
                                 @endif
-                            @endforeach
+                            @else
+                                <td></td>
+                            @endif
                         @endforeach
                     @endforeach
                 </tr>
