@@ -58,6 +58,12 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
         Route::get('/', 'ScheduleController@index')->name('employee.schedule.index');
         Route::post('/import', 'ScheduleController@import')->name('employee.schedule.import');
     });
+
+    Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {
+        Route::get('/', 'GroupController@index')->name('employee.group.index');
+        Route::get('/load-teachers/{chair}/{group}', 'GroupController@getTeachers');
+        Route::patch('/set-new-curator/{group}', 'GroupController@setNewCurator');
+    });
 });
 
 Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => ['auth', 'ca', 'verified']], function () {

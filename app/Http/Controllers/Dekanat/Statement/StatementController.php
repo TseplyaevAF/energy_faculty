@@ -11,7 +11,6 @@ use App\Models\Lesson;
 use App\Models\Statement\Individual;
 use App\Models\Statement\Statement;
 use App\Service\Dekanat\Service;
-use Illuminate\Http\Request;
 use DataTables;
 use App\Exports\IndividualsExport;
 use Maatwebsite\Excel\Facades\Excel;

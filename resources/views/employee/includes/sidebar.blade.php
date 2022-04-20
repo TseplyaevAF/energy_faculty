@@ -47,6 +47,12 @@
               <p>Расписание занятий</p>
             </a>
           </li>
+            <li class="nav-item">
+                <a href="{{ route('employee.group.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Учебные группы</p>
+                </a>
+            </li>
         </ul>
       </div>
       <!-- /.sidebar -->

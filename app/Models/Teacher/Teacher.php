@@ -37,4 +37,8 @@ class Teacher extends Model
     public function groups() {
         return $this->belongsToMany(Group::class, 'lessons', 'teacher_id', 'group_id');
     }
+
+    public function myGroups() {
+        return $this->hasMany(Group::class);
+    }
 }

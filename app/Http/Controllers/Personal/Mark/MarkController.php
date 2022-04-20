@@ -8,7 +8,6 @@ use App\Http\Filters\LessonFilter;
 use App\Http\Filters\StatementFilter;
 use App\Http\Requests\Admin\Lesson\FilterRequest;
 use App\Http\Resources\StudentResource;
-use App\Models\Discipline;
 use App\Models\Group\Group;
 use App\Models\Lesson;
 use App\Models\Statement\Individual;
@@ -23,7 +22,8 @@ class MarkController extends Controller
 {
     public function index()
     {
-        $groups = Group::all();
+        $teacher = auth()->user()->teacher;
+        $groups = $teacher->myGroups;
         return view('personal.mark.index', compact('groups'));
     }
 

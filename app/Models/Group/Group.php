@@ -6,6 +6,7 @@ use App\Models\Chair;
 use App\Models\Discipline;
 use App\Models\Lesson;
 use App\Models\Student\Student;
+use App\Models\Teacher\Teacher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -37,5 +38,9 @@ class Group extends Model
 
     public function disciplines() {
         return $this->belongsToMany(Discipline::class, 'lessons', 'group_id', 'discipline_id');
+    }
+
+    public function teacher() {
+        return $this->belongsTo(Teacher::class);
     }
 }
