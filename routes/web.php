@@ -124,6 +124,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::get('tasks/get/semesters/{discipline}/{group}', 'Task\TaskController@getSemesters');
     Route::get('tasks/get-tasks', 'Task\TaskController@getTasks');
     Route::get('tasks/load-homework/{homework}', 'Task\TaskController@loadHomework');
+    Route::post('tasks/load-edu', 'Task\TaskController@loadEduMaterial')->name('personal.task.load-edu');
+    Route::get('tasks/get-edu-materials', 'Task\TaskController@getEduMaterials');
 
     Route::resource('homework', 'Homework\HomeworkController', ['names' => 'personal.homework'])
         ->only('index', 'store', 'destroy');

@@ -12,6 +12,7 @@ use App\Models\Lesson;
 use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
 use App\Service\Task\Service;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Spatie\MediaLibrary\Models\Media;
 
@@ -68,6 +69,14 @@ class TaskController extends Controller
         $data += ['lesson_id' => $lesson->id];
         return view('personal.new-task.task.show', compact('data', 'lesson'));
     }
+    public function getEduMaterials(FilterRequest $request) {
+        $data = $request->validated();
+        $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
+        $lesson = Lesson::filter($filter)->first();
+//        $data += ['lesson_id' => $lesson->id];
+        return view('personal.new-task.edu-material.show', compact( 'lesson'));
+    }
+
 
     public function loadHomework(Homework $homework) {
         return view('personal.new-task.load-homework', compact('homework'));
@@ -100,6 +109,52 @@ class TaskController extends Controller
         $this->service->store($data);
 
         return response('Задание успешно добавлено!', 200);
+    }
+
+    public function loadEduMaterial(Request $request) {
+        Gate::authorize('isTeacher');
+
+        try {
+            $request->validate([
+                'file' => 'required|file'
+            ]);
+        } catch (\Exception $exception) {
+            return response('Необходимо выбрать файл', 404);
+        }
+
+        $rules = [];
+        $pdfMaxSize = 1024 * 10; // не более 10 MB
+        $videoMaxSize = 1024 * 100; // не более 100 MB
+
+        $file = $request->file('file');
+        if(in_array($file->getMimeType(), ['application/pdf'])) {
+            $rules["file"] = "max:$pdfMaxSize";
+        } else if (in_array($file->getMimeType(), ['video/mp4', 'video/avi'])){
+            $rules["file"] = "max:$videoMaxSize";
+        } else {
+            $rules["file"] = 'mimes:application/pdf,mp4';
+        }
+
+        try {
+            $request->validate($rules);
+        } catch (\Exception $exception) {
+            if ($rules['file'] == "max:$pdfMaxSize") {
+                return response('Файл должен иметь размер не более ' . $pdfMaxSize/1000 . ' Мб', 404);
+            }
+            if ($rules['file'] == "max:$videoMaxSize") {
+                return response('Файл должен иметь размер не более ' . $videoMaxSize/1000 . ' Мб', 404);
+            }
+            if ($rules['file'] == "mimes:application/pdf,mp4") {
+                return response('Загрузить можно файл с одним из следующих форматов: pdf, mp4', 404);
+            }
+        }
+
+        $this->service->store([
+            'lesson_id' => $request->lesson_id,
+            'task' => $request->file
+        ]);
+
+        return response('Учебный материал успешно добавлен!', 200);
     }
 
     public function download($taskId, $mediaId, $filename) {

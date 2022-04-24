@@ -67,6 +67,7 @@
             Добавить задание
         </a>
     </div>
+
     <div class="form-group scroll-table-body">
         <table class="table table-bordered table-hover" id="tasks-table">
             <thead>

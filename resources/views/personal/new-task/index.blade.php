@@ -1,6 +1,8 @@
 @extends('personal.layouts.main')
 
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/personal/marks/style.css') }}">
+
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
@@ -54,22 +56,55 @@
                         Показать
                     </button>
                 </div>
-                <div class="">
-                    <div class="form-group" id="lessonBody">
-                        <div></div>
+
+                <div class="row">
+                        <div class="tabs">
+                            <ul class="tabs__caption">
+                                <li data-id="tasks" class="active">Задания</li>
+                                <li data-id="edu-materials">Учебные материалы</li>
+                            </ul>
+                            <div class="tabs__content active">
+                                <div class="form-group" id="tasksBody"></div>
+                            </div>
+                            <div class="tabs__content">
+                                <div class="form-group" id="eduMaterialsBody"></div>
+                            </div>
+                        </div><!-- .tabs-->
                     </div>
-                </div>
             </div>
         </section>
     </div>
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <script>
     $(document).ready(function () {
+        // переменные для фильтров
         let choiceDiscipline = $("#discipline_name").val();
-        let choiceGroup;
-        let homeworkId;
+        let choiceGroup, choiceSemester;
+        let tasks = null, eduMaterials = null;
+
+        let tabId; // выбранная вкладка (задания либо уч. материалы)
+        let homeworkId; // выбранная работа студента
 
         getGroups(choiceDiscipline);
+
+        $('.tabs').hide();
+
+        $('ul.tabs__caption').on('click', 'li:not(.active)', function() {
+            $(this).closest('div.tabs').find('div.tabs__content').children('.row').hide();
+            tabId = $(this).attr('data-id');
+            $(this)
+                .addClass('active').siblings().removeClass('active')
+                .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
+            if (tabId === 'tasks') {
+                if (!isset(tasks)) {
+                    getTasksTable(choiceDiscipline, choiceGroup, choiceSemester)
+                }
+            } else if (tabId === 'edu-materials') {
+                if (!isset(eduMaterials)) {
+                    getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester);
+                }
+            }
+        });
 
         $('.content')
             .on('click', '.createTask', function () {
@@ -92,7 +127,7 @@
                 success: function (response) {
                     alert(response);
                     $('#createTask').modal('hide');
-                    getTasksTable(choiceDiscipline, choiceGroup, $('#semester_name').find(":selected").val())
+                    getTasksTable(choiceDiscipline, choiceGroup, choiceSemester)
                 },
                 error: function (response) {
                     alert(response.responseText);
@@ -158,7 +193,7 @@
                     },
                     success: function(response) {
                         $('#loadHomeworkModal').modal('hide');
-                        getTasksTable(choiceDiscipline, choiceGroup, $('#semester_name').find(":selected").val())
+                        getTasksTable(choiceDiscipline, choiceGroup, choiceSemester)
                     },
                     error: function(jqXHR, status, error) {
                         alert('Произошла ошибка');
@@ -198,11 +233,21 @@
                     JSON.parse(response).forEach(element => {
                         $('#semester_name').append(`<option value="${element}">${element}</option>`);
                     });
+                    choiceSemester = $('#semester_name').find(":selected").val();
                 }
             });
         }
 
+        function isset(obj) {
+            return !(typeof obj === 'undefined' || obj === null);
+        }
+
         function getTasksTable(choiceDiscipline, choiceGroup, choiceSemester) {
+            if (!isset(choiceDiscipline) || !isset(choiceGroup) || !isset(choiceSemester)) {
+                alert('Нагрузка не выбрана! (дисциплина, группа, семестр)');
+                return;
+            }
+            $('#lesson-filter').attr('disabled', true);
             let url = 'tasks/get-tasks';
             $.ajax({
                 type: 'GET',
@@ -213,10 +258,12 @@
                     'semester': choiceSemester,
                 },
                 success: function(result) {
-                    $('#lessonBody').html(result).show();
+                    tasks = result;
+                    $('#tasksBody').html(result).show();
                 },
                 complete: function() {
                     $('#lesson-filter').attr('disabled', false);
+                    $('.tabs').show();
                 },
                 error: function(jqXHR, status, error) {
                     if (jqXHR.status === 500) {
@@ -228,17 +275,55 @@
             });
         }
 
-        //отфильтровать таблицу с заданиями
+        function getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester) {
+            if (!isset(choiceDiscipline) || !isset(choiceGroup) || !isset(choiceSemester)) {
+                alert('Нагрузка не выбрана! (дисциплина, группа, семестр)');
+                return;
+            }
+            $('#lesson-filter').attr('disabled', true);
+            let url = 'tasks/get-edu-materials';
+            $.ajax({
+                type: 'GET',
+                url:  url,
+                data: {
+                    'discipline_id': choiceDiscipline,
+                    'group_id': choiceGroup,
+                    'semester': choiceSemester,
+                },
+                success: function(result) {
+                    eduMaterials = result
+                    $('#eduMaterialsBody').html(result).show();
+                },
+                complete: function() {
+                    $('#lesson-filter').attr('disabled', false);
+                    $('.tabs').show();
+                },
+                error: function(jqXHR, status, error) {
+                    if (jqXHR.status === 500) {
+                        alert('При загрузке произошла ошибка');
+                        console.log(error);
+                    }
+                },
+                timeout: 8000
+            });
+        }
+
+        // вывести контент для выбранной нагрузки
         $('#lesson-filter').click(function () {
-            $(this).attr('disabled', true);
-            getTasksTable(choiceDiscipline, choiceGroup, $('#semester_name').find(":selected").val());
+            getTasksTable(choiceDiscipline, choiceGroup, choiceSemester);
+            getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester);
         })
 
-        // Загрузить контент соответствующей вкладки при смене учебной группы
+        // загрузить список учебных групп, у которых преподается выбранная дисциплина
         $('#discipline_name').on('change', function () {
             choiceDiscipline = $(this).val();
+            choiceSemester = null;
             getGroups(choiceDiscipline)
         });
+
+        $('#semester_name').on('change', function () {
+            choiceSemester = $(this).val();
+        })
     });
     </script>
 @endsection
