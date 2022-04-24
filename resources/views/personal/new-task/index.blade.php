@@ -80,10 +80,11 @@
         // переменные для фильтров
         let choiceDiscipline = $("#discipline_name").val();
         let choiceGroup, choiceSemester;
-        let tasks = null, eduMaterials = null;
 
         let tabId; // выбранная вкладка (задания либо уч. материалы)
         let homeworkId; // выбранная работа студента
+
+        let callAjaxForm;
 
         getGroups(choiceDiscipline);
 
@@ -95,15 +96,6 @@
             $(this)
                 .addClass('active').siblings().removeClass('active')
                 .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
-            if (tabId === 'tasks') {
-                if (!isset(tasks)) {
-                    getTasksTable(choiceDiscipline, choiceGroup, choiceSemester)
-                }
-            } else if (tabId === 'edu-materials') {
-                if (!isset(eduMaterials)) {
-                    getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester);
-                }
-            }
         });
 
         $('.content')
@@ -126,7 +118,7 @@
                 datatype: 'json',
                 success: function (response) {
                     alert(response);
-                    $('#createTask').modal('hide');
+                    $('#createTaskModal').modal('hide');
                     getTasksTable(choiceDiscipline, choiceGroup, choiceSemester)
                 },
                 error: function (response) {
@@ -152,30 +144,7 @@
         })
             .on('click', '.workFile', function () {
             const filePath = $(this).text().split('/');
-            $.ajax({
-                type: 'GET',
-                xhrFields: {
-                    responseType: 'blob',
-                },
-                url:  'homework/'+filePath[0]+'/'+filePath[2]+'/'+filePath[3],
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                success: function(response) {
-                    const blob = new Blob([response], {type: 'application/pdf'});
-                    const link = document.createElement('a');
-                    link.href = window.URL.createObjectURL(blob);
-                    link.download = filePath[3];
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                },
-                error: function(jqXHR, status, error) {
-                    alert('Невозможно получить информацию о задании');
-                    console.log(jqXHR.responseText);
-                },
-                timeout: 8000
-            });
+            download(filePath, 'homework')
         })
             .on('click', '.checkHomework', function () {
                 const grade = $('#grade').val();
@@ -201,7 +170,85 @@
                     },
                     timeout: 8000
                 });
+            })
+            .on('click', '.createEdu', function () {
+                let bar = $('.bar');
+                let percent = $('.percent');
+                callAjaxForm = $('#fileUploadForm').ajaxForm({
+                    beforeSend: function () {
+                        let percentVal = '0%';
+                        bar.width(percentVal)
+                        percent.html(percentVal);
+                    },
+                    uploadProgress: function (event, position, total, percentComplete) {
+                        let percentVal = percentComplete + '%';
+                        bar.width(percentVal)
+                        percent.html(percentVal);
+                    },
+                    success: function (response) {
+                        alert(response)
+                        $('#createEduModal').modal('hide');
+                        getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester)
+                    },
+                    complete: function (xhr) {
+                        let percentVal = '0%';
+                        bar.width(percentVal)
+                        percent.html(percentVal);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            })
+            .on('click','.stopVideo', function(e){})
+            .on('click', '.eduMaterialFile', function () {
+                const filePath = $(this).text().split('/');
+                if (filePath[3].includes('mp4')) {
+                    let eduMaterialId = $(this).attr('id').split('_')[1];
+                    $.ajax({
+                        type: 'GET',
+                        url:  'tasks/load-edu/' + eduMaterialId,
+                        success: function(response) {
+                            $('#loadEduMaterialModal').modal("show");
+                            $('#loadEduMaterialModalBody').html(response).show();
+                        },
+                        error: function(jqXHR, status, error) {
+                            alert('Невозможно загрузить видео');
+                            console.log(jqXHR.responseText);
+                        },
+                        timeout: 8000
+                    });
+                } else {
+                    download(filePath, 'tasks')
+                }
+            })
+
+        function download(filePath, category) {
+            $.ajax({
+                type: 'GET',
+                xhrFields: {
+                    responseType: 'blob',
+                },
+                url: category + '/' +filePath[0]+'/'+filePath[2]+'/'+filePath[3],
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                success: function(response) {
+                    const blob = new Blob([response], {type: 'application/pdf'});
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = filePath[3];
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                },
+                error: function(jqXHR, status, error) {
+                    alert('Невозможно получить информацию о файле');
+                    console.log(jqXHR.responseText);
+                },
+                timeout: 8000
             });
+        }
 
         function getGroups(choiceDiscipline) {
             $('#semester_name').empty();
@@ -245,7 +292,7 @@
         function getTasksTable(choiceDiscipline, choiceGroup, choiceSemester) {
             if (!isset(choiceDiscipline) || !isset(choiceGroup) || !isset(choiceSemester)) {
                 alert('Нагрузка не выбрана! (дисциплина, группа, семестр)');
-                return;
+                return -1;
             }
             $('#lesson-filter').attr('disabled', true);
             let url = 'tasks/get-tasks';
@@ -276,10 +323,6 @@
         }
 
         function getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester) {
-            if (!isset(choiceDiscipline) || !isset(choiceGroup) || !isset(choiceSemester)) {
-                alert('Нагрузка не выбрана! (дисциплина, группа, семестр)');
-                return;
-            }
             $('#lesson-filter').attr('disabled', true);
             let url = 'tasks/get-edu-materials';
             $.ajax({
@@ -291,7 +334,6 @@
                     'semester': choiceSemester,
                 },
                 success: function(result) {
-                    eduMaterials = result
                     $('#eduMaterialsBody').html(result).show();
                 },
                 complete: function() {
@@ -310,8 +352,10 @@
 
         // вывести контент для выбранной нагрузки
         $('#lesson-filter').click(function () {
-            getTasksTable(choiceDiscipline, choiceGroup, choiceSemester);
-            getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester);
+            let res = getTasksTable(choiceDiscipline, choiceGroup, choiceSemester);
+            if (res !== -1) {
+                getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester);
+            }
         })
 
         // загрузить список учебных групп, у которых преподается выбранная дисциплина

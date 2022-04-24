@@ -2,16 +2,12 @@
     .workIsDone {
         background-color: rgba(10, 147, 10, 0.6);
     }
-    .studentsWorks__content {
-        background-color: white;
-        padding: 7px 40px;
-    }
 </style>
 
 <input value="{{ $data['lesson_id'] }}" type="hidden" name="lesson_id">
 
 {{--Модальное окно для добавления нового задания--}}
-<div class="modal fade" id="createTask" tabindex="-1" role="dialog"
+<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog"
      aria-labelledby="createTaskModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -63,13 +59,13 @@
     <div class="mb-2">
         <a href="javascript:void(0)" data-toggle="modal"
            class="show btn btn-primary"
-           data-target="#createTask">
+           data-target="#createTaskModal">
             Добавить задание
         </a>
     </div>
 
     <div class="form-group scroll-table-body">
-        <table class="table table-bordered table-hover" id="tasks-table">
+        <table class="table table-bordered table-hover" id="statements-table">
             <thead>
             <tr>
                 <th rowspan="3" style="width: 20px">№</th>

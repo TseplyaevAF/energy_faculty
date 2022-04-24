@@ -70,7 +70,8 @@ Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => 
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'IndexController')->name('ca.main.index');
     });
-    Route::resource('cert_apps', 'CertApp\CertAppController', ['names' => 'ca.cert_app']);
+    Route::resource('cert_apps', 'CertApp\CertAppController', ['names' => 'ca.cert_app'])
+        ->only('index', 'store');
     Route::get('/cert_apps/{certApp}', 'CertApp\CertAppController@accept')->name('ca.cert_app.accept');
 });
 
@@ -124,8 +125,9 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::get('tasks/get/semesters/{discipline}/{group}', 'Task\TaskController@getSemesters');
     Route::get('tasks/get-tasks', 'Task\TaskController@getTasks');
     Route::get('tasks/load-homework/{homework}', 'Task\TaskController@loadHomework');
-    Route::post('tasks/load-edu', 'Task\TaskController@loadEduMaterial')->name('personal.task.load-edu');
+    Route::post('tasks/store-edu', 'Task\TaskController@storeEduMaterial')->name('personal.task.store-edu');
     Route::get('tasks/get-edu-materials', 'Task\TaskController@getEduMaterials');
+    Route::get('tasks/load-edu/{eduMaterial}', 'Task\TaskController@loadEduMaterial');
 
     Route::resource('homework', 'Homework\HomeworkController', ['names' => 'personal.homework'])
         ->only('index', 'store', 'destroy');
@@ -150,8 +152,10 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/getEvalTypes/all', 'StatementController@getEvalTypes')->name('personal.statement.getEvalTypes');
     });
 
-    Route::resource('exam_sheets', 'ExamSheet\ExamSheetController', ['names' => 'personal.exam_sheet']);
-    Route::patch('/{examSheet}', 'ExamSheetController@sign')->name('personal.exam_sheet.sign');
+    Route::resource('exam_sheets', 'ExamSheet\ExamSheetController', ['names' => 'personal.exam_sheet'])
+        ->only('index', 'store');
+    Route::patch('exam_sheets/{examSheet}', 'ExamSheet\ExamSheetController@sign')->name('personal.exam_sheet.sign');
+    Route::get('exam_sheets/{sheet}', 'ExamSheet\ExamSheetController@show')->name('personal.exam_sheet.show');
 
     Route::group(['namespace' => 'Mark', 'prefix' => 'marks'], function () {
         Route::get('/', 'MarkController@index')->name('personal.mark.index');

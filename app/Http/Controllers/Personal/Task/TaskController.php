@@ -73,8 +73,17 @@ class TaskController extends Controller
         $data = $request->validated();
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
         $lesson = Lesson::filter($filter)->first();
-//        $data += ['lesson_id' => $lesson->id];
-        return view('personal.new-task.edu-material.show', compact( 'lesson'));
+        $eduMaterials = $lesson->tasks->where('type', Task::LEC);
+        $files = [];
+        foreach ($eduMaterials as $eduMaterial) {
+            $mimesType = explode('/', $eduMaterial->task)[3];
+            if (stripos($mimesType, 'mp4')) {
+                $files['video'][$eduMaterial->id] = $eduMaterial;
+            } else {
+                $files['docs'][$eduMaterial->id] = $eduMaterial;
+            }
+        }
+        return view('personal.new-task.edu-material.show', compact( 'lesson', 'files'));
     }
 
 
@@ -106,12 +115,12 @@ class TaskController extends Controller
 
         $data = $request->validated();
 
-        $this->service->store($data);
+        $this->service->store($data, Task::TEST);
 
         return response('Задание успешно добавлено!', 200);
     }
 
-    public function loadEduMaterial(Request $request) {
+    public function storeEduMaterial(Request $request) {
         Gate::authorize('isTeacher');
 
         try {
@@ -124,7 +133,7 @@ class TaskController extends Controller
 
         $rules = [];
         $pdfMaxSize = 1024 * 10; // не более 10 MB
-        $videoMaxSize = 1024 * 100; // не более 100 MB
+        $videoMaxSize = 1024 * 500; // не более 500 MB
 
         $file = $request->file('file');
         if(in_array($file->getMimeType(), ['application/pdf'])) {
@@ -152,9 +161,13 @@ class TaskController extends Controller
         $this->service->store([
             'lesson_id' => $request->lesson_id,
             'task' => $request->file
-        ]);
+        ], Task::LEC);
 
         return response('Учебный материал успешно добавлен!', 200);
+    }
+
+    public function loadEduMaterial(Task $eduMaterial) {
+        return view('personal.new-task.load-video-edu-material', compact('eduMaterial'));
     }
 
     public function download($taskId, $mediaId, $filename) {

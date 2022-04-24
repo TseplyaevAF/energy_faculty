@@ -9,13 +9,14 @@ use Illuminate\Support\Facades\Storage;
 
 class Service
 {
-    public function store($data)
+    public function store($data, $type)
     {
         try {
             DB::beginTransaction();
             $task = Task::create([
                 'lesson_id' => $data['lesson_id'],
-                'task' => 'path'
+                'task' => 'path',
+                'type' => $type
             ]);
             $task->addMedia($data['task'])->toMediaCollection(Task::PATH);
             $task->update([
@@ -33,7 +34,7 @@ class Service
         $arrayTasks = [];
         $tasksCount = 0;
         $arrayHomework = [];
-        foreach ($lesson->tasks as $task) {
+        foreach ($lesson->tasks->where('type', Task::TEST) as $task) {
             $tasksCount++;
             $month = self::getRusMonthName(intval($task->created_at->format('m')))
                 . ' ' . $task->created_at->format('Y');

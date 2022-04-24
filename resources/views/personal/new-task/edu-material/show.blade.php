@@ -15,6 +15,21 @@
         left:50%;
         color: #040608;
     }
+    .deleteEdu {
+        display: block;
+        width: 13px;
+        height: 13px;
+        --weight: 1px;
+        --aa: 1px; /* anti-aliasing */
+        --color: rgba(95, 90, 90, 0.97);
+        border-radius: 1px;
+        background:
+            linear-gradient(45deg, transparent calc(50% - var(--weight) - var(--aa)), var(--color) calc(50% - var(--weight)), var(--color) calc(50% + var(--weight)), transparent calc(50% + var(--weight) + var(--aa))),
+            linear-gradient(-45deg, transparent calc(50% - var(--weight) - var(--aa)), var(--color) calc(50% - var(--weight)), var(--color) calc(50% + var(--weight)), transparent calc(50% + var(--weight) + var(--aa)));
+    }
+    .deleteEdu:hover {
+        cursor: pointer;
+    }
 </style>
 
 <div class="form-group">
@@ -23,14 +38,14 @@
 </div>
 <div class="mb-2">
     <a href="javascript:void(0)" data-toggle="modal"
-       class="show btn btn-default"
-       data-target="#createEdu">
+       class="show btn btn-primary"
+       data-target="#createEduModal">
         Добавить учебный материал
     </a>
 </div>
 
-{{--Модальное окно для добавления учебного материала (видео-лекции) --}}
-<div class="modal fade" id="createEdu" tabindex="-1" role="dialog"
+{{--Модальное окно для добавления учебного материала --}}
+<div class="modal fade" id="createEduModal" tabindex="-1"
      aria-labelledby="createEduModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -41,7 +56,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="fileUploadForm" method="POST" action="{{ url('personal/tasks/load-edu') }}" enctype="multipart/form-data">
+                <form id="fileUploadForm" method="POST" action="{{ url('personal/tasks/store-edu') }}" enctype="multipart/form-data">
                     @csrf
                     <input value="{{ $lesson->id }}" type="hidden" name="lesson_id">
                     <div class="form-group mb-3">
@@ -55,41 +70,56 @@
                         </div>
                     </div>
                     <div class="d-grid mb-3">
-                        <input type="submit" value="Загрузить" class="btn btn-primary">
+                        <input type="submit" class="btn btn-primary createEdu" value="Загрузить"/>
+                        <button type="button" class="btn btn-default stopVideo">Отмена</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+{{-- Модальное окно для просмотра видео-материала --}}
+<div class="modal fade bd-example-modal-xl" id="loadEduMaterialModal" tabindex="-1" role="dialog"
+     aria-labelledby="loadEduMaterialModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content modal-xl">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="loadEduMaterialModalBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (isset($files['video']))
+<div class="form-group mb-2">
+    <h6><b>Видео:</b></h6>
+    @foreach($files['video'] as $file)
+        <div class="row mb-1" style="margin: 0">
+            <a type="button" class="eduMaterialFile mr-2" id="eduDownload_{{$file->id}}">{{ $file->task }}</a>
+            <div style="position: relative; top: 6px">
+                <div id="eduDelete_{{$file->id}}" class="deleteEdu"></div>
+            </div>
+        </div>
+    @endforeach
+</div>
+@endif
+
+@if (isset($files['docs']))
+<div class="form-group mb-2">
+    <h6><b>Документы:</b></h6>
+    @foreach($files['docs'] as $file)
+        <div class="row mb-1" style="margin: 0">
+            <a type="button" class="eduMaterialFile mr-2" id="eduDownload_{{$file->id}}">{{ $file->task }}</a>
+            <div style="position: relative; top: 6px">
+                <div id="eduDelete_{{$file->id}}" class="deleteEdu"></div>
+            </div>
+        </div>
+    @endforeach
+</div>
+@endif
 <script src="https://getbootstrap.com/docs/4.5/assets/js/docs.min.js"></script>
-<script>
-    $(document).ready(function () {
-        let bar = $('.bar');
-        let percent = $('.percent');
-        $('#fileUploadForm').ajaxForm({
-            beforeSend: function () {
-                let percentVal = '0%';
-                bar.width(percentVal)
-                percent.html(percentVal);
-            },
-            uploadProgress: function (event, position, total, percentComplete) {
-                let percentVal = percentComplete + '%';
-                bar.width(percentVal)
-                percent.html(percentVal);
-            },
-            success: function (response) {
-                alert(response)
-                $('#createEdu').modal('hide');
-            },
-            complete: function (xhr) {
-                let percentVal = '0%';
-                bar.width(percentVal)
-                percent.html(percentVal);
-            },
-            error: function (response) {
-                alert(response.responseText);
-            }
-        });
-    });
-</script>

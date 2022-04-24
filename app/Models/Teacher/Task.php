@@ -20,16 +20,15 @@ class Task extends Model implements HasMedia
 
     const PATH = 'tasks';
 
-    const ACTIVE = 0;
-    const COMPLETED = 1;
-    const CHECK = 2;
+    // типы загружаемых работ
+    public const TEST = 'КР';
+    public const LEC = 'УМ';
 
-    public static function getStatusVariants()
+    public static function getTasksTypes()
     {
         return [
-            self::ACTIVE => 'Открыто',
-            self::COMPLETED => 'Завершено',
-            self::CHECK => 'Закрыто на проверку',
+            self::TEST => 'Контрольная работа',
+            self::LEC => 'Учебный материал',
         ];
     }
 
