@@ -121,8 +121,6 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::resource('tasks', 'Task\TaskController', ['names' => 'personal.task'])->only(['index', 'store']);
     Route::get('tasks/{modelId}/{mediaId}/{filename}', 'Task\TaskController@download')->name('personal.task.download');
     Route::patch('tasks/{task}', 'Task\TaskController@complete')->name('personal.task.complete');
-    Route::get('tasks/get-groups/{discipline}', 'Task\TaskController@getGroups');
-    Route::get('tasks/get/semesters/{discipline}/{group}', 'Task\TaskController@getSemesters');
     Route::get('tasks/get-tasks', 'Task\TaskController@getTasks');
     Route::get('tasks/load-homework/{homework}', 'Task\TaskController@loadHomework');
     Route::post('tasks/store-edu', 'Task\TaskController@storeEduMaterial')->name('personal.task.store-edu');
@@ -164,8 +162,6 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/semesters-report/{group}/{semester}', 'MarkController@getSemesterStatements');
         Route::get('/group-students/{group}', 'MarkController@getStudents');
         Route::get('/set-new-headman/{group}/{headmanId}', 'MarkController@setNewHeadman');
-        Route::get('/get-semesters/{group}', 'MarkController@getSemesters');
-        Route::get('/get-disciplines/{group}/{semester}', 'MarkController@getDisciplines');
         Route::get('/get-tasks', 'MarkController@getTasks');
     });
 });

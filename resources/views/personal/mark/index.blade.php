@@ -202,6 +202,8 @@
     $(document).ready(function () {
         let choiceGroup = $("#group_name").val();
         window.choiceGroup = choiceGroup
+        let appUrl = '{{ getenv('APP_URL') }}';
+        window.appUrl = appUrl;
         let tabId;
 
         $('ul.tabs__caption').on('click', 'li:not(.active)', function() {
@@ -226,7 +228,7 @@
             $(this).attr('disabled', true);
             let filterControlForm = $('#statement_control_form').val();
             let filterSemester = $('#statement-semester').val();
-            getStatements(choiceGroup, '{{ getenv('APP_URL') }}api/statements',  filterControlForm, filterSemester);
+            getStatements(choiceGroup, window.appUrl + 'api/statements',  filterControlForm, filterSemester);
         })
 
         // отфильтровать таблицу с семестровками
@@ -243,8 +245,8 @@
 
         // показать контент вкладки "Ведомости"
         function showStatementsTab(el) {
-            getControlForms(el, '{{ getenv('APP_URL') }}api/control-forms');
-            getStatements(choiceGroup, '{{ getenv('APP_URL') }}api/statements');
+            getControlForms(el, appUrl + 'api/statements/control-forms');
+            getStatements(choiceGroup, appUrl + 'api/statements');
             $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
         }
 
@@ -265,7 +267,7 @@
             $('#tasks_preloader').show();
             $('#tasksBody').html('').show();
             $('#tasks_discipline').empty();
-            getSemesters(el, choiceGroup);
+            getSemesters(el, appUrl + 'api/lessons/get-semesters?group_id=' + choiceGroup);
             $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
         }
 
@@ -284,7 +286,7 @@
             choiceGroup = $(this).val();
             window.choiceGroup = choiceGroup;
             if (tabId === 'statements') {
-                getStatements(choiceGroup, '{{ getenv('APP_URL') }}api/statements');
+                getStatements(choiceGroup, appUrl + 'api/statements');
             } else if (tabId === 'semester-statements') {
                 getSemesterStatementsTable(choiceGroup);
             } else if (tabId === 'about-group') {

@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Filters\LessonFilter;
 use App\Http\Requests\Admin\Lesson\FilterRequest;
 use App\Http\Requests\Personal\Task\StoreRequest;
-use App\Models\Discipline;
-use App\Models\Group\Group;
 use App\Models\Lesson;
 use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
@@ -34,33 +32,6 @@ class TaskController extends Controller
         return view('personal.new-task.index', compact( 'disciplines'));
     }
 
-    public function getGroups(Discipline $discipline) {
-        Gate::authorize('isTeacher');
-        $teacher = auth()->user()->teacher;
-        $lessons = Lesson::where('teacher_id', $teacher->id)
-            ->where('discipline_id', $discipline->id)
-            ->get()->unique('group_id');
-        $groups = [];
-        foreach ($lessons as $lesson) {
-            $groups[] = $lesson->group;
-        }
-        echo json_encode($groups);
-    }
-
-    public function getSemesters(Discipline $discipline, Group $group) {
-        Gate::authorize('isTeacher');
-        $teacher = auth()->user()->teacher;
-        $lessons = Lesson::where('teacher_id', $teacher->id)
-            ->where('discipline_id', $discipline->id)
-            ->where('group_id', $group->id)
-            ->get()->unique('semester');
-        $semesters = [];
-        foreach ($lessons as $lesson) {
-            $semesters[] = $lesson->semester;
-        }
-        echo json_encode($semesters);
-    }
-
     public function getTasks(FilterRequest $request) {
         $data = $request->validated();
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
@@ -69,6 +40,7 @@ class TaskController extends Controller
         $data += ['lesson_id' => $lesson->id];
         return view('personal.new-task.task.show', compact('data', 'lesson'));
     }
+
     public function getEduMaterials(FilterRequest $request) {
         $data = $request->validated();
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);

@@ -80,6 +80,7 @@
         // переменные для фильтров
         let choiceDiscipline = $("#discipline_name").val();
         let choiceGroup, choiceSemester;
+        let appUrl = '{{ getenv('APP_URL') }}';
 
         let tabId; // выбранная вкладка (задания либо уч. материалы)
         let homeworkId; // выбранная работа студента
@@ -256,11 +257,11 @@
             $('#group_name').append(`<option value="0" disabled selected>Поиск...</option>`);
             $.ajax({
                 type: 'GET',
-                url: 'tasks/get-groups/' + choiceDiscipline,
+                url: appUrl + 'api/lessons/get-groups?discipline_id=' + choiceDiscipline,
                 success: function (response) {
                     $('#group_name').empty();
                     $('#group_name').append(`<option value="" disabled selected>-- Не выбрана</option>`);
-                    JSON.parse(response).forEach(element => {
+                    response.forEach(element => {
                         $('#group_name').append(`<option value="${element['id']}">${element['title']}</option>`);
                     });
                     $('#group_name').on('change', changeSelect);
@@ -274,10 +275,11 @@
             $('#semester_name').append(`<option value="0" disabled selected>Поиск...</option>`);
             $.ajax({
                 type: 'GET',
-                url: 'tasks/get/semesters/' + choiceDiscipline + '/' + choiceGroup,
+                url: appUrl + 'api/lessons/get-semesters',
+                data: { 'group_id': choiceGroup, 'discipline_id': choiceDiscipline },
                 success: function (response) {
                     $('#semester_name').empty();
-                    JSON.parse(response).forEach(element => {
+                    response.forEach(element => {
                         $('#semester_name').append(`<option value="${element}">${element}</option>`);
                     });
                     choiceSemester = $('#semester_name').find(":selected").val();

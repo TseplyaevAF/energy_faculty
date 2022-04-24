@@ -1,9 +1,9 @@
-function getSemesters(el, choiceGroup) {
+function getSemesters(el, url) {
     $.ajax({
         type: 'GET',
-        url: 'marks/get-semesters/' + choiceGroup,
+        url: url,
         success: function (response) {
-            let select = createTaskSelect(JSON.parse(response).sort(), 'tasks_semester');
+            let select = createTaskSelect(response.sort(), 'tasks_semester');
             $(el).closest('div.tabs').find('.selectSemester').replaceWith(select);
             $('#tasks_semester').on('change', changeSelect);
             $('#tasks_preloader').hide();
@@ -34,10 +34,11 @@ function changeSelect() {
     tasksDisciplineSelect.append(`<option value="0" disabled selected>Поиск...</option>`);
     $.ajax({
         type: 'GET',
-        url: 'marks/get-disciplines/' + window.choiceGroup + '/' + choiceSemester,
+        url: window.appUrl + 'api/lessons/get-disciplines',
+        data: { 'group_id': window.choiceGroup, 'semester': choiceSemester },
         success: function (response) {
             tasksDisciplineSelect.empty();
-            JSON.parse(response).forEach(element => {
+            response.forEach(element => {
                 tasksDisciplineSelect.append(`<option value="${element['id']}">${element['title']}</option>`);
             });
         },

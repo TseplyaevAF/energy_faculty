@@ -95,26 +95,6 @@ class MarkController extends Controller
         return response('Назначен новый староста', 200);
     }
 
-    public function getSemesters(Group $group) {
-        $semesters = [];
-        $lessons = $group->lessons->unique('semester');
-        foreach ($lessons as $lesson) {
-            $semesters[] = $lesson->semester;
-        }
-        echo json_encode($semesters);
-    }
-
-    public function getDisciplines(Group $group, $semester) {
-        $lessons = Lesson::where('group_id', $group->id)
-            ->where('semester', $semester)
-            ->get()->unique('discipline_id');
-        $disciplines = [];
-        foreach ($lessons as $lesson) {
-            $disciplines[] = $lesson->discipline;
-        }
-        echo json_encode($disciplines);
-    }
-
     public function getTasks(FilterRequest $request) {
         $data = $request->validated();
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
@@ -125,5 +105,4 @@ class MarkController extends Controller
 
         return view('personal.mark.task.show', compact( 'data', 'lesson'));
     }
-
 }

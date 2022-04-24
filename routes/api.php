@@ -25,6 +25,10 @@ Route::apiResources([
 ]);
 
 Route::group(['middleware' => ['auth:web', 'personal']], function () {
-    Route::apiResource('statements', 'Api\StatementController');
-    Route::get('/control-forms', 'Api\StatementController@getControlForms');
+    Route::apiResource('statements', 'Api\StatementController')
+        ->only('index');
+    Route::get('/statements/control-forms', 'Api\StatementController@getControlForms');
+    Route::get('/lessons/get-semesters', 'Api\LessonController@getSemesters');
+    Route::get('/lessons/get-disciplines', 'Api\LessonController@getDisciplines');
+    Route::get('/lessons/get-groups', 'Api\LessonController@getGroups');
 });
