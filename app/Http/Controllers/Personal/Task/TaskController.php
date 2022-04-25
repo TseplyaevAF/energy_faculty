@@ -45,19 +45,9 @@ class TaskController extends Controller
         $data = $request->validated();
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
         $lesson = Lesson::filter($filter)->first();
-        $eduMaterials = $lesson->tasks->where('type', Task::LEC);
-        $files = [];
-        foreach ($eduMaterials as $eduMaterial) {
-            $mimesType = explode('/', $eduMaterial->task)[3];
-            if (stripos($mimesType, 'mp4')) {
-                $files['video'][$eduMaterial->id] = $eduMaterial;
-            } else {
-                $files['docs'][$eduMaterial->id] = $eduMaterial;
-            }
-        }
+        $files = $this->service->getEduMaterialsFiles($lesson);
         return view('personal.new-task.edu-material.show', compact( 'lesson', 'files'));
     }
-
 
     public function loadHomework(Homework $homework) {
         return view('personal.new-task.load-homework', compact('homework'));

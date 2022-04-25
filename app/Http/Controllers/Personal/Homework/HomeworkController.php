@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Personal\Homework;
 
 use App\Http\Controllers\Controller;
 
-use App\Http\Requests\News\FilterRequest;
+use App\Http\Filters\LessonFilter;
+use App\Http\Requests\Admin\Lesson\FilterRequest;
 use App\Http\Requests\Personal\Homework\FeedbackRequest;
 use App\Http\Requests\Personal\Homework\StoreRequest;
+use App\Models\Lesson;
 use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
 use App\Service\Homework\Service;
@@ -22,20 +24,20 @@ class HomeworkController extends Controller
         $this->service = $service;
     }
 
-    public function index(FilterRequest $request)
+    public function index()
     {
         Gate::authorize('isStudent');
         $group = auth()->user()->student->group;
-        $statusVariants = Task::getStatusVariants();
-        $disciplines = $group->disciplines->unique('id');
-        $tasks = [];
-        foreach ($group->lessons as $lesson) {
-            foreach ($lesson->tasks as $task) {
-                $tasks[] = $task;
-            }
-        }
-        $homework = Homework::all()->where('student_id', auth()->user()->student->id);
-        return view('personal.homework.index', compact('tasks', 'homework', 'disciplines', 'statusVariants'));
+        return view('personal.new-homework.index', compact('group'));
+    }
+
+    public function getTasks(FilterRequest $request) {
+        $data = $request->validated();
+        $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
+        $lesson = Lesson::filter($filter)->first();
+        $data = $this->service->getTasks($lesson, auth()->user()->student);
+        $data += ['lesson_id' => $lesson->id];
+        return view('personal.new-homework.task.show', compact('data', 'lesson'));
     }
 
     public function create(Task $task)
@@ -51,7 +53,19 @@ class HomeworkController extends Controller
 
         $this->service->store(auth()->user()->student, $data);
 
-        return redirect()->route('personal.homework.index');
+        return response('Задание успешно добавлено!', 200);
+    }
+
+    public function loadHomework(Homework $homework) {
+        return view('personal.new-homework.load-homework', compact('homework'));
+    }
+
+    public function getEduMaterials(FilterRequest $request) {
+        $data = $request->validated();
+        $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
+        $lesson = Lesson::filter($filter)->first();
+        $files = \App\Service\Task\Service::getEduMaterialsFiles($lesson);
+        return view('personal.new-homework.edu-material.show', compact( 'lesson', 'files'));
     }
 
     public function download($homeworkId, $mediaId, $filename) {

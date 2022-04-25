@@ -4,9 +4,8 @@
         height: auto   !important;
     }
 </style>
-
 <div class="form-group" style="width: 100%">
-    <video controls>
+    <video id="videoPlayer" controls>
         @php
             $modelId = explode('/',$eduMaterial->task)[0];
             $mediaId = explode('/',$eduMaterial->task)[2];
@@ -16,4 +15,3 @@
         Your browser does not support the video tag.
     </video>
 </div>
-

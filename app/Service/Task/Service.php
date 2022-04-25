@@ -41,21 +41,7 @@ class Service
             $arrayTasks[$month][$task->id] = $task->task;
 
             foreach ($lesson->group->students as $student) {
-                $studentWork = null;
-                foreach ($task->homework as $homework) {
-                    if ($student->id == $homework->student_id) {
-                        $studentWork = $homework;
-                        break;
-                    }
-                }
-                $studentFIO = $student->user->surname
-                    . ' ' . $student->user->name
-                    . ' ' . $student->user->patronymic;
-                if (isset($studentWork)) {
-                    $arrayHomework[$studentFIO][$task->id] = $studentWork;
-                } else {
-                    $arrayHomework[$studentFIO][$task->id] = null;
-                }
+                $arrayHomework[$student->user->fullName()][$task->id] = self::getStudentWork($task, $student);
             }
         }
         return [
@@ -65,7 +51,22 @@ class Service
         ];
     }
 
-    private static function getRusMonthName($n)
+    public static function getEduMaterialsFiles($lesson) {
+
+        $eduMaterials = $lesson->tasks->where('type', Task::LEC);
+        $files = [];
+        foreach ($eduMaterials as $eduMaterial) {
+            $mimesType = explode('/', $eduMaterial->task)[3];
+            if (stripos($mimesType, 'mp4')) {
+                $files['video'][$eduMaterial->id] = $eduMaterial;
+            } else {
+                $files['docs'][$eduMaterial->id] = $eduMaterial;
+            }
+        }
+        return $files;
+    }
+
+    public static function getRusMonthName($n)
     {
         $rusMonthNames = [
             1 => 'Январь', 'Февраль', 'Март', 'Апрель',
@@ -73,6 +74,17 @@ class Service
             'Октябрь', 'Ноябрь', 'Декабрь'
         ];
         return $rusMonthNames[$n];
+    }
+
+    public static function getStudentWork($task, $student) {
+        $studentWork = null;
+        foreach ($task->homework as $homework) {
+            if ($student->id == $homework->student_id) {
+                $studentWork = $homework;
+                break;
+            }
+        }
+        return $studentWork;
     }
 
     public function update($data, $news)

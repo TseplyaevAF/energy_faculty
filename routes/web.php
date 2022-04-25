@@ -129,9 +129,11 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
 
     Route::resource('homework', 'Homework\HomeworkController', ['names' => 'personal.homework'])
         ->only('index', 'store', 'destroy');
-    Route::get('homework/task={task}', 'Homework\HomeworkController@create')->name('personal.homework.create');
-    Route::get('/homework/{modelId}/{mediaId}/{filename}', 'Homework\HomeworkController@download')->name('personal.homework.download');
-    Route::patch('/homework/{homework}/feedback', 'Homework\HomeworkController@feedback')->name('personal.homework.feedback');
+    Route::get('homework/get-tasks', 'Homework\HomeworkController@getTasks');
+    Route::get('homework/load-homework/{homework}', 'Homework\HomeworkController@loadHomework');
+    Route::get('homework/get-edu-materials', 'Homework\HomeworkController@getEduMaterials');
+    Route::get('/homework/{modelId}/{mediaId}/{filename}', 'Homework\HomeworkController@download');
+    Route::patch('/homework/{homework}/feedback', 'Homework\HomeworkController@feedback');
 
     Route::resource('news', 'News\NewsController', ['names' => 'personal.news']);
     Route::get('/news/{modelId}/{mediaId}/{filename}', 'NewsController@showImage')
