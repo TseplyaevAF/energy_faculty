@@ -142,6 +142,14 @@ class TaskController extends Controller
             ]) : abort(404);
     }
 
+    public function destroy(Task $task)
+    {
+        Gate::authorize('isTeacher');
+        $task->getMedia(Task::PATH)->first()->delete();
+        $task->delete();
+        return response('Файл успешно удален!', 200);
+    }
+
     public function complete(Task $task) {
         Gate::authorize('show-task', [$task]);
         $task->update([

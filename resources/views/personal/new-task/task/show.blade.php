@@ -107,8 +107,8 @@
                                 @if ($data['arrayHomework'][$student][$taskId]->grade != 'on check')
                                 <td class="workIsDone">
                                     <a type="button" class="homeworkLoad" style="color: white"
-                                       id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
-                                        Проверено
+                                       id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">Зачтено
+                                        ({{$data['arrayHomework'][$student][$taskId]->updated_at->format('d.m.Y')}})
                                     </a>
                                 </td>
                                 @else

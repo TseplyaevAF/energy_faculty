@@ -98,7 +98,8 @@ class HomeworkController extends Controller
     public function destroy(Homework $homework)
     {
         Gate::authorize('isStudent');
+        $homework->getMedia(Homework::PATH)->first()->delete();
         $homework->delete();
-        return redirect()->route('personal.homework.index');
+        return response('Файл успешно удален!', 200);
     }
 }

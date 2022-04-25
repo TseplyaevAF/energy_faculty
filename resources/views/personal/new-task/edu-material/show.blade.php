@@ -101,8 +101,8 @@
     @foreach($files['video'] as $file)
         <div class="row mb-1" style="margin: 0">
             <a type="button" class="eduMaterialFile mr-2" id="eduDownload_{{$file->id}}">{{ $file->task }}</a>
-            <div style="position: relative; top: 6px">
-                <div id="eduDelete_{{$file->id}}" class="deleteEdu"></div>
+            <div id="eduDelete_{{$file->id}}" class="eduDelete" style="position: relative; top: 6px">
+                <div class="deleteEdu"></div>
             </div>
         </div>
     @endforeach
@@ -115,8 +115,8 @@
     @foreach($files['docs'] as $file)
         <div class="row mb-1" style="margin: 0">
             <a type="button" class="eduMaterialFile mr-2" id="eduDownload_{{$file->id}}">{{ $file->task }}</a>
-            <div style="position: relative; top: 6px">
-                <div id="eduDelete_{{$file->id}}" class="deleteEdu"></div>
+            <div id="eduDelete_{{$file->id}}" class="eduDelete" style="position: relative; top: 6px">
+                <div class="deleteEdu"></div>
             </div>
         </div>
     @endforeach

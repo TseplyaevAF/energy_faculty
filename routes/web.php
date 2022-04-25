@@ -118,7 +118,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/{application}/reject', 'ApplicationController@reject')->name('personal.application.reject');
     });
 
-    Route::resource('tasks', 'Task\TaskController', ['names' => 'personal.task'])->only(['index', 'store']);
+    Route::resource('tasks', 'Task\TaskController', ['names' => 'personal.task'])
+        ->only(['index', 'store', 'destroy']);
     Route::get('tasks/{modelId}/{mediaId}/{filename}', 'Task\TaskController@download')->name('personal.task.download');
     Route::patch('tasks/{task}', 'Task\TaskController@complete')->name('personal.task.complete');
     Route::get('tasks/get-tasks', 'Task\TaskController@getTasks');

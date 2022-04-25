@@ -86,6 +86,7 @@
         let homeworkId; // выбранная работа студента
 
         let callAjaxForm;
+        let eduMaterialId;
 
         getGroups(choiceDiscipline);
 
@@ -118,7 +119,6 @@
                 url: "{{ route('personal.task.store') }}",
                 datatype: 'json',
                 success: function (response) {
-                    alert(response);
                     $('#createTaskModal').modal('hide');
                     getTasksTable(choiceDiscipline, choiceGroup, choiceSemester)
                 },
@@ -187,7 +187,6 @@
                         percent.html(percentVal);
                     },
                     success: function (response) {
-                        alert(response)
                         $('#createEduModal').modal('hide');
                         getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester)
                     },
@@ -205,22 +204,44 @@
             .on('click', '.eduMaterialFile', function () {
                 const filePath = $(this).text().split('/');
                 if (filePath[3].includes('mp4')) {
-                    let eduMaterialId = $(this).attr('id').split('_')[1];
-                    $.ajax({
-                        type: 'GET',
-                        url:  'tasks/load-edu/' + eduMaterialId,
-                        success: function(response) {
-                            $('#loadEduMaterialModal').modal("show");
-                            $('#loadEduMaterialModalBody').html(response).show();
-                        },
-                        error: function(jqXHR, status, error) {
-                            alert('Невозможно загрузить видео');
-                            console.log(jqXHR.responseText);
-                        },
-                        timeout: 8000
-                    });
+                    let videoId = $(this).attr('id').split('_')[1];
+                    // если видео уже было открыто ранее, то продолжать его просмотр
+                    if (videoId === eduMaterialId) {
+                        $('#loadEduMaterialModal').modal("show");
+                    } else {
+                        // иначе загрузить новое видео
+                        eduMaterialId = $(this).attr('id').split('_')[1];
+                        $.ajax({
+                            type: 'GET',
+                            url:  'tasks/load-edu/' + eduMaterialId,
+                            success: function(response) {
+                                $('#loadEduMaterialModal').modal("show");
+                                $('#loadEduMaterialModalBody').html(response).show();
+                            },
+                            error: function(jqXHR, status, error) {
+                                alert('Невозможно загрузить видео');
+                                console.log(jqXHR.responseText);
+                            },
+                            timeout: 8000
+                        });
+                    }
+
                 } else {
                     download(filePath, 'tasks')
+                }
+            })
+            .on('click', '.eduDelete', function () {
+                let id = $(this).attr('id').split('_')[1];
+                if (confirm('Вы уверены, что хотите удалить файл?')) {
+                    $.ajax({
+                        url: 'tasks/' + id,
+                        type: 'DELETE',
+                        dataType: 'JSON',
+                        data: { '_token': $("input[name='_token']").val() },
+                        complete: function() {
+                            getEduMaterials(choiceDiscipline, choiceGroup, choiceSemester);
+                        },
+                    });
                 }
             })
 

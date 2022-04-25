@@ -79,6 +79,7 @@
         let homeworkId; // выбранная работа студента
 
         let callAjaxForm;
+        let eduMaterialId;
 
         $('.tabs').hide();
         getSemesters(studentGroup)
@@ -90,7 +91,6 @@
                 type: 'GET',
                 url: appUrl + 'api/lessons/get-semesters?group_id=' + studentGroup,
                 success: function (response) {
-                    console.log(response)
                     $semesterName.empty();
                     response.forEach(element => {
                         $semesterName.append(`<option value="${element}">${element}</option>`);
@@ -147,7 +147,6 @@
                     url: "{{ route('personal.homework.store') }}",
                     datatype: 'json',
                     success: function (response) {
-                        alert(response);
                         $('#homeworkCreateModal').modal('hide');
                         getTasksTable(studentGroup, choiceDiscipline, choiceSemester)
                     },
@@ -158,7 +157,6 @@
         })
             .on('click', '.homeworkCreate', function () {
                 taskId = $(this).attr('id').split('_')[1];
-                console.log(taskId)
                 $('#homeworkCreateModal').modal("show");
         })
             .on('click', '.homeworkLoad', function () {
@@ -184,22 +182,43 @@
             .on('click', '.eduMaterialFile', function () {
                 const filePath = $(this).text().split('/');
                 if (filePath[3].includes('mp4')) {
-                    let eduMaterialId = $(this).attr('id').split('_')[1];
-                    $.ajax({
-                        type: 'GET',
-                        url:  'tasks/load-edu/' + eduMaterialId,
-                        success: function(response) {
-                            $('#loadEduMaterialModal').modal("show");
-                            $('#loadEduMaterialModalBody').html(response).show();
-                        },
-                        error: function(jqXHR, status, error) {
-                            alert('Невозможно загрузить видео');
-                            console.log(jqXHR.responseText);
-                        },
-                        timeout: 8000
-                    });
+                    let videoId = $(this).attr('id').split('_')[1];
+                    // если видео уже было открыто ранее, то продолжать его просмотр
+                    if (videoId === eduMaterialId) {
+                        $('#loadEduMaterialModal').modal("show");
+                    } else {
+                        // иначе загрузить новое видео
+                        eduMaterialId = $(this).attr('id').split('_')[1];
+                        $.ajax({
+                            type: 'GET',
+                            url:  'tasks/load-edu/' + eduMaterialId,
+                            success: function(response) {
+                                $('#loadEduMaterialModal').modal("show");
+                                $('#loadEduMaterialModalBody').html(response).show();
+                            },
+                            error: function(jqXHR, status, error) {
+                                alert('Невозможно загрузить видео');
+                                console.log(jqXHR.responseText);
+                            },
+                            timeout: 8000
+                        });
+                    }
                 } else {
                     download(filePath, 'tasks')
+                }
+            })
+            .on('click', '.homeworkDelete', function () {
+                let id = $(this).attr('id').split('_')[1];
+                if (confirm('Вы уверены, что хотите удалить файл?')) {
+                    $.ajax({
+                        url: 'homework/' + id,
+                        type: 'DELETE',
+                        dataType: 'JSON',
+                        data: { '_token': $("input[name='_token']").val() },
+                        complete: function() {
+                            getTasksTable(studentGroup, choiceDiscipline, choiceSemester);
+                        },
+                    });
                 }
             })
 

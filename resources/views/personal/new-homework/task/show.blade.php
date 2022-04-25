@@ -5,6 +5,21 @@
     .workOnVerification {
         background-color: rgba(52, 93, 170, 0.56);
     }
+    .deleteEdu {
+        display: block;
+        width: 13px;
+        height: 13px;
+        --weight: 1px;
+        --aa: 1px; /* anti-aliasing */
+        --color: rgba(95, 90, 90, 0.97);
+        border-radius: 1px;
+        background:
+            linear-gradient(45deg, transparent calc(50% - var(--weight) - var(--aa)), var(--color) calc(50% - var(--weight)), var(--color) calc(50% + var(--weight)), transparent calc(50% + var(--weight) + var(--aa))),
+            linear-gradient(-45deg, transparent calc(50% - var(--weight) - var(--aa)), var(--color) calc(50% - var(--weight)), var(--color) calc(50% + var(--weight)), transparent calc(50% + var(--weight) + var(--aa)));
+    }
+    .deleteEdu:hover {
+        cursor: pointer;
+    }
 </style>
 
 <input value="{{ $data['lesson_id'] }}" type="hidden" name="lesson_id">
@@ -95,16 +110,21 @@
                                 @if ($data['arrayHomework'][$student][$taskId]->grade != 'on check')
                                 <td class="workIsDone">
                                     <a type="button" class="homeworkLoad" style="color: white"
-                                       id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
-                                        {{ $data['arrayHomework'][$student][$taskId]->homework }}
+                                       id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">Зачтено
+                                        ({{$data['arrayHomework'][$student][$taskId]->updated_at->format('d.m.Y')}})
                                     </a>
                                 </td>
                                 @else
                                     <td class="workOnVerification">
-                                        <a type="button" class="homeworkLoad" style="color: white"
-                                           id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
-                                            {{ $data['arrayHomework'][$student][$taskId]->homework }}
-                                        </a>
+                                        <div class="row">
+                                            <a type="button" class="homeworkLoad mr-1" style="color: white"
+                                               id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">Загружено
+                                                ({{$data['arrayHomework'][$student][$taskId]->updated_at->format('d.m.Y')}})
+                                            </a>
+                                            <div id="homeworkDelete_{{$data['arrayHomework'][$student][$taskId]->id}}" class="homeworkDelete" style="position: relative; top: 6px">
+                                                <div class="deleteEdu"></div>
+                                            </div>
+                                        </div>
                                     </td>
                                 @endif
                             @else
