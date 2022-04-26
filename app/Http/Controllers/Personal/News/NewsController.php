@@ -22,7 +22,7 @@ class NewsController extends Controller
     {
         Gate::authorize('isStudent');
         $group = auth()->user()->student->group;
-        $group_news = $group->news->sortByDesc('updated_at');
+        $group_news = $group->news->sortByDesc('created_at');
         return view('personal.news.index', compact('group_news'));
     }
 
@@ -61,6 +61,7 @@ class NewsController extends Controller
         $data = $request->validated();
 
         $news = $this->service->update($data, $news);
+
         return redirect()
             ->route('personal.news.edit', compact('news'))
             ->withSuccess('Запись успешно отредактирована');
@@ -72,6 +73,7 @@ class NewsController extends Controller
         Gate::authorize('edit-group-news', [$news]);
 
         $news->delete();
-        return redirect()->route('admin.group.news.index');
+
+        return redirect()->route('personal.news.index');
     }
 }

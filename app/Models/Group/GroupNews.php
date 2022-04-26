@@ -2,6 +2,7 @@
 
 namespace App\Models\Group;
 
+use App\Models\Student\Student;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,5 +22,9 @@ class GroupNews extends Model
 
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function unread_posts() {
+        return $this->belongsToMany(Student::class, 'unread_posts', 'group_news_id', 'student_id');
     }
 }

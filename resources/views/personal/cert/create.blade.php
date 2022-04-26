@@ -32,36 +32,27 @@
                     <div class="col-3 alert alert-warning" role="alert">{!! session('error') !!}</div>
                 @endif
 
-                <div class="row w-50">
-                    <div class="col-12">
-                        <form action="{{ route('personal.cert.store') }}" method="POST" class="row g-3 needs-validation"
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="{{ route('personal.cert.store') }}" method="POST"
                               novalidate>
                             @csrf
-                            <div class="col-md-4">
-                                <label for="validationCustom01" class="form-label">Фамилия</label>
-                                <input value="{{ auth()->user()->surname }}" type="text" class="form-control"
-                                       id="validationCustom01" placeholder="Фамилия" required>
-                                <div class="valid-feedback">
-                                    Все хорошо!
-                                </div>
+                            <div class="form-group col-md-3 mb-2">
+                                    <label for="validationCustom01" class="form-label">Фамилия</label>
+                                    <input value="{{ auth()->user()->surname }}" type="text" class="form-control"
+                                           id="validationCustom01" placeholder="Фамилия" required>
                             </div>
-                            <div class="col-md-4">
-                                <label for="validationCustom02" class="form-label">Имя</label>
-                                <input value="{{ auth()->user()->name }}" type="text" class="form-control"
-                                       id="validationCustom02" placeholder="Имя" required>
-                                <div class="valid-feedback">
-                                    Все хорошо!
-                                </div>
+                            <div class="form-group col-md-3 mb-2">
+                                    <label for="validationCustom02" class="form-label">Имя</label>
+                                    <input value="{{ auth()->user()->name }}" type="text" class="form-control"
+                                           id="validationCustom02" placeholder="Имя" required>
                             </div>
-                            <div class="col-md-4">
-                                <label for="validationCustom02" class="form-label">Отчество</label>
-                                <input value="{{ auth()->user()->patronymic }}" type="text" class="form-control"
-                                       placeholder="Отчество" required>
-                                <div class="valid-feedback">
-                                    Все хорошо!
-                                </div>
+                            <div class="form-group col-md-3 mb-2">
+                                    <label for="validationCustom02" class="form-label">Отчество</label>
+                                    <input value="{{ auth()->user()->patronymic }}" type="text" class="form-control"
+                                           placeholder="Отчество" required>
                             </div>
-                            <div class="col-md-6 mt-3">
+                            <div class="form-group col-md-3 mb-2">
                                 <label for="validationCustom03" class="form-label">ИНН</label>
                                 <input type="text" class="form-control mask-inn-individual" id="validationCustom03"
                                        required name="data[inn]">
@@ -69,7 +60,7 @@
                                     Укажите Ваш ИНН
                                 </div>
                             </div>
-                            <div class="col-md-3 mt-3 form-group">
+                            <div class="form-group col-md-3 mb-2">
                                 <label for="validationCustom05" class="form-label">Паспортные данные</label>
                                 <input type="text" class="form-control pasport" id="validationCustom05"
                                        required name="data[pasport]">
@@ -77,35 +68,21 @@
                                     Укажите серию и номер паспорта
                                 </div>
                             </div>
-                            <div class="col-md-3 mt-3 form-group">
+                            <div class="form-group col-md-3 mb-2">
                                 <label for="validationCustom05" class="form-label">СНИЛС</label>
                                 <input type="text" class="form-control mask-snils" id="validationCustom05"
                                        required name="data[snils]">
                                 <div class="invalid-feedback">
-                                    Укажите серию и номер паспорта
+                                    Укажите Ваш СНИЛС
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="form-group col-md-3 mb-2">
                                 <label for="validationCustom01" class="form-label">E-mail</label>
                                 <input value="{{ auth()->user()->email }}" type="text" class="form-control"
                                        id="validationCustom01" placeholder="E-mail" required>
-                                <div class="valid-feedback">
-                                    Все хорошо!
-                                </div>
                             </div>
                             <input type="hidden" name="teacher_id" value="{{ auth()->user()->teacher->id }}">
-                            <div class="col-12 mt-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                                    <label class="form-check-label" for="invalidCheck">
-                                        Примите условия и соглашения
-                                    </label>
-                                    <div class="invalid-feedback md-2">
-                                        Вы должны принять перед отправкой.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
+                            <div class="sendApp col-md-12">
                                 <button class="btn btn-primary" type="submit">Отправить форму</button>
                             </div>
                         </form>
@@ -122,6 +99,13 @@
 
     <!-- /.content-wrapper -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/personal/cert/complete.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/personal/cert/create_app.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.sendApp').click(function () {
+                if(!confirm('Пожалуйста, проверьте, что все данные введены корректно' + '\n' + 'Отправить заявку?')){
+                    return false;
+                }
+            });
+        })
+    </script>
 @endsection

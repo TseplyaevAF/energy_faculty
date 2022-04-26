@@ -42,7 +42,7 @@
               @csrf
 
               <div class="form-group w-50">
-                <textarea id="summernote" name="content">{{ old('content') }}</textarea>
+                <textarea cols="100" rows="10" name="content">{{ old('content') }}</textarea>
                 @error('content')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror

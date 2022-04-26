@@ -30,8 +30,8 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6" style="background: #ffffff; padding: 0px 15px 15px 15px">
-                        <div class="container posts-content">
+                    <div class="col-md-6" style="">
+                        <div class="createPost">
                             @can('isHeadman')
                                 <div class="row" style="margin: 0">
                                     <div class="form-group" style="margin-bottom: 0">
@@ -39,12 +39,14 @@
                                     </div>
                                 </div>
                             @endcan
+                        </div>
+                        <div class="container posts-content" style="background: #ffffff; padding: 0px 15px 15px 15px">
                             @foreach($group_news as $post)
                                     <hr>
                                 <div class="postBody mb-4">
                                     <div class="media">
                                         <div class="userAvatar">
-                                            @if (isset($post->user->avatar))
+                                            @if (isset(auth()->user()->avatar))
                                                 @php
                                                     $modelId = explode('/', auth()->user()->avatar)[0];
                                                     $mediaId = explode('/', auth()->user()->avatar)[2];
@@ -59,23 +61,30 @@
                                         </div>
                                         <div class="media-body ml-2">
                                             <div class="postDate">
-                                                <div>
+                                                <div class="mr-2">
                                                     {{ $post->user->surnameName() }}
                                                 </div>
+                                                <div class="text-muted">{{ date('H:i', strtotime($post->created_at)) }}</div>
                                                 <div>
                                                     @can('isHeadman')
-                                                        <a class="btn btn-info btn-sm ml-2" href="{{ route('personal.news.edit', $post->id) }}">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                            Редактировать
+                                                        @can('edit-group-news', [$post])
+                                                        <a class="ml-2" href="{{ route('personal.news.edit', $post->id) }}">
+                                                            <i class="fas fa-pencil-alt" style="color: rgba(7,130,7,0.95)"></i>
                                                         </a>
+                                                        <form action="{{ route('personal.news.destroy', $post->id) }}" method="post"
+                                                            class="deletePost ml-1"  style="display: inline-block">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <a type="submit"><i style="color:rgba(156,11,11,0.93)" class="fas fa-2xs fa-times"></i></a>
+                                                        </form>
+                                                        @endcan
                                                     @endcan
                                                 </div>
                                             </div>
-                                            <div class="text-muted small">Опубликовано: {{ date('d.m.Y', strtotime($post->created_at)) }} в {{ date('H:i', strtotime($post->created_at)) }}</div>
                                         </div>
                                     </div>
                                     <div class="postContent">
-                                        <p>{!! $post->content !!}</p>
+                                        <div>{!! $post->content !!}</div>
                                         @if (isset($post->images))
                                             <div class="row">
                                                 @foreach(json_decode($post->images) as $image)
@@ -103,6 +112,15 @@
 
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('plugins/jquery/jquery.fancybox.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.deletePost').click(function () {
+                if(confirm('Вы действительно хотите удалить пост?')){
+                    return false;
+                }
+            });
+        })
+    </script>
 
     <!-- /.content-wrapper -->
 @endsection

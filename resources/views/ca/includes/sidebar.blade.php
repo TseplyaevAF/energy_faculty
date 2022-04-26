@@ -11,7 +11,7 @@
           <li class="nav-item">
             <a href="{{ route('ca.cert_app.index') }}" class="nav-link">
               <i class="nav-icon fas fa-calendar-alt"></i>
-              <p>Заявки на получение ЭЦП</p>
+              <p>Заявки на ЭЦП</p>
             </a>
           </li>
         </ul>

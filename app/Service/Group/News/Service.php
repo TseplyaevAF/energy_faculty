@@ -3,6 +3,7 @@
 
 namespace App\Service\Group\News;
 
+use App\Models\Group\Group;
 use App\Models\Group\GroupNews;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +16,7 @@ class Service
             DB::beginTransaction();
             $student = auth()->user()->student;
             $data['group_id'] = $student->group_id;
+            $data['user_id'] = $student->user->id;
             if (isset($data['images'])) {
                 $tempImages = [];
                 foreach ($data['images'] as $image) {
@@ -23,12 +25,9 @@ class Service
                 }
                 $data['images'] = json_encode($tempImages);
             }
-            GroupNews::firstOrCreate([
-                'content' => $data['content'],
-                'images' => $data['images'],
-                'group_id' => $data['group_id'],
-                'user_id' => $student->user->id,
-            ]);
+            $post = GroupNews::firstOrCreate($data);
+            $group = Group::find($data['group_id']);
+            $post->unread_posts()->attach($group->students);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -61,10 +60,7 @@ class Service
                     Storage::disk('public')->delete($image);
                 }
             }
-            $news->update([
-                'content' => $data['content'],
-                'images' => $data['images'],
-            ]);
+            $news->update($data);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
