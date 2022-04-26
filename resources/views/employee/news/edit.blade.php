@@ -13,7 +13,10 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Редактирование новости</h1>
+              <h1 class="m-0">
+                  <a href="{{ route('employee.news.index') }}"><i class="fas fa-chevron-left"></i></a>
+                  Редактирование новости
+              </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

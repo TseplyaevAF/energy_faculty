@@ -72,10 +72,12 @@
                                                             <i class="fas fa-pencil-alt" style="color: rgba(7,130,7,0.95)"></i>
                                                         </a>
                                                         <form action="{{ route('personal.news.destroy', $post->id) }}" method="post"
-                                                            class="deletePost ml-1"  style="display: inline-block">
+                                                            class="ml-1"  style="display: inline-block">
                                                             @csrf
                                                             @method('delete')
-                                                            <a type="submit"><i style="color:rgba(156,11,11,0.93)" class="fas fa-2xs fa-times"></i></a>
+                                                            <button type="submit" class="deletePost border-0 bg-transparent">
+                                                                <i style="color:rgba(156,11,11,0.93)" class="fas fa-2xs fa-times"></i>
+                                                            </button>
                                                         </form>
                                                         @endcan
                                                     @endcan
@@ -115,7 +117,7 @@
     <script>
         $(document).ready(function () {
             $('.deletePost').click(function () {
-                if(confirm('Вы действительно хотите удалить пост?')){
+                if(!confirm('Вы действительно хотите удалить пост?')){
                     return false;
                 }
             });

@@ -87,6 +87,8 @@
 
   <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
 
+  <script src="{{asset('plugins/summernote/lang/summernote-ru-RU.js')}}"></script>
+
 
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script>
@@ -102,33 +104,22 @@
   <script>
     $(document).ready(function() {
       $('#summernote').summernote({
+        lang: 'ru-RU',
         toolbar: [
-          // [groupName, [list of button]]
           ['style', ['bold', 'italic', 'underline', 'clear']],
-          ['font', ['strikethrough']],
           ['fontsize', ['fontsize']],
-          ['color', ['color']],
           ['para', ['ul', 'ol', 'paragraph']],
           ['height', ['height']],
-          ['link']
-        ]
-      });
+          ['insert', [ 'link']],
+        ], disableDragAndDrop: true,
+      })
     });
 
-    $(document).ready(function() {
-      $('.summernote').summernote({
-        toolbar: [
-          // [groupName, [list of button]]
-          ['style', ['bold', 'italic', 'underline', 'clear']],
-          ['font', ['strikethrough']],
-          ['fontsize', ['fontsize']],
-          ['color', ['color']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['height', ['height']],
-          ['link']
-        ]
-      });
-    })
+    $summernote = $("#summernote");
+    $summernote.on("summernote.enter", function(we, e) {
+        $(this).summernote("pasteHTML", "<br><br>");
+        e.preventDefault();
+    });
 
     $(function() {
       bsCustomFileInput.init();

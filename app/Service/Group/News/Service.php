@@ -52,7 +52,7 @@ class Service
                 foreach (json_decode($news->images) as $image) {
                     Storage::disk('public')->delete($image);
                 }
-            } else {
+            } else if (isset($news->images)) {
                 // удаляем urls картинок из бд
                 $data['images'] = null;
                 // удаляем файлы картинок с сервера
@@ -67,5 +67,23 @@ class Service
             abort(500);
         }
         return $news;
+    }
+
+    public function delete($news) {
+        try {
+            DB::beginTransaction();
+
+            if (isset($news->images)) {
+                foreach (json_decode($news->images) as $image) {
+                    Storage::disk('public')->delete($image);
+                }
+            }
+            $news->delete();
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            abort(500);
+        }
     }
 }

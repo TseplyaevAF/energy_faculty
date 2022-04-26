@@ -67,12 +67,12 @@ class NewsController extends Controller
             ->withSuccess('Запись успешно отредактирована');
     }
 
-    public function delete(GroupNews $news)
+    public function destroy(GroupNews $news)
     {
         Gate::authorize('isHeadman');
         Gate::authorize('edit-group-news', [$news]);
 
-        $news->delete();
+        $this->service->delete($news);
 
         return redirect()->route('personal.news.index');
     }
