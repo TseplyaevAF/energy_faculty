@@ -23,7 +23,12 @@ class Service
                 }
                 $data['images'] = json_encode($tempImages);
             }
-            GroupNews::firstOrCreate($data);
+            GroupNews::firstOrCreate([
+                'content' => $data['content'],
+                'images' => $data['images'],
+                'group_id' => $data['group_id'],
+                'user_id' => $student->user->id,
+            ]);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -56,7 +61,10 @@ class Service
                     Storage::disk('public')->delete($image);
                 }
             }
-            $news->update($data);
+            $news->update([
+                'content' => $data['content'],
+                'images' => $data['images'],
+            ]);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

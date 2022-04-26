@@ -134,5 +134,6 @@
 <script>
     $("#loadEduMaterialModal").on("hidden.bs.modal", function () {
         $('#videoPlayer')[0].pause();
+        $('#videoPlayer').get(0).currentTime = 0;
     });
 </script>

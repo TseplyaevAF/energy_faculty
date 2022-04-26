@@ -3,7 +3,7 @@
   @section('title-block')Добавление новости группы@endsection
 
   @section('content')
-  <link rel="stylesheet" href="{{ asset('css/groups/news/style.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/news/style.css') }}">
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -12,7 +12,10 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Добавление новости группы</h1>
+              <h1 class="m-0">
+                  <a href="{{ route('personal.news.index') }}"><i class="fas fa-chevron-left"></i></a>
+                  Новая запись
+              </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -37,13 +40,6 @@
           <div class="col-12">
             <form action="{{ route('personal.news.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
-
-              <div class="form-group w-25">
-                <input value="{{ old('title') }}" type="text" class="form-control" name="title" placeholder="Название новости">
-                @error('title')
-                <p class="text-danger">{{ $message }}</p>
-                @enderror
-              </div>
 
               <div class="form-group w-50">
                 <textarea id="summernote" name="content">{{ old('content') }}</textarea>
@@ -92,7 +88,7 @@
   </div>
 
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('js/groups/news/loadingImages.js') }}"></script>
+  <script src="{{ asset('js/news/loadingImages.js') }}"></script>
 
   <!-- /.content-wrapper -->
   @endsection

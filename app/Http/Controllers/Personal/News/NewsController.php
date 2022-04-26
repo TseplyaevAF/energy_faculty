@@ -21,9 +21,9 @@ class NewsController extends Controller
     public function index()
     {
         Gate::authorize('isStudent');
-        $group_news = GroupNews::all()->sortByDesc('updated_at')->values()->where('group_id', auth()->user()->student->group_id);
-        $headman = $group_news[0]->group->getHeadman();
-        return view('personal.news.index', compact('group_news', 'headman'));
+        $group = auth()->user()->student->group;
+        $group_news = $group->news->sortByDesc('updated_at');
+        return view('personal.news.index', compact('group_news'));
     }
 
     public function create()
@@ -61,8 +61,9 @@ class NewsController extends Controller
         $data = $request->validated();
 
         $news = $this->service->update($data, $news);
-
-        return redirect()->route('personal.news.edit', compact('news'));
+        return redirect()
+            ->route('personal.news.edit', compact('news'))
+            ->withSuccess('Запись успешно отредактирована');
     }
 
     public function delete(GroupNews $news)

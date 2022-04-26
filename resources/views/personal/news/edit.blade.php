@@ -3,7 +3,7 @@
   @section('title-block')Редактирование новости группы@endsection
 
   @section('content')
-  <link rel="stylesheet" href="{{ asset('css/groups/news/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/news/style.css') }}">
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -12,7 +12,10 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Редактирование новости группы {{ $news->group->title }}</h1>
+            <h1 class="m-0">
+                <a href="{{ route('personal.news.index') }}"><i class="fas fa-chevron-left"></i></a>
+                Редактирование новости группы {{ $news->group->title }}
+            </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -31,20 +34,17 @@
 
         @if (session('error'))
         <div class="col-3 alert alert-warning" role="alert">{!! session('error') !!}</div>
-        <!-- <p>{!! $errors !!}</p> -->
+        @endif
+
+        @if (session('success'))
+            <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
         @endif
 
         <div class="row">
-          <div class="col-12">
+          <div class="col-md-12">
             <form action="{{ route('personal.news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
               @csrf
               @method('PATCH')
-              <div class="form-group w-25">
-                <input value="{{ $news->title }}" type="text" class="form-control" name="title" placeholder="Название новости">
-                @error('title')
-                <p class="text-danger">{{ $message }}</p>
-                @enderror
-              </div>
 
               <div class="form-group w-50">
                 <textarea id="summernote" name="content">{{ $news->content }}</textarea>

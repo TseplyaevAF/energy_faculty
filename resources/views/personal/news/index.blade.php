@@ -4,6 +4,8 @@
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/personal/news/group_news.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/news/jquery.fancybox.min.css') }}">
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -27,51 +29,69 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                @can('isHeadman')
                 <div class="row">
-                    <div class="col-1 mb-3">
-                        <a href="{{ route('personal.news.create') }}" class="btn btn-block btn-primary">Добавить запись</a>
-                    </div>
-                </div>
-                @endcan
-                <div class="row">
-                    <div class="col-6">
-                        <div class="card">
-                            <div class="container posts-content">
-                                @foreach($group_news as $post)
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-                                            <div class="media mb-3">
-                                                <img src="{{ asset('storage/images/personal/no_photo.jpg') }}"
-                                                     class="d-block ui-w-40 rounded-circle" alt="">
-                                                <div class="media-body ml-3">
-                                                    {{ $headman->user->surname }}
-                                                    <div class="row">
-                                                        <div class="text-muted small mt-1">Опубликовано: {{ date('d.m.Y', strtotime($post->created_at)) }} в {{ date('H:i', strtotime($post->created_at)) }}</div>
-                                                        @can('isHeadman')
-                                                            <a class="btn btn-info btn-sm ml-2 " href="{{ route('personal.news.edit', $post->id) }}">
-                                                                <i class="fas fa-pencil-alt"></i>
-                                                                Редактировать
-                                                            </a>
-                                                        @endcan
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <p>{!! $post->content !!}</p>
-                                            @if (isset($post->images))
+                    <div class="col-md-6" style="background: #ffffff; padding: 0px 15px 15px 15px">
+                        <div class="container posts-content">
+                            @can('isHeadman')
+                                <div class="row" style="margin: 0">
+                                    <div class="form-group" style="margin-bottom: 0">
+                                        <a href="{{ route('personal.news.create') }}" class="btn btn-block btn-primary">Добавить запись</a>
+                                    </div>
+                                </div>
+                            @endcan
+                            @foreach($group_news as $post)
+                                    <hr>
+                                <div class="postBody mb-4">
+                                    <div class="media">
+                                        <div class="userAvatar">
+                                            @if (isset($post->user->avatar))
                                                 @php
-                                                $images = json_decode($post->images);
+                                                    $modelId = explode('/', auth()->user()->avatar)[0];
+                                                    $mediaId = explode('/', auth()->user()->avatar)[2];
+                                                    $filename = explode('/', auth()->user()->avatar)[3];
                                                 @endphp
-                                                <a href="javascript:void(0)" class="ui-rect ui-bg-cover" style="background-image: url('{{ asset('storage/' . $images[0]) }}');"></a>
+                                                <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}"
+                                                     class="d-block ui-w-40 rounded-circle" alt="">
+                                            @else
+                                                <img src="{{ asset('assets/default/personal_default_photo.jpg') }}"
+                                                     class="d-block ui-w-40 rounded-circle" alt="">
                                             @endif
                                         </div>
-                                        <div class="card-footer">
-
+                                        <div class="media-body ml-2">
+                                            <div class="postDate">
+                                                <div>
+                                                    {{ $post->user->surnameName() }}
+                                                </div>
+                                                <div>
+                                                    @can('isHeadman')
+                                                        <a class="btn btn-info btn-sm ml-2" href="{{ route('personal.news.edit', $post->id) }}">
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                            Редактировать
+                                                        </a>
+                                                    @endcan
+                                                </div>
+                                            </div>
+                                            <div class="text-muted small">Опубликовано: {{ date('d.m.Y', strtotime($post->created_at)) }} в {{ date('H:i', strtotime($post->created_at)) }}</div>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
+                                    <div class="postContent">
+                                        <p>{!! $post->content !!}</p>
+                                        @if (isset($post->images))
+                                            <div class="row">
+                                                @foreach(json_decode($post->images) as $image)
+                                                    <div class="col-lg-2 col-md-2 col-4 thumb">
+                                                        <a data-fancybox="gallery" href="{{ asset('storage/' . $image) }}">
+                                                            <img class="img-fluid" src="{{ asset('storage/' . $image) }}">
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -80,5 +100,9 @@
         </section>
         <!-- /.content -->
     </div>
+
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery/jquery.fancybox.min.js') }}"></script>
+
     <!-- /.content-wrapper -->
 @endsection

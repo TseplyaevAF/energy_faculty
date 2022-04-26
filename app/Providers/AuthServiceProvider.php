@@ -93,7 +93,7 @@ class AuthServiceProvider extends ServiceProvider
 
         /// GROUP NEWS
         Gate::define('edit-group-news', function (User $user, $post) {
-            return $user->student->group_id == $post->group_id? Response::allow() : Response::deny();
+            return $user->id == $post->user_id ? Response::allow() : Response::deny();
         });
 
 

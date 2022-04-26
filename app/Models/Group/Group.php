@@ -43,4 +43,8 @@ class Group extends Model
     public function teacher() {
         return $this->belongsTo(Teacher::class);
     }
+
+    public function news() {
+        return $this->hasMany(GroupNews::class);
+    }
 }

@@ -66,6 +66,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         return $this->surname . ' ' . $this->name . ' ' . $this->patronymic;
     }
 
+    public function surnameName() {
+        return $this->surname . ' ' . $this->name;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
