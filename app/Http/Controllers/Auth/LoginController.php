@@ -59,26 +59,28 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        $role_id = auth()->user()->role_id;
+        return redirect()->to(self::getUrlToRedirect(auth()->user()->role_id));
+    }
+
+    public static function getUrlToRedirect($role_id) {
         if (($role_id == User::ROLE_STUDENT) ||
             ($role_id == User::ROLE_TEACHER)
         ) {
-            return redirect()->route('personal.main.index');
+            return route('personal.main.index');
         }
 
         if ($role_id == User::ROLE_EMPLOYEE) {
-            return redirect()->route('employee.main.index');
+            return route('employee.main.index');
         }
 
         if ($role_id == User::ROLE_CA) {
-            return redirect()->route('ca.main.index');
+            return route('ca.main.index');
         }
 
         if ($role_id == User::ROLE_DEKANAT) {
-            return redirect()->route('dekanat.main.index');
+            return route('dekanat.main.index');
         }
-
-        return redirect()->route('home');
+        return 'home';
     }
 
     public function login(Request $request)

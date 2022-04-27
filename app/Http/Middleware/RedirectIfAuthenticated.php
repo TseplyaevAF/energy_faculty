@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Closure;
@@ -20,17 +21,12 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        // $guards = empty($guards) ? [null] : $guards;
-
-        // foreach ($guards as $guard) {
-        //     if (Auth::guard($guard)->check()) {
-        //         return redirect(RouteServiceProvider::HOME);
-        //     }
-        // }
-
-        // return $next($request);
-
-        //когда авторизирован, будет перевод на главную
-        return Auth::guest() == false ? redirect('/') : $next($request);
+         $guards = empty($guards) ? [null] : $guards;
+         foreach ($guards as $guard) {
+             if (Auth::guard($guard)->check()) {
+                 return redirect()->to(LoginController::getUrlToRedirect(\auth()->user()->role_id));
+             }
+         }
+         return $next($request);
     }
 }
