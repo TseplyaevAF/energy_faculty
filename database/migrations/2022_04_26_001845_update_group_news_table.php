@@ -16,7 +16,7 @@ class UpdateGroupNewsTable extends Migration
         Schema::table('group_news', function (Blueprint $table) {
             $table->dropColumn('title');
             $table->unsignedBigInteger('user_id');
-
+            $table->dropSoftDeletes();
             // IDX
             $table->index('user_id', 'group_news_user_idx');
 
@@ -35,6 +35,7 @@ class UpdateGroupNewsTable extends Migration
         Schema::table('group_news', function (Blueprint $table) {
             $table->dropColumn('user_id');
             $table->string('title');
+            $table->softDeletes();
         });
     }
 }

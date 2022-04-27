@@ -40,6 +40,7 @@
                                 </div>
                             @endcan
                         </div>
+                        @if (count($group_news) !== 0)
                         <div class="container posts-content" style="background: #ffffff; padding: 0px 15px 15px 15px">
                             @foreach($group_news as $post)
                                     <hr>
@@ -72,7 +73,7 @@
                                                             <i class="fas fa-pencil-alt" style="color: rgba(7,130,7,0.95)"></i>
                                                         </a>
                                                         <form action="{{ route('personal.news.destroy', $post->id) }}" method="post"
-                                                            class="ml-1"  style="display: inline-block">
+                                                            style="display: inline-block">
                                                             @csrf
                                                             @method('delete')
                                                             <button type="submit" class="deletePost border-0 bg-transparent">
@@ -104,6 +105,7 @@
                                 </div>
                             @endforeach
                         </div>
+                        @endif
                     </div>
                 </div>
 

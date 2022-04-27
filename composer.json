@@ -8,6 +8,7 @@
         "php": "^7.3|^7.4|^8.1.2",
         "ext-json": "*",
         "ext-openssl": "*",
+        "beyondcode/laravel-websockets": "^1.13",
         "doctrine/dbal": "^3.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",

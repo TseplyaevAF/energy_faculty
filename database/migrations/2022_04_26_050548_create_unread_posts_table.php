@@ -14,16 +14,16 @@ class CreateUnreadPostsTable extends Migration
     public function up()
     {
         Schema::create('unread_posts', function (Blueprint $table) {
-            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('group_news_id');
 
             // IDX
-            $table->index('student_id', 'unread_post_student_idx');
+            $table->index('user_id', 'unread_post_user_idx');
             $table->index('group_news_id', 'unread_post_group_news_idx');
 
             // FK
-            $table->foreign('student_id', 'unread_post_student_fk')
-                ->on('students')->references('id')->onDelete('cascade');
+            $table->foreign('user_id', 'unread_post_user_fk')
+                ->on('users')->references('id')->onDelete('cascade');
             $table->foreign('group_news_id', 'unread_post_group_news_fk')
                 ->on('group_news')->references('id')->onDelete('cascade');
         });

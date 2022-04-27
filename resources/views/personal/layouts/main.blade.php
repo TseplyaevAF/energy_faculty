@@ -70,7 +70,7 @@
     <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
-
+  <script src="{{ asset('js/app.js') }}"></script>
   <!-- jQuery -->
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 
@@ -100,20 +100,30 @@
   <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
   <script src="{{ asset('dist/js/adminlte.js') }}"></script>
   <script src="{{ asset('js/admin.js') }}"></script>
-
+  <script src="{{ asset('js/personal/group_news/notifications.js') }}"></script>
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
   <script>
     $(document).ready(function() {
+        loadUnreadPostsCount("{{ route('personal.news.getUnreadPostsCount') }}");
+
+
+        Echo.channel('group-post-channel')
+            .listen('.group-post-event',(e) => {
+                console.log(e);
+                loadUnreadPostsCount("{{ route('personal.news.getUnreadPostsCount') }}");
+            })
+
       $('#summernote').summernote({
         lang: 'ru-RU',
         toolbar: [
           ['style', ['bold', 'italic', 'underline', 'clear']],
-          ['fontsize', ['fontsize']],
           ['para', ['ul', 'ol', 'paragraph']],
           ['height', ['height']],
           ['insert', [ 'link']],
         ], disableDragAndDrop: true,
       })
     });
+
 
     $summernote = $("#summernote");
     $summernote.on("summernote.enter", function(we, e) {

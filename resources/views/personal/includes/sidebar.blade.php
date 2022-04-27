@@ -1,3 +1,20 @@
+<style>
+    .postsCount {
+        right: 2px;
+        border-radius: 100%;
+        /*padding: 2px;*/
+        height: 25px;
+        width: 25px;
+        background-color: rgba(232, 127, 11, 0.89);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+    }
+</style>
+
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <a href="/personal" class="brand-link">
@@ -54,6 +71,7 @@
                 <a href="{{ route('personal.news.index') }}" class="nav-link">
                     <i class="nav-icon far fa-newspaper"></i>
                     <p>Новости</p>
+                    <span class="postsCount">11</span>
                 </a>
             </li>
             @can('isHeadman')

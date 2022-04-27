@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Personal\News;
 
+use App\Events\GroupPostEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Personal\News\StoreRequest;
 use App\Http\Requests\Personal\News\UpdateRequest;
@@ -41,6 +42,8 @@ class NewsController extends Controller
 
         $this->service->store($data);
 
+        event(new GroupPostEvent('Загружен новый пост'));
+
         return redirect()->route('personal.news.index');
     }
 
@@ -75,5 +78,9 @@ class NewsController extends Controller
         $this->service->delete($news);
 
         return redirect()->route('personal.news.index');
+    }
+
+    public function getUnreadPostsCount() {
+        return count(auth()->user()->unread_posts);
     }
 }

@@ -136,9 +136,12 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::get('/homework/{modelId}/{mediaId}/{filename}', 'Homework\HomeworkController@download');
     Route::patch('/homework/{homework}/feedback', 'Homework\HomeworkController@feedback');
 
-    Route::resource('news', 'News\NewsController', ['names' => 'personal.news']);
-    Route::get('/news/{modelId}/{mediaId}/{filename}', 'NewsController@showImage')
+    Route::resource('news', 'News\NewsController', ['names' => 'personal.news'])
+        ->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+    Route::get('/news/{modelId}/{mediaId}/{filename}', 'News\NewsController@showImage')
         ->name('personal.news.showImage');
+    Route::get('/news/get-unread-posts-count', 'News\NewsController@getUnreadPostsCount')
+        ->name('personal.news.getUnreadPostsCount');
 
     Route::resource('cert', 'Cert\CertController', ['names' => 'personal.cert']);
 

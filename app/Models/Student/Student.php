@@ -3,9 +3,7 @@
 namespace App\Models\Student;
 
 use App\Models\Group\Group;
-use App\Models\Group\GroupNews;
 use App\Models\User;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,9 +24,5 @@ class Student extends Model implements HasMedia
 
     public function group() {
         return $this->belongsTo(Group::class);
-    }
-
-    public function unread_posts() {
-        return $this->belongsToMany(GroupNews::class, 'unread_posts', 'student_id', 'group_news_id');
     }
 }

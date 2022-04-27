@@ -27,7 +27,11 @@ class Service
             }
             $post = GroupNews::firstOrCreate($data);
             $group = Group::find($data['group_id']);
-            $post->unread_posts()->attach($group->students);
+            $users = [];
+            foreach ($group->students as $student) {
+                $users[] = $student->user->id;
+            }
+            $post->unread_posts()->attach($users);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

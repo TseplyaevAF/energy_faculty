@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Group\GroupNews;
 use App\Notifications\SendVerifyWithQueueNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -68,6 +69,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     public function surnameName() {
         return $this->surname . ' ' . $this->name;
+    }
+
+    public function unread_posts() {
+        return $this->belongsToMany(GroupNews::class, 'unread_posts', 'user_id', 'group_news_id');
     }
 
     /**
