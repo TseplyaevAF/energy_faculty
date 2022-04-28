@@ -18,7 +18,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <a href="/personal" class="brand-link">
-        <img src="{{ asset('storage/' . 'images/admin/sidebar/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="{{ asset('assets/default/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         @if (auth()->user()->role_id == 2)
         <span class="brand-text font-weight-light">Студент</span>
         @elseif (auth()->user()->role_id == 3)
@@ -38,7 +38,7 @@
               @endphp
               <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}" class="img-square elevation-2" alt="User Image">
             @else
-              <img src="{{ asset('storage/images/personal/no_photo.jpg') }}" class="img-square elevation-2" alt="User Image">
+              <img src="{{ asset('assets/default/personal_default_photo.jpg') }}" class="img-square elevation-2" alt="User Image">
             @endif
           </div>
           <div class="info">
@@ -71,7 +71,7 @@
                 <a href="{{ route('personal.news.index') }}" class="nav-link">
                     <i class="nav-icon far fa-newspaper"></i>
                     <p>Новости</p>
-                    <span class="postsCount">11</span>
+                    <span class="postsCount">0</span>
                 </a>
             </li>
             @can('isHeadman')

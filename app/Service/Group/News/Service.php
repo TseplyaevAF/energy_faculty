@@ -29,8 +29,9 @@ class Service
             $group = Group::find($data['group_id']);
             $users = [];
             foreach ($group->students as $student) {
-                $users[] = $student->user->id;
+                $users[$student->user->id] = $student->user->id;
             }
+            unset($users[auth()->user()->id]); // исключить из массива автора поста
             $post->unread_posts()->attach($users);
             DB::commit();
             return $post;

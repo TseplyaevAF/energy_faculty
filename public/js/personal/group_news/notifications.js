@@ -3,7 +3,12 @@ function loadUnreadPostsCount(url) {
         type: 'GET',
         url: url,
         success: function (response) {
-            $('.postsCount').html(response);
+            if (response === "0") {
+                $('.postsCount').hide();
+            } else {
+                $('.postsCount').show();
+                $('.postsCount').html(response);
+            }
         }
     });
 }

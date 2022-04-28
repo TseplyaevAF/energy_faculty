@@ -140,8 +140,14 @@
                     }
                 })
                 .on('click', '.deletePost', function () {
-                    if(!confirm('Вы действительно хотите удалить пост?')){
-                        return false;
+                    if(confirm('Вы действительно хотите удалить пост?')){
+                        let postId = $(this).attr('id').split('_')[1];
+                        $.ajax({
+                            type: 'DELETE',
+                            url: 'news/' + postId,
+                            dataType: 'JSON',
+                            data: { '_token': $("input[name='_token']").val() }
+                        });
                     }
                 })
         })

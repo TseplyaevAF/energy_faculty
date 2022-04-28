@@ -33,11 +33,11 @@ class NewsController extends Controller
         $unread_posts = $user->unread_posts;
         if ($request->ajax()) {
             return view('personal.news.ajax-views.all-news',
-                compact('group_news', 'unread_posts'));
+                compact('group_news', 'unread_posts', 'group'));
         }
         $total_count = (int) ceil($group_news->total() / $group_news->perPage());
         return view('personal.news.index',
-            compact('group_news', 'total_count', 'unread_posts'));
+            compact('group_news', 'total_count', 'unread_posts', 'group'));
     }
 
     public function create()
@@ -114,6 +114,10 @@ class NewsController extends Controller
     }
 
     public function showNewAddedPost(GroupNews $post) {
-        return view('personal.news.ajax-views.show-new-added-post', compact('post'));
+        $group_news[] = $post;
+        $unread_posts = auth()->user()->unread_posts;
+        $group = auth()->user()->student->group;
+        return view('personal.news.ajax-views.all-news',
+            compact('group_news', 'unread_posts', 'group'));
     }
 }

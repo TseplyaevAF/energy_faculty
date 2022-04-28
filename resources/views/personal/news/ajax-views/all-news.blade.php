@@ -24,8 +24,13 @@
                     <div class="postDate">
                         <div class="mr-2">
                             {{ $post->user->surnameName() }}
+                            @if ($group->getHeadman() !== null)
+                                @if($group->getHeadman()->id == $post->user->student->id)
+                                    <i style="font-size: 14px">(староста)</i>
+                                @endif
+                            @endif
                         </div>
-                        <div class="text-muted">{{ date('H:i', strtotime($post->created_at)) }}</div>
+                        <div class="text-muted">{{ date('d.m.y в H:i', strtotime($post->created_at)) }}</div>
                         <div>
                             @can('isHeadman')
                                 @can('edit-group-news', [$post])
@@ -36,8 +41,8 @@
                                           style="display: inline-block">
                                         @csrf
                                         @method('delete')
-                                        <div class="deletePost">
-                                            <button type="submit" class="border-0 bg-transparent">
+                                        <div class="deletePost" id="delete_{{ $post->id }}">
+                                            <button type="button" class="border-0 bg-transparent">
                                                 <i style="color:rgba(156,11,11,0.93)" class="fas fa-2xs fa-times"></i>
                                             </button>
                                         </div>

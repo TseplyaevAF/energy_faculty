@@ -70,7 +70,7 @@
     <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
-  <script src="{{ asset('js/app.js') }}"></script>
+
   <!-- jQuery -->
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 
@@ -78,6 +78,8 @@
   <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
   <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+  <script src="{{ asset('js/app.js') }}"></script>
 
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 
@@ -91,9 +93,6 @@
 
 
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-  <script>
-    $.widget.bridge('uibutton', $.ui.button)
-  </script>
   <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
   <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
   <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>

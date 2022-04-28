@@ -43,7 +43,7 @@
                                                     @endphp
                                                     <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}" class="d-block ui-w-80" id="blah">
                                                 @else
-                                                    <img src="{{ asset('storage/images/personal/no_photo.jpg') }}" class="d-block ui-w-80" id="blah">
+                                                    <img src="{{ asset('assets/default/personal_default_photo.jpg') }}" class="d-block ui-w-80" id="blah">
                                                 @endif
                                                 <div class="media-body ml-4">
                                                     <label class="btn btn-outline-primary">

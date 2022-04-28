@@ -13,14 +13,6 @@
         {{ mb_substr($homework->student->user->patronymic, 0, 1)}}.
     </h6>
 </div>
-<div class="form-group mb-3">
-    <label class="control-label required">Выберите оценку</label>
-    <select name="status" class="form-control">
-        <option value="-1">-- Не выбрана</option>
-        <option value="1">Зачтено</option>
-        <option value="0">Не зачтено</option>
-    </select>
-</div>
 <div class="input-group mb-2">
     <label class="control-label required">Оставьте комментарий</label>
     <input type="hidden" value="{{ $homework->task_id }}" name="task_id">

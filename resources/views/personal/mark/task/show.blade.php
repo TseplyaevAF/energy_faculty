@@ -54,7 +54,7 @@
                         @foreach($tasks as $taskId => $task)
                             @if (isset($data['arrayHomework'][$student][$taskId]))
                                 @if ($data['arrayHomework'][$student][$taskId]->grade != 'on check')
-                                    <td class="workIsDone">Зачтено
+                                    <td class="workIsDone">Проверено
                                         ({{$data['arrayHomework'][$student][$taskId]->updated_at->format('d.m.Y')}})
                                     </td>
                                 @else

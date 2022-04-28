@@ -22,6 +22,7 @@ class Group extends Model
         if (isset($this->headman)) {
             return $this->students->where('id', $this->headman)->first();
         }
+        return null;
     }
 
     public function students() {
