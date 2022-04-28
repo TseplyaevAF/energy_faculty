@@ -106,7 +106,9 @@ class NewsController extends Controller
             where('group_news_id', $news->id)
             ->where('user_id', auth()->user()->id)
             ->first();
-        $unreadPost->delete();
+        if (isset($unreadPost)) {
+            $unreadPost->delete();
+        }
         event(new ReadGroupPostEvent($news->id));
         event(new CountGroupPostEvent());
     }

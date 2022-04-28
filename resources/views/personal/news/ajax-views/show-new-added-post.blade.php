@@ -1,5 +1,5 @@
-<hr>
-<div class="postBody mb-4" id="post_{{ $post->id }}" style="background: rgb(244 246 249)">
+<hr id="hr_{{ $post->id }}">
+<div class="postBody mb-4" id="unreadPost_{{ $post->id }}" style="background: rgb(244 246 249)">
     <div class="media">
         <div class="userAvatar">
             @if (isset(auth()->user()->avatar))

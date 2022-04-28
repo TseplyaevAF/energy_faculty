@@ -98,7 +98,19 @@
 
             Echo.channel('delete-group-post-channel')
                 .listen('.delete-group-post-event', (e) => {
-                    $('#post_' + e.postId).remove();
+                    let $readingPost = $('#readingPost_' + e.postId);
+                    let $unreadPost = $('#unreadPost_' + e.postId);
+                    let $post = $('#post_' + e.postId);
+                    if ($readingPost !== undefined) {
+                        $readingPost.remove()
+                    }
+                    if ($unreadPost !== undefined) {
+                        $unreadPost.remove()
+                    }
+                    if ($post !== undefined) {
+                        $post.remove()
+                    }
+                    $('#hr_' + e.postId).remove();
                 })
 
             Echo.channel('add-group-post-channel')
@@ -114,14 +126,17 @@
 
             $('.content')
                 .on('mousemove', '.postBody', function () {
-                    let unreadPostId = $(this).attr('id');
-                    if ((unreadPostId.includes('unreadPost_')) && !(unreadPostId.includes('readingPost_'))) {
-                        unreadPostId = unreadPostId.split('_')[1];
-                        $(this).attr('id', 'readingPost_' + unreadPostId)
+                    let postId = $(this).attr('id');
+                    if (postId.includes('unreadPost')) {
+                        postId = postId.split('_')[1];
+                        $(this).attr('id', 'readingPost_' + postId)
                         $.ajax({
                             type: 'GET',
-                            url: 'news/read-post/' + unreadPostId
+                            url: 'news/read-post/' + postId,
                         });
+                    }
+                    if (postId.includes('readingPost_')) {
+                        $(this).css('background', '#fff');
                     }
                 })
                 .on('click', '.deletePost', function () {
