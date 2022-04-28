@@ -8,24 +8,17 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
-class GroupPostEvent implements ShouldBroadcast
+class CountGroupPostEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
-
-    public function __construct($message)
-    {
-        $this->message = $message;
-    }
-
     public function broadcastOn()
     {
-        return new Channel('group-post-channel');
+        return new Channel('count-group-post-channel');
     }
 
     public function broadcastAs()
     {
-        return 'group-post-event';
+        return 'count-group-post-event';
     }
 }

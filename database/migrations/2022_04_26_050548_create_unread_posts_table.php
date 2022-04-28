@@ -14,6 +14,7 @@ class CreateUnreadPostsTable extends Migration
     public function up()
     {
         Schema::create('unread_posts', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('group_news_id');
 

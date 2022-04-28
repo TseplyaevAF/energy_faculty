@@ -5,6 +5,7 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/personal/news/group_news.css') }}">
     <link rel="stylesheet" href="{{ asset('css/news/jquery.fancybox.min.css') }}">
+    <input type="hidden" name="total-count" value="{{ $total_count }}">
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -40,70 +41,9 @@
                                 </div>
                             @endcan
                         </div>
-                        @if (count($group_news) !== 0)
-                        <div class="container posts-content" style="background: #ffffff; padding: 0px 15px 15px 15px">
-                            @foreach($group_news as $post)
-                                    <hr>
-                                <div class="postBody mb-4">
-                                    <div class="media">
-                                        <div class="userAvatar">
-                                            @if (isset(auth()->user()->avatar))
-                                                @php
-                                                    $modelId = explode('/', auth()->user()->avatar)[0];
-                                                    $mediaId = explode('/', auth()->user()->avatar)[2];
-                                                    $filename = explode('/', auth()->user()->avatar)[3];
-                                                @endphp
-                                                <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}"
-                                                     class="d-block ui-w-40 rounded-circle" alt="">
-                                            @else
-                                                <img src="{{ asset('assets/default/personal_default_photo.jpg') }}"
-                                                     class="d-block ui-w-40 rounded-circle" alt="">
-                                            @endif
-                                        </div>
-                                        <div class="media-body ml-2">
-                                            <div class="postDate">
-                                                <div class="mr-2">
-                                                    {{ $post->user->surnameName() }}
-                                                </div>
-                                                <div class="text-muted">{{ date('H:i', strtotime($post->created_at)) }}</div>
-                                                <div>
-                                                    @can('isHeadman')
-                                                        @can('edit-group-news', [$post])
-                                                        <a class="ml-2" href="{{ route('personal.news.edit', $post->id) }}">
-                                                            <i class="fas fa-pencil-alt" style="color: rgba(7,130,7,0.95)"></i>
-                                                        </a>
-                                                        <form action="{{ route('personal.news.destroy', $post->id) }}" method="post"
-                                                            style="display: inline-block">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button type="submit" class="deletePost border-0 bg-transparent">
-                                                                <i style="color:rgba(156,11,11,0.93)" class="fas fa-2xs fa-times"></i>
-                                                            </button>
-                                                        </form>
-                                                        @endcan
-                                                    @endcan
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="postContent">
-                                        <div>{!! $post->content !!}</div>
-                                        @if (isset($post->images))
-                                            <div class="row">
-                                                @foreach(json_decode($post->images) as $image)
-                                                    <div class="col-lg-2 col-md-2 col-4 thumb">
-                                                        <a data-fancybox="gallery" href="{{ asset('storage/' . $image) }}">
-                                                            <img class="img-fluid" src="{{ asset('storage/' . $image) }}">
-                                                        </a>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="footer">
-                                </div>
-                            @endforeach
+                        @if ($total_count !== 0)
+                        <div class="container posts-content" id="posts-content" style="background: #ffffff; padding: 0px 15px 15px 15px">
+                            @include('personal.news.ajax-views.all-news')
                         </div>
                         @endif
                     </div>
@@ -111,6 +51,10 @@
 
             </div><!-- /.container-fluid -->
         </section>
+        <div class="ajax-load text-center" style="display: none">
+            <p><img src="{{ asset('storage/loading.gif') }}"
+                    alt="AJAX loader" title="AJAX loader"/>Посты загружаются...</p>
+        </div>
         <!-- /.content -->
     </div>
 
@@ -118,11 +62,73 @@
     <script src="{{ asset('plugins/jquery/jquery.fancybox.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('.deletePost').click(function () {
-                if(!confirm('Вы действительно хотите удалить пост?')){
-                    return false;
+            let totalCount = $("input[name='total-count']").val()
+
+            function loadNextPage(page) {
+                $.ajax({
+                    url: '?page=' + page,
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('.ajax-load').show();
+                    },
+                    success: function (data) {
+                        if (data === " ") {
+                            return;
+                        }
+                        $('.ajax-load').hide();
+                        $('#posts-content').append(data).show();
+                    }
+                })
+            }
+
+            let page = 1;
+            $(window).scroll(function () {
+                if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                    if (parseInt(totalCount) >= page) {
+                        page++;
+                        loadNextPage(page);
+                    }
                 }
-            });
+            })
+
+            Echo.channel('read-group-post-channel')
+                .listen('.read-group-post-event', (e) => {
+                    $('#readingPost_' + e.postId).css('background', '#fff');
+            })
+
+            Echo.channel('delete-group-post-channel')
+                .listen('.delete-group-post-event', (e) => {
+                    $('#post_' + e.postId).remove();
+                })
+
+            Echo.channel('add-group-post-channel')
+                .listen('.add-group-post-event', (e) => {
+                    $.ajax({
+                        type: 'GET',
+                        url: 'news/show-new-added-post/' + e.postId,
+                        success: function (response) {
+                            $('#posts-content').prepend(response).show();
+                        }
+                    });
+                })
+
+            $('.content')
+                .on('mousemove', '.postBody', function () {
+                    let unreadPostId = $(this).attr('id');
+                    if ((unreadPostId.includes('unreadPost_')) && !(unreadPostId.includes('readingPost_'))) {
+                        unreadPostId = unreadPostId.split('_')[1];
+                        $(this).attr('id', 'readingPost_' + unreadPostId)
+                        $.ajax({
+                            type: 'GET',
+                            url: 'news/read-post/' + unreadPostId
+                        });
+                    }
+                })
+                .on('click', '.deletePost', function () {
+                    if(!confirm('Вы действительно хотите удалить пост?')){
+                        return false;
+                    }
+                })
         })
     </script>
 

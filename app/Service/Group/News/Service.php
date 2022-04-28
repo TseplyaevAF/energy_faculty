@@ -25,7 +25,7 @@ class Service
                 }
                 $data['images'] = json_encode($tempImages);
             }
-            $post = GroupNews::firstOrCreate($data);
+            $post = GroupNews::create($data);
             $group = Group::find($data['group_id']);
             $users = [];
             foreach ($group->students as $student) {
@@ -33,6 +33,7 @@ class Service
             }
             $post->unread_posts()->attach($users);
             DB::commit();
+            return $post;
         } catch (\Exception $exception) {
             DB::rollBack();
             abort(500);

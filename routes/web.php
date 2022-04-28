@@ -142,6 +142,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         ->name('personal.news.showImage');
     Route::get('/news/get-unread-posts-count', 'News\NewsController@getUnreadPostsCount')
         ->name('personal.news.getUnreadPostsCount');
+    Route::get('/news/read-post/{news}', 'News\NewsController@readPost');
+    Route::get('/news/show-new-added-post/{post}', 'News\NewsController@showNewAddedPost');
 
     Route::resource('cert', 'Cert\CertController', ['names' => 'personal.cert']);
 

@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Personal\News;
 
-use App\Events\GroupPostEvent;
+use App\Events\AddGroupPostEvent;
+use App\Events\CountGroupPostEvent;
+use App\Events\DeleteGroupPostEvent;
+use App\Events\ReadGroupPostEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Personal\News\StoreRequest;
 use App\Http\Requests\Personal\News\UpdateRequest;
 use App\Models\Group\GroupNews;
+use App\Models\UnreadPost;
 use App\Service\Group\News\Service;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
@@ -19,12 +24,20 @@ class NewsController extends Controller
         $this->service = $service;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('isStudent');
-        $group = auth()->user()->student->group;
-        $group_news = $group->news->sortByDesc('created_at');
-        return view('personal.news.index', compact('group_news'));
+        $user = auth()->user();
+        $group = $user->student->group;
+        $group_news = $group->news->sortByDesc('created_at')->paginate(8);
+        $unread_posts = $user->unread_posts;
+        if ($request->ajax()) {
+            return view('personal.news.ajax-views.all-news',
+                compact('group_news', 'unread_posts'));
+        }
+        $total_count = (int) ceil($group_news->total() / $group_news->perPage());
+        return view('personal.news.index',
+            compact('group_news', 'total_count', 'unread_posts'));
     }
 
     public function create()
@@ -40,9 +53,10 @@ class NewsController extends Controller
 
         $data = $request->validated();
 
-        $this->service->store($data);
+        $post = $this->service->store($data);
 
-        event(new GroupPostEvent('Загружен новый пост'));
+        event(new AddGroupPostEvent($post->id));
+        event(new CountGroupPostEvent());
 
         return redirect()->route('personal.news.index');
     }
@@ -77,10 +91,27 @@ class NewsController extends Controller
 
         $this->service->delete($news);
 
+        event(new DeleteGroupPostEvent($news->id));
+        event(new CountGroupPostEvent());
+
         return redirect()->route('personal.news.index');
     }
 
     public function getUnreadPostsCount() {
         return count(auth()->user()->unread_posts);
+    }
+
+    public function readPost(GroupNews $news) {
+        $unreadPost = UnreadPost::
+            where('group_news_id', $news->id)
+            ->where('user_id', auth()->user()->id)
+            ->first();
+        $unreadPost->delete();
+        event(new ReadGroupPostEvent($news->id));
+        event(new CountGroupPostEvent());
+    }
+
+    public function showNewAddedPost(GroupNews $post) {
+        return view('personal.news.ajax-views.show-new-added-post', compact('post'));
     }
 }

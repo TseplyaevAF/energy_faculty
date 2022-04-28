@@ -107,9 +107,8 @@
         loadUnreadPostsCount("{{ route('personal.news.getUnreadPostsCount') }}");
 
 
-        Echo.channel('group-post-channel')
-            .listen('.group-post-event',(e) => {
-                console.log(e);
+        Echo.channel('count-group-post-channel')
+            .listen('.count-group-post-event',(e) => {
                 loadUnreadPostsCount("{{ route('personal.news.getUnreadPostsCount') }}");
             })
 
