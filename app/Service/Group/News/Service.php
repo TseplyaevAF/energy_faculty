@@ -14,9 +14,7 @@ class Service
     {
         try {
             DB::beginTransaction();
-            $student = auth()->user()->student;
-            $data['group_id'] = $student->group_id;
-            $data['user_id'] = $student->user->id;
+            $data['user_id'] = auth()->user()->id;
             if (isset($data['images'])) {
                 $tempImages = [];
                 foreach ($data['images'] as $image) {
@@ -28,10 +26,16 @@ class Service
             $post = GroupNews::create($data);
             $group = Group::find($data['group_id']);
             $users = [];
+            // формирование списка непросмотренных постов для всех студентов группы...
             foreach ($group->students as $student) {
                 $users[$student->user->id] = $student->user->id;
             }
-            unset($users[auth()->user()->id]); // исключить из массива автора поста
+            //... а также куратора
+            if (isset($group->teacher) && $data['user_id'] != $group->teacher->user->id) {
+                $users[$group->teacher->user->id] = $group->teacher->user->id;
+            }
+            // исключить автора поста из списка "непросмотренных" постов
+            unset($users[auth()->user()->id]);
             $post->unread_posts()->attach($users);
             DB::commit();
             return $post;

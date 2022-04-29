@@ -1,6 +1,6 @@
 @extends('personal.layouts.main')
 
-@section('title-block')Новости группы {{ auth()->user()->student->group->title  }}@endsection
+@section('title-block')События группы {{ $group->title  }}@endsection
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/personal/news/group_news.css') }}">
@@ -14,7 +14,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Новости группы {{ auth()->user()->student->group->title }}</h1>
+                        <h1 class="m-0">События группы {{ $group->title }}</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -33,10 +33,10 @@
                 <div class="row">
                     <div class="col-md-6" style="">
                         <div class="createPost">
-                            @can('isHeadman')
+                            @can('create-group-news', $group)
                                 <div class="row" style="margin: 0">
                                     <div class="form-group" style="margin-bottom: 0">
-                                        <a href="{{ route('personal.news.create') }}" class="btn btn-block btn-primary">Добавить запись</a>
+                                        <a href="{{ route('personal.news.create', $group) }}" class="btn btn-block btn-primary">Добавить запись</a>
                                     </div>
                                 </div>
                             @endcan
@@ -52,7 +52,7 @@
             </div><!-- /.container-fluid -->
         </section>
         <div class="ajax-load text-center" style="display: none">
-            <p><img src="{{ asset('storage/loading.gif') }}"
+            <p><img src="{{ asset('assets/default/loading.gif') }}"
                     alt="AJAX loader" title="AJAX loader"/>Посты загружаются...</p>
         </div>
         <!-- /.content -->
@@ -66,7 +66,7 @@
 
             function loadNextPage(page) {
                 $.ajax({
-                    url: '?page=' + page,
+                    url: '{{$group->id}}/?page=' + page,
                     type: 'GET',
                     beforeSend: function () {
                         $('.ajax-load').show();
@@ -83,7 +83,7 @@
 
             let page = 1;
             $(window).scroll(function () {
-                if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                if(Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
                     if (parseInt(totalCount) >= page) {
                         page++;
                         loadNextPage(page);
@@ -117,7 +117,7 @@
                 .listen('.add-group-post-event', (e) => {
                     $.ajax({
                         type: 'GET',
-                        url: 'news/show-new-added-post/' + e.postId,
+                        url: 'group/show/new-added-post/' + e.postId,
                         success: function (response) {
                             $('#posts-content').prepend(response).show();
                         }
@@ -132,7 +132,7 @@
                         $(this).attr('id', 'readingPost_' + postId)
                         $.ajax({
                             type: 'GET',
-                            url: 'news/read-post/' + postId,
+                            url: 'group/show/read-post/' + postId,
                         });
                     }
                     if (postId.includes('readingPost_')) {
@@ -144,7 +144,7 @@
                         let postId = $(this).attr('id').split('_')[1];
                         $.ajax({
                             type: 'DELETE',
-                            url: 'news/' + postId,
+                            url: postId,
                             dataType: 'JSON',
                             data: { '_token': $("input[name='_token']").val() }
                         });

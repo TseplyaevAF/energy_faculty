@@ -24,6 +24,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'group_id' => 'required|integer|exists:groups,id',
             'content' => 'required|string',
             'images.*' => 'nullable|image'
         ];

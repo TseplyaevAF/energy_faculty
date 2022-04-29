@@ -9,6 +9,7 @@ use App\Events\ReadGroupPostEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Personal\News\StoreRequest;
 use App\Http\Requests\Personal\News\UpdateRequest;
+use App\Models\Group\Group;
 use App\Models\Group\GroupNews;
 use App\Models\UnreadPost;
 use App\Service\Group\News\Service;
@@ -24,69 +25,78 @@ class NewsController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request)
-    {
-        Gate::authorize('isStudent');
-        $user = auth()->user();
-        $group = $user->student->group;
-        $group_news = $group->news->sortByDesc('created_at')->paginate(8);
-        $unread_posts = $user->unread_posts;
-        if ($request->ajax()) {
-            return view('personal.news.ajax-views.all-news',
-                compact('group_news', 'unread_posts', 'group'));
-        }
-        $total_count = (int) ceil($group_news->total() / $group_news->perPage());
-        return view('personal.news.index',
-            compact('group_news', 'total_count', 'unread_posts', 'group'));
+    public function showGroupsCurator() {
+        Gate::authorize('isTeacher');
+        Gate::authorize('isCurator');
+        $groups = auth()->user()->teacher->myGroups;
+        return view('personal.news.curator-groups', compact('groups'));
     }
 
-    public function create()
+    public function index(Request $request, Group $group)
     {
-        Gate::authorize('isHeadman');
+        $user = auth()->user();
+        if (Gate::allows('isStudentGroup', $group) ||
+            Gate::allows('isCuratorGroup', $group)) {
+            $group_news = $group->news->sortByDesc('created_at')->paginate(8);
+            $unread_posts = $user->unread_posts;
+            if ($request->ajax()) {
+                return view('personal.news.ajax-views.all-news',
+                    compact('group_news', 'unread_posts', 'group'));
+            }
+            $total_count = (int) ceil($group_news->total() / $group_news->perPage());
+            return view('personal.news.index',
+                compact('group_news', 'total_count', 'unread_posts', 'group'));
 
-        return view('personal.news.create');
+        }
+        return abort(403);
+    }
+
+    public function create(Group $group)
+    {
+        Gate::authorize('create-group-news', $group);
+        return view('personal.news.create', compact('group'));
     }
 
     public function store(StoreRequest $request)
     {
-        Gate::authorize('isHeadman');
-
         $data = $request->validated();
+        Gate::authorize('create-group-news', Group::find($data['group_id']));
 
         $post = $this->service->store($data);
+
+        $group = $post->group;
 
         event(new AddGroupPostEvent($post->id));
         event(new CountGroupPostEvent());
 
-        return redirect()->route('personal.news.index');
+        return redirect()->route('personal.news.index', compact('group'));
     }
 
-    public function edit(GroupNews $news)
+    public function edit(Group $group, GroupNews $news)
     {
-        Gate::authorize('isHeadman');
         Gate::authorize('edit-group-news', [$news]);
 
         $images = json_decode($news->images);
-        return view('personal.news.edit', compact('news', 'images'));
+        return view('personal.news.edit', compact('news', 'images', 'group'));
     }
 
     public function update(UpdateRequest $request, GroupNews $news)
     {
-        Gate::authorize('isHeadman');
         Gate::authorize('edit-group-news', [$news]);
 
         $data = $request->validated();
 
         $news = $this->service->update($data, $news);
 
+        $group = $news->group;
+
         return redirect()
-            ->route('personal.news.edit', compact('news'))
+            ->route('personal.news.edit', compact('news', 'group'))
             ->withSuccess('Запись успешно отредактирована');
     }
 
     public function destroy(GroupNews $news)
     {
-        Gate::authorize('isHeadman');
         Gate::authorize('edit-group-news', [$news]);
 
         $this->service->delete($news);
@@ -113,10 +123,9 @@ class NewsController extends Controller
         event(new CountGroupPostEvent());
     }
 
-    public function showNewAddedPost(GroupNews $post) {
+    public function showNewAddedPost(Group $group, GroupNews $post) {
         $group_news[] = $post;
         $unread_posts = auth()->user()->unread_posts;
-        $group = auth()->user()->student->group;
         return view('personal.news.ajax-views.all-news',
             compact('group_news', 'unread_posts', 'group'));
     }

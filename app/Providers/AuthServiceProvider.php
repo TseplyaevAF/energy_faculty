@@ -41,6 +41,24 @@ class AuthServiceProvider extends ServiceProvider
             return $user->student->group->headman == $user->student->id ? Response::allow() : Response::deny();
         });
 
+        Gate::define('isCurator', function (User $user) {
+            return isset($user->teacher->myGroups);
+        });
+
+        Gate::define('isCuratorGroup', function (User $user, $group) {
+            $groups = $user->teacher->myGroups;
+            if ($groups->count() !== 0) {
+                return in_array($group->id, $groups->pluck('id')->toArray());
+            }
+            return false;
+        });
+
+        Gate::define('isStudentGroup', function (User $user, $group) {
+            if (Gate::allows('isStudent')) {
+                return auth()->user()->student->group->id == $group->id;
+            }
+            return false;
+        });
 
         /// TASKS
         Gate::define('download-task', function (User $user, $task) {
@@ -94,6 +112,18 @@ class AuthServiceProvider extends ServiceProvider
         /// GROUP NEWS
         Gate::define('edit-group-news', function (User $user, $post) {
             return $user->id == $post->user_id ? Response::allow() : Response::deny();
+        });
+
+        Gate::define('create-group-news', function (User $user, $group) {
+            if (Gate::allows('isStudent')) {
+                Gate::authorize('isHeadman');
+                return Response::allow();
+            }
+            if (Gate::allows('isTeacher')) {
+                Gate::authorize('isCuratorGroup', $group);
+                return Response::allow();
+            }
+            return Response::deny();
         });
 
 

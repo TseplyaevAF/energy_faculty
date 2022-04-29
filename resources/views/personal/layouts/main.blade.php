@@ -91,6 +91,7 @@
 
   <script src="{{asset('plugins/summernote/lang/summernote-ru-RU.js')}}"></script>
 
+  <script src="{{asset('plugins/summernote/summernote-cleaner.js')}}"></script>
 
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
@@ -113,12 +114,14 @@
 
       $('#summernote').summernote({
         lang: 'ru-RU',
+          height: 300,
         toolbar: [
           ['style', ['bold', 'italic', 'underline', 'clear']],
           ['para', ['ul', 'ol', 'paragraph']],
           ['height', ['height']],
           ['insert', [ 'link']],
         ], disableDragAndDrop: true,
+          contents: '<div style= "width: 200px;"><h1></h1></div>',
       })
     });
 

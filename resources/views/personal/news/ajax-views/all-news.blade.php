@@ -1,3 +1,8 @@
+<style>
+    .postContent a {
+        word-wrap: break-word;
+    }
+</style>
 @foreach($group_news as $post)
     <hr id="hr_{{$post->id}}">
     @if (in_array($post->id, $unread_posts->pluck('id')->toArray()))
@@ -7,11 +12,11 @@
     @endif
             <div class="media">
                 <div class="userAvatar">
-                    @if (isset(auth()->user()->avatar))
+                    @if (isset($post->user->avatar))
                         @php
-                            $modelId = explode('/', auth()->user()->avatar)[0];
-                            $mediaId = explode('/', auth()->user()->avatar)[2];
-                            $filename = explode('/', auth()->user()->avatar)[3];
+                            $modelId = explode('/', $post->user->avatar)[0];
+                            $mediaId = explode('/', $post->user->avatar)[2];
+                            $filename = explode('/', $post->user->avatar)[3];
                         @endphp
                         <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}"
                              class="d-block ui-w-40 rounded-circle" alt="">
@@ -24,30 +29,26 @@
                     <div class="postDate">
                         <div class="mr-2">
                             {{ $post->user->surnameName() }}
-                            @if ($group->getHeadman() !== null)
-                                @if($group->getHeadman()->id == $post->user->student->id)
-                                    <i style="font-size: 14px">(староста)</i>
-                                @endif
-                            @endif
+{{--                            @if($group->getHeadman()->id == $post->user->student->id)--}}
+{{--                                <i style="font-size: 14px">(староста)</i>--}}
+{{--                            @endif--}}
                         </div>
                         <div class="text-muted">{{ date('d.m.y в H:i', strtotime($post->created_at)) }}</div>
                         <div>
-                            @can('isHeadman')
-                                @can('edit-group-news', [$post])
-                                    <a class="ml-2" href="{{ route('personal.news.edit', $post->id) }}">
-                                        <i class="fas fa-pencil-alt" style="color: rgba(7,130,7,0.95)"></i>
-                                    </a>
-                                    <form action="{{ route('personal.news.destroy', $post->id) }}" method="post"
-                                          style="display: inline-block">
-                                        @csrf
-                                        @method('delete')
-                                        <div class="deletePost" id="delete_{{ $post->id }}">
-                                            <button type="button" class="border-0 bg-transparent">
-                                                <i style="color:rgba(156,11,11,0.93)" class="fas fa-2xs fa-times"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                @endcan
+                            @can('edit-group-news', [$post])
+                                <a class="ml-2" href="{{ route('personal.news.edit', [$group, $post->id]) }}">
+                                    <i class="fas fa-pencil-alt" style="color: rgba(7,130,7,0.95)"></i>
+                                </a>
+                                <form action="{{ route('personal.news.destroy', $post->id) }}" method="post"
+                                      style="display: inline-block">
+                                    @csrf
+                                    @method('delete')
+                                    <div class="deletePost" id="delete_{{ $post->id }}">
+                                        <button type="button" class="border-0 bg-transparent">
+                                            <i style="color:rgba(156,11,11,0.93)" class="fas fa-2xs fa-times"></i>
+                                        </button>
+                                    </div>
+                                </form>
                             @endcan
                         </div>
                     </div>

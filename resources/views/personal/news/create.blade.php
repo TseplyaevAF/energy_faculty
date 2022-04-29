@@ -13,7 +13,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
               <h1 class="m-0">
-                  <a href="{{ route('personal.news.index') }}"><i class="fas fa-chevron-left"></i></a>
+                  <a href="{{ route('personal.news.index', $group) }}"><i class="fas fa-chevron-left"></i></a>
                   Новая запись
               </h1>
           </div><!-- /.col -->
@@ -74,6 +74,7 @@
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
+                <input type="hidden" name="group_id" value="{{ $group->id }}">
               <div class="form-group">
                 <input type="submit" id="submitGroupNews" class="btn btn-primary" value="Добавить">
               </div>

@@ -67,13 +67,26 @@
               <p>Домашние задания</p>
             </a>
           </li>
+          @endcan
+            @can('isStudent')
             <li class="nav-item">
-                <a href="{{ route('personal.news.index') }}" class="nav-link">
+                <a href="{{ route('personal.news.index', auth()->user()->student->group->id) }}" class="nav-link">
                     <i class="nav-icon far fa-newspaper"></i>
-                    <p>Новости</p>
-                    <span class="postsCount">0</span>
+                    <p>События группы</p>
+                    <span class="postsCount" style="display:none;">0</span>
                 </a>
             </li>
+            @endcan
+            @can('isCurator')
+                <li class="nav-item">
+                    <a href="{{ route('personal.news.showGroupsCurator') }}" class="nav-link">
+                        <i class="nav-icon far fa-newspaper"></i>
+                        <p>События групп</p>
+                        <span class="postsCount" style="display:none;">0</span>
+                    </a>
+                </li>
+            @endcan
+          @can('isStudent')
             @can('isHeadman')
             <li class="nav-item">
               <a href="{{ route('personal.application.index') }}" class="nav-link">

@@ -137,13 +137,14 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::patch('/homework/{homework}/feedback', 'Homework\HomeworkController@feedback');
 
     Route::resource('news', 'News\NewsController', ['names' => 'personal.news'])
-        ->only('index', 'create', 'store', 'edit', 'update', 'destroy');
-    Route::get('/news/{modelId}/{mediaId}/{filename}', 'News\NewsController@showImage')
-        ->name('personal.news.showImage');
-    Route::get('/news/get-unread-posts-count', 'News\NewsController@getUnreadPostsCount')
-        ->name('personal.news.getUnreadPostsCount');
-    Route::get('/news/read-post/{news}', 'News\NewsController@readPost');
-    Route::get('/news/show-new-added-post/{post}', 'News\NewsController@showNewAddedPost');
+        ->only(['store', 'update', 'destroy']);
+    Route::get('/news/{group}', 'News\NewsController@index')->name('personal.news.index');
+    Route::get('/news', 'News\NewsController@showGroupsCurator')->name('personal.news.showGroupsCurator');
+    Route::get('/news/{group}/create', 'News\NewsController@create')->name('personal.news.create');
+    Route::get('/news/{group}/{news}/edit', 'News\NewsController@edit')->name('personal.news.edit');
+    Route::get('/news/group/get-unread-posts-count', 'News\NewsController@getUnreadPostsCount')->name('personal.news.getUnreadPostsCount');
+    Route::get('/news/group/show/read-post/{news}', 'News\NewsController@readPost');
+    Route::get('/news/group/show/new-added-post/{post}', 'News\NewsController@showNewAddedPost');
 
     Route::resource('cert', 'Cert\CertController', ['names' => 'personal.cert']);
 
