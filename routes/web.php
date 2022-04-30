@@ -50,7 +50,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     });
 });
 
-Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' => ['auth', 'employee', 'verified']], function () {
+Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' => ['auth', 'employee']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'IndexController')->name('employee.main.index');
     });
@@ -74,7 +74,7 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
     });
 });
 
-Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => ['auth', 'ca', 'verified']], function () {
+Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => ['auth', 'ca']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'IndexController')->name('ca.main.index');
     });
@@ -83,7 +83,7 @@ Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => 
     Route::get('/cert_apps/{certApp}', 'CertApp\CertAppController@accept')->name('ca.cert_app.accept');
 });
 
-Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => ['auth', 'dekanat', 'verified']], function () {
+Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => ['auth', 'dekanat']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'MainController@index')->name('dekanat.main.index');
     });
@@ -103,13 +103,13 @@ Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => [
     });
 });
 
-Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'verified']], function () {
+Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth']], function () {
     Route::group(['namespace' => 'Settings', 'prefix' => 'settings'], function () {
         Route::get('/{modelId}/{mediaId}/{filename}', 'SettingsController@showImage')->name('personal.settings.showImage');
     });
 });
 
-Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', '2fa', 'verified', 'personal']], function () {
+Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', '2fa', 'personal']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'MainController@index')->name('personal.main.index');
         Route::get('/schedule', 'MainController@showSchedule')->name('personal.main.schedule');
@@ -151,7 +151,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::get('/news/{group}/create', 'News\NewsController@create')->name('personal.news.create');
     Route::get('/news/{group}/{news}/edit', 'News\NewsController@edit')->name('personal.news.edit');
     Route::get('/news/group/get-unread-posts-count', 'News\NewsController@getUnreadPostsCount')->name('personal.news.getUnreadPostsCount');
-    Route::get('/news/group/show/read-post/а{news}', 'News\NewsController@readPost');
+    Route::get('/news/group/show/read-post/{news}', 'News\NewsController@readPost');
     Route::get('/news/group/show/new-added-post/{post}', 'News\NewsController@showNewAddedPost');
 
     Route::resource('cert', 'Cert\CertController', ['names' => 'personal.cert']);
@@ -187,6 +187,6 @@ Route::get('two-factor-auth', [TwoFactorAuthController::class, 'index'])->name('
 Route::post('two-factor-auth', [TwoFactorAuthController::class, 'store'])->name('2fa.store');
 Route::get('two-factor-auth/resent', [TwoFactorAuthController::class, 'resend'])->name('2fa.resend');
 
-Auth::routes(['verify' => true]);
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

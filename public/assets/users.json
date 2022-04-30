@@ -1,0 +1,85 @@
+[
+  {
+    "surname": "Батухтин",
+    "name": "Андрей",
+    "patronymic": "Геннадьевич",
+    "phone_number": null,
+    "email": "batuhtin@yandex.ru",
+	"password": "batuhtin",
+	"role_id": 3,
+	"post": "декан",
+	"chair": "ИВТиПМ"
+  },
+  {
+    "surname": "Машкин",
+    "name": "Владимир",
+    "patronymic": "Анатольевич",
+    "phone_number": null,
+    "email": "mashkin@yandex.ru",
+	"password": "mashkin",
+	"role_id": 3,
+	"post": "доцент",
+	"chair": "ИВТиПМ"
+  },
+  {
+    "surname": "Долгих",
+    "name": "Роман",
+    "patronymic": "Сергеевич",
+    "phone_number": null,
+    "email": "dolgix@yandex.ru",
+	"password": "dolgix",
+	"role_id": 3,
+	"post": "ведущий инженер",
+	"chair": "ИВТиПМ"
+  },
+  {
+    "surname": "Валова",
+    "name": "Ольга",
+    "patronymic": "Валерьевна",
+    "phone_number": null,
+    "email": "valova@yandex.ru",
+	"password": "valova",
+	"role_id": 3,
+	"post": "доцент",
+	"chair": "ИВТиПМ"
+  },
+  {
+    "surname": "Коган",
+    "name": "Евгения",
+    "patronymic": "Семеновна",
+    "phone_number": null,
+    "email": "kogan@yandex.ru",
+	"password": "kogan",
+	"role_id": 3,
+	"post": "доцент",
+	"chair": "ИВТиПМ"
+  },
+  {
+    "surname": "Иванов",
+    "name": "Иван",
+    "patronymic": "Иванович",
+    "phone_number": null,
+    "email": "kaf_IVTIPM@yandex.ru",
+	"password": "kaf_IVTIPM",
+	"role_id": 4,
+	"chair": "ИВТиПМ"
+  },
+  {
+    "surname": "Иванов",
+    "name": "Иван",
+    "patronymic": "Иванович",
+    "phone_number": null,
+    "email": "dekanat_ef@yandex.ru",
+	"password": "dekanat_ef",
+	"role_id": 6
+  },
+  {
+    "surname": "Иванов",
+    "name": "Иван",
+    "patronymic": "Иванович",
+    "phone_number": null,
+    "email": "energo_ca@yandex.ru",
+	"password": "energo_ca",
+	"role_id": 5
+  }
+]

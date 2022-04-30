@@ -17,7 +17,7 @@ class CreateLessonsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('discipline_id');
             $table->unsignedBigInteger('group_id');
-            $table->unsignedBigInteger('teacher_id');
+            $table->unsignedBigInteger('teacher_id')->nullable();
             $table->integer('semester');
 
             // IDX

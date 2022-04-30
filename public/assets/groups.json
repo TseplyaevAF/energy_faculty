@@ -1,25 +1,31 @@
 [
   {
     "title": "ИВТ-18",
-    "chair": "Кафедра ИВТиПМ",
+    "chair": "ИВТиПМ",
 	"course": 4,
 	"semester": 8
   },
   {
     "title": "ИВТ-19",
-    "chair": "Кафедра ИВТиПМ",
+    "chair": "ИВТиПМ",
 	"course": 3,
 	"semester": 6
   },
   {
     "title": "ИВТ-20",
-    "chair": "Кафедра ИВТиПМ",
+    "chair": "ИВТиПМ",
 	"course": 2,
 	"semester": 4
   },
   {
+    "title": "ИВТ-21",
+    "chair": "ИВТиПМ",
+	"course": 1,
+	"semester": 2
+  },
+  {
     "title": "ТК-18",
-    "chair": "Кафедра прикладной информатики и математики",
+    "chair": "ПИМ",
 	"course": 4,
 	"semester": 8
   }
