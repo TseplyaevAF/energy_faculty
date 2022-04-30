@@ -79,7 +79,9 @@ class HomeworkController extends Controller
     }
 
     public function feedback(FeedbackRequest $request, Homework $homework) {
-        Gate::authorize('feedback-homework', [$homework]);
+        if (!Gate::allows('feedback-homework', [$homework])) {
+            return response('У вас нет прав проверять данное задание', 403);
+        }
         $data = $request->validated();
         try {
             DB::beginTransaction();

@@ -82,7 +82,7 @@ class LessonController extends Controller
         try {
             $this->service->update($data, $lesson);
         } catch (\Exception $exception) {
-            return back()->withError($exception->getMessage())->withInput();
+            return response($exception->getMessage(), '403');
         }
         return response('Преподаватель был успешно сменён', 200);
     }

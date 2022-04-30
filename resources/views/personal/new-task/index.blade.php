@@ -167,8 +167,11 @@
                         getTasksTable(choiceDiscipline, choiceGroup, choiceSemester)
                     },
                     error: function(jqXHR, status, error) {
-                        alert('Произошла ошибка');
-                        console.log(jqXHR.responseText);
+                        if (error === 'Forbidden') {
+                            alert(jqXHR.responseText);
+                        } else {
+                            alert('Произошла ошибка');
+                        }
                     },
                     timeout: 8000
                 });

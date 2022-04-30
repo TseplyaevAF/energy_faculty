@@ -33,11 +33,18 @@ class Service
     public function update($data, $lesson) {
         try {
             DB::beginTransaction();
+            if (Lesson::where('group_id', '=', $lesson->group_id)
+                ->where('semester', $lesson->semester)
+                ->where('discipline_id', $lesson->discipline_id)
+                ->where('teacher_id', $data['teacher_id'])
+                ->exists()) {
+                throw new \Exception('Данная нагрузка уже задана');
+            }
             $lesson->update($data);
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
-            return $exception->getMessage();
+            throw new \Exception($exception->getMessage());
         }
     }
 }
