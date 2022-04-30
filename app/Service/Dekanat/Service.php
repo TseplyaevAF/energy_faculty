@@ -121,7 +121,7 @@ class Service
         try {
             $teacherCert = $this->docSigner->getCert($teacher);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            throw new \Exception($e->getMessage());
         }
         $individuals = Individual::getArrayCompletedSheets($statement->individuals);
         foreach ($individuals as $individual) {

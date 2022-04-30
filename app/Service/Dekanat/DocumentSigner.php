@@ -27,7 +27,7 @@ class DocumentSigner
 
         //2. проверка на срок действия сертификата
         if (!$this->centreAuth->isExpiredCert($certFile)) {
-            throw new \Exception('Действие сертификата окончено! Пожалуйста, обратитесь в УЦ ЭФ, чтобы
+            throw new \Exception('Срок действия сертификата преподавателя истек! Пожалуйста, обратитесь в УЦ ЭФ, чтобы
             перевыпустить сертификат.');
         }
         return $certFile;

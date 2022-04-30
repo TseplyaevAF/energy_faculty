@@ -28,7 +28,8 @@ class FilterRequest extends FormRequest
             'semester' => 'nullable|integer',
             'year_id' => 'nullable|integer|exists:years,id',
             'discipline_id' => 'nullable|integer|exists:disciplines,id',
-            'teacher_id' => 'nullable|integer|exists:teachers,id'
+            'teacher_id' => 'nullable|integer|exists:teachers,id',
+            'chair_id' => 'nullable|integer|exists:chairs,id',
         ];
     }
 }

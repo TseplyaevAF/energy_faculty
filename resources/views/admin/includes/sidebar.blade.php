@@ -42,7 +42,7 @@
             <li class="nav-item">
                 <a href="{{ route('admin.lesson.index') }}" class="nav-link">
                     <i class="nav-icon far fa-newspaper"></i>
-                    <p>Занятия</p>
+                    <p>Учебная нагрузка</p>
                 </a>
             </li>
 

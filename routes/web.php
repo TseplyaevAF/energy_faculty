@@ -24,9 +24,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get('/', 'IndexController');
     });
     Route::resource('groups', 'Group\GroupController', ['names' => 'admin.group']);
-    Route::resource('lessons', 'Lesson\LessonController', ['names' => 'admin.lesson']);
     Route::resource('disciplines', 'Discipline\DisciplineController', ['names' => 'admin.discipline']);
     Route::resource('chairs', 'Chair\ChairController', ['names' => 'admin.chair']);
+
+    Route::group(['namespace' => 'Lesson', 'prefix' => 'lessons'], function () {
+        Route::get('/', 'LessonController@index')->name('admin.lesson.index');
+        Route::get('/{chair}/{year}', 'LessonController@getChairLoad');
+    });
 
     Route::resource('users', 'User\UserController', ['names' => 'admin.user']);
     Route::get('users/user/search', 'User\UserController@search')->name('admin.user.search');
@@ -143,7 +147,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::get('/news/{group}/create', 'News\NewsController@create')->name('personal.news.create');
     Route::get('/news/{group}/{news}/edit', 'News\NewsController@edit')->name('personal.news.edit');
     Route::get('/news/group/get-unread-posts-count', 'News\NewsController@getUnreadPostsCount')->name('personal.news.getUnreadPostsCount');
-    Route::get('/news/group/show/read-post/{news}', 'News\NewsController@readPost');
+    Route::get('/news/group/show/read-post/а{news}', 'News\NewsController@readPost');
     Route::get('/news/group/show/new-added-post/{post}', 'News\NewsController@showNewAddedPost');
 
     Route::resource('cert', 'Cert\CertController', ['names' => 'personal.cert']);

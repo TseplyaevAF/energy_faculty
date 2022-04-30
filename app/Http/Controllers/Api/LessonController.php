@@ -40,4 +40,13 @@ class LessonController extends Controller
         }
         return $groups;
     }
+
+    public function getYears(FilterRequest $request) {
+        $lessons = self::lessonFilter($request->validated())->unique('year_id');
+        $years = [];
+        foreach ($lessons as $lesson) {
+            $years[] = $lesson->year;
+        }
+        return $years;
+    }
 }

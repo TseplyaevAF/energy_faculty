@@ -31,4 +31,5 @@ Route::group(['middleware' => ['auth:web', 'personal']], function () {
     Route::get('/lessons/get-semesters', 'Api\LessonController@getSemesters');
     Route::get('/lessons/get-disciplines', 'Api\LessonController@getDisciplines');
     Route::get('/lessons/get-groups', 'Api\LessonController@getGroups');
+    Route::get('/lessons/get-years', 'Api\LessonController@getYears');
 });

@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Занятия</h1>
+            <h1 class="m-0">Учебная нагрузка</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -21,55 +21,64 @@
     </div>
     <!-- /.content-header -->
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-
-        <div class="row">
-          <div class="col-1 mb-3">
-            <a href="{{ route('admin.lesson.create') }}" class="btn btn-block btn-primary">Создать</a>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-7">
-            <div class="card">
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th>Группа</th>
-                      <th>Год обучения</th>
-                      <th>Семестр</th>
-                      <th>Дисциплина</th>
-                      <th>Преподаватель</th>
-                      <th colspan="3">Действия</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach ($lessons as $lesson)
-                    <tr>
-                        <td>{{ $lesson->group->title  }}</td>
-                        <td>{{ $lesson->year->start_year }}-{{ $lesson->year->end_year }}</td>
-                        <td>{{ $lesson->semester  }}</td>
-                        <td>{{ $lesson->discipline->title }}</td>
-                        <td>{{ $lesson->teacher->user->surname }}</td>
-                      <td><a href="{{ route('admin.lesson.edit', $lesson->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>
-                      <td>
-                      </td>
-                    </tr>
-                    @endforeach
-                  </tbody>
-                </table>
+      <!-- Main content -->
+      <section class="content">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="col-md-3 mb-3">
+                          <h6>Кафедра<span class="gcolor"></span></h6>
+                          <div class="form-s2 selectChair">
+                              <select class="form-control formselect" id="chair_name">
+                                  <option value="">-- Не выбрана</option>
+                                  @foreach($chairs as $chair)
+                                      <option value="{{ $chair->id }}">
+                                          {{ $chair->title }}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-md-6 mb-2">
+                          <h6>Нагрузка на учебный год:<span class="gcolor"></span></h6>
+                          <ul class="selectYear" id="year"></ul>
+                      </div>
+                    </div>
               </div>
-              <!-- /.card-body -->
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+          </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
   </div>
+  <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+  <script>
+      $(document).ready(function () {
+          let appUrl = '{{ getenv('APP_URL') }}';
+          let chairId;
+
+          $('#chair_name').on('change', function () {
+              chairId = $(this).val();
+              if (chairId === '') {
+                  alert('Кафедра не выбрана')
+                  return;
+              }
+              let $year = $('#year');
+              $year.empty();
+              $.ajax({
+                  type: 'GET',
+                  url: appUrl + 'api/lessons/get-years',
+                  data: {'chair_id': chairId},
+                  success: function (response) {
+                      response.forEach(element => {
+                          $year.append(`<li><a href="lessons/${chairId}/${element['id']}">${element['start_year']}-${element['end_year']}</a></li>`);
+                      });
+                  }
+              });
+          });
+
+          // $('.selectYear').on('click', function () {
+          //     let yearId = $(this).attr('id');
+          //     console.log(yearId);
+          // });
+      });
+  </script>
   <!-- /.content-wrapper -->
   @endsection
