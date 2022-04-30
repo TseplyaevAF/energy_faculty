@@ -4,6 +4,7 @@
 namespace App\Service\Lesson;
 
 use App\Models\Group\Group;
+use App\Models\Lesson;
 use App\Models\Teacher\Teacher;
 use App\Models\Year;
 use Exception;
@@ -15,16 +16,12 @@ class Service
     {
         try {
             DB::beginTransaction();
-            $teacher = Teacher::find($data['teacher_id']);
-            $yearInput = explode('-',$data['year']);
-            $year = Year::firstOrCreate([
-                'start_year' => $yearInput[0],
-                'end_year' => $yearInput[1],
-            ]);
-            $teacher->disciplines()->attach($data['disciplines_ids'], [
+            Lesson::firstOrCreate([
                 'group_id' => $data['group_id'],
                 'semester' => $data['semester'],
-                'year_id' => $year->id
+                'year_id' => $data['year_id'],
+                'teacher_id' => $data['teacher_id'],
+                'discipline_id' => $data['discipline_id'],
             ]);
             DB::commit();
         } catch (Exception $exception) {
@@ -33,20 +30,10 @@ class Service
         }
     }
 
-    public function update($data, $group) {
+    public function update($data, $lesson) {
         try {
             DB::beginTransaction();
-            $data += ['semester' => $this->getSemester($data['title'])];
-            $data += ['course' => $this->getCourse($data['semester'])];
-            if (!empty($data['student_id'])) {
-                $this->setHeadman($data['student_id'], $group);
-            } else {
-                if (!empty($group->headman)) {
-                    $group->headman->delete();
-                }
-            }
-            unset($data['student_id']);
-            $group->update($data);
+            $lesson->update($data);
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();

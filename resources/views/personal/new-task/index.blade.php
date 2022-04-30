@@ -81,6 +81,7 @@
         let choiceDiscipline = $("#discipline_name").val();
         let choiceGroup, choiceSemester;
         let appUrl = '{{ getenv('APP_URL') }}';
+        let teacherId = {{$teacher->id}};
 
         let tabId; // выбранная вкладка (задания либо уч. материалы)
         let homeworkId; // выбранная работа студента
@@ -279,6 +280,7 @@
             $.ajax({
                 type: 'GET',
                 url: appUrl + 'api/lessons/get-groups?discipline_id=' + choiceDiscipline,
+                data: {'teacher_id': teacherId},
                 success: function (response) {
                     $('#group_name').empty();
                     $('#group_name').append(`<option value="" disabled selected>-- Не выбрана</option>`);
@@ -297,7 +299,7 @@
             $.ajax({
                 type: 'GET',
                 url: appUrl + 'api/lessons/get-semesters',
-                data: { 'group_id': choiceGroup, 'discipline_id': choiceDiscipline },
+                data: { 'group_id': choiceGroup, 'discipline_id': choiceDiscipline, 'teacher_id': teacherId },
                 success: function (response) {
                     $('#semester_name').empty();
                     response.forEach(element => {

@@ -24,18 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'semester' => 'required|integer',
-            'teacher_id' => 'integer|exists:teachers,id',
-            'disciplines_ids' => 'required|array',
-            'disciplines_ids.*' => 'integer|exists:disciplines,id',
-            'group_id' => 'integer|exists:groups,id'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-
+            'teacher_id' => 'required|integer|exists:teachers,id',
         ];
     }
 }

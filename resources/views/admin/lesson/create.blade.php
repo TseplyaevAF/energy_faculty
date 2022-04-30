@@ -8,7 +8,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Добавление занятия</h1>
+            <h1 class="m-0">
+                <a href="{{ route('admin.lesson.get-chair-load', [$data['chair']->id, $data['year']->id]) }}"><i class="fas fa-chevron-left mb-2"></i></a>
+                Добавление учебной нагрузки
+            </h1>
+            <h5>{{ $data['chair']->title }} на {{ $data['year']->start_year }}-{{ $data['year']->end_year }}</h5>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -31,9 +35,8 @@
 
         <div class="row">
           <div class="col-12">
-            <form action="{{ route('admin.lesson.store') }}" method="POST" class="w-25">
+            <form action="{{ route('admin.lesson.store', [$data['chair']->id, $data['year']->id]) }}" method="POST" class="w-25">
               @csrf
-
                 <div class="form-group">
                     <label>Выберите семестр</label>
                     <select name="semester" class="form-control">
@@ -41,13 +44,7 @@
                             <option value="{{ $semester }}" {{$semester == old('semester') ? 'selected' : ''}}>{{ $semester }}</option>
                         @endforeach
                     </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Введите год обучения</label>
-                    <input value="{{ old('year') }}" type="text" id="year" class="form-control" name="year"
-                    placeholder="2021-2022">
-                    @error('year')
+                    @error('semester')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
@@ -60,6 +57,9 @@
                                 value="{{$group->id }}" {{$group->id == old('group_id') ? 'selected' : ''}}>{{ $group->title }}</option>
                         @endforeach
                     </select>
+                    @error('group_id')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -70,21 +70,24 @@
                                 value="{{$teacher->id }}" {{$teacher->id == old('teacher_id') ? 'selected' : ''}}>{{ $teacher->user->surname }}</option>
                         @endforeach
                     </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Выберите преподаваемые дисциплины</label>
-                    <select class="select2" name="disciplines_ids[]" multiple="multiple" data-placeholder="Выберите дисциплины" style="width: 100%;">
-                        @foreach ($data['disciplines'] as $discipline)
-                            <option {{ is_array(old('disciplines_ids'))
-                    && in_array($discipline->id, old('disciplines_ids'))
-                    ? 'selected' : ''}} value="{{ $discipline->id }}">{{ $discipline->title }}</option>
-                        @endforeach
-                    </select>
-                    @error('disciplines_ids')
+                    @error('teacher_id')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <div class="form-group">
+                    <label>Выберите дисциплину</label>
+                    <select name="discipline_id" class="form-control">
+                        @foreach($data['disciplines'] as $discipline)
+                            <option
+                                value="{{$discipline->id }}" {{$discipline->id == old('discipline_id') ? 'selected' : ''}}>{{ $discipline->title }}</option>
+                        @endforeach
+                    </select>
+                    @error('discipline_id')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+                <input type="hidden" value="{{ $data['year']->id }}" name="year_id">
 
               <input type="submit" class="btn btn-primary" value="Добавить">
             </form>

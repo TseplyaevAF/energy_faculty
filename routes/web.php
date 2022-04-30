@@ -29,7 +29,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 
     Route::group(['namespace' => 'Lesson', 'prefix' => 'lessons'], function () {
         Route::get('/', 'LessonController@index')->name('admin.lesson.index');
-        Route::get('/{chair}/{year}', 'LessonController@getChairLoad');
+        Route::get('/{chair}/{year}', 'LessonController@getChairLoad')->name('admin.lesson.get-chair-load');
+        Route::get('/{chair}/{year}/load-teachers/{lesson}', 'LessonController@loadTeachers');
+        Route::patch('/{chair}/{year}/{lesson}', 'LessonController@update');
+        Route::get('/{chair}/{year}/create', 'LessonController@create')->name('admin.lesson.create');
+        Route::post('/{chair}/{year}', 'LessonController@store')->name('admin.lesson.store');
     });
 
     Route::resource('users', 'User\UserController', ['names' => 'admin.user']);

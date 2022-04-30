@@ -34,8 +34,14 @@
         @if (session('success'))
             <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
         @endif
+        @csrf
       <div class="row">
         <div class="card-body col-md-12">
+            <div class="mb-2">
+                <a href="{{ route('admin.lesson.create', [$chair->id, $year->id]) }}" class="show btn btn-primary">
+                    Добавить нагрузку
+                </a>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="lessons-table">
                     <thead>
@@ -80,7 +86,8 @@
     $(document).ready(function () {
         let chairId = $("input[name='chair_id']").val();
         let yearId = $("input[name='year_id']").val();
-        let groupsTable = getLessons();
+        let choiceLesson;
+        let table = getLessons();
 
         function getLessons() {
             return $('#lessons-table').DataTable({
@@ -133,6 +140,50 @@
                 ],
             });
         }
+
+        // назначить нового преподавателя для выбранной нагрузки
+        $("#lessons-table").on('click', '.loadTeachers', function() {
+            choiceLesson = $(this).attr('id').split('_')[1];
+            $.ajax({
+                type: 'GET',
+                url:  `${yearId}/load-teachers/${choiceLesson}`,
+                success: function(response) {
+                    $('#newTeacherModal').modal("show");
+                    $('#newTeacherModalBody').html(response).show();
+                },
+                error: function(jqXHR, status, error) {
+                    alert('Невозможно получить информацию о преподавателях');
+                    console.log(jqXHR.responseText);
+                },
+                timeout: 8000
+            });
+        });
+
+        $('.content').on('click', '.setNewTeacher', function () {
+            let choiceTeacher = $('#choiceTeacher').val();
+            if (choiceTeacher === -1) {
+                alert('Пожалуйста, выберите преподавателя');
+                return;
+            }
+            $.ajax({
+                type: 'PATCH',
+                url:  `${yearId}/${choiceLesson}`,
+                data: {
+                    '_token': $("input[name='_token']").val(),
+                    'teacher_id': choiceTeacher
+                },
+                success: function(response) {
+                    alert(response);
+                    $('#newTeacherModal').modal('hide');
+                    table.draw();
+                },
+                error: function(jqXHR, status, error) {
+                    alert('Произошла ошибка');
+                    console.log(jqXHR.responseText);
+                },
+                timeout: 8000
+            });
+        })
     })
 </script>
 @endsection

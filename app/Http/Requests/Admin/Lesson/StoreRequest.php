@@ -26,19 +26,10 @@ class StoreRequest extends FormRequest
     {
         return [
             'semester' => 'required|integer',
-            'teacher_id' => 'integer|exists:teachers,id',
-            'disciplines_ids' => 'required|array',
-            'disciplines_ids.*' => 'integer|exists:disciplines,id',
-            'group_id' => 'integer|exists:groups,id',
-            'year' => 'required|string'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'year.required' => 'Необходимо заполнить год обучения',
-            'disciplines_ids.required' => 'Необходимо заполнить дисциплины',
+            'teacher_id' => 'required|integer|exists:teachers,id',
+            'discipline_id' => 'required|integer|exists:disciplines,id',
+            'group_id' => 'required|integer|exists:groups,id',
+            'year_id' => 'required|integer|exists:years,id',
         ];
     }
 }

@@ -29,7 +29,7 @@ class TaskController extends Controller
         $teacher = auth()->user()->teacher;
         $disciplines = $teacher->disciplines->unique('id');
 
-        return view('personal.new-task.index', compact( 'disciplines'));
+        return view('personal.new-task.index', compact( 'disciplines', 'teacher'));
     }
 
     public function getTasks(FilterRequest $request) {

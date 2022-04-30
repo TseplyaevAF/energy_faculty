@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Filters\LessonFilter;
 use App\Http\Requests\Admin\Lesson\FilterRequest;
 use App\Http\Requests\Admin\Lesson\StoreRequest;
+use App\Http\Requests\Admin\Lesson\UpdateRequest;
 use App\Http\Resources\LessonResource;
 use App\Models\Chair;
 use App\Models\Discipline;
@@ -47,19 +48,20 @@ class LessonController extends Controller
         return view('admin.lesson.get-chair-load', compact('chair', 'year'));
     }
 
-    public function create()
+    public function create(Chair $chair, Year $year)
     {
         $data = [
-            'groups' => Group::all(),
+            'groups' => Group::where('chair_id', $chair->id)->get(),
             'disciplines' => Discipline::all(),
             'teachers' => Teacher::all(),
             'semesters' => range(1, 8),
-            'years' => Year::all()
+            'year' => $year,
+            'chair' => $chair,
         ];
         return view('admin.lesson.create', compact( 'data'));
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request, Chair $chair, Year $year)
     {
         $data = $request->validated();
         try {
@@ -67,6 +69,21 @@ class LessonController extends Controller
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
-        return redirect()->route('admin.lesson.index');
+        return redirect()->route('admin.lesson.get-chair-load', [$chair->id, $year->id]);
+    }
+
+    public function loadTeachers(Chair $chair, Year $year, Lesson $lesson) {
+        $teachers = Teacher::all();
+        return view('admin.lesson.ajax-views.set-new-teacher', compact('teachers', 'lesson'));
+    }
+
+    public function update(UpdateRequest $request, Chair $chair, Year $year, Lesson $lesson) {
+        $data = $request->validated();
+        try {
+            $this->service->update($data, $lesson);
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        return response('Преподаватель был успешно сменён', 200);
     }
 }
