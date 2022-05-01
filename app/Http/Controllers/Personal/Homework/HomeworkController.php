@@ -34,7 +34,7 @@ class HomeworkController extends Controller
     public function getTasks(FilterRequest $request) {
         $data = $request->validated();
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
-        $lessons = Lesson::filter($filter)->get();
+        $lessons = Lesson::filter($filter)->where('teacher_id', '!=', null)->get();
         $data = [];
         foreach ($lessons as $lesson) {
             $data[$lesson->id] = $this->service->getTasks($lesson, auth()->user()->student);

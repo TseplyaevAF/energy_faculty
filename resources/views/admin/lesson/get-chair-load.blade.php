@@ -50,6 +50,7 @@
                         <th>Группа</th>
                         <th>Семестр</th>
                         <th>Дисциплина</th>
+                        <th>Дата добавления</th>
                         <th>Преподаватели</th>
                     </tr>
                     </thead>
@@ -119,6 +120,7 @@
                     {data: 'group', name: 'group'},
                     {data: 'semester', name: 'semester'},
                     {data: 'discipline', name: 'discipline'},
+                    {data: 'created_at', name: 'created_at'},
                     {
                         data: "teacher", name: "teacher",
                         render: function (data, type, row) {
@@ -136,8 +138,9 @@
                 ],
                 columnDefs: [
                     {width: '5%', targets: 0},
-                    {width: '10%', targets: 1}
+                    {width: '10%', targets: 1},
                 ],
+                "aaSorting": [[ 4, 'asc' ]],
             });
         }
 

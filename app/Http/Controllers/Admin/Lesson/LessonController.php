@@ -41,7 +41,7 @@ class LessonController extends Controller
                 'year_id' => $year->id,
             ];
             $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
-            $data = LessonResource::collection(Lesson::filter($filter)->orderBy('updated_at', 'desc')->get());
+            $data = LessonResource::collection(Lesson::filter($filter)->orderBy('created_at', 'asc')->get());
             return DataTables::of($data)
                 ->make(true);
         }

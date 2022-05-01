@@ -21,6 +21,7 @@ class LessonResource extends JsonResource
             'teacher' => ($this->teacher != null) ? $this->teacher->user->fullName() : null,
             'semester' => $this->semester,
             'year' => $this->year->start_year . '-' . $this->year->end_year,
+            'created_at' => $this->created_at->format('d.m.Y'),
         ];
     }
 }
