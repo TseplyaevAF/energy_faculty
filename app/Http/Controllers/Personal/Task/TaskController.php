@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Filters\LessonFilter;
 use App\Http\Requests\Admin\Lesson\FilterRequest;
 use App\Http\Requests\Personal\Task\StoreRequest;
+use App\Models\Discipline;
 use App\Models\Lesson;
 use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
@@ -34,6 +35,9 @@ class TaskController extends Controller
 
     public function getTasks(FilterRequest $request) {
         $data = $request->validated();
+        $data += [
+            'teacher_id' => auth()->user()->teacher->id
+        ];
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
         $lesson = Lesson::filter($filter)->first();
         $data = $this->service->getTasks($lesson);
@@ -68,6 +72,27 @@ class TaskController extends Controller
         }
 
         return view('personal.task.create', compact('lessons'));
+    }
+
+    public function createLesson() {
+        $disciplines = Discipline::all();
+        return view('personal.new-task.create-lesson', compact('disciplines'));
+    }
+
+    public function createTeacherLesson(\App\Http\Requests\Admin\Lesson\StoreRequest $request) {
+        $data = $request->validated();
+        $lesson = Lesson::where('discipline_id', $data['discipline_id'])
+                        ->where('group_id', $data['group_id'])
+                        ->where('semester', $data['semester'])->first();
+        if (isset($lesson->teacher)) {
+            return response('Данная нагрузка занята', 403);
+        } else {
+            $lesson->update([
+                'teacher_id' => $data['teacher_id']
+            ]);
+            return response('Нагрузка успешно добавлена
+            Страница будет перезагружена', 200);
+        }
     }
 
 

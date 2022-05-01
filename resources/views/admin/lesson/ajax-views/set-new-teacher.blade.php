@@ -5,9 +5,9 @@
 <div class="form-group mb-3">
     <label class="control-label required">Выберите преподавателя</label>
     <select name="status" class="form-control" id="choiceTeacher">
-        <option value="-1">-- Не выбран</option>
+        <option value="">-- Не выбран</option>
         @foreach($teachers as $teacher)
-            <option value="{{ $teacher->id }}" {{ $teacher->id == $lesson->teacher->id ? 'selected' : ''}} >{{ $teacher->user->fullName() }}</option>
+            <option value="{{ $teacher->id }}" @if(isset($lesson->teacher)){{ $teacher->id == $lesson->teacher->id ? 'selected' : ''}} @endif>{{ $teacher->user->fullName() }}</option>
         @endforeach
 
     </select>

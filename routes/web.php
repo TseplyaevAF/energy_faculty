@@ -135,6 +135,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::post('tasks/store-edu', 'Task\TaskController@storeEduMaterial')->name('personal.task.store-edu');
     Route::get('tasks/get-edu-materials', 'Task\TaskController@getEduMaterials');
     Route::get('tasks/load-edu/{eduMaterial}', 'Task\TaskController@loadEduMaterial');
+    Route::get('tasks/create-lesson', 'Task\TaskController@createLesson');
+    Route::patch('tasks/create/lesson', 'Task\TaskController@createTeacherLesson');
 
     Route::resource('homework', 'Homework\HomeworkController', ['names' => 'personal.homework'])
         ->only('index', 'store', 'destroy');

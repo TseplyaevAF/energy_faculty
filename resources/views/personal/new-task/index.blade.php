@@ -19,12 +19,35 @@
                 </div>
             </div>
         </div>
+
+        {{--Модальное окно для проставления оценки студенту за его работу--}}
+        <div class="modal fade" id="addLessonModal" tabindex="-1" role="dialog"
+             aria-labelledby="addLessonModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="card-title">Добавление учебной нагрузки</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="addLessonModalBody">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <section class="content">
             <div class="container-fluid">
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
                 <div class="form-group w-50">
+                    <div class="mb-2">
+                        <a type="button" class="btn btn-primary" id="addLesson">
+                            Добавить нагрузку
+                        </a>
+                    </div>
                     <div class="row filters">
                         <div class="col-md-6 mb-2">
                             <h6>Дисциплина<span class="gcolor"></span></h6>
@@ -81,6 +104,7 @@
         let choiceDiscipline = $("#discipline_name").val();
         let choiceGroup, choiceSemester;
         let appUrl = '{{ getenv('APP_URL') }}';
+        window.appUrl = appUrl;
         let teacherId = {{$teacher->id}};
 
         let tabId; // выбранная вкладка (задания либо уч. материалы)
@@ -90,6 +114,18 @@
         let eduMaterialId;
 
         getGroups(choiceDiscipline);
+
+        $('#addLesson').on('click', function () {
+            $.ajax({
+                method: 'GET',
+                url: 'tasks/create-lesson',
+                datatype: 'json',
+                success: function (response) {
+                    $('#addLessonModal').modal('show');
+                    $('#addLessonModalBody').html(response);
+                }
+            });
+        });
 
         $('.tabs').hide();
 

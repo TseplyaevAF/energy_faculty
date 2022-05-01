@@ -18,7 +18,7 @@ class LessonResource extends JsonResource
             'id' => $this->id,
             'discipline' => $this->discipline->title,
             'group' => $this->group->title,
-            'teacher' => $this->teacher->user->fullName(),
+            'teacher' => ($this->teacher != null) ? $this->teacher->user->fullName() : null,
             'semester' => $this->semester,
             'year' => $this->year->start_year . '-' . $this->year->end_year,
         ];

@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'teacher_id' => 'required|integer|exists:teachers,id',
+            'teacher_id' => 'nullable|integer|exists:teachers,id',
         ];
     }
 }

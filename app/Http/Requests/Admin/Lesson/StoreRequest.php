@@ -26,10 +26,10 @@ class StoreRequest extends FormRequest
     {
         return [
             'semester' => 'required|integer',
-            'teacher_id' => 'required|integer|exists:teachers,id',
+            'teacher_id' => 'nullable|integer|exists:teachers,id',
             'discipline_id' => 'required|integer|exists:disciplines,id',
             'group_id' => 'required|integer|exists:groups,id',
-            'year_id' => 'required|integer|exists:years,id',
+            'year_id' => 'nullable|integer|exists:years,id',
         ];
     }
 }

@@ -65,6 +65,7 @@
                 <div class="form-group">
                     <label>Выберите преподавателя</label>
                     <select name="teacher_id" class="form-control">
+                        <option value="">-- Не выбран</option>
                         @foreach($data['teachers'] as $teacher)
                             <option
                                 value="{{$teacher->id }}" {{$teacher->id == old('teacher_id') ? 'selected' : ''}}>{{ $teacher->user->surname }}</option>

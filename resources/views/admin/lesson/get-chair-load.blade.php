@@ -122,7 +122,7 @@
                     {
                         data: "teacher", name: "teacher",
                         render: function (data, type, row) {
-                            if (row.curator === null) {
+                            if (row.teacher === null) {
                                 return '<button type="button" ' +
                                     'class="btn btn-primary btn-sm loadTeachers" ' +
                                     'id="lesson_' + row.id + '">Назначить</button>';
