@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             'categories' => 'assets/categories.json',
             'users' => 'assets/users.json',
             'lessons' => 'assets/lessons.json',
+            'news' => 'assets/news.json',
         ];
         foreach ($pathJsons as $key => $path) {
             $array = json_decode(File::get(public_path($path)), true);
@@ -72,17 +73,11 @@ class DatabaseSeeder extends Seeder
                 self::createLessons($array);
                 continue;
             }
-        }
-        Event::factory(5)->create();
-        $news = News::factory(10)->create();
-        foreach ($news as $newsEl) {
-            if ($newsEl->is_slider_item) {
-                $newsEl->update([
-                    'preview' => 'https://via.placeholder.com/640x480.png/0022dd?text=nulla'
-                ]);
+            if ($key == 'news') {
+                self::createPosts($array);
+                continue;
             }
         }
-
 //        User::factory(100)->create();
     }
 
@@ -195,6 +190,36 @@ class DatabaseSeeder extends Seeder
                 'teacher_id' => $teacher != null ? $teacher->id : null,
                 'semester' => $lesson['semester'],
                 'year_id' => $year->id,
+            ]);
+        }
+    }
+
+    // создать новости
+    public function createPosts($posts) {
+        foreach ($posts as $post) {
+            $event = null;
+            $news = null;
+            if (isset($post['event'])) {
+                $eventInput = explode('-', $post['event']);
+                $event = Event::firstOrCreate([
+                    'start_date' => isset($eventInput[0]) ? $eventInput[0] : null,
+                    'finish_date' => isset($eventInput[1]) ? $eventInput[1] : null,
+                ])->id;
+            }
+            if (isset($post['images'])) {
+                foreach ($post['images'] as $image) {
+                    $news[] = json_encode($image);
+                }
+            }
+            News::firstOrCreate([
+                'title' => $post['title'],
+                'content' => $post['content'],
+                'images' => json_encode($post['images']),
+                'chair_id' => Chair::where('title', $post['chair'])->first()->id,
+                'category_id' => Category::where('title', $post['category'])->first()->id,
+                'is_slider_item' => $post['is_slider_item'],
+                'preview' => $post['preview'],
+                'event_id' => $event,
             ]);
         }
     }
