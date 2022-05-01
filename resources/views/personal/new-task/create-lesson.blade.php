@@ -109,10 +109,19 @@
                     $('#addLessonModal').modal('hide');
                     location.reload();
                 },
-                error: function (response) {
-                    alert(response.responseText);
+                error: function (response, error) {
+                    if (error === 'Forbidden') {
+                        alert('При попытке добавления нагрузки произошла ошибка');
+                        console.log(response.responseText);
+                    } else {
+                        alert(response.responseText);
+                    }
                 }
             });
+        })
+
+        $('#add_semester_name').on('change', function () {
+            choiceAddSemester = $(this).val();
         })
     });
 </script>

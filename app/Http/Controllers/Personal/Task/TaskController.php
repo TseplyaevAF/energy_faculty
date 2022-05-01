@@ -83,15 +83,15 @@ class TaskController extends Controller
         $data = $request->validated();
         $lesson = Lesson::where('discipline_id', $data['discipline_id'])
                         ->where('group_id', $data['group_id'])
-                        ->where('semester', $data['semester'])->first();
-        if (isset($lesson->teacher)) {
+                        ->where('semester', $data['semester'])
+                        ->where('teacher_id', null)->first();
+        if (!isset($lesson)) {
             return response('Данная нагрузка занята', 403);
         } else {
             $lesson->update([
                 'teacher_id' => $data['teacher_id']
             ]);
-            return response('Нагрузка успешно добавлена
-            Страница будет перезагружена', 200);
+            return response('Нагрузка успешно добавлена! Страница будет перезагружена', 200);
         }
     }
 
