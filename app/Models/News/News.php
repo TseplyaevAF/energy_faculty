@@ -18,4 +18,8 @@ class News extends Model
     public function event() {
         return $this->belongsTo(Event::class);
     }
+
+    public function tags() {
+        return $this->belongsToMany(Tag::class, 'news_tags', 'news_id', 'tag_id');
+    }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\Employee\News\UpdateRequest;
 use App\Http\Requests\News\FilterRequest;
 use App\Models\News\Category;
 use App\Models\News\News;
+use App\Models\News\Tag;
 use App\Models\User;
 use App\Service\News\Service;
 
@@ -39,7 +40,8 @@ class NewsController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('employee.news.create', compact('categories'));
+        $tags = Tag::all();
+        return view('employee.news.create', compact('categories', 'tags'));
     }
 
     public function store(StoreRequest $request)
@@ -54,8 +56,9 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $categories = Category::all();
+        $tags = Tag::all();
         $images = json_decode($news->images);
-        return view('employee.news.edit', compact('news', 'categories', 'images'));
+        return view('employee.news.edit', compact('news', 'categories', 'images', 'tags'));
     }
 
     public function update(UpdateRequest $request, News $news)

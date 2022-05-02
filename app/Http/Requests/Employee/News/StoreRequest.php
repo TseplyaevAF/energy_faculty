@@ -29,6 +29,8 @@ class StoreRequest extends FormRequest
             'preview' => 'nullable|file|mimes:jpg,jpeg,png',
             'images.*' => 'nullable|file|mimes:jpg,jpeg,png',
             'category_id' => 'required|exists:categories,id',
+            'tags_ids' => 'nullable|array',
+            'tags_ids.*' => 'nullable|exists:tags,id',
             'chair_id' => 'required|exists:chairs,id',
             'start_date' => 'nullable|date|after_or_equal:' . date('d.m.Y'),
             'finish_date' => 'nullable|date|after_or_equal:start_date',

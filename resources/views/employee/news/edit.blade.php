@@ -1,6 +1,6 @@
   @extends('employee.layouts.main')
 
-  @section('title-block')Редактирование новости группы@endsection
+  @section('title-block')Редактирование новости@endsection
 
   @section('content')
       <link rel="stylesheet" href="{{ asset('css/news/style.css') }}">
@@ -130,6 +130,19 @@
                   @endforeach
                 </select>
               </div>
+                <div class="form-group w-25">
+                    <label>Выберите теги</label>
+                    <select class="select2" name="tags_ids[]" multiple="multiple" style="width: 100%;">
+                        @foreach ($tags as $tag)
+                            <option {{ is_array($news->tags->pluck('id')->toArray())
+                    && in_array($tag->id, $news->tags->pluck('id')->toArray())
+                    ? 'selected' : ''}} value="{{ $tag->id }}">{{ $tag->title }}</option>
+                        @endforeach
+                    </select>
+                    @error('tags_ids')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
               <div class="form-group">
                 <input type="submit" id="submitNews" class="btn btn-primary" value="Сохранить">
               </div>

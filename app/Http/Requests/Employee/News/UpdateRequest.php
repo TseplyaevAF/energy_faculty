@@ -29,6 +29,8 @@ class UpdateRequest extends FormRequest
             'preview' => 'nullable|image',
             'images.*' => 'nullable|image',
             'category_id' => 'required|exists:categories,id',
+            'tags_ids' => 'nullable|array',
+            'tags_ids.*' => 'nullable|exists:tags,id',
             'start_date' => 'nullable|date',
             'finish_date' => 'nullable|date|after_or_equal:start_date',
         ];

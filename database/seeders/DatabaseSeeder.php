@@ -10,6 +10,8 @@ use App\Models\Lesson;
 use App\Models\News\Category;
 use App\Models\News\Event;
 use App\Models\News\News;
+use App\Models\News\NewsTag;
+use App\Models\News\Tag;
 use App\Models\Role;
 use App\Models\Schedule\ClassTime;
 use App\Models\Teacher\Teacher;
@@ -35,9 +37,11 @@ class DatabaseSeeder extends Seeder
             'groups' => 'assets/groups.json',
             'disciplines' => 'assets/disciplines.json',
             'categories' => 'assets/categories.json',
+            'tags' => 'assets/tags.json',
             'users' => 'assets/users.json',
             'lessons' => 'assets/lessons.json',
             'news' => 'assets/news.json',
+            'news_tags' => 'assets/news_tags.json',
         ];
         foreach ($pathJsons as $key => $path) {
             $array = json_decode(File::get(public_path($path)), true);
@@ -65,6 +69,10 @@ class DatabaseSeeder extends Seeder
                 self::createCategories($array);
                 continue;
             }
+            if ($key == 'tags') {
+                self::createTags($array);
+                continue;
+            }
             if ($key == 'users') {
                 self::createUsers($array);
                 continue;
@@ -75,6 +83,10 @@ class DatabaseSeeder extends Seeder
             }
             if ($key == 'news') {
                 self::createPosts($array);
+                continue;
+            }
+            if ($key == 'news_tags') {
+                self::createNewsTags($array);
                 continue;
             }
         }
@@ -130,6 +142,26 @@ class DatabaseSeeder extends Seeder
         foreach ($categories as $category) {
             Category::firstOrcreate([
                 'title' => $category['title']
+            ]);
+        }
+    }
+
+    // создать теги
+    public function createTags($tags) {
+        foreach ($tags as $tag) {
+            Tag::firstOrcreate([
+                'title' => $tag['title']
+            ]);
+        }
+    }
+
+    // прикрепить теги к новостям
+    public function createNewsTags($news_tags) {
+        foreach ($news_tags as $news_tag) {
+            $kek = News::find($news_tag['news_id']);
+            NewsTag::firstOrcreate([
+                'news_id' => News::find($news_tag['news_id'])->id,
+                'tag_id' => Tag::find($news_tag['tag_id'])->id,
             ]);
         }
     }
@@ -198,7 +230,6 @@ class DatabaseSeeder extends Seeder
     public function createPosts($posts) {
         foreach ($posts as $post) {
             $event = null;
-            $news = null;
             if (isset($post['event'])) {
                 $eventInput = explode('-', $post['event']);
                 $event = Event::firstOrCreate([
@@ -206,12 +237,7 @@ class DatabaseSeeder extends Seeder
                     'finish_date' => isset($eventInput[1]) ? $eventInput[1] : null,
                 ])->id;
             }
-            if (isset($post['images'])) {
-                foreach ($post['images'] as $image) {
-                    $news[] = json_encode($image);
-                }
-            }
-            News::firstOrCreate([
+            $news = News::firstOrCreate([
                 'title' => $post['title'],
                 'content' => $post['content'],
                 'images' => json_encode($post['images']),

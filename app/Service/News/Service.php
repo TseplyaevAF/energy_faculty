@@ -20,6 +20,10 @@ class Service
                 'category_id' => $data['category_id'],
                 'chair_id' => $data['chair_id']
             ]);
+            if (isset($data['tags_ids'])) {
+                $news->tags()->attach($data['tags_ids']);
+            }
+
             $imagePath = 'images/news/' . $news->id;
 
             $data['preview'] = Storage::disk('public')
@@ -55,6 +59,7 @@ class Service
                 'content' => $data['content'],
                 'category_id' => $data['category_id']
             ]);
+            $news->tags()->sync(isset($data['tags_ids']) ? $data['tags_ids'] : null);
 
             if (isset($news->event)) {
                 $news->event->update([
@@ -106,7 +111,7 @@ class Service
         $tempImages = [];
         foreach ($images as $image) {
             $tempImages[] = Storage::disk('public')
-                ->put($imagesPath, $image);
+                ->put($imagesPath + 'news', $image);
         }
         return json_encode($tempImages);
     }
