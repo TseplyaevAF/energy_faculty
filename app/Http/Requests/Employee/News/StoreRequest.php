@@ -26,13 +26,13 @@ class StoreRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'preview' => 'nullable|file|mimes:jpg,jpeg,png',
+            'preview' => 'required|file|mimes:jpg,jpeg,png',
             'images.*' => 'nullable|file|mimes:jpg,jpeg,png',
             'category_id' => 'required|exists:categories,id',
             'tags_ids' => 'nullable|array',
             'tags_ids.*' => 'nullable|exists:tags,id',
             'chair_id' => 'required|exists:chairs,id',
-            'start_date' => 'nullable|date|after_or_equal:' . date('d.m.Y'),
+            'start_date' => 'nullable|date',
             'finish_date' => 'nullable|date|after_or_equal:start_date',
         ];
     }
@@ -40,10 +40,11 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'start_date.after_or_equal' => 'Дата окончания должна быть равна текущей дате или больше её',
+            'start_date.after_or_equal' => 'Дата начала должна быть равна текущей дате или больше её',
             'finish_date.after_or_equal' => 'Дата окончания должна быть равна дате проведения или больше её',
             'title.required' => 'Новость должна содержать заголовок',
             'content.required' => 'Напишите что-нибудь...',
+            'preview.required' => 'Необходимо загрузить главное изображение (превью)',
             'preview.mimes' => 'Файл должен иметь один из следующих форматов: jpg,jpeg,png',
             'preview.file' => 'Необходимо загрузить изображение',
             'images.*.mimes' => 'Файл должен иметь один из следующих форматов: jpg,jpeg,png',

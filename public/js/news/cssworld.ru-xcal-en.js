@@ -23,8 +23,8 @@ var def = {
 	lang: "ru", // en/ru
 	id: "",
 	"class": "xcalend",
-	delim: ".",
-	order: 0, // 0/1/2
+	delim: "-",
+	order: 1, // 0/1/2
 	o: {value: ""},
 	year: -1, month: -1, dat: -1, day: -1, dop: "",
 	autoOn: 1, autoOff: 1, now:1, set0: 0, x: 1, hide: 1, to: "", fn: ""

@@ -63,8 +63,8 @@ class Service
 
             if (isset($news->event)) {
                 $news->event->update([
-                    'start_date' => $data['start_date'],
-                    'finish_date' => $data['finish_date']
+                    'start_date' => isset($data['start_date']) ? str_replace("-",'.',$data['start_date']) : null,
+                    'finish_date' => isset($data['finish_date']) ? str_replace("-",'.',$data['finish_date']) : null
                 ]);
             }
             $imagePath = 'images/news/' . $news->id;
@@ -118,8 +118,8 @@ class Service
 
     private function createEvent($start_date, $finish_date) {
         return Event::firstOrcreate([
-            'start_date' => $start_date,
-            'finish_date' => $finish_date
+            'start_date' => isset($start_date) ? str_replace("-",".",$start_date) : null,
+            'finish_date' => isset($finish_date) ? str_replace("-",".",$finish_date) : null
         ]);
     }
 }

@@ -8,7 +8,7 @@
 	"chair": "ИВТиПМ",
 	"is_slider_item": true,
 	"preview": "images/news/1/preview/preview.jpg",
-	"event": "26.04.2022-26.04.2022"
+	"event": "2022.04.26-2022.04.26"
   },
   {
 	"id": 2,
@@ -30,7 +30,7 @@
 	"chair": "ИВТиПМ",
 	"is_slider_item": true,
 	"preview": "images/news/3/preview/preview.jpg",
-	"event": "01.03.2022"
+	"event": "2022.03.01"
   },
   {
 	"id": 4,
@@ -41,6 +41,6 @@
 	"chair": "ИВТиПМ",
 	"is_slider_item": true,
 	"preview": "images/news/4/preview/preview.jpg",
-	"event": "19.11.2021-21.11.2021"
+	"event": "2021.11.19-2021.11.21"
   }
 ]
