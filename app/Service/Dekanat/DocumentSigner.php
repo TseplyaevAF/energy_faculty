@@ -19,6 +19,9 @@ class DocumentSigner
     public function getCert($teacher) {
         //1. поиск сертификата для подписи документа
         $cert = Certificate::where('teacher_id', $teacher->id)->first();
+        if (!$cert) {
+            throw new \Exception('Отсутствует действующий сертификат электронной подписи!');
+        }
         try {
             $certFile = Storage::disk('public')->get(json_decode($cert->cert_path));
         } catch (FileNotFoundException $e) {

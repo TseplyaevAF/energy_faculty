@@ -20,6 +20,10 @@
         {{$statements->first()->lesson->year->start_year}}-{{$statements->first()->lesson->year->end_year}}
         учебного года {{$statements->first()->lesson->semester}} семестра
     </h4>
+    <button type="button" id="semester-statement-download"
+            class="btn btn-outline-success btn-sm mb-3">
+        Скачать в excel
+    </button>
     @endif
     <div class="form-group scroll-table-body">
         <table class="table table-bordered table-hover" id="statements-table">

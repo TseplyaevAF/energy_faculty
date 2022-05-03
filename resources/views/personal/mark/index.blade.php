@@ -297,6 +297,11 @@
                 showTasksTab($('li:not(.active)'))
             }
         });
+
+        // скачать семестровку в excel файл
+        $('#semesterStatementsBody').on('click', '#semester-statement-download', function () {
+            downloadSemesterStatements(choiceGroup);
+        })
     });
     </script>
 @endsection

@@ -42,7 +42,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('isCurator', function (User $user) {
-            return isset($user->teacher->myGroups);
+            return count($user->teacher->myGroups) != 0;
         });
 
         Gate::define('isCuratorGroup', function (User $user, $group) {

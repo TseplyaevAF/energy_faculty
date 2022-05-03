@@ -27,10 +27,11 @@ class NewsFilter extends AbstractFilter
 
     public function content(Builder $builder, $value)
     {
-        $value = strtolower($value);
         $builder->where(function($query) use($value) {
-            $query->where('title', 'like', "%{$value}%")
-            ->orWhere('content', 'like', "%{$value}%");
+            $query->where('title', 'LIKE', "%{$value}%")
+                ->orWhere('title', 'ILIKE', "%{$value}%")
+                ->orWhere('content', 'LIKE', "%{$value}%")
+                ->orWhere('content', 'ILIKE', "%{$value}%");
         });
     }
 

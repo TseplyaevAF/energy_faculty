@@ -76,7 +76,7 @@
               </div>
                 <input type="hidden" name="group_id" value="{{ $group->id }}">
               <div class="form-group">
-                <input type="submit" id="submitGroupNews" class="btn btn-primary" value="Добавить">
+                <input type="submit" id="submitNews" class="btn btn-primary" value="Добавить">
               </div>
             </form>
           </div>

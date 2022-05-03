@@ -77,6 +77,7 @@
                 </a>
             </li>
             @endcan
+          @can('isTeacher')
             @can('isCurator')
                 <li class="nav-item">
                     <a href="{{ route('personal.news.showGroupsCurator') }}" class="nav-link">
@@ -86,6 +87,7 @@
                     </a>
                 </li>
             @endcan
+          @endcan
           @can('isStudent')
             @can('isHeadman')
             <li class="nav-item">
@@ -119,12 +121,14 @@
                 </li>
             @endcan
             @can('isTeacher')
+                @can('isCurator')
                 <li class="nav-item">
                     <a href="{{ route('personal.mark.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-check-double"></i>
                         <p>Куратору</p>
                     </a>
                 </li>
+                @endcan
             @endcan
             @can('isStudent')
                 <li class="nav-item">

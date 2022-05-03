@@ -25,7 +25,7 @@ Route::apiResources([
     'categories' => 'Api\CategoryController'
 ]);
 
-Route::group(['middleware' => ['auth:web', 'personal']], function () {
+Route::group(['middleware' => ['auth:web']], function () {
     Route::apiResource('statements', 'Api\StatementController')
         ->only('index');
     Route::get('/statements/control-forms', 'Api\StatementController@getControlForms');

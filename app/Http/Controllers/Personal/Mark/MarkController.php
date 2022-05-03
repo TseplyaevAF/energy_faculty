@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Personal\Mark;
 
 use App\Exports\IndividualsExport;
+use App\Exports\SemesterStatementsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\LessonFilter;
 use App\Http\Filters\StatementFilter;
@@ -49,8 +50,30 @@ class MarkController extends Controller
         ];
         $filter = app()->make(StatementFilter::class, ['queryParams' => array_filter($data)]);
         $statements = Statement::filter($filter)->orderBy('updated_at', 'desc')->get()->where('report', '!=', null);
+
+        $studentsMarks = self::getStudentsMarksFromStatements($group->students, $statements);
+
+        return view('personal.mark.semester.show', compact('statements', 'studentsMarks'));
+    }
+
+    public function downloadSemesterStatements(Group $group, $semester) {
+        $data = [
+            'group' => $group->id,
+            'semester' => $semester,
+        ];
+        $filter = app()->make(StatementFilter::class, ['queryParams' => array_filter($data)]);
+        $statements = Statement::filter($filter)->orderBy('updated_at', 'desc')->get()->where('report', '!=', null);
+
+        $studentsMarks = self::getStudentsMarksFromStatements($group->students, $statements);
+
+        $fileName = 'Ведомость_сдачи_зачетов_и_экзаменов_сессии '. $semester .' семестра группы ' . $group->title . '.xlsx';
+        $path = 'semester-statements/' . $semester . '/' . $group->title . '/' . $fileName;
+        Excel::store(new SemesterStatementsExport($studentsMarks, $statements), $path, 'private');
+        return Excel::download(new SemesterStatementsExport($studentsMarks, $statements), $fileName);
+    }
+
+    private function getStudentsMarksFromStatements($students, $statements) {
         $studentsMarks = [];
-        $students = $group->students;
         $count = 0;
         while ($count != count($students)) {
             $tempArray = [];
@@ -68,7 +91,7 @@ class MarkController extends Controller
             . ' ' . $students[$count]->user->patronymic] = $tempArray;
             $count++;
         }
-        return view('personal.mark.semester.show', compact('statements', 'studentsMarks'));
+        return $studentsMarks;
     }
 
     public function getStudents(Group $group) {
