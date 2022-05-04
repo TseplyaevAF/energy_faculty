@@ -16,25 +16,25 @@ function getSemesterStatementsTable(choiceGroup) {
     });
 }
 
-function downloadSemesterStatements(choiceGroup) {
+function downloadSemesterStatements(choiceGroup, choiceStudent = null) {
     let choiceSemester = $('#semester-statements-semester').val();
     $.ajax({
-        xhrFields: {
-            responseType: 'blob',
-        },
         type: 'GET',
-        url: 'marks/download-semesters-statements/'+ choiceGroup +'/' + choiceSemester,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        success: function(data) {
-            const blob = new Blob([data], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = `Ведомость сдачи зачетов и экзаменов ${choiceSemester} семестра группы ${choiceGroup}.xlsx`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        url: `marks/download-semester-statements/${choiceGroup}/${choiceSemester}`,
+        data: {
+            'student_id': choiceStudent
+        },
+        success: function(response) {
+            downloadFile(response);
         }
     });
+}
+
+function downloadFile(response) {
+    var a = document.createElement("a");
+    a.href = response.file;
+    a.download = response.file_name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
 }

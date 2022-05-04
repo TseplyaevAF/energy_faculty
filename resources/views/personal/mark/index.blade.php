@@ -193,6 +193,7 @@
             </div>
         </div>
     </div>
+
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/personal/mark/statements.js') }}"></script>
     <script src="{{ asset('js/personal/mark/semester_statements.js') }}"></script>
@@ -301,6 +302,22 @@
         // скачать семестровку в excel файл
         $('#semesterStatementsBody').on('click', '#semester-statement-download', function () {
             downloadSemesterStatements(choiceGroup);
+        }).on('click', '#semester-statement-by-student-modal', function () {
+            $.ajax({
+                type: 'GET',
+                url: `marks/group-students/${choiceGroup}`,
+                success: function (response) {
+                    let $semesterStatementStudent = $('#semester-statement-student');
+                    $semesterStatementStudent.empty();
+                    JSON.parse(response).forEach(element => {
+                        $semesterStatementStudent.append(`<option value="${element['id']}">${element['FIO']}</option>`);
+                    });
+                    $('#semesterStatementByStudentModal').modal('show');
+                }
+            });
+        }).on('click', '#semester-statement-student-download', function () {
+            let choiceStudent = $('#semester-statement-student').val();
+            downloadSemesterStatements(choiceGroup, choiceStudent);
         })
     });
     </script>

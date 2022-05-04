@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Personal\Mark;
 
 use App\Exports\IndividualsExport;
+use App\Exports\SemesterStatementsByStudentExport;
 use App\Exports\SemesterStatementsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\LessonFilter;
@@ -15,6 +16,7 @@ use App\Models\Statement\Individual;
 use App\Models\Statement\Statement;
 use App\Models\Student\Student;
 use App\Service\Group\Service;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Exception;
@@ -56,20 +58,29 @@ class MarkController extends Controller
         return view('personal.mark.semester.show', compact('statements', 'studentsMarks'));
     }
 
-    public function downloadSemesterStatements(Group $group, $semester) {
+    public function downloadSemesterStatements(Request $request, Group $group, $semester) {
         $data = [
             'group' => $group->id,
             'semester' => $semester,
         ];
         $filter = app()->make(StatementFilter::class, ['queryParams' => array_filter($data)]);
         $statements = Statement::filter($filter)->orderBy('updated_at', 'desc')->get()->where('report', '!=', null);
+        $input = $request->input();
+        if (isset($input['student_id'])) {
+            $student = Student::find($input['student_id']);
+            $studentMarks = self::getStudentsMarksFromStatements([$student], $statements);
+            $fileName = 'Отчёт по экзаменам и зачетам студента ' . $student->user->fullName() . '.xlsx';
+            $file =  Excel::raw(new SemesterStatementsByStudentExport($studentMarks, $statements), 'Xlsx');
 
-        $studentsMarks = self::getStudentsMarksFromStatements($group->students, $statements);
-
-        $fileName = 'Ведомость_сдачи_зачетов_и_экзаменов_сессии '. $semester .' семестра группы ' . $group->title . '.xlsx';
-        $path = 'semester-statements/' . $semester . '/' . $group->title . '/' . $fileName;
-        Excel::store(new SemesterStatementsExport($studentsMarks, $statements), $path, 'private');
-        return Excel::download(new SemesterStatementsExport($studentsMarks, $statements), $fileName);
+        } else {
+            $studentsMarks = self::getStudentsMarksFromStatements($group->students, $statements);
+            $fileName = 'Отчёт по экзаменам и зачетам ' . $semester . ' семестра группы ' . $group->title . '.xlsx';
+            $file =  Excel::raw(new SemesterStatementsExport($studentsMarks, $statements), 'Xlsx');
+        }
+        return response()->json([
+            'file_name' => $fileName,
+            'file' => "data:application/vnd.ms-excel;base64,".base64_encode($file)
+        ]);
     }
 
     private function getStudentsMarksFromStatements($students, $statements) {
