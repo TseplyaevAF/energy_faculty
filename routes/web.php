@@ -29,6 +29,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 
     Route::group(['namespace' => 'Lesson', 'prefix' => 'lessons'], function () {
         Route::get('/', 'LessonController@index')->name('admin.lesson.index');
+        Route::get('/get-years', 'LessonController@getYears');
+        Route::post('/add-year', 'LessonController@addYear');
         Route::get('/{chair}/{year}', 'LessonController@getChairLoad')->name('admin.lesson.get-chair-load');
         Route::get('/{chair}/{year}/load-teachers/{lesson}', 'LessonController@loadTeachers');
         Route::patch('/{chair}/{year}/{lesson}', 'LessonController@update');

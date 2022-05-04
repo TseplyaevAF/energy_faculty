@@ -16,6 +16,7 @@ use App\Models\Teacher\Teacher;
 use App\Models\Year;
 use App\Service\Lesson\Service;
 use DataTables;
+use Illuminate\Http\Request;
 
 class LessonController extends Controller
 {
@@ -30,6 +31,26 @@ class LessonController extends Controller
     {
         $chairs = Chair::all();
         return view('admin.lesson.index', compact('chairs'));
+    }
+
+    public function getYears()
+    {
+        echo json_encode(Year::all());
+    }
+
+    public function addYear(Request $request) {
+        $data = $request->input();
+        $yearInput = explode('-', $data['year']);
+        try {
+            Year::firstOrCreate([
+                'start_year' => $yearInput[0],
+                'end_year' => $yearInput[1],
+            ]);
+        } catch (\Exception $e) {
+            return response('Учебный год введён некорректно', 403);
+        }
+
+        return response('', 200);
     }
 
     public function getChairLoad(FilterRequest $request, Chair $chair, Year $year)
