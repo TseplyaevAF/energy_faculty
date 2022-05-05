@@ -130,16 +130,16 @@ a:hover {
         height: 5px;
         background: #FFF;
     }
-    table#statements-table tr{
+    table.tableAdaptive tr{
         display:block;
         margin-bottom: 30px;
     }
-    table#statements-table th, table#statements-table td{
+    table.tableAdaptive th, table.tableAdaptive td{
         display:block;
         text-align: center;
     }
 
-    table#statements-table td{
+    table.tableAdaptive td{
         border-right: none;
     }
 }

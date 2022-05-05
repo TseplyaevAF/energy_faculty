@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Filters\LessonFilter;
 use App\Http\Filters\StatementFilter;
 use App\Http\Requests\Admin\Lesson\FilterRequest;
+use App\Http\Requests\Personal\Mark\UpdateParentsContactsRequest;
 use App\Http\Resources\StudentResource;
 use App\Models\Group\Group;
 use App\Models\Lesson;
@@ -138,5 +139,18 @@ class MarkController extends Controller
         $data = \App\Service\Task\Service::getTasks($lesson);
 
         return view('personal.mark.task.show', compact( 'data', 'lesson'));
+    }
+
+    public function getParentsContacts(Student $student) {
+        $parents = json_decode($student->parents);
+        return view('personal.mark.show-parents-contacts', compact( 'parents', 'student'));
+    }
+
+    public function updateParentsContacts(UpdateParentsContactsRequest $request, Student $student) {
+        $data = $request->validated();
+        $student->update([
+            'parents' => json_encode($data['parents'])
+        ]);
+        return response('Данные о контактах родителей были обновлены', 200);
     }
 }

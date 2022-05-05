@@ -56,7 +56,7 @@
     </button>
     @endif
     <div class="form-group scroll-table-body">
-        <table class="table table-bordered table-hover" id="statements-table">
+        <table class="table table-bordered table-hover tableAdaptive">
             <thead>
             <tr>
                 <th rowspan="2">№ п/п</th>

@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        {{--Модальное окно для проставления оценки студенту за его работу--}}
+        {{--Модальное окно для добавления учебной нагрузки--}}
         <div class="modal fade" id="addLessonModal" tabindex="-1" role="dialog"
              aria-labelledby="addLessonModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -43,8 +43,9 @@
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
                 <div class="form-group w-50">
-                    <div class="mb-2">
-                        <a type="button" class="btn btn-primary" id="addLesson">
+                    <div class="mb-3">
+                        <a type="button"
+                           class="btn btn-outline-info btn-sm" id="addLesson">
                             Добавить нагрузку
                         </a>
                     </div>

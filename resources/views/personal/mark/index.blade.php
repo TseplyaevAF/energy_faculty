@@ -58,13 +58,14 @@
                                 </div>
                                 <h5>Студенты группы:</h5>
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-hover" id="students-table">
+                                    <table class="table table-striped table-hover tableAdaptive" id="students-table">
                                         <thead>
                                         <tr>
                                             <th>№</th>
                                             <th>ФИО</th>
                                             <th>№ зач. книжки</th>
                                             <th>Телефон</th>
+                                            <th>Контакты родителей</th>
                                             <th>Действия</th>
                                         </tr>
                                         </thead>
@@ -104,7 +105,7 @@
                                 </button>
                                 <h5>Экзаменационные ведомости:</h5>
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-hover" id="statements-table">
+                                    <table class="table table-striped table-hover tableAdaptive" id="statements-table">
                                         <thead>
                                         <tr>
                                             <th>№ ведомости</th>
@@ -189,6 +190,21 @@
                 </div>
                 <div class="modal-body" id="mediumBody">
                     <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="showParentsContactsModal" tabindex="-1" role="dialog"
+         aria-labelledby="showParentsContactsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="card-title">Контакты родителей</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="showParentsContactsModalBody">
                 </div>
             </div>
         </div>
@@ -280,7 +296,16 @@
         // назначить новую старосту группы
         $("#students-table").on('click', '.setNewHeadman', function() {
             setNewHeadman(choiceGroup, $(this).attr('id').split('_')[1]);
-        });
+
+        })  // посмотреть контакты родителей
+            .on('click', '.showParents', function() {
+                showParentsContacts($(this).attr('id').split('_')[1]);
+        })
+            // обновить контакты родителей
+        $('#showParentsContactsModalBody').on('click', '.updateParentsContacts', function() {
+            updateParentsContacts();
+        })
+
 
         // Загрузить контент соответствующей вкладки при смене учебной группы
         $('#group_name').on('change', function () {
