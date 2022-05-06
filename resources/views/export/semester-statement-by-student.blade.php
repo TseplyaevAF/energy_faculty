@@ -38,13 +38,13 @@
     @endphp
         @foreach(current($studentMarks) as $mark)
             <tr>
-            <td style="width: 125px; background-color: #eecf49; color: #8e4b36">
+            <td style="width: 125px;">
                 {{ $statements[$count]->lesson->discipline->title }}
             </td>
-            <td style="width: 125px; background-color: #eecf49; color: #8e4b36">
+            <td style="width: 125px;">
                 {{ $control_forms[$statements[$count]->control_form] }}
             </td>
-            <td style="width: 125px; background-color: #eecf49; color: #8e4b36">
+            <td style="width: 125px;">
                 {{ $mark }}
             </td>
             {{ $count++ }}

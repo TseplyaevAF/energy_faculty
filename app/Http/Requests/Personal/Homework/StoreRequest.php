@@ -24,8 +24,15 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'homework' => 'required|mimes:pdf',
+            'homework' => 'required|mimes:pdf,docx',
             'task_id' => 'integer|exists:tasks,id',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'homework.mimes' => 'Файл должен иметь один из следующих фоматов: pdf,docx'
         ];
     }
 }

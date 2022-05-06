@@ -47,6 +47,9 @@ class TaskController extends Controller
 
     public function getEduMaterials(FilterRequest $request) {
         $data = $request->validated();
+        $data += [
+            'teacher_id' => auth()->user()->teacher->id
+        ];
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
         $lesson = Lesson::filter($filter)->first();
         $files = $this->service->getEduMaterialsFiles($lesson);
@@ -170,6 +173,9 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         Gate::authorize('isTeacher');
+        if (count($task->homework) != 0) {
+            return response('Удалить невозможно', 403);
+        }
         $task->getMedia(Task::PATH)->first()->delete();
         $task->delete();
         return response('Файл успешно удален!', 200);

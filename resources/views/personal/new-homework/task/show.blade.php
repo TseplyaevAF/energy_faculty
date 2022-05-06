@@ -5,23 +5,9 @@
     .workOnVerification {
         background-color: rgba(52, 93, 170, 0.56);
     }
-    .deleteEdu {
-        display: block;
-        width: 13px;
-        height: 13px;
-        --weight: 1px;
-        --aa: 1px; /* anti-aliasing */
-        --color: rgba(95, 90, 90, 0.97);
-        border-radius: 1px;
-        background:
-            linear-gradient(45deg, transparent calc(50% - var(--weight) - var(--aa)), var(--color) calc(50% - var(--weight)), var(--color) calc(50% + var(--weight)), transparent calc(50% + var(--weight) + var(--aa))),
-            linear-gradient(-45deg, transparent calc(50% - var(--weight) - var(--aa)), var(--color) calc(50% - var(--weight)), var(--color) calc(50% + var(--weight)), transparent calc(50% + var(--weight) + var(--aa)));
-    }
-    .deleteEdu:hover {
-        cursor: pointer;
-    }
 </style>
 
+<link rel="stylesheet" href="{{ asset('css/personal/task/delete-style.css') }}">
 <input value="{{ current($data)['lesson_id'] }}" type="hidden" name="lesson_id">
 
 {{-- Модальное окно для загрузки работы студента --}}
@@ -39,10 +25,16 @@
                 <label for="exampleInputFile">Выберите файл с заданием</label>
                 <div class="input-group mb-2">
                     <div class="custom-file">
-                        <input type="file" id="file" name="homework" class="custom-file-input" accept=".pdf">
+                        <input type="file" id="file" name="homework" class="custom-file-input" accept=".pdf,.docx">
                         <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                     </div>
                 </div>
+                <blockquote>
+                    <span class="text-muted" style="font-size: 14px">
+                        Поддерживаются следующие форматы файлов: <b>pdf и docx - </b>
+                        <i>не более 10МБ</i>
+                    </span>
+                </blockquote>
                 <button type="button" class="btn btn-primary homeworkStore">
                     Сохранить
                 </button>
@@ -97,7 +89,11 @@
                     @foreach($item['arrayTasks'] as $month => $tasks)
                         @foreach($tasks as $task)
                         <td>
-                            {{ $task }}
+                            <a type="button" class="taskFile mr-1" id="task_{{ $task->id }}">
+                                {{ $task->getFileName() }}
+                                <input type="hidden" value="{{ $task->task }}" name="task_path">
+                            </a>
+                            <span class="text-muted">{{ $task->created_at->format('d.m.Y') }}</span>
                         </td>
                         @endforeach
                     @endforeach
@@ -121,7 +117,7 @@
                                     </td>
                                     @else
                                         <td class="workOnVerification">
-                                            <div class="row">
+                                            <div class="row" style="margin: 0;">
                                                 <a type="button" class="homeworkLoad mr-1" style="color: white"
                                                    id="homework_{{ $item['arrayHomework'][$student][$taskId]->id }}">Загружено
                                                     ({{$item['arrayHomework'][$student][$taskId]->updated_at->format('d.m.Y')}})

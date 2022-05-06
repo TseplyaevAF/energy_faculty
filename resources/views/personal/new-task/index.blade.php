@@ -161,7 +161,7 @@
                     getTasksTable(choiceDiscipline, choiceGroup, choiceSemester)
                 },
                 error: function (response) {
-                    alert(response.responseText);
+                    alert(response.responseJSON.errors['task']);
                 }
             });
         })
@@ -182,8 +182,12 @@
             });
         })
             .on('click', '.workFile', function () {
-            const filePath = $(this).text().split('/');
-            download(filePath, 'homework')
+                const filePath = $(this).text().split('/');
+                download(filePath, 'homework')
+        })
+            .on('click', '.taskFile', function () {
+                const filePath = $(this).children('input[name="task_path"]').val();
+                download(filePath.split('/'), 'tasks')
         })
             .on('click', '.checkHomework', function () {
                 const grade = $('#grade').val();
@@ -284,7 +288,23 @@
                         },
                     });
                 }
-            })
+            }).on('click', '.taskDelete', function () {
+            let id = $(this).attr('id').split('_')[1];
+            if (confirm('Вы уверены, что хотите удалить файл?')) {
+                $.ajax({
+                    url: 'tasks/' + id,
+                    type: 'DELETE',
+                    dataType: 'JSON',
+                    data: { '_token': $("input[name='_token']").val() },
+                    complete: function() {
+                        getTasksTable(choiceDiscipline, choiceGroup, choiceSemester);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            }
+        })
 
         function download(filePath, category) {
             $.ajax({
@@ -297,7 +317,7 @@
                     'Content-Type': 'application/json; charset=utf-8'
                 },
                 success: function(response) {
-                    const blob = new Blob([response], {type: 'application/pdf'});
+                    const blob = new Blob([response], {type: 'application/pdf,docx'});
                     const link = document.createElement('a');
                     link.href = window.URL.createObjectURL(blob);
                     link.download = filePath[3];

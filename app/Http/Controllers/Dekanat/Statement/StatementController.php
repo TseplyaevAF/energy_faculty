@@ -63,7 +63,7 @@ class StatementController extends Controller
         $lessons = Lesson::where([
             ['group_id', $groupId],
             ['year_id', $yearId]
-        ])->get();
+        ])->where('teacher_id', '!=', null)->get();
         $disciplines = [];
         foreach ($lessons as $lesson) {
             $disciplines[$lesson->id]['id'] = $lesson->id;

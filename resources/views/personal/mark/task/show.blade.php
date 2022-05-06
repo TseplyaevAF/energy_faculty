@@ -38,7 +38,7 @@
                 @foreach($data['arrayTasks'] as $month => $tasks)
                     @foreach($tasks as $task)
                     <td>
-                        {{ $task }}
+                        Задание от {{ $task->created_at->format('d.m.Y') }}
                     </td>
                     @endforeach
                 @endforeach

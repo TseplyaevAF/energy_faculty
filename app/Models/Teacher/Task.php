@@ -39,4 +39,8 @@ class Task extends Model implements HasMedia
     public function homework() {
         return $this->hasMany(Homework::class);
     }
+
+    public function getFileName() {
+        return $this->getMedia(Task::PATH)->first()->file_name;
+    }
 }

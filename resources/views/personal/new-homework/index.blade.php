@@ -151,7 +151,7 @@
                         getTasksTable(studentGroup, choiceDiscipline, choiceSemester)
                     },
                     error: function (response) {
-                        alert(response.responseText);
+                        alert(response.responseJSON.errors['homework']);
                     }
                 });
         })
@@ -178,6 +178,10 @@
             .on('click', '.workFile', function () {
                 const filePath = $(this).text().split('/');
                 download(filePath, 'homework')
+            })
+            .on('click', '.taskFile', function () {
+                const filePath = $(this).children('input[name="task_path"]').val();
+                download(filePath.split('/'), 'tasks')
             })
             .on('click', '.eduMaterialFile', function () {
                 const filePath = $(this).text().split('/');

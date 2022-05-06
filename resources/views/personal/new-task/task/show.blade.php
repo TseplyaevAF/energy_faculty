@@ -4,6 +4,7 @@
     }
 </style>
 
+<link rel="stylesheet" href="{{ asset('css/personal/task/delete-style.css') }}">
 <input value="{{ $data['lesson_id'] }}" type="hidden" name="lesson_id">
 
 {{--Модальное окно для добавления нового задания--}}
@@ -21,10 +22,16 @@
                 <label for="exampleInputFile">Выберите файл с заданием</label>
                 <div class="input-group mb-2">
                     <div class="custom-file">
-                        <input type="file" id="file" class="custom-file-input" name="task" accept=".pdf">
+                        <input type="file" id="file" class="custom-file-input" name="task" accept=".pdf,.docx">
                         <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                     </div>
                 </div>
+                <blockquote>
+                    <span class="text-muted" style="font-size: 14px">
+                        Поддерживаются следующие форматы файлов: <b>pdf и docx - </b>
+                        <i>не более 10МБ</i>
+                    </span>
+                </blockquote>
                 <button type="button" id="createTask" class="btn btn-primary createTask">
                     Сохранить
                 </button>
@@ -89,7 +96,16 @@
                 @foreach($data['arrayTasks'] as $month => $tasks)
                     @foreach($tasks as $task)
                     <td>
-                        {{ $task }}
+                        <div class="row" style="margin: 0">
+                            <a type="button" class="taskFile mr-1" id="task_{{ $task->id }}">
+                                {{ $task->getFileName() }}
+                                <input type="hidden" value="{{$task->task}}" name="task_path">
+                            </a>
+                            <div id="taskDelete_{{ $task->id }}" class="taskDelete mr-2" style="position: relative; top: 6px">
+                                <div class="deleteEdu"></div>
+                            </div>
+                            <span class="text-muted">{{ $task->created_at->format('d.m.Y') }}</span>
+                        </div>
                     </td>
                     @endforeach
                 @endforeach

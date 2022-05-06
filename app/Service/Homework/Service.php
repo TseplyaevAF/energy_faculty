@@ -39,7 +39,7 @@ class Service
             $tasksCount++;
             $month = \App\Service\Task\Service::getRusMonthName(intval($task->created_at->format('m')))
                 . ' ' . $task->created_at->format('Y');
-            $arrayTasks[$month][$task->id] = $task->task;
+            $arrayTasks[$month][$task->id] = $task;
             $arrayHomework[$student->user->fullName()][$task->id] =
                 \App\Service\Task\Service::getStudentWork($task, $student);
         }

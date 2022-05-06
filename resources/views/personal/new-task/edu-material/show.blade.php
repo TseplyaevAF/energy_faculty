@@ -69,6 +69,12 @@
                             <div class="percent">0%</div >
                         </div>
                     </div>
+                    <blockquote>
+                    <span class="text-muted" style="font-size: 14px">
+                        Поддерживаются следующие форматы файлов: <b>pdf</b>
+                        <i>не более 10МБ</i>, <b>mp4 - </b><i>не более 512МБ</i>
+                    </span>
+                    </blockquote>
                     <div class="d-grid mb-3">
                         <input type="submit" class="btn btn-primary createEdu" value="Загрузить"/>
                         <button type="button" class="btn btn-default stopVideo">Отмена</button>

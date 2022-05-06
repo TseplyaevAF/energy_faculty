@@ -25,7 +25,14 @@ class StoreRequest extends FormRequest
     {
         return [
             'lesson_id' => 'integer|exists:lessons,id',
-            'task' => 'required|mimes:pdf',
+            'task' => 'required|mimes:pdf,docx',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'task.mimes' => 'Файл должен иметь один из следующих фоматов: pdf,docx'
         ];
     }
 }
