@@ -1,0 +1,106 @@
+[
+  {
+	"day": "3",
+	"week_type": "1",
+	"class_time": "12:00-13:35",
+    "class_type": "лекция",
+	"classroom": "03-316",
+	"lesson_id": 2
+  },
+  {
+	"day": "3",
+	"week_type": "2",
+	"class_time": "12:00-13:35",
+    "class_type": "лекция",
+	"classroom": "03-316",
+	"lesson_id": 2
+  },
+  {
+	"day": "3",
+	"week_type": "1",
+	"class_time": "16:20-17:55",
+    "class_type": "практика",
+	"classroom": "03-400",
+	"lesson_id": 2
+  },
+  {
+	"day": "3",
+	"week_type": "1",
+	"class_time": "18:05-19:40",
+    "class_type": "лабораторная работа",
+	"classroom": "03-202",
+	"lesson_id": 3
+  },
+  {
+	"day": "3",
+	"week_type": "2",
+	"class_time": "16:20-17:55",
+    "class_type": "лекция",
+	"classroom": "03-400",
+	"lesson_id": 3
+  },
+  {
+	"day": "5",
+	"week_type": "1",
+	"class_time": "16:20-17:55",
+    "class_type": "лекция",
+	"classroom": "03-407",
+	"lesson_id": 1
+  },
+  {
+	"day": "5",
+	"week_type": "2",
+	"class_time": "16:20-17:55",
+    "class_type": "лекция",
+	"classroom": "03-407",
+	"lesson_id": 1
+  },
+  {
+	"day": "5",
+	"week_type": "1",
+	"class_time": "18:05-19:40",
+    "class_type": "лабораторная работа",
+	"classroom": "03-410",
+	"lesson_id": 1
+  },
+  {
+	"day": "5",
+	"week_type": "1",
+	"class_time": "12:00-13:35",
+    "class_type": "лекция",
+	"classroom": "03-404",
+	"lesson_id": 8
+  },
+  {
+	"day": "5",
+	"week_type": "2",
+	"class_time": "12:00-13:35",
+    "class_type": "лекция",
+	"classroom": "03-404",
+	"lesson_id": 8
+  },
+  {
+	"day": "5",
+	"week_type": "1",
+	"class_time": "14:35-16:10",
+    "class_type": "лабораторная работа",
+	"classroom": "03-404",
+	"lesson_id": 8
+  },
+  {
+	"day": "5",
+	"week_type": "2",
+	"class_time": "14:35-16:10",
+    "class_type": "лабораторная работа",
+	"classroom": "03-404",
+	"lesson_id": 8
+  },
+  {
+	"day": "5",
+	"week_type": "1",
+	"class_time": "08:30-10:05",
+    "class_type": "лекция",
+	"classroom": "03-401",
+	"lesson_id": 9
+  }
+]

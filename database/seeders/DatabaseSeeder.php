@@ -13,7 +13,10 @@ use App\Models\News\News;
 use App\Models\News\NewsTag;
 use App\Models\News\Tag;
 use App\Models\Role;
+use App\Models\Schedule\Classroom;
 use App\Models\Schedule\ClassTime;
+use App\Models\Schedule\ClassType;
+use App\Models\Schedule\Schedule;
 use App\Models\Teacher\Teacher;
 use App\Models\User;
 use App\Models\Year;
@@ -42,6 +45,7 @@ class DatabaseSeeder extends Seeder
             'lessons' => 'assets/lessons.json',
             'news' => 'assets/news.json',
             'news_tags' => 'assets/news_tags.json',
+            'schedules' => 'assets/schedules.json',
         ];
         foreach ($pathJsons as $key => $path) {
             $array = json_decode(File::get(public_path($path)), true);
@@ -87,6 +91,10 @@ class DatabaseSeeder extends Seeder
             }
             if ($key == 'news_tags') {
                 self::createNewsTags($array);
+                continue;
+            }
+            if ($key == 'schedules') {
+                self::createSchedules($array);
                 continue;
             }
         }
@@ -222,6 +230,30 @@ class DatabaseSeeder extends Seeder
                 'teacher_id' => $teacher != null ? $teacher->id : null,
                 'semester' => $lesson['semester'],
                 'year_id' => $year->id,
+            ]);
+        }
+    }
+
+    // создать расписание
+    public function createSchedules($schedules) {
+        foreach ($schedules as $schedule) {
+            $classTimeInput = explode('-', $schedule['class_time']);
+            $schedule['class_time'] = ClassTime::firstOrCreate([
+                'start_time' => $classTimeInput[0],
+                'end_time' => $classTimeInput[1],
+            ]);
+            $classRoomInput = explode('-', $schedule['classroom']);
+            $schedule['classroom'] = Classroom::firstOrCreate([
+                'corps' => $classRoomInput[0],
+                'cabinet' => $classRoomInput[1],
+            ]);
+            Schedule::firstOrcreate([
+                'day' => $schedule['day'],
+                'week_type' => $schedule['week_type'],
+                'class_time_id' => $schedule['class_time']->id,
+                'class_type_id' => ClassType::firstOrCreate(['title' => $schedule['class_type']])->id,
+                'classroom_id' => $schedule['classroom']->id,
+                'lesson_id' => Lesson::find($schedule['lesson_id'])->id,
             ]);
         }
     }

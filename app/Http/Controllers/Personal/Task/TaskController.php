@@ -12,6 +12,7 @@ use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
 use App\Service\Task\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Gate;
 use Spatie\MediaLibrary\Models\Media;
 
@@ -164,10 +165,12 @@ class TaskController extends Controller
         $task = Task::find($taskId);
         Gate::authorize('download-task', [$task]);
         $media = $task->getMedia(Task::PATH)->where('id', $mediaId)->first();
+        $response = response()->file($media->getPath());
+        return $response;
         // сервим файл из медиа-модели
-        return isset($media) ? response()->file($media->getPath(), [
-            'Cache-Control' => 'no-cache, no-cache, must-revalidate',
-            ]) : abort(404);
+//        return isset($media) ? response()->file($media->getPath(), [
+//            'Cache-Control' => 'no-cache, no-cache, must-revalidate',
+//            ]) : abort(404);
     }
 
     public function destroy(Task $task)

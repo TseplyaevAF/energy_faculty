@@ -232,7 +232,7 @@
                 xhrFields: {
                     responseType: 'blob',
                 },
-                url: category + '/' +filePath[0]+'/'+filePath[2]+'/'+filePath[3],
+                url: category + '/' +filePath[0]+'/'+filePath[2]+'/filename',
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 },

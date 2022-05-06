@@ -9,9 +9,8 @@
         @php
             $modelId = explode('/',$eduMaterial->task)[0];
             $mediaId = explode('/',$eduMaterial->task)[2];
-            $filename = explode('/',$eduMaterial->task)[3];
         @endphp
-        <source src="{{ route('personal.task.download', [$modelId, $mediaId, $filename]) }}" type="video/mp4">
+        <source src="{{ route('personal.task.download', [$modelId, $mediaId, 'filename']) }}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 </div>
