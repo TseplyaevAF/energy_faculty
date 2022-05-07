@@ -32,28 +32,25 @@
     <section class="content">
       <div class="container-fluid">
 
-        @if (session('error'))
-        <div class="col-3 alert alert-warning" role="alert">{!! session('error') !!}</div>
-        @endif
-
-        @if (session('success'))
-            <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
-        @endif
-
+        <div class="form-group col-md-4">
+            @if (session('success'))
+                <div class="alert alert-success" role="alert">{!! session('success') !!}</div>
+            @endif
+        </div>
         <div class="row">
           <div class="col-md-12">
             <form action="{{ route('personal.news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
               @csrf
               @method('PATCH')
 
-              <div class="form-group w-50">
+              <div class="form-group col-md-8">
                 <textarea id="summernote" name="content">{{ $news->content }}</textarea>
                 @error('content')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
 
-              <div class="form-group w-25">
+              <div class="form-group col-md-4">
                 <label for="exampleInputFile">Добавьте изображения</label>
                 <div class="input-group mb-2">
                   <div class="custom-file">
@@ -79,7 +76,7 @@
                 @enderror
               </div>
 
-              <div class="form-group">
+              <div class="form-group col-md-4">
                 <input type="submit" id="submitNews" class="btn btn-primary" value="Сохранить">
               </div>
             </form>

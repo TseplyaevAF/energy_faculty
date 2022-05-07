@@ -35,7 +35,8 @@
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
-                    <div class="row w-25">
+                    <div class="form-group col-md-6">
+                        <div class="row">
                         <div class="form-group col-md-6">
                             <h6>Группы<span class="gcolor"></span></h6>
                             <div class="form-s2">
@@ -55,6 +56,7 @@
                             <h6>Учебный год</h6>
                             <select class="form-control formselect required" placeholder="Select Sub Category"
                                     id="year"></select>
+                        </div>
                         </div>
                     </div>
                     <div class="card w-75">

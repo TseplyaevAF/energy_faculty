@@ -68,7 +68,7 @@
     </div>
 
     <div class="form-group scroll-table-body">
-        <table class="table table-bordered table-hover" id="statements-table">
+        <table class="table table-bordered table-hover tableAdaptive">
             <thead>
             <tr>
                 <th colspan="{{ current($data)['tasksCount'] }}">Задания по месяцам</th>

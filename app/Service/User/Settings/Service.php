@@ -47,7 +47,7 @@ class Service
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            abort(500);
+            throw new \Exception($exception->getMessage());
         }
     }
 

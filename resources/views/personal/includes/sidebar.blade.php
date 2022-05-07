@@ -34,9 +34,8 @@
               @php
                   $modelId = explode('/', auth()->user()->avatar)[0];
                   $mediaId = explode('/', auth()->user()->avatar)[2];
-                  $filename = explode('/', auth()->user()->avatar)[3];
               @endphp
-              <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}" class="img-square elevation-2" alt="User Image">
+              <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, 'filename']) }}" class="img-square elevation-2" alt="User Image">
             @else
               <img src="{{ asset('assets/default/personal_default_photo.jpg') }}" class="img-square elevation-2" alt="User Image">
             @endif

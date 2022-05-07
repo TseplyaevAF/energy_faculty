@@ -25,7 +25,7 @@
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
-                <div class="form-group w-50">
+                <div class="form-group col-md-7">
                     <div class="row filters">
                         <div class=" col-md-6 mb-2">
                             <h6>Семестр</h6>

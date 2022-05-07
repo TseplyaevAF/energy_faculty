@@ -42,7 +42,7 @@
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
-                <div class="form-group w-50">
+                <div class="form-group col-md-7">
                     <div class="mb-3">
                         <a type="button"
                            class="btn btn-outline-info btn-sm" id="addLesson">

@@ -20,12 +20,11 @@
                                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-security">Безопасность</a>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="tab-content">
                                     @if (session('error'))
                                         <div class="col-12 alert alert-warning" role="alert">{!! session('error') !!}</div>
                                     @endif
-
                                     @if (session('success'))
                                     <div class="col-12 alert alert-success" role="alert">{!! session('success') !!}</div>
                                     @endif
@@ -39,18 +38,17 @@
                                                     @php
                                                         $modelId = explode('/', $user->avatar)[0];
                                                         $mediaId = explode('/', $user->avatar)[2];
-                                                        $filename = explode('/', $user->avatar)[3];
                                                     @endphp
-                                                    <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, $filename]) }}" class="d-block ui-w-80" id="blah">
+                                                    <img src="{{ route('personal.settings.showImage', [$modelId, $mediaId, 'filename']) }}" class="d-block ui-w-80" id="blah">
                                                 @else
                                                     <img src="{{ asset('assets/default/personal_default_photo.jpg') }}" class="d-block ui-w-80" id="blah">
                                                 @endif
                                                 <div class="media-body ml-4">
-                                                    <label class="btn btn-outline-primary">
+                                                    <label class="btn btn-outline-primary mb-2">
                                                         Загрузить новое фото
                                                         <input name="avatar" type="file" class="account-settings-fileinput" accept=".jpg,.jpeg,.png,.bmp,.svg" id="imgInp">
                                                     </label> &nbsp;
-                                                    <button type="button" class="btn btn-default md-btn-flat" id="deletePhoto">Удалить</button>
+                                                    <button type="button" class="btn btn-default md-btn-flat mb-2" id="deletePhoto">Удалить</button>
                                                 </div>
                                                     <input type="hidden" name="no_photo" id="noPhoto">
                                                 @error('avatar')
@@ -73,17 +71,17 @@
                                                     <p class="text-danger">{{ $message }}</p>
                                                     @enderror
                                                 </div>
+                                                <input type="submit" class="btn btn-primary" value="Сохранить">
                                             </div>
                                         </div>
                                         <input value="{{ $user->id }}" class="form-control" type="hidden" name="user_id">
-                                        <input type="submit" class="btn btn-primary mb-2" value="Сохранить">
                                     </form>
                                     <!-- PASSWORD SETTINGS -->
                                     <form class="tab-pane fade" id="account-change-password" action="{{ route('personal.settings.updatePassword', $user->id) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
                                         <div>
-                                            <div class="card-body pb-2">
+                                            <div class="card-body">
                                                 <div class="form-group">
                                                     <label class="form-label">Текущий пароль</label>
                                                     <input type="password" name="old_password" class="form-control">
@@ -96,36 +94,34 @@
                                                     <label class="form-label">Повторите новый пароль</label>
                                                     <input type="password" name="new_password_repeat" class="form-control">
                                                 </div>
+                                                <input type="submit" class="btn btn-primary" value="Сохранить">
                                             </div>
                                         </div>
                                         <input value="{{ $user->id }}" class="form-control" type="hidden" name="user_id">
-                                        <input type="submit" class="btn btn-primary mb-2" value="Сохранить">
                                     </form>
                                     <!-- SECURITY SETTINGS -->
                                     <form class="tab-pane fade" id="account-security" action="{{ route('personal.settings.changeSecurity', $user->id) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                        <div>
-                                            <div class="card-body pb-2">
-                                                <label class="form-label">Двухфакторная аутентификация</label>
-                                                @if (!auth()->user()->is_active_2fa)
+                                        <div class="card-body">
+                                            <label class="form-label">Двухфакторная аутентификация</label>
+                                            @if (!auth()->user()->is_active_2fa)
+                                                <footer class="blockquote-footer mb-2">
+                                                    Добавьте еще один уровень безопасности Вашего аккаунта, включив
+                                                    подтверждение входа по СМС.
+                                                    <cite title="Source Title"></cite>
+                                                </footer>
+                                                <input type="submit" class="btn btn-primary" value="Включить">
+                                            @else
+                                                <div class="form-group">
                                                     <footer class="blockquote-footer">
-                                                        Добавьте еще один уровень безопасности Вашего аккаунта, включив
-                                                        подтверждение входа по СМС.
+                                                        В данный момент двухфакторная аутентификация активна.
                                                         <cite title="Source Title"></cite>
                                                     </footer>
-                                                    <input type="submit" class="btn btn-primary mb-2" value="Включить">
-                                                @else
-                                                    <div class="form-group">
-                                                        <footer class="blockquote-footer">
-                                                            В данный момент двухфакторная аутентификация активна.
-                                                            <cite title="Source Title"></cite>
-                                                        </footer>
-                                                        <input type="submit" class="btn btn-danger mb-2" value="Отключить">
-                                                    </div>
-                                                @endif
-                                                <input value="{{ $user->id }}" class="form-control" type="hidden" name="user_id">
-                                            </div>
+                                                    <input type="submit" class="btn btn-danger mb-2" value="Отключить">
+                                                </div>
+                                            @endif
+                                            <input value="{{ $user->id }}" class="form-control" type="hidden" name="user_id">
                                         </div>
                                     </form>
                                 </div>
@@ -150,7 +146,7 @@ imgInp.onchange = evt => {
 deletePhoto.onclick = function () {
     document.getElementById('imgInp').value = "";
     document.getElementById('noPhoto').value = "-1";
-    blah.src = "http://energy_faculty.com/storage/images/personal/no_photo.jpg";
+    blah.src = "{{ url('assets/default/personal_default_photo.jpg') }}";
 }
 </script>
 <!-- /.content-wrapper -->

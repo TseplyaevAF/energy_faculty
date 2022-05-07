@@ -77,7 +77,7 @@
                     </blockquote>
                     <div class="d-grid mb-3">
                         <input type="submit" class="btn btn-primary createEdu" value="Загрузить"/>
-                        <button type="button" class="btn btn-default stopVideo">Отмена</button>
+                        <button type="button" class="btn btn-default stopVideo" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
             </div>

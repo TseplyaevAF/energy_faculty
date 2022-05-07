@@ -304,3 +304,18 @@
 .widget-49 .widget-49-meeting-action a {
     text-transform: uppercase;
 }
+@media screen and (max-width: 776px) {
+    table.tableAdaptive tr {
+        display: block;
+        margin-bottom: 30px;
+    }
+
+    table.tableAdaptive th, table.tableAdaptive td {
+        display: block;
+        text-align: center;
+    }
+
+    table.tableAdaptive td {
+        border-right: none;
+    }
+}

@@ -24,9 +24,9 @@
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
-                <div class="form-group">
+                <div class="form-group col-md-12">
                     <h5>Мои долги:</h5>
-                    <table class="table table-hover text-wrap w-75">
+                    <table class="table table-hover text-wrap tableAdaptive">
                         <thead>
                         <tr>
                             <th>Ведомость от</th>
@@ -57,7 +57,7 @@
                                 <td>
                                     {{ $individual->exam_finish_date }}
                                 </td>
-                                <td class="project-actions text-left">
+                                <td class="project-actions">
                                     @if (!isset($individual->exam_sheet))
                                         <form action="{{ route('personal.exam_sheet.store') }}" METHOD="POST">
                                             @csrf

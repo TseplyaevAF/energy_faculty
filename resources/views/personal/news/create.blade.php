@@ -37,18 +37,18 @@
         @endif
 
         <div class="row">
-          <div class="col-12">
+          <div class="col-md-12">
             <form action="{{ route('personal.news.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
 
-              <div class="form-group w-50">
+              <div class="form-group col-md-8">
                 <textarea id="summernote" name="content">{{ old('content') }}</textarea>
                 @error('content')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
 
-              <div class="form-group w-25">
+              <div class="form-group col-md-4">
                 <label for="exampleInputFile">Добавьте изображения</label>
                 <div class="input-group mb-2">
                   <div class="custom-file">
@@ -75,7 +75,7 @@
                 @enderror
               </div>
                 <input type="hidden" name="group_id" value="{{ $group->id }}">
-              <div class="form-group">
+              <div class="form-group col-md-4">
                 <input type="submit" id="submitNews" class="btn btn-primary" value="Добавить">
               </div>
             </form>
