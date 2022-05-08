@@ -26,6 +26,7 @@ class FilterRequest extends FormRequest
         return [
             'week_type' => 'nullable|integer',
             'day' => 'nullable|integer',
+            'group' => 'nullable|string',
             'teacher' => 'nullable|string'
 //            'class_time_id' => 'required|integer',
 //            'lesson_id' => 'required|integer|exists:lessons,id',

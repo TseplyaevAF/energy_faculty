@@ -31,7 +31,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6 mb-3" style="">
+                    <div class="col-md-8 col-sm-12  mb-3" style="">
                         <div class="createPost">
                             @can('create-group-news', $group)
                                 <div class="row" style="margin: 0">

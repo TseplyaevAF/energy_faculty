@@ -111,7 +111,7 @@ class Service
         $tempImages = [];
         foreach ($images as $image) {
             $tempImages[] = Storage::disk('public')
-                ->put($imagesPath + 'news', $image);
+                ->put($imagesPath, $image);
         }
         return json_encode($tempImages);
     }

@@ -21,11 +21,12 @@ class NewsController extends Controller
     public function index(FilterRequest $request)
     {
         $data = $request->validated();
+        $per_page = $data['per_page'] ?? 5;
         $filter = app()->make(NewsFilter::class, ['queryParams' => array_filter($data)]);
         if (isset($data['is_slider_item'])) {
             return NewsSliderResource::collection(News::filter($filter)->orderBy('updated_at', 'desc')->get());
         }
-        return NewsResource::collection(News::filter($filter)->orderBy('updated_at', 'desc')->get());
+        return NewsResource::collection(News::filter($filter)->orderBy('updated_at', 'desc')->get()->paginate($per_page));
     }
 
     /**

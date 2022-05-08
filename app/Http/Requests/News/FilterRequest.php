@@ -30,6 +30,7 @@ class FilterRequest extends FormRequest
             'tag_id' => 'nullable|integer|exists:tags,id',
             'date' => 'nullable|array',
             'date.*' => 'nullable|string',
+            'per_page' => 'nullable|integer',
         ];
     }
 }
