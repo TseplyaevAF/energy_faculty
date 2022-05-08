@@ -9,21 +9,23 @@ use Illuminate\Database\Eloquent\Builder;
 
 class TeacherFilter extends AbstractFilter
 {
-    public const SURNAME = 'surname';
+    public const FULL_NAME = 'full_name';
 
     protected function getCallbacks(): array
     {
         return [
-            self::SURNAME => [$this, 'surname'],
+            self::FULL_NAME => [$this, 'fullName'],
         ];
     }
 
-    public function surname(Builder $builder, $value)
+    public function fullName(Builder $builder, $value)
     {
         $ids = [];
         $users = User::where('role_id', User::ROLE_TEACHER)
-            ->where('surname', $value)
-            ->get();
+            ->whereRaw(
+                "concat(surname, ' ', name, ' ', patronymic) ILIKE '%" . $value . "%' "
+            )->get();
+
         foreach ($users as $user) {
             if (isset($user->teacher)) {
                 $ids[] = $user->teacher->id;

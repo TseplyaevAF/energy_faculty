@@ -24,7 +24,7 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'surname' => 'nullable|string',
+            'full_name' => 'nullable|string',
         ];
     }
 }
