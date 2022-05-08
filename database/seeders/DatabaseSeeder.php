@@ -199,6 +199,8 @@ class DatabaseSeeder extends Seeder
                 Teacher::firstOrcreate([
                     'user_id' => $createdUser->id,
                     'post' => $user['post'],
+                    'work_phone' => $user['work_phone'],
+                    'link' => $user['link'],
                     'chair_id' => Chair::where('title', $user['chair'])->first()->id,
                 ]);
             }

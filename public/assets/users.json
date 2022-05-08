@@ -8,6 +8,8 @@
 	"password": "batuhtin",
 	"role_id": 3,
 	"post": "декан",
+	"work_phone": "89141235678",
+	"link": "vk.com/id0",
 	"chair": "ИВТиПМ"
   },
   {
@@ -19,6 +21,8 @@
 	"password": "mashkin",
 	"role_id": 3,
 	"post": "доцент",
+	"work_phone": "89241535687",
+	"link": "@username",
 	"chair": "ИВТиПМ"
   },
   {
@@ -30,6 +34,8 @@
 	"password": "dolgix",
 	"role_id": 3,
 	"post": "ведущий инженер",
+	"work_phone": "89141235678",
+	"link": "vk.com/id0",
 	"chair": "ИВТиПМ"
   },
   {
@@ -41,6 +47,8 @@
 	"password": "valova",
 	"role_id": 3,
 	"post": "доцент",
+	"work_phone": "89141235678",
+	"link": "vk.com/id0",
 	"chair": "ИВТиПМ"
   },
   {
@@ -52,6 +60,8 @@
 	"password": "kogan",
 	"role_id": 3,
 	"post": "доцент",
+	"work_phone": "89141235678",
+	"link": "vk.com/id0",
 	"chair": "ИВТиПМ"
   },
   {

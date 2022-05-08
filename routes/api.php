@@ -22,6 +22,7 @@ Route::apiResources([
     'news' => 'Api\NewsController',
     'schedules' => 'Api\ScheduleController',
     'tags' => 'Api\TagController',
+    'teachers' => 'Api\TeacherController',
     'categories' => 'Api\CategoryController'
 ]);
 
