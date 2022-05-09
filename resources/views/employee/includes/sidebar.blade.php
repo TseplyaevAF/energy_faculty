@@ -38,9 +38,15 @@
           <li class="nav-item">
             <a href="{{ route('employee.news.index') }}" class="nav-link">
               <i class="nav-icon fas fa-newspaper"></i>
-              <p>Новости кафедры</p>
+              <p>Новости</p>
             </a>
           </li>
+            <li class="nav-item">
+                <a href="{{ route('employee.olimps.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-newspaper"></i>
+                    <p>Олимпиады</p>
+                </a>
+            </li>
           <li class="nav-item">
             <a href="{{ route('employee.schedule.index') }}" class="nav-link">
               <i class="nav-icon fas fa-calendar-alt"></i>

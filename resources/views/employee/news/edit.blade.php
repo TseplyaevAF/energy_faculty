@@ -14,7 +14,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
               <h1 class="m-0">
-                  <a href="{{ route('employee.news.index') }}"><i class="fas fa-chevron-left"></i></a>
+                  <a href="{{ URL::previous() }}"><i class="fas fa-chevron-left"></i></a>
                   Редактирование новости
               </h1>
           </div><!-- /.col -->

@@ -58,6 +58,12 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
     });
     Route::resource('chairs', 'Chair\ChairController', ['names' => 'employee.chair']);
     Route::resource('news', 'News\NewsController', ['names' => 'employee.news']);
+    Route::resource('olimps', 'Olimp\OlimpController', ['names' => 'employee.olimps'])
+        ->only(['index']);
+    Route::group(['namespace' => 'Olimp', 'prefix' => 'olimps'], function () {
+        Route::get('/create-olimp', 'OlimpController@createOlimp');
+        Route::get('/get-olimp-types/{category}', 'OlimpController@getOlimpTypes');
+    });
 
     Route::group(['namespace' => 'Schedule', 'prefix' => 'schedules'], function () {
         Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {
