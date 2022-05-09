@@ -18,14 +18,15 @@ class CreateOlimpsTable extends Migration
             $table->unsignedBigInteger('olimp_type_id');
             $table->unsignedBigInteger('news_id');
             $table->unsignedInteger('year');
+            $table->timestamps();
 
             // IDX
             $table->index('olimp_type_id', 'olimp_olimp_type_idx');
             $table->index('news_id', 'olimp_news_idx');
 
             // FK
-            $table->foreign('olimp_type_id', 'olimp_olimp_type_fk')->on('olimps')->references('id');
-            $table->foreign('news_id', 'olimp_news_fk')->on('news')->references('id');
+            $table->foreign('olimp_type_id', 'olimp_olimp_type_fk')->on('olimp_types')->references('id');
+            $table->foreign('news_id', 'olimp_news_fk')->on('news')->references('id')->onDelete('cascade');
         });
     }
 

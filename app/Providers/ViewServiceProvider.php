@@ -34,7 +34,6 @@ class ViewServiceProvider extends ServiceProvider
             'employee.schedule.index',
             'employee.schedule.group.edit',
             'employee.group.index',
-            'employee.olimps.index',
             'employee.schedule.group.show'
         ];
         View::composer($employeeViews, function ($view) {

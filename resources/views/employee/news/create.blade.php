@@ -13,7 +13,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Добавление новости</h1>
+            <h1 class="m-0">
+                <a href="{{ route('employee.news.index') }}"><i class="fas fa-chevron-left"></i></a>
+                Добавление записи
+            </h1>
+              <h6 class="m-0 mb-1">Категория: {{ $category->title }}</h6>
+              <h6 class="m-0">Тип мероприятия: {{ $olimpType->title }}</h6>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -43,15 +48,21 @@
                 @else
                     <input value="{{ auth()->user()->teacher->chair->id }}" type="hidden" name="chair_id">
                 @endif
-              <div class="form-group w-25">
-                <input value="{{ old('title') }}" type="text" class="form-control" name="title" placeholder="Заголовок новости">
+              <div class="form-group w-50">
+                <input value="@if($errors->any()) {{ old('title') }} @else {{ $news->title ?? null }} @endif" type="text" class="form-control" name="title" placeholder="Заголовок новости">
                 @error('title')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
 
               <div class="form-group w-50">
-                <textarea id="summernote" name="content">{{ old('content') }}</textarea>
+                <textarea id="summernote" name="content">
+                    @if($errors->any())
+                        {{ old('content') }}
+                    @else
+                        {{ $news->content ?? null }}
+                    @endif
+                </textarea>
                 @error('content')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
@@ -115,15 +126,6 @@
                   @enderror
               </div>
 
-              <div class="form-group w-25">
-                <label>Выберите категорию</label>
-                <select name="category_id" class="form-control">
-                  @foreach($categories as $category)
-                  <option value="{{$category->id }}" {{$category->id == old('category_id') ? 'selected' : ''}}>{{ $category->title }}</option>
-                  @endforeach
-                </select>
-              </div>
-
                 <div class="form-group w-25">
                     <label>Выберите теги</label>
                     <select class="select2" name="tags_ids[]" multiple="multiple" style="width: 100%;">
@@ -137,6 +139,8 @@
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
+                <input type="hidden" name="olimp_type" value="{{ $olimpType->id }}">
+                <input type="hidden" name="category_id" value="{{ $category->id }}">
               <div class="form-group">
                 <input type="submit" id="submitNews" class="btn btn-primary" value="Добавить">
               </div>

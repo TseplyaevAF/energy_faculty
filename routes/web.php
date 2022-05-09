@@ -57,12 +57,16 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
         Route::get('/', 'IndexController')->name('employee.main.index');
     });
     Route::resource('chairs', 'Chair\ChairController', ['names' => 'employee.chair']);
-    Route::resource('news', 'News\NewsController', ['names' => 'employee.news']);
-    Route::resource('olimps', 'Olimp\OlimpController', ['names' => 'employee.olimps'])
-        ->only(['index']);
+    Route::resource('news', 'News\NewsController', ['names' => 'employee.news'])
+        ->only(['index', 'store', 'edit', 'update', 'destroy']);
+    Route::group(['namespace' => 'News', 'prefix' => 'news'], function () {
+        Route::get('/create/{category}/{olimpType}/{news}', 'NewsController@create');
+    });
+
     Route::group(['namespace' => 'Olimp', 'prefix' => 'olimps'], function () {
         Route::get('/create-olimp', 'OlimpController@createOlimp');
         Route::get('/get-olimp-types/{category}', 'OlimpController@getOlimpTypes');
+        Route::post('/store-olimp-type', 'OlimpController@storeOlimpType');
     });
 
     Route::group(['namespace' => 'Schedule', 'prefix' => 'schedules'], function () {

@@ -2,6 +2,7 @@
 
 namespace App\Models\News;
 
+use App\Models\Olimp;
 use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,5 +22,9 @@ class News extends Model
 
     public function tags() {
         return $this->belongsToMany(Tag::class, 'news_tags', 'news_id', 'tag_id');
+    }
+
+    public function olimp() {
+        return $this->hasOne(Olimp::class);
     }
 }

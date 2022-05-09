@@ -54,8 +54,8 @@ class NewsFilter extends AbstractFilter
 
     public function date1(Builder $builder, $value)
     {
-        $startDate = isset($value[0]) ? Carbon::createFromFormat('d.m.Y H:i', $value[0] . ' 00:00') : Carbon::createFromFormat('d.m.Y', '01.01.1970');
-        $endDate = isset($value[1]) ? Carbon::createFromFormat('d.m.Y H:i', $value[1] . ' 00:00') : Carbon::createFromFormat('d.m.Y', date("d.m.Y"));
+        $startDate = isset($value[0]) ? Carbon::createFromFormat('Y-m-d H:i', $value[0] . ' 00:00') : Carbon::createFromFormat('Y-m-d', '1970-01-01');
+        $endDate = isset($value[1]) ? Carbon::createFromFormat('Y-m-d H:i', $value[1] . ' 00:00') : Carbon::createFromFormat('Y-m-d', date("Y-m-d"));
         $builder->whereBetween('created_at', [$startDate, $endDate])->get();
     }
 

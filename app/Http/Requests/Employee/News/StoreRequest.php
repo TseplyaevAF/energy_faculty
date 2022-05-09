@@ -34,6 +34,7 @@ class StoreRequest extends FormRequest
             'chair_id' => 'required|exists:chairs,id',
             'start_date' => 'nullable|date',
             'finish_date' => 'nullable|date|after_or_equal:start_date',
+            'olimp_type' => 'nullable|exists:olimp_types,id',
         ];
     }
 

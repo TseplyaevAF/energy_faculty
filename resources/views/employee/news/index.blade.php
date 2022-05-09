@@ -26,13 +26,29 @@
     </div>
     <!-- /.content-header -->
 
+      <div class="modal fade" id="createPostModal" tabindex="-1" role="dialog"
+           aria-labelledby="createPostModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="card-title">Создание новой записи</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body" id="createPostModalBody">
+                  </div>
+              </div>
+          </div>
+      </div>
+
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
 
         <div class="row">
           <div class="col-sm-2 mb-3">
-            <a href="{{ route('employee.news.create') }}" class="btn btn-block btn-primary">Создать</a>
+              <button type="button" id="createPost" class="btn btn-block btn-primary">Создать</button>
           </div>
         </div>
 
@@ -98,7 +114,6 @@
                       @else
                       <td>Категория не указана</td>
                       @endif
-                      <!-- <td><a href="{{ route('employee.news.show', $news->id) }}"><i class="far fa-eye"></i></a></td> -->
                       <td class="project-actions text-left">
                           <div class="col-xs-1">
                               <a class="btn btn-info btn-sm mr-1 mb-1" href="{{ route('employee.news.edit', $news->id) }}">
@@ -136,5 +151,19 @@
   </div>
 
   <script type="text/javascript" src="{{ asset('js/news/cssworld.ru-xcal-en.js') }}"></script>
+  <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+  <script>
+      $('#createPost').on('click', function () {
+          $.ajax({
+              method: 'GET',
+              url: 'olimps/create-olimp',
+              datatype: 'json',
+              success: function (response) {
+                  $('#createPostModal').modal('show');
+                  $('#createPostModalBody').html(response);
+              }
+          });
+      })
+  </script>
   <!-- /.content-wrapper -->
   @endsection

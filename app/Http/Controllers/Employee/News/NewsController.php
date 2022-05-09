@@ -10,6 +10,7 @@ use App\Http\Requests\News\FilterRequest;
 use App\Models\News\Category;
 use App\Models\News\News;
 use App\Models\News\Tag;
+use App\Models\OlimpType;
 use App\Models\User;
 use App\Service\News\Service;
 
@@ -37,11 +38,13 @@ class NewsController extends Controller
             compact('all_news', 'categories'));
     }
 
-    public function create()
+    public function create(Category $category, OlimpType $olimpType, $news)
     {
-        $categories = Category::all();
         $tags = Tag::all();
-        return view('employee.news.create', compact('categories', 'tags'));
+        if ($news != 'null') {
+            $news = News::findOrFail($news);
+        }
+        return view('employee.news.create', compact('category', 'tags', 'olimpType', 'news'));
     }
 
     public function store(StoreRequest $request)
@@ -55,10 +58,9 @@ class NewsController extends Controller
 
     public function edit(News $news)
     {
-        $categories = Category::all();
         $tags = Tag::all();
         $images = json_decode($news->images);
-        return view('employee.news.edit', compact('news', 'categories', 'images', 'tags'));
+        return view('employee.news.edit', compact('news', 'images', 'tags'));
     }
 
     public function update(UpdateRequest $request, News $news)
@@ -72,7 +74,7 @@ class NewsController extends Controller
 
     public function destroy(News $news)
     {
-        $news->delete();
+        $news->forceDelete();
         return redirect()->back()->withSuccess('Запись была удалена');
     }
 }

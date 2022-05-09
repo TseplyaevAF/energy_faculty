@@ -14,7 +14,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
               <h1 class="m-0">
-                  <a href="{{ URL::previous() }}"><i class="fas fa-chevron-left"></i></a>
+                  <a href="{{ route('employee.news.index') }}"><i class="fas fa-chevron-left"></i></a>
                   Редактирование новости
               </h1>
           </div><!-- /.col -->
@@ -47,15 +47,21 @@
             <form action="{{ route('employee.news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
               @csrf
               @method('PATCH')
-              <div class="form-group w-25">
-                <input value="{{ $news->title }}" type="text" class="form-control" name="title" placeholder="Название новости">
+              <div class="form-group w-50">
+                <input value="@if($errors->any()) {{ old('title') }} @else {{ $news->title }} @endif" type="text" class="form-control" name="title" placeholder="Название новости">
                 @error('title')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
 
               <div class="form-group w-50">
-                <textarea id="summernote" name="content">{{ $news->content }}</textarea>
+                <textarea id="summernote" name="content">
+                    @if($errors->any())
+                        {{ old('content') }}
+                    @else
+                        {{ $news->content }}
+                    @endif
+                </textarea>
                 @error('content')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
@@ -122,14 +128,6 @@
                 </div>
                 @endif
 
-              <div class="form-group w-25">
-                <label>Выберите категорию</label>
-                <select name="category_id" class="form-control">
-                  @foreach($categories as $category)
-                  <option value="{{$category->id }}" {{$category->id == $news->category_id ? 'selected' : ''}}>{{ $category->title }}</option>
-                  @endforeach
-                </select>
-              </div>
                 <div class="form-group w-25">
                     <label>Выберите теги</label>
                     <select class="select2" name="tags_ids[]" multiple="multiple" style="width: 100%;">

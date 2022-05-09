@@ -5,6 +5,8 @@ namespace App\Service\News;
 
 use App\Models\News\Event;
 use App\Models\News\News;
+use App\Models\Olimp;
+use App\Models\OlimpType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -41,6 +43,14 @@ class Service
             if (isset($data['start_date']) || isset($data['finish_date'])) {
                 $news->update([
                     'event_id' => $this->createEvent($data['start_date'], $data['finish_date'])->id
+                ]);
+            }
+
+            if (isset($data['olimp_type'])) {
+                Olimp::firstOrCreate([
+                    'olimp_type_id' => $data['olimp_type'],
+                    'news_id' => $news->id,
+                    'year' => date('Y'),
                 ]);
             }
             DB::commit();
