@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<div class="mb-2">
+<div class="mb-2 templates">
     <label><input type="radio" name="radio" value="1"> Шаблон мероприятия</label><br>
     <div class="block-text mb-2" id="block-1">
         <div class="form-s2 selectOlimpType">
@@ -38,6 +38,11 @@
         getOlimpTypes($("#category").val());
 
         function getOlimpTypes(category) {
+            if ($('#category').find(":selected").text().toLowerCase().indexOf('новости') !== -1) {
+                $('.templates').hide();
+            } else {
+                $('.templates').show();
+            }
             let $olimpType = $('#olimp_type_id');
             $olimpType.empty();
             $olimpType.append(`<option value="0" disabled selected>Поиск...</option>`);
@@ -76,13 +81,17 @@
 
         $('#create-post').on('click', function () {
             $('.olimpsErrors').html('');
-            let category = $("#category").val();
+            let category = $("#category");
+            if (category.find(":selected").text().toLowerCase().indexOf('новости') !== -1) {
+                location.href = `news/create/${category.val()}/${null}/${null}`;
+                return;
+            }
             // открываем существующий шаблон
             // olimpType[0] - id типа мероприятия
             // olimpType[1] - id новости, которая соответствует типу мероприятия
             if ($('input[name="radio"][value="1"]').is(':checked')) {
                 let olimpType = $('#olimp_type_id').val().split('_');
-                location.href = `news/create/${category}/${olimpType[0]}/${olimpType[1]}`;
+                location.href = `news/create/${category.val()}/${olimpType[0]}/${olimpType[1]}`;
             }
             if ($('input[name="radio"][value="2"]').is(':checked')) {
                 let olimpType = $("input[name='olimp_type']").val()
@@ -91,7 +100,7 @@
                     return;
                 }
                 // создаем новый тип мероприятия
-                if(confirm(`Мероприятие введено правильно?\n${olimpType}`)) {
+                if(confirm(`Название введено правильно?\n${olimpType}`)) {
                     $.ajax({
                         type: 'POST',
                         data: {
@@ -101,7 +110,7 @@
                         url: 'olimps/store-olimp-type',
                         datatype: 'json',
                         success: function (olimpTypeId) {
-                            location.href = `news/create/${category}/${olimpTypeId}/${null}`;
+                            location.href = `news/create/${category.val()}/${olimpTypeId}/${null}`;
                         }
                     });
                 }

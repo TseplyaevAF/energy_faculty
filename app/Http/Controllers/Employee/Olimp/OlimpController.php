@@ -22,10 +22,7 @@ class OlimpController extends Controller
     }
 
     public function createOlimp() {
-        $categories = [
-            'conferenc' => Category::find(Category::CONFERENCES),
-            'olimp' => Category::find(Category::OLYMPICS),
-        ];
+        $categories = Category::all();
         return view('employee.olimps.ajax-views.create-olimp', compact('categories'));
     }
 

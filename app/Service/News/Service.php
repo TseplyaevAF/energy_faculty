@@ -67,7 +67,6 @@ class Service
             $news->update([
                 'title' => $data['title'],
                 'content' => $data['content'],
-                'category_id' => $data['category_id']
             ]);
             $news->tags()->sync(isset($data['tags_ids']) ? $data['tags_ids'] : null);
 

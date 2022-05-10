@@ -18,7 +18,7 @@
                 Добавление записи
             </h1>
               <h6 class="m-0 mb-1">Категория: {{ $category->title }}</h6>
-              <h6 class="m-0">Тип мероприятия: {{ $olimpType->title }}</h6>
+              <h6 class="m-0">Тип мероприятия: {{ $olimpType->title ?? 'не выбран' }}</h6>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -139,7 +139,7 @@
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
-                <input type="hidden" name="olimp_type" value="{{ $olimpType->id }}">
+                <input type="hidden" name="olimp_type" value="{{ $olimpType->id ?? null }}">
                 <input type="hidden" name="category_id" value="{{ $category->id }}">
               <div class="form-group">
                 <input type="submit" id="submitNews" class="btn btn-primary" value="Добавить">

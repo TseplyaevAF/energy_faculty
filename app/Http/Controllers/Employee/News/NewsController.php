@@ -38,11 +38,14 @@ class NewsController extends Controller
             compact('all_news', 'categories'));
     }
 
-    public function create(Category $category, OlimpType $olimpType, $news)
+    public function create(Category $category, $olimpType, $news)
     {
         $tags = Tag::all();
         if ($news != 'null') {
             $news = News::findOrFail($news);
+        }
+        if ($olimpType != 'null') {
+            $olimpType = OlimpType::findOrFail($olimpType);
         }
         return view('employee.news.create', compact('category', 'tags', 'olimpType', 'news'));
     }
