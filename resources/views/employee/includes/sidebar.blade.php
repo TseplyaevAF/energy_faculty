@@ -1,6 +1,6 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <a href="/employee" class="brand-link">
+      <a href="{{ url('http://localhost:8080/') }}" class="brand-link">
         <img src="{{ asset('assets/default/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Кабинет сотрудника</span>
       </a>
@@ -15,9 +15,13 @@
           </div>
           <div class="info">
               @if(auth()->user()->role_id != $roleTeacher)
-            <a href="#" class="d-block">{{ auth()->user()->surname }} {{auth()->user()->name}}</a>
+            <a href="/employee" class="d-block">
+                <p>{{ auth()->user()->surname }} {{auth()->user()->name}}</p>
+            </a>
                   @else
-                  <a href="{{route('personal.main.index')}}" class="d-block">{{ auth()->user()->surname }} {{auth()->user()->name}}</a>
+                  <a href="{{route('personal.main.index')}}" class="d-block">
+                      <p>{{ auth()->user()->surname }} {{auth()->user()->name}}</p>
+                  </a>
               @endif
           </div>
         </div>

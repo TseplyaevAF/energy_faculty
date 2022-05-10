@@ -116,7 +116,7 @@
                                             <label class="form-label">Двухфакторная аутентификация</label>
                                             @if (!auth()->user()->is_active_2fa)
                                                 <footer class="blockquote-footer mb-2">
-                                                    Добавьте еще один уровень безопасности Вашего аккаунта, включив
+                                                    Повысьте уровень безопасности Вашего аккаунта, включив
                                                     подтверждение входа по СМС.
                                                     <cite title="Source Title"></cite>
                                                 </footer>

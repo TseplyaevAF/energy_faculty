@@ -1,0 +1,31 @@
+.brand-text {
+    color: white;
+}
+
+.main-sidebar {
+    background: #2f5185;
+}
+
+.nav-icon {
+    color: white;
+}
+
+.nav-item p {
+    color: white;
+}
+
+.nav-item:hover {
+    background-color: #3862a1;
+}
+.nav-item.active {
+    background-color: #273667;
+}
+
+.info p {
+    color: white;
+    margin: auto;
+}
+
+.d-block {
+    color: white;
+}
