@@ -138,7 +138,7 @@
     });
 
     $('.select2').select2()
-    $('#phone').inputmask("+9-(999)-999-99-99");
+    $('.phoneMask').inputmask("+9-(999)-999-99-99");
     $('.pasport').inputmask({
         mask: "9{2}-9{2}-9{6}",
     });

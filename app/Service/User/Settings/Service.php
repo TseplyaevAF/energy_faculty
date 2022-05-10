@@ -22,6 +22,11 @@ class Service
             }
             unset($data['no_photo']);
             $user->update($data);
+            if (isset($user->teacher)) {
+                $user->teacher->update([
+                    'work_phone' => $data['work_phone']
+                ]);
+            }
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

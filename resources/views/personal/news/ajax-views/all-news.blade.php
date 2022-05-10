@@ -72,6 +72,3 @@
     <div class="footer">
     </div>
 @endforeach
-<script>
-
-</script>

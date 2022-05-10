@@ -38,7 +38,6 @@ class User extends Authenticatable implements HasMedia
     public static function getRoles()
     {
         return [
-            self::ROLE_ADMIN => 'Администратор',
             self::ROLE_STUDENT => 'Студент',
             self::ROLE_TEACHER => 'Преподаватель',
             self::ROLE_EMPLOYEE => 'Сотрудник кафедры',

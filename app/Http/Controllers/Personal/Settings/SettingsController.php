@@ -43,15 +43,17 @@ class SettingsController extends Controller
         return redirect()->back()->withSuccess('Пароль был успешно обновлен!');
     }
 
-    public function changeSecurity(Request $request, User $user) {
+    public function changeSecurity(User $user) {
         if ($user->is_active_2fa) {
             $user->update([
                 'is_active_2fa' => false
             ]);
             return redirect()->back()->withSuccess('Двухфакторная аутентификация отключена');
         } else {
-            return redirect()->back()->withSuccess('Двухфакторная аутентификация включена.
-            При каждом входе вам будет приходить СМС на телефон');
+            $user->update([
+                'is_active_2fa' => true
+            ]);
+            return response('Двухфакторная аутентификация включена. При каждом входе вам будет приходить звонок на телефон', 200);
         }
     }
 

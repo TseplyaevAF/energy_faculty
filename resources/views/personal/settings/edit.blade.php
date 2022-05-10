@@ -59,11 +59,20 @@
                                             <div class="card-body">
                                                 <div class="form-group">
                                                     <label class="form-label">Номер телефона</label>
-                                                    <input name="phone_number" id="phone" type="tel" class="form-control mb-1" value="{{ $user->phone_number }}">
+                                                    <input name="phone_number" type="tel" class="form-control phoneMask mb-1" value="{{ $user->phone_number }}">
                                                     @error('phone_number')
                                                     <p class="text-danger">{{ $message }}</p>
                                                     @enderror
                                                 </div>
+                                                @if (isset(auth()->user()->teacher))
+                                                <div class="form-group">
+                                                    <label class="form-label">Рабочий номер телефона</label>
+                                                    <input name="work_phone" type="tel" class="form-control phoneMask mb-1" value="{{ $user->teacher->work_phone }}">
+                                                    @error('work_phone')
+                                                    <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                                @endif
                                                 <div class="form-group">
                                                     <label class="form-label">E-mail</label>
                                                     <input name="email" type="text" class="form-control mb-1" value="{{ $user->email }}">
@@ -111,14 +120,14 @@
                                                     подтверждение входа по СМС.
                                                     <cite title="Source Title"></cite>
                                                 </footer>
-                                                <input type="submit" class="btn btn-primary" value="Включить">
+                                                <button type="button" class="btn btn-primary" id="on2fa">Включить</button>
                                             @else
                                                 <div class="form-group">
-                                                    <footer class="blockquote-footer">
-                                                        В данный момент двухфакторная аутентификация активна.
+                                                    <footer class="blockquote-footer mb-2">
+                                                        Для номера {{ auth()->user()->phone_number }} подключена двухфакторная аутентификация
                                                         <cite title="Source Title"></cite>
                                                     </footer>
-                                                    <input type="submit" class="btn btn-danger mb-2" value="Отключить">
+                                                    <button type="submit" id="off2fa" class="btn btn-danger mb-2">Отключить</button>
                                                 </div>
                                             @endif
                                             <input value="{{ $user->id }}" class="form-control" type="hidden" name="user_id">
@@ -134,8 +143,45 @@
     </div>
     <!-- /.content-header -->
 </div>
-
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script>
+    $(document).ready(function () {
+        $('#on2fa').on('click',function () {
+            let userPhone = '{{ auth()->user()->phone_number }}';
+            if (userPhone === '') {
+                alert('Необходимо ввести номер телефона в разделе "Основные"');
+            } else {
+                if (confirm(`Подключить двухфакторную аутентификацию для номера:\n${userPhone} ?`)) {
+                    $.ajax({
+                        type: 'PATCH',
+                        url:  'settings/{{ auth()->user()->id }}/security',
+                        data: {
+                            '_token': $("input[name='_token']").val(),
+                            'phone_number': userPhone
+                        },
+                        success: function(response) {
+                            alert(response);
+                            location.reload();
+                        },
+                        error: function(jqXHR, status, error) {
+                            if (error === 'Forbidden') {
+                                alert(jqXHR.responseText);
+                            } else {
+                                alert('Произошла ошибка');
+                            }
+                        },
+                    });
+                }
+            }
+        });
+
+        $('#off2fa').click(function () {
+            if(!confirm('Вы уверены, что хотите отключить двухфакторную аутентификацию?')){
+                return false;
+            }
+        });
+    });
+
 imgInp.onchange = evt => {
     const [file] = imgInp.files
     if (file) {

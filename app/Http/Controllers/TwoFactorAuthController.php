@@ -34,7 +34,7 @@ class TwoFactorAuthController extends Controller
             session(['2fa' => auth()->user()->id]);
             $userCode->delete();
 
-            return redirect()->route('home');
+            return redirect()->route('login');
         }
 
         return redirect()

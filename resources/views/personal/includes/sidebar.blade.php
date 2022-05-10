@@ -87,16 +87,6 @@
                 </li>
             @endcan
           @endcan
-          @can('isStudent')
-            @can('isHeadman')
-            <li class="nav-item">
-              <a href="{{ route('personal.application.index') }}" class="nav-link">
-                <i class="nav-icon far fa-address-card"></i>
-                <p>Заявки студентов</p>
-              </a>
-            </li>
-            @endcan
-          @endcan
           <li class="nav-item">
             <a href="{{ route('personal.main.schedule') }}" class="nav-link">
               <i class="nav-icon far fa-calendar-alt"></i>
