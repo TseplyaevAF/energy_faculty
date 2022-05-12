@@ -85,10 +85,14 @@
                         <div class="tabs">
                             <ul class="tabs__caption">
                                 <li data-id="tasks" class="active">Задания</li>
+                                <li data-id="marks">Успеваемость</li>
                                 <li data-id="edu-materials">Учебные материалы</li>
                             </ul>
                             <div class="tabs__content active">
                                 <div class="form-group" id="tasksBody"></div>
+                            </div>
+                            <div class="tabs__content">
+                                <div class="form-group" id="marksBody"></div>
                             </div>
                             <div class="tabs__content">
                                 <div class="form-group" id="eduMaterialsBody"></div>
@@ -169,6 +173,11 @@
                 }
             }
         });
+    }
+
+    function getStudentsMarks() {
+        $('#lesson-filter').attr('disabled', true);
+        let url = 'tasks/get-marks';
     }
 
     function download(filePath, category) {

@@ -1,3 +1,5 @@
+//# sourceURL=js/personal/new-task/homework.js
+
 $('.checkHomework').on('click', function () {
     const grade = $('#grade').val();
     if (grade === '') {

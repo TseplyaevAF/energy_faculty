@@ -1,8 +1,4 @@
-$("#loadEduMaterialModal").on("hidden.bs.modal", function () {
-    let $videoPlayer = $('#videoPlayer');
-    $videoPlayer[0].pause();
-    // $videoPlayer.get(0).currentTime = 0;
-});
+//# sourceURL=js/personal/new-task/task.js
 
 $('#storeTask').on('click', function () {
     const file = $('#file')[0].files[0];

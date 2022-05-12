@@ -1,3 +1,11 @@
+//# sourceURL=js/personal/new-task/eduMaterial.js
+
+$("#loadEduMaterialModal").on("hidden.bs.modal", function () {
+    let $videoPlayer = $('#videoPlayer');
+    $videoPlayer[0].pause();
+    // $videoPlayer.get(0).currentTime = 0;
+});
+
 $('.createEdu').on('click', function () {
     let bar = $('.bar');
     let percent = $('.percent');
