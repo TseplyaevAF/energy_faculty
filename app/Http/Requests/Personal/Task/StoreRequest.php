@@ -25,14 +25,15 @@ class StoreRequest extends FormRequest
     {
         return [
             'lesson_id' => 'integer|exists:lessons,id',
-            'task' => 'required|mimes:pdf,docx',
+            'task' => 'required|mimes:pdf,docx|max:10240',
         ];
     }
 
     public function messages()
     {
         return [
-            'task.mimes' => 'Файл должен иметь один из следующих фоматов: pdf,docx'
+            'task.mimes' => 'Файл должен иметь один из следующих фоматов: pdf,docx',
+            'task.max' => 'Файл не должен превышать 10МБ',
         ];
     }
 }

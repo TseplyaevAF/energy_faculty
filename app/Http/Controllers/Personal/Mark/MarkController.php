@@ -65,7 +65,7 @@ class MarkController extends Controller
             'semester' => $semester,
         ];
         $filter = app()->make(StatementFilter::class, ['queryParams' => array_filter($data)]);
-        $statements = Statement::filter($filter)->orderBy('updated_at', 'desc')->get()->where('report', '!=', null);
+        $statements = Statement::filter($filter)->orderBy('updated_at', 'desc')->where('report', '!=', null)->get();
         $input = $request->input();
         if (isset($input['student_id'])) {
             $student = Student::find($input['student_id']);

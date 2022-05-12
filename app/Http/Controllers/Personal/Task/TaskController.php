@@ -165,12 +165,7 @@ class TaskController extends Controller
         $task = Task::find($taskId);
         Gate::authorize('download-task', [$task]);
         $media = $task->getMedia(Task::PATH)->where('id', $mediaId)->first();
-        $response = response()->file($media->getPath());
-        return $response;
-        // сервим файл из медиа-модели
-//        return isset($media) ? response()->file($media->getPath(), [
-//            'Cache-Control' => 'no-cache, no-cache, must-revalidate',
-//            ]) : abort(404);
+        return response()->file($media->getPath());
     }
 
     public function destroy(Task $task)

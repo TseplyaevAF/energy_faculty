@@ -8,8 +8,8 @@
 <input value="{{ $data['lesson_id'] }}" type="hidden" name="lesson_id">
 
 {{--Модальное окно для добавления нового задания--}}
-<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog"
-     aria-labelledby="createTaskModalLabel" aria-hidden="true">
+<div class="modal fade" id="storeTaskModal" tabindex="-1" role="dialog"
+     aria-labelledby="storeTaskModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -32,7 +32,7 @@
                         <i>не более 10МБ</i>
                     </span>
                 </blockquote>
-                <button type="button" id="createTask" class="btn btn-primary createTask">
+                <button type="button" id="storeTask" class="btn btn-primary storeTask">
                     Сохранить
                 </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
@@ -66,7 +66,7 @@
     <div class="mb-2">
         <a href="javascript:void(0)" data-toggle="modal"
            class="show btn btn-primary"
-           data-target="#createTaskModal">
+           data-target="#storeTaskModal">
             Добавить задание
         </a>
     </div>
@@ -147,9 +147,4 @@
     </div>
 </div>
 <script src="https://getbootstrap.com/docs/4.5/assets/js/docs.min.js"></script>
-<script>
-    $("#loadEduMaterialModal").on("hidden.bs.modal", function () {
-        $('#videoPlayer')[0].pause();
-        $('#videoPlayer').get(0).currentTime = 0;
-    });
-</script>
+<script src="{{ asset('js/personal/new-task/task.js') }}"></script>

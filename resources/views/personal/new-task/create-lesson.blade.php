@@ -44,7 +44,7 @@
             $addGroupName.append(`<option value="0" disabled selected>Поиск...</option>`);
             $.ajax({
                 type: 'GET',
-                url: window.appUrl + 'api/lessons/get-groups?discipline_id=' + choiceDiscipline,
+                url: appUrl + 'api/lessons/get-groups?discipline_id=' + choiceDiscipline,
                 data: {'teacher_id': null},
                 success: function (response) {
                     $addGroupName.empty();
@@ -64,7 +64,7 @@
             $addSemesterName.append(`<option value="0" disabled selected>Поиск...</option>`);
             $.ajax({
                 type: 'GET',
-                url: window.appUrl + 'api/lessons/get-semesters',
+                url: appUrl + 'api/lessons/get-semesters',
                 data: { 'group_id': choiceAddGroup, 'discipline_id': choiceAddDiscipline },
                 success: function (response) {
                     $addSemesterName.empty();

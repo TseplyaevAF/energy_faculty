@@ -75,10 +75,7 @@ class HomeworkController extends Controller
         $homework = Homework::find($homeworkId);
         Gate::authorize('download-homework', [$homework]);
         $media = $homework->getMedia(Homework::PATH)->where('id', $mediaId)->first();
-        // сервим файл из медиа-модели
-        return isset($media) ? response()->file($media->getPath(), [
-            'Cache-Control' => 'no-cache, no-cache, must-revalidate',
-            ]) : abort(404);
+        return response()->file($media->getPath());
     }
 
     public function feedback(FeedbackRequest $request, Homework $homework) {

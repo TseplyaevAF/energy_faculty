@@ -15,22 +15,8 @@
         left:50%;
         color: #040608;
     }
-    .deleteEdu {
-        display: block;
-        width: 13px;
-        height: 13px;
-        --weight: 1px;
-        --aa: 1px; /* anti-aliasing */
-        --color: rgba(95, 90, 90, 0.97);
-        border-radius: 1px;
-        background:
-            linear-gradient(45deg, transparent calc(50% - var(--weight) - var(--aa)), var(--color) calc(50% - var(--weight)), var(--color) calc(50% + var(--weight)), transparent calc(50% + var(--weight) + var(--aa))),
-            linear-gradient(-45deg, transparent calc(50% - var(--weight) - var(--aa)), var(--color) calc(50% - var(--weight)), var(--color) calc(50% + var(--weight)), transparent calc(50% + var(--weight) + var(--aa)));
-    }
-    .deleteEdu:hover {
-        cursor: pointer;
-    }
 </style>
+<link rel="stylesheet" href="{{ asset('css/personal/task/delete-style.css') }}">
 
 <div class="form-group">
     <h5><b>{{$lesson->discipline->title}}</b></h5>
@@ -77,7 +63,7 @@
                     </blockquote>
                     <div class="d-grid mb-3">
                         <input type="submit" class="btn btn-primary createEdu" value="Загрузить"/>
-                        <button type="button" class="btn btn-default stopVideo" data-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
             </div>
@@ -129,3 +115,4 @@
 </div>
 @endif
 <script src="https://getbootstrap.com/docs/4.5/assets/js/docs.min.js"></script>
+<script src="{{ asset('js/personal/new-task/eduMaterial.js') }}"></script>

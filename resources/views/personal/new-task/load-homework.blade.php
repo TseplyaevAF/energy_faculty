@@ -6,7 +6,10 @@
     }
 </style>
 <div class="form-group">
-    <h5>Файл с решением: <a type="button" class="workFile" id="workFile_{{$homework->id}}">{{ $homework->homework }}</a></h5>
+    <h5>
+        Файл с решением:
+        <a type="button" class="homeworkFile" id="homeworkFile_{{$homework->id}}"><h6>{{ $homework->homework }}</h6></a>
+    </h5>
     <h6>Работу выполнил:
         {{ $homework->student->user->surname }}
         {{ mb_substr($homework->student->user->name, 0, 1) }}.
@@ -24,3 +27,4 @@
     </button>
     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
 </div>
+<script src="{{ asset('js/personal/new-task/homework.js') }}"></script>
