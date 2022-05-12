@@ -9,4 +9,5 @@ class StudentProgress extends Model
 {
     use HasFactory;
     protected $guarded = false;
+    public $timestamps = false;
 }

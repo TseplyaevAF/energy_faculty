@@ -177,7 +177,8 @@
 
     function getStudentsProgress() {
         let url = 'tasks/get-students-progress';
-        if (choiceSemester === '1' || choiceSemester === '2') {
+        if (choiceSemester === '1' || choiceSemester === '2' ||
+            choiceSemester === '3' || choiceSemester === '4') {
             $('#lesson-filter').attr('disabled', true);
             $.ajax({
                 type: 'GET',

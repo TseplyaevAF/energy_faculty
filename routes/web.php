@@ -151,6 +151,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::patch('tasks/create/lesson', 'Task\TaskController@createTeacherLesson');
     Route::get('tasks/get-students-progress', 'Task\TaskController@getStudentsProgress');
 
+    Route::post('student-progress', 'StudentProgress\StudentProgressController@import');
+
     Route::resource('homework', 'Homework\HomeworkController', ['names' => 'personal.homework'])
         ->only('index', 'store', 'destroy');
     Route::get('homework/get-tasks', 'Homework\HomeworkController@getTasks');

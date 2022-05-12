@@ -21,4 +21,8 @@ class Year extends Model
         }
         return $years;
     }
+
+    public function getYear() {
+        return $this->start_year . '-' . $this->end_year;
+    }
 }

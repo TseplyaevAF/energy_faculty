@@ -18,8 +18,8 @@ class CreateStudentProgressTable extends Migration
             $table->unsignedBigInteger('lesson_id');
             $table->unsignedBigInteger('student_id');
             $table->smallInteger('mark')->nullable();
-            $table->smallInteger('number_of_debts')->default(0);
-            $table->timestamps();
+            $table->smallInteger('number_of_passes')->default(0);
+            $table->smallInteger('month');
 
             // IDX
             $table->index('lesson_id', 'student_progress_lesson_idx');
