@@ -44,4 +44,8 @@ class Lesson extends Model
     public function schedules() {
         return $this->hasMany(Schedule::class);
     }
+
+    public function student_progress() {
+        return $this->hasMany(StudentProgress::class);
+    }
 }

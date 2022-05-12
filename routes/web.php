@@ -149,6 +149,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::get('tasks/load-edu/{eduMaterial}', 'Task\TaskController@loadEduMaterial');
     Route::get('tasks/create-lesson', 'Task\TaskController@createLesson');
     Route::patch('tasks/create/lesson', 'Task\TaskController@createTeacherLesson');
+    Route::get('tasks/get-students-progress', 'Task\TaskController@getStudentsProgress');
 
     Route::resource('homework', 'Homework\HomeworkController', ['names' => 'personal.homework'])
         ->only('index', 'store', 'destroy');

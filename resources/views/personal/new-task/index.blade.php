@@ -85,14 +85,14 @@
                         <div class="tabs">
                             <ul class="tabs__caption">
                                 <li data-id="tasks" class="active">Задания</li>
-                                <li data-id="marks">Успеваемость</li>
+                                <li data-id="student-progress">Успеваемость</li>
                                 <li data-id="edu-materials">Учебные материалы</li>
                             </ul>
                             <div class="tabs__content active">
                                 <div class="form-group" id="tasksBody"></div>
                             </div>
                             <div class="tabs__content">
-                                <div class="form-group" id="marksBody"></div>
+                                <div class="form-group" id="studentsProgressBody"></div>
                             </div>
                             <div class="tabs__content">
                                 <div class="form-group" id="eduMaterialsBody"></div>
@@ -175,9 +175,32 @@
         });
     }
 
-    function getStudentsMarks() {
-        $('#lesson-filter').attr('disabled', true);
-        let url = 'tasks/get-marks';
+    function getStudentsProgress() {
+        let url = 'tasks/get-students-progress';
+        if (choiceSemester === '1' || choiceSemester === '2') {
+            $('#lesson-filter').attr('disabled', true);
+            $.ajax({
+                type: 'GET',
+                url:  url,
+                data: {
+                    'discipline_id': choiceDiscipline,
+                    'group_id': choiceGroup,
+                    'semester': choiceSemester,
+                },
+                success: function(result) {
+                    $('#studentsProgressBody').html(result).show();
+                },
+                complete: function() {
+                    $('#lesson-filter').attr('disabled', false);
+                    $('.tabs').show();
+                },
+                error: function(jqXHR, status, error) {
+                    if (jqXHR.status === 500) {
+                        alert('При загрузке произошла ошибка');
+                    }
+                }
+            });
+        }
     }
 
     function download(filePath, category) {
@@ -273,6 +296,7 @@
         $('#lesson-filter').click(function () {
             let res = getTasksTable();
             if (res !== -1) {
+                getStudentsProgress();
                 getEduMaterials();
             }
         })

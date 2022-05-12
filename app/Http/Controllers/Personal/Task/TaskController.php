@@ -46,6 +46,18 @@ class TaskController extends Controller
         return view('personal.new-task.task.show', compact('data', 'lesson'));
     }
 
+    public function getStudentsProgress(FilterRequest $request) {
+        $data = $request->validated();
+        $data += [
+            'teacher_id' => auth()->user()->teacher->id
+        ];
+        $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
+        $lesson = Lesson::filter($filter)->first();
+        $data = \App\Service\StudentProgress\Service::getStudentsProgress($lesson);
+        $data += ['lesson_id' => $lesson->id];
+        return view('personal.new-task.student-progress.show', compact('data', 'lesson'));
+    }
+
     public function getEduMaterials(FilterRequest $request) {
         $data = $request->validated();
         $data += [
