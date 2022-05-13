@@ -52,7 +52,7 @@
                 <div class="form-group col-md-7">
                     <div class="mb-3">
                         <a type="button"
-                           class="btn btn-outline-info btn-sm" id="addLesson">
+                           class="btn btn-outline-info btn-sm mr-1" id="addLesson">
                             Добавить нагрузку
                         </a>
                         <span class="help"
@@ -277,11 +277,11 @@
                 data: {'teacher_id': teacherId},
                 success: function (response) {
                     $('#group_name').empty();
-                    $('#group_name').append(`<option value="" disabled selected>-- Не выбрана</option>`);
                     response.forEach(element => {
                         $('#group_name').append(`<option value="${element['id']}">${element['title']}</option>`);
                     });
                     $('#group_name').on('change', changeSelectGroup);
+                    $("#group_name").trigger("change");
                 }
             });
         }

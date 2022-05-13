@@ -152,6 +152,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::get('tasks/get-students-progress', 'Task\TaskController@getStudentsProgress');
 
     Route::post('student-progress', 'StudentProgress\StudentProgressController@import');
+    Route::get('student-progress/download-students-template/{group}',
+        'StudentProgress\StudentProgressController@downloadStudentsTemplate');
 
     Route::resource('homework', 'Homework\HomeworkController', ['names' => 'personal.homework'])
         ->only('index', 'store', 'destroy');

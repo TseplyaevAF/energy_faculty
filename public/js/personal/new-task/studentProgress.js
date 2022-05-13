@@ -31,3 +31,22 @@ $('.importStudentsProgress').on('click', function () {
         }
     });
 });
+
+$('.studentsTemplateDownload').on('click', function () {
+    $.ajax({
+        type: 'GET',
+        url: `student-progress/download-students-template/${choiceGroup}`,
+        success: function(response) {
+            downloadFile(response);
+        }
+    });
+});
+
+function downloadFile(response) {
+    var a = document.createElement("a");
+    a.href = response.file;
+    a.download = response.file_name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+}

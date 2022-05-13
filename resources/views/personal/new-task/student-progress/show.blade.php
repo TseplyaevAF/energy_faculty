@@ -35,12 +35,17 @@
                         <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                     </div>
                 </div>
-                <blockquote>
+                <blockquote style="margin: 1em 0.1rem">
                     <span class="text-muted" style="font-size: 14px">
                         Поддерживаются следующие форматы файлов: <b>.xlsx</b>
                         <i>не более 10МБ</i>
                     </span>
                 </blockquote>
+                <h6>
+                    <a type="button" class="studentsTemplateDownload mb-2">
+                        Скачать таблицу со студентами
+                    </a>
+                </h6>
                 <button type="button" class="btn btn-primary importStudentsProgress">
                     Сохранить
                 </button>
