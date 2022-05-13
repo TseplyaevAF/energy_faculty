@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="row">
-                        <div class="tabs">
+                        <div class="tabs col-md-12">
                             <ul class="tabs__caption">
                                 <li data-id="tasks" class="active">Задания</li>
                                 <li data-id="edu-materials">Учебные материалы</li>

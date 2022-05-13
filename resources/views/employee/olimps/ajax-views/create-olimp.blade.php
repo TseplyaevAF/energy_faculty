@@ -1,3 +1,11 @@
+<link rel="stylesheet" href="{{ asset('css/help/style.css') }}">
+<style>
+    .help:before {
+        bottom: 0;
+        left: 0;
+        transform: none;
+    }
+</style>
 <div class="mb-3">
     <h6>Категория<span class="gcolor"></span></h6>
     <div class="form-s2 selectCategory">
@@ -11,14 +19,22 @@
 </div>
 
 <div class="mb-2 templates">
-    <label><input type="radio" name="radio" value="1"> Шаблон мероприятия</label><br>
+    <label><input type="radio" name="radio" value="1"
+        class="help" data-help="Используйте один из предыдущих постов как шаблон">
+        Шаблон мероприятия
+        <img class="help help-icon" src="{{ asset('assets/default/question-circle.png') }}">
+    </label><br>
     <div class="block-text mb-2" id="block-1">
         <div class="form-s2 selectOlimpType">
             <select class="form-control formselect required" id="olimp_type_id">
             </select>
         </div>
     </div>
-    <label><input type="radio" name="radio" value="2"> Новое мероприятие</label><br>
+    <label><input type="radio" name="radio" value="2"
+        class="help" data-help="Создайте пост с нуля">
+        Новое мероприятие
+        <img class="help help-icon" src="{{ asset('assets/default/question-circle.png') }}">
+    </label><br>
     <div class="block-text mb-2" id="block-2" style="display: none;">
         <div class="form-group">
             <input type="text" class="form-control mb-1" name="olimp_type" placeholder="Молодёжная научная весна...">

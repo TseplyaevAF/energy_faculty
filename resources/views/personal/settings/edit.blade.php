@@ -2,6 +2,14 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/personal/settings/style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/help/style.css') }}">
+<style>
+    .help-2fa:before {
+        top: 100%;
+        height: 100px;
+        width: 270px;
+    }
+</style>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -58,7 +66,10 @@
                                             <hr class="border-light m-0">
                                             <div class="card-body">
                                                 <div class="form-group">
-                                                    <label class="form-label">Номер телефона</label>
+                                                    <label class="form-label help" data-help="Телефон для двухфакторной аутентификации">
+                                                        Номер телефона
+                                                        <img class="help help-icon" src="{{ asset('assets/default/question-circle.png') }}">
+                                                    </label>
                                                     <input name="phone_number" type="tel" class="form-control phoneMask mb-1" value="{{ $user->phone_number }}">
                                                     @error('phone_number')
                                                     <p class="text-danger">{{ $message }}</p>
@@ -66,7 +77,10 @@
                                                 </div>
                                                 @if (isset(auth()->user()->teacher))
                                                 <div class="form-group">
-                                                    <label class="form-label">Рабочий номер телефона</label>
+                                                    <label class="form-label help" data-help="Телефон для связи со студентами и сотрудниками">
+                                                        Рабочий номер телефона
+                                                        <img class="help help-icon" src="{{ asset('assets/default/question-circle.png') }}">
+                                                    </label>
                                                     <input name="work_phone" type="tel" class="form-control phoneMask mb-1" value="{{ $user->teacher->work_phone }}">
                                                     @error('work_phone')
                                                     <p class="text-danger">{{ $message }}</p>
@@ -113,7 +127,10 @@
                                         @csrf
                                         @method('PATCH')
                                         <div class="card-body">
-                                            <label class="form-label">Двухфакторная аутентификация</label>
+                                            <label class="form-label help help-2fa" data-help="Каждый раз при входе в аккаунт Вам нужно будет вводить 4 последние цифры номера телефона, который будет Вам звонить">
+                                                Двухфакторная аутентификация
+                                                <img class="help help-2fa help-icon" src="{{ asset('assets/default/question-circle.png') }}">
+                                            </label>
                                             @if (!auth()->user()->is_active_2fa)
                                                 <footer class="blockquote-footer mb-2">
                                                     Повысьте уровень безопасности Вашего аккаунта, включив

@@ -2,6 +2,13 @@
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/personal/marks/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/help/style.css') }}">
+    <style>
+        .help:before {
+            top: 100%;
+            height: 80px
+        }
+    </style>
 
     <div class="content-wrapper">
         <div class="content-header">
@@ -48,6 +55,10 @@
                            class="btn btn-outline-info btn-sm" id="addLesson">
                             Добавить нагрузку
                         </a>
+                        <span class="help"
+                              data-help="Добавьте нагрузку в соответствии с учебным планом">
+                            <img class="help help-icon" src="{{ asset('assets/default/question-circle.png') }}">
+                        </span>
                     </div>
                     <div class="row filters">
                         <div class="col-md-6 mb-2">
@@ -82,7 +93,7 @@
                 </div>
 
                 <div class="row">
-                        <div class="tabs">
+                        <div class="tabs col-md-12">
                             <ul class="tabs__caption">
                                 <li data-id="tasks" class="active">Задания</li>
                                 <li data-id="student-progress">Успеваемость</li>

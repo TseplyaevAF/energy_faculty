@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="tabs vertical">
+                        <div class="tabs col-md-11 vertical">
                             <ul class="tabs__caption">
                                 <li data-id="about-group">О группе</li>
                                 <li data-id="statements">Ведомости</li>
