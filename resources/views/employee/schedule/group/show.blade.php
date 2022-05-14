@@ -29,13 +29,21 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            <div class="form-group col-md-4">
+                @if (session('error'))
+                    <div class="alert alert-warning" role="alert">{!! session('error') !!}</div>
+                @endif
+                @if (session('success'))
+                    <div class="alert alert-success" role="alert">{!! session('success') !!}</div>
+                @endif
+            </div>
             <div class="schedule__import mb-2 col-md-4">
                 <form action="{{ route('employee.schedule.import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                     <label>Загрузить расписание из Excel</label>
                     <div class="form-group">
                         <h6>Семестр</h6>
-                        <select class="form-control formselect required">
+                        <select name="semester" class="form-control formselect required">
                             @for($i=1; $i<=8; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
@@ -46,7 +54,11 @@
                             <input type="file" name="excel_file" class="custom-file-input" accept=".xlsx">
                             <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                         </div>
+                        @error('excel_file')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
+                    <input type="hidden" name="group_id" value="{{ $group->id }}">
                     <input type="submit" value="Загрузить">
                 </form>
             </div>
@@ -57,7 +69,7 @@
             </div>
             <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $group->course }}, семестр: {{ $group->semester }}</span></span></small></strong>
             <div class="row mt-2">
-                <div class="col-8">
+                <div class="col-md-8">
                     <table class="table table-bordered text-wrap">
                         <thead class="mt-3">
                             <tr>
