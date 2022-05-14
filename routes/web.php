@@ -77,6 +77,7 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
         });
         Route::get('/', 'ScheduleController@index')->name('employee.schedule.index');
         Route::post('/import', 'ScheduleController@import')->name('employee.schedule.import');
+        Route::get('/export', 'ScheduleController@exportTemplate')->name('employee.schedule.exportTemplate');
     });
 
     Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {

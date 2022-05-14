@@ -1,8 +1,8 @@
   @extends('employee.layouts.main')
-  <link rel="stylesheet" href="{{ asset('css\employee\schedule\style.css') }}">
 
   @section('content')
   <!-- Content Wrapper. Contains page content -->
+  <link rel="stylesheet" href="{{ asset('css\employee\schedule\style.css') }}">
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -26,7 +26,14 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="schedules__chairs-col col-6" style="padding-left: 0;">
+          <div class="schedules__chairs-col col-md-6" style="padding-left: 15px;">
+              <div class="schedule__export-template">
+                  <h6>
+                      <a type="button" class="scheduleTemplateDownload mb-2">
+                          Скачать шаблон расписания
+                      </a>
+                  </h6>
+              </div>
             <div class="schedule__chairs-result">
                 <div class="schedule__chair js-schedule-chair mb-3" id="chair-{{ $chair->id }}">
                   <div class="schedule__chair-courses">
@@ -57,7 +64,24 @@
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
   <script>
       $(document).ready(function () {
+          $('.scheduleTemplateDownload').on('click', function () {
+              $.ajax({
+                  type: 'GET',
+                  url: '{{ route('employee.schedule.exportTemplate') }}',
+                  success: function(response) {
+                      downloadFile(response);
+                  }
+              });
+          });
 
+          function downloadFile(response) {
+              var a = document.createElement("a");
+              a.href = response.file;
+              a.download = response.file_name;
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+          }
       });
   </script>
 

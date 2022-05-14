@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Employee\Schedule;
 
+use App\Exports\ScheduleExport;
 use App\Http\Controllers\Controller;
 use App\Imports\SchedulesImport;
 use App\Models\Group\Group;
@@ -22,6 +23,15 @@ class ScheduleController extends Controller
             $arrayGroupsByYear[$group['start_year']][$group['id']] = $group;
         }
         return view('employee.schedule.index', compact('chair', 'arrayGroupsByYear'));
+    }
+
+    public function exportTemplate() {
+        $fileName = 'Шаблон расписания.xlsx';
+        $file =  Excel::raw(new ScheduleExport(), 'Xlsx');
+        return response()->json([
+            'file_name' => $fileName,
+            'file' => "data:application/vnd.ms-excel;base64,".base64_encode($file)
+        ]);
     }
 
     public function import(Request $request) {

@@ -29,17 +29,25 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <div class="schedule__import">
+            <div class="schedule__import mb-2 col-md-4">
                 <form action="{{ route('employee.schedule.import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                    <label>Загрузить из Excel</label>
-                    <div class="form-group w-25">
+                    <label>Загрузить расписание из Excel</label>
+                    <div class="form-group">
+                        <h6>Семестр</h6>
+                        <select class="form-control formselect required">
+                            @for($i=1; $i<=8; $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <div class="custom-file">
                             <input type="file" name="excel_file" class="custom-file-input" accept=".xlsx">
-                            <label class="custom-file-label" for="exampleInputFile">Выберите изображение</label>
+                            <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                         </div>
                     </div>
-                    <input type="submit">
+                    <input type="submit" value="Загрузить">
                 </form>
             </div>
             <div class="schedule__title">
@@ -148,7 +156,5 @@
     </section>
     <!-- /.content -->
 </div>
-
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- /.content-wrapper -->
 @endsection
