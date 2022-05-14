@@ -2,31 +2,26 @@
   {
     "title": "ИВТ-18",
     "chair": "ИВТиПМ",
-	"course": 4,
-	"semester": 8
+	"start_year": 2018
   },
   {
     "title": "ИВТ-19",
     "chair": "ИВТиПМ",
-	"course": 3,
-	"semester": 6
+	"start_year": 2019
   },
   {
     "title": "ИВТ-20",
     "chair": "ИВТиПМ",
-	"course": 2,
-	"semester": 4
+	"start_year": 2020
   },
   {
     "title": "ИВТ-21",
     "chair": "ИВТиПМ",
-	"course": 1,
-	"semester": 2
+	"start_year": 2021
   },
   {
     "title": "ТК-18",
     "chair": "ПИМ",
-	"course": 4,
-	"semester": 8
+	"start_year": 2018
   }
 ]

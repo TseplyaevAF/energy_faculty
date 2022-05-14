@@ -28,8 +28,8 @@ class UpdateRequest extends FormRequest
             'day' => 'required|integer',
             'class_time_id' => 'required|integer',
             'lesson_id' => 'required|integer|exists:lessons,id',
-            'class_type_id' => 'required|integer',
-            'classroom_id' => 'required|integer',
+            'class_type_id' => 'required|string',
+            'classroom_id' => 'required|string',
             'group_id' => 'required|integer|exists:groups,id',
         ];
     }

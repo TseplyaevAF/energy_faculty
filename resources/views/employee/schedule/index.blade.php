@@ -31,56 +31,19 @@
                 <div class="schedule__chair js-schedule-chair mb-3" id="chair-{{ $chair->id }}">
                   <div class="schedule__chair-courses">
                     <div class="row">
+                        @foreach($arrayGroupsByYear as $year => $groupsByYear)
                       <div class="schedule__chair-course col-2">
-                        <p class="font-weight-bold">1 курс</p>
+                        <p class="font-weight-bold">{{$year}}</p>
                           <div class="schedule__chair-groups">
-                            @foreach($groups as $group)
-                              @if (($group->course == 1) && ($group->chair_id == $chair->id))
-                                <a
-                                  class="schedule__chairs-groups__item"
-                                  href="{{ route('employee.schedule.group.show', $group->id) }}">
-                                  {{$group->title }}
-                                </a>
-                              @endif
-                            @endforeach
+                              @foreach($groupsByYear as $group)
+                            <a href="{{ route('employee.schedule.group.show', $group['id']) }}"
+                               class="schedule__chairs-groups__item">
+                                {{$group['title'] }}
+                            </a>
+                              @endforeach
                           </div>
                       </div>
-                      <div class="schedule__chair-course col-2">
-                        <p class="font-weight-bold">2 курс</p>
-                          <div class="schedule__chair-groups">
-                            @foreach($groups as $group)
-                              @if (($group->course == 2) && ($group->chair_id == $chair->id))
-                                <a
-                                  class="schedule__chairs-groups__item"
-                                  href="{{ route('employee.schedule.group.show', $group->id) }}">{{$group->title }}</a>
-                              @endif
-                            @endforeach
-                          </div>
-                      </div>
-                      <div class="schedule__chair-course col-2">
-                        <p class="font-weight-bold">3 курс</p>
-                          <div class="schedule__chair-groups">
-                            @foreach($groups as $group)
-                              @if (($group->course == 3) && ($group->chair_id == $chair->id))
-                                <a
-                                  class="schedule__chairs-groups__item"
-                                  href="{{ route('employee.schedule.group.show', $group->id) }}">{{$group->title }}</a>
-                              @endif
-                            @endforeach
-                          </div>
-                      </div>
-                      <div class="schedule__chair-course col-2">
-                        <p class="font-weight-bold">4 курс</p>
-                          <div class="schedule__chair-groups">
-                            @foreach($groups as $group)
-                              @if (($group->course == 4) && ($group->chair_id == $chair->id))
-                                <a
-                                  class="schedule__chairs-groups__item"
-                                  href="{{ route('employee.schedule.group.show', $group->id) }}">{{$group->title }}</a>
-                              @endif
-                            @endforeach
-                          </div>
-                      </div>
+                        @endforeach
                     </div>
                   </div>
               </div>
@@ -91,6 +54,12 @@
     </section>
     <!-- /.content -->
   </div>
+  <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+  <script>
+      $(document).ready(function () {
+
+      });
+  </script>
 
   <!-- /.content-wrapper -->
   @endsection

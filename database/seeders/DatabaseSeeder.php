@@ -126,12 +126,11 @@ class DatabaseSeeder extends Seeder
     // создать группы
     public function createGroups($groups) {
         foreach ($groups as $group) {
-            $chair = Chair::all()->where('title', $group['chair'])->first();
+            $chair = Chair::where('title', $group['chair'])->first();
             Group::firstOrcreate([
                 'title' => $group['title'],
                 'chair_id' => $chair->id,
-                'course' => $group['course'],
-                'semester' => $group['semester'],
+                'start_year' => $group['start_year'],
             ]);
         }
     }
@@ -166,7 +165,6 @@ class DatabaseSeeder extends Seeder
     // прикрепить теги к новостям
     public function createNewsTags($news_tags) {
         foreach ($news_tags as $news_tag) {
-            $kek = News::find($news_tag['news_id']);
             NewsTag::firstOrcreate([
                 'news_id' => News::find($news_tag['news_id'])->id,
                 'tag_id' => Tag::find($news_tag['tag_id'])->id,

@@ -15,8 +15,7 @@ class Service
     {
         try {
             DB::beginTransaction();
-            $data += ['semester' => $this->getSemester($data['title'])];
-            $data += ['course' => $this->getCourse($data['semester'])];
+            $data += ['start_year' => $this->getStartYear($data['title'])];
             Group::firstOrCreate($data);
             DB::commit();
         } catch (Exception $exception) {
@@ -31,8 +30,6 @@ class Service
     public function update($data, $group) {
         try {
             DB::beginTransaction();
-            $data += ['semester' => $this->getSemester($data['title'])];
-            $data += ['course' => $this->getCourse($data['semester'])];
             self::setNewHeadman($group, $data['student_id']);
             unset($data['student_id']);
             $group->update($data);
@@ -58,16 +55,7 @@ class Service
         }
     }
 
-    private function getCoursesArray() {
-        return [
-            1 => [1, 2],
-            2 => [3, 4],
-            3 => [5, 6],
-            4 => [7, 8],
-        ];
-    }
-
-    private function getSemester($groupName) {
+    private function getStartYear($groupName) {
         try {
             $groupName = explode('-', $groupName);
             if (count($groupName) === 1) {
@@ -77,20 +65,13 @@ class Service
             $year = ctype_digit($year) ? intval($year) : null;
             if ($year === null) {
                 throw new Exception();
+            } else {
+                return $year;
             }
-            $course = intval(date("Y")) - $year;
-            $result = isset($this->getCoursesArray()[$course]) ? $this->getCoursesArray()[$course] : null;
-            if (in_array( intval(date("m")), range(9, 12)) || intval(date("m")) === 1) {
-                return $result[0];
-            } else return $result[1];
         } catch (Exception $exception) {
             $response = array('message' => 'Некорректное название группы', 'code' => self::INVALID_NAME);
             throw new Exception(json_encode($response));
         }
-    }
-
-    private function getCourse($semester) {
-        return intval(floor(($semester+1)/2));
     }
 
     private static function setHeadman($student_id, $group) {

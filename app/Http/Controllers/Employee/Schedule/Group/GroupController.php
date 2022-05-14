@@ -39,7 +39,10 @@ class GroupController extends Controller
             'class_times' => ClassTime::all(),
             'class_types' => ClassType::all(),
             'classrooms' => Classroom::all(),
-            'lessons' => $group->lessons
+            'lessons' => $group->lessons()
+                ->where('semester', $schedule->lesson->semester)
+                ->where('teacher_id', '!=', null)
+                ->get()
         ];
         return view('employee.schedule.group.edit',
             compact('schedule','group', 'data'));

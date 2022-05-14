@@ -123,6 +123,11 @@
 
     $('.select2').select2()
     $('#phone').inputmask("+8-(999)-999-99-99");
+
+    $('#classroom').inputmask({ mask: "09-999" });
+
+    let classTypes = ['практика', 'лабораторная работа', 'лекция'];
+    $('#class_type').autocomplete({source: classTypes});
   </script>
 
 </body>
