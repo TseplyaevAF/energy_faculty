@@ -37,7 +37,10 @@ class ViewServiceProvider extends ServiceProvider
             'employee.schedule.group.show'
         ];
         View::composer($employeeViews, function ($view) {
-            $view->with(['roleTeacher' => User::ROLE_TEACHER]);
+            $view->with([
+                'roleTeacher' => User::ROLE_TEACHER,
+                'chair' => session('chair')
+            ]);
         });
     }
 }

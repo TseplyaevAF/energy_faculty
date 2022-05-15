@@ -7,22 +7,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Employee\Schedule\ImportRequest;
 use App\Imports\SchedulesImport;
 use App\Models\Group\Group;
-use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ScheduleController extends Controller
 {
     public function index()
     {
-        $chair = auth()->user()->role_id != User::ROLE_TEACHER ?
-            auth()->user()->employee->chair : auth()->user()->teacher->chair;
+        $chair = session('chair');
         $groups = Group::with('chair')->where('chair_id', $chair->id)->get()->toArray();
         $arrayGroupsByYear = [];
         foreach($groups as $group)
         {
             $arrayGroupsByYear[$group['start_year']][$group['id']] = $group;
         }
-        return view('employee.schedule.index', compact('chair', 'arrayGroupsByYear'));
+        return view('employee.schedule.index', compact( 'arrayGroupsByYear'));
     }
 
     public function exportTemplate() {

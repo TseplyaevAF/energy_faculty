@@ -27,9 +27,8 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         $filter = app()->make(NewsFilter::class, ['queryParams' => array_filter($data)]);
-        $charId = auth()->user()->role_id != User::ROLE_TEACHER ?
-            auth()->user()->employee->chair_id : auth()->user()->teacher->chair_id;
-        $all_news = News::where('chair_id', $charId)
+        $chair = session('chair');
+        $all_news = News::where('chair_id', $chair->id)
             ->filter($filter)
             ->orderBy('updated_at', 'desc')
             ->paginate(5);

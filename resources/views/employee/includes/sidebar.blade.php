@@ -2,7 +2,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <a href="{{ url('http://localhost:8080/') }}" class="brand-link">
         <img src="{{ asset('assets/default/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Кабинет сотрудника</span>
+        <span class="brand-text font-weight-light">Кафедра {{ $chair->title }}</span>
       </a>
 
       <!-- Sidebar -->
@@ -27,17 +27,10 @@
         </div>
         <ul class="pt-2 nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-              @if (auth()->user()->role_id != $roleTeacher)
-            <a href="{{ route('employee.chair.edit', auth()->user()->employee->chair->id) }}" class="nav-link">
+            <a href="{{ route('employee.chair.edit', $chair->id) }}" class="nav-link">
               <i class="nav-icon fas fa-info"></i>
               <p>Информация о кафедре</p>
-            </a>
-              @else
-              <a href="{{ route('employee.chair.edit', auth()->user()->teacher->chair->id) }}" class="nav-link">
-                  <i class="nav-icon fas fa-info"></i>
-                  <p>Информация о кафедре</p>
-              </a>
-              @endif
+          </a>
           </li>
           <li class="nav-item">
             <a href="{{ route('employee.news.index') }}" class="nav-link">

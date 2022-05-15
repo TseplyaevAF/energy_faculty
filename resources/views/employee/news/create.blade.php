@@ -43,11 +43,7 @@
           <div class="col-12">
             <form action="{{ route('employee.news.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
-                @if (auth()->user()->role_id != $roleTeacher)
-                    <input value="{{ auth()->user()->employee->chair->id }}" type="hidden" name="chair_id">
-                @else
-                    <input value="{{ auth()->user()->teacher->chair->id }}" type="hidden" name="chair_id">
-                @endif
+              <input value="{{ $chair->id }}" type="hidden" name="chair_id">
               <div class="form-group w-50">
                 <input value="@if($errors->any()) {{ old('title') }} @else {{ $news->title ?? null }} @endif" type="text" class="form-control" name="title" placeholder="Заголовок новости">
                 @error('title')

@@ -3,15 +3,10 @@
 namespace App\Http\Controllers\Personal\Main;
 
 use App\Http\Controllers\Controller;
-use App\Models\Schedule\Classroom;
 use App\Models\Schedule\ClassTime;
-use App\Models\Schedule\ClassType;
-use App\Models\Discipline;
 use App\Models\Schedule\Schedule;
 use App\Models\User;
-use App\Http\Requests\Personal\Schedule\UpdateRequest;
 use App\Service\Personal\Schedule\Service;
-use Illuminate\Support\Facades\Gate;
 
 class MainController extends Controller
 {
@@ -36,18 +31,9 @@ class MainController extends Controller
         $scheduleOdd = [];
         if ($user->role_id == User::ROLE_STUDENT) {
             $group = $user->student->group;
-            foreach ($group->lessons as $lesson) {
-                if ($lesson->semester === $group->semester) {
-                    // расписание по чётной неделе
-                    foreach ($lesson->schedules->where('week_type', Schedule::WEEK_UP) as $item) {
-                        $scheduleEven [] = $item;
-                    }
-                    // расписание по нечётной неделе
-                    foreach ($lesson->schedules->where('week_type', Schedule::WEEK_LOW) as $item) {
-                        $scheduleOdd [] = $item;
-                    }
-                }
-            }
+            $schedule = Schedule::getSchedule($group);
+            $scheduleEven = $schedule['even'];
+            $scheduleOdd= $schedule['odd'];
             return view('personal.main.showSchedule',
                 compact('group','days', 'class_times', 'scheduleEven', 'scheduleOdd'));
         }

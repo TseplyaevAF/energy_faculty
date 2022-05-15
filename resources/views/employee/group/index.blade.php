@@ -3,7 +3,7 @@
 @section('content')
 <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-<input type="hidden" value="{{auth()->user()->employee->chair->id}}" name="chair_id">
+<input type="hidden" value="{{ $chair->id }}" name="chair_id">
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -12,7 +12,6 @@
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0">Учебные группы</h1>
-            <h5>{{ auth()->user()->employee->chair->title }}</h5>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">

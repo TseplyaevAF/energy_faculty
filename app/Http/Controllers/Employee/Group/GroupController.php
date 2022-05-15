@@ -15,7 +15,8 @@ class GroupController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $groups = Group::all()->where('chair_id', auth()->user()->employee->chair_id);
+            $chair = session('chair');
+            $groups = Group::where('chair_id', $chair->id)->get();
             $data = [];
             foreach ($groups as $group) {
                 $data[$group->id] = self::getGroupInfo($group);
