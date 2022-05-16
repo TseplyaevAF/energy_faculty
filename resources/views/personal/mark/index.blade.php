@@ -250,6 +250,8 @@
     <script src="{{ asset('js/personal/mark/student_progress.js') }}"></script>
     <script>
     let monthTypes = "";
+    let studentProgress = "";
+    let studentsIds = "";
 
     $(document).ready(function () {
         let choiceGroup = $("#group_name").val();
@@ -334,7 +336,6 @@
         // показать контент вкладки "Успеваемость"
         function showStudentProgressTab(el)
         {
-            $('#studentProgressBody').html('').show();
             if (monthTypes === "") {
                 getMontnTypes();
             }

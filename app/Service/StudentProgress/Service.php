@@ -51,23 +51,27 @@ class Service
     public static function getStudentsProgressByMonth($lessons, $month) {
         $arrayStudentsProgress = [];
         $arrayDisciplines = [];
+        $studentsIds = [];
         foreach ($lessons as $lesson) {
             foreach ($lesson->student_progress()
                          ->where('month', $month)
                          ->orderBy('month', 'asc')
                          ->get() as $studentProgress) {
-                $arrayStudentsProgress[$studentProgress->student->user->fullName()]
+                $student = $studentProgress->student;
+                $arrayStudentsProgress[$student->user->fullName()]
                 [$lesson->discipline->title] = [
                     'number_of_passes' => $studentProgress->number_of_passes,
                     'mark' => $studentProgress->mark,
                 ];
                 $arrayDisciplines[] = $lesson->discipline->title;
+                $studentsIds[$student->user->fullName()] = $student->id;
             }
         }
         $arrayDisciplines = array_unique($arrayDisciplines);
         return [
             'arrayStudentsProgress' => $arrayStudentsProgress,
             'arrayDisciplines' => $arrayDisciplines,
+            'studentsIds' => $studentsIds,
         ];
     }
 }

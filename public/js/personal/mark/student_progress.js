@@ -39,6 +39,8 @@ function getStudentProgressTable(choiceGroup) {
         },
         success: function(result) {
             $('#studentProgressBody').html(result).show();
+            studentProgress = JSON.parse($("input[name='student_progress']").val());
+            studentsIds = JSON.parse($("input[name='student_ids']").val());
         },
         complete: function() {
             $('#student_progress_preloader').hide();

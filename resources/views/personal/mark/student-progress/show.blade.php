@@ -6,7 +6,31 @@
     }
 </style>
 
+<input type="hidden" name="student_progress" value="{{ json_encode($data['arrayStudentsProgress']) }}">
+<input type="hidden" name="student_ids" value="{{ json_encode($data['studentsIds']) }}">
+
+{{--Модальное окно для отправки успеваемости родителям--}}
+<div class="modal fade" id="sendStudentProgressToParentsModal" tabindex="-1" role="dialog"
+     aria-labelledby="sendStudentProgressToParentsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title">Отправка успеваемости родителям</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="sendStudentProgressToParentsModalBody">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="table-responsive">
+    <button type="button" id="send-student-progress-modal"
+            class="btn btn-outline-primary btn-sm mb-3">
+        Отправить успеваемость родителям
+    </button>
     <div class="form-group scroll-table-body">
         <table class="table table-bordered table-hover tableAdaptive">
             <thead>
@@ -32,7 +56,7 @@
                     @endfor
                 </tr>
                 @foreach($data['arrayStudentsProgress'] as $student => $studentProgress)
-                <tr>
+                <tr id="studentProgress_{{ $data['studentsIds'][$student] }}">
                     <td>{{ $student }}</td>
                     @foreach($studentProgress as $marks)
                         <td>{{ $marks['number_of_passes'] }}</td>
@@ -45,3 +69,18 @@
     </div>
 </div>
 <script src="https://getbootstrap.com/docs/4.5/assets/js/docs.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#send-student-progress-modal').on('click', function () {
+            $.ajax({
+                type: 'GET',
+                url:  'marks/get-parents-emails/',
+                data: { 'students_ids': studentsIds },
+                success: function(response) {
+                    $('#sendStudentProgressToParentsModal').modal("show");
+                    $('#sendStudentProgressToParentsModalBody').html(response).show();
+                }
+            });
+        })
+    });
+</script>

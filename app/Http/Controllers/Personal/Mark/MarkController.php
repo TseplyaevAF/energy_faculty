@@ -150,6 +150,15 @@ class MarkController extends Controller
         return view('personal.mark.student-progress.show', compact('data', 'monthName'));
     }
 
+    public function getParentsEmails(Request $request) {
+        $studentsIds = $request->input('students_ids');
+        $parentsEmails = [];
+        foreach ($studentsIds as $studentFIO => $studentsId) {
+            $parentsEmails[$studentFIO][] = json_decode(Student::find($studentsId)->parents);
+        }
+        return view('personal.mark.show-parents-emails', compact('parentsEmails'));
+    }
+
     public function getParentsContacts(Student $student) {
         $parents = json_decode($student->parents);
         return view('personal.mark.show-parents-contacts', compact( 'parents', 'student'));

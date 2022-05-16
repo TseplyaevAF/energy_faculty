@@ -204,6 +204,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/set-new-headman/{group}/{headmanId}', 'MarkController@setNewHeadman');
         Route::get('/get-tasks', 'MarkController@getTasks');
         Route::get('/get-student-progress/{month}', 'MarkController@getStudentProgress');
+        Route::get('/get-parents-emails', 'MarkController@getParentsEmails');
         Route::get('/get-parents-contacts/{student}', 'MarkController@getParentsContacts');
         Route::patch('/update-parents-contacts/{student}', 'MarkController@updateParentsContacts');
     });
