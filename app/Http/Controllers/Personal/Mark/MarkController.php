@@ -141,6 +141,15 @@ class MarkController extends Controller
         return view('personal.mark.task.show', compact( 'data', 'lesson'));
     }
 
+    public function getStudentProgress(FilterRequest $request, $month) {
+        $data = $request->validated();
+        $monthName = \App\Service\StudentProgress\Service::getMonthName($data['semester'], $month);
+        $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
+        $lessons = Lesson::filter($filter)->get();
+        $data = \App\Service\StudentProgress\Service::getStudentsProgressByMonth($lessons, $month);
+        return view('personal.mark.student-progress.show', compact('data', 'monthName'));
+    }
+
     public function getParentsContacts(Student $student) {
         $parents = json_decode($student->parents);
         return view('personal.mark.show-parents-contacts', compact( 'parents', 'student'));

@@ -30,6 +30,10 @@ class StudentProgressController extends Controller
         }
     }
 
+    public function getMonthTypes() {
+        echo json_encode($this->service->getMonthTypes());
+    }
+
     public function downloadStudentsTemplate(Group $group) {
         $fileName = 'Студенты группы ' . $group->title . '.xlsx';
         $file =  Excel::raw(new StudentsTemplateExport($group->students), 'Xlsx');

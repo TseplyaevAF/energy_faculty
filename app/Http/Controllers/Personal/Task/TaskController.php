@@ -53,7 +53,7 @@ class TaskController extends Controller
         ];
         $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($data)]);
         $lesson = Lesson::filter($filter)->first();
-        $data = \App\Service\StudentProgress\Service::getStudentsProgress($lesson);
+        $data = \App\Service\StudentProgress\Service::getStudentsProgressByLesson($lesson);
         $data += ['lesson_id' => $lesson->id];
         return view('personal.new-task.student-progress.show', compact('data', 'lesson'));
     }

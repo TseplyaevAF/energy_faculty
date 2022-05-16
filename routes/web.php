@@ -155,6 +155,8 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     Route::post('student-progress', 'StudentProgress\StudentProgressController@import');
     Route::get('student-progress/download-students-template/{group}',
         'StudentProgress\StudentProgressController@downloadStudentsTemplate');
+    Route::get('student-progress/get-month-types',
+        'StudentProgress\StudentProgressController@getMonthTypes');
 
     Route::resource('homework', 'Homework\HomeworkController', ['names' => 'personal.homework'])
         ->only('index', 'store', 'destroy');
@@ -201,6 +203,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/group-students/{group}', 'MarkController@getStudents');
         Route::get('/set-new-headman/{group}/{headmanId}', 'MarkController@setNewHeadman');
         Route::get('/get-tasks', 'MarkController@getTasks');
+        Route::get('/get-student-progress/{month}', 'MarkController@getStudentProgress');
         Route::get('/get-parents-contacts/{student}', 'MarkController@getParentsContacts');
         Route::patch('/update-parents-contacts/{student}', 'MarkController@updateParentsContacts');
     });

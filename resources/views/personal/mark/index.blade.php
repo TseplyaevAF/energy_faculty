@@ -43,6 +43,7 @@
                                 <li data-id="statements">Ведомости</li>
                                 <li data-id="semester-statements">Семестровки</li>
                                 <li data-id="tasks">Задания</li>
+                                <li data-id="student-progress">Успеваемость</li>
                             </ul>
                             <div class="tabs__content">
                                 <div id="about_group_preloader">
@@ -174,6 +175,37 @@
                                     <div></div>
                                 </div>
                             </div>
+                            <div class="tabs__content">
+                                <div id="student_progress_preloader">
+                                    <img src="{{ asset('storage/loading.gif') }}"
+                                         alt="AJAX loader" title="AJAX loader"/>
+                                </div>
+                                <div class="row filters">
+                                    <div class=" col-md-6 mb-2">
+                                        <h6>Семестр</h6>
+                                        <div class="form-s2">
+                                            <select class="form-control formselect required" id="student-progress-semester">
+                                                @for($i=1; $i<=4; $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 mb-2">
+                                        <h6>Месяц</h6>
+                                        <div class="form-s2">
+                                            <select class="form-control formselect required" id="student-progress-month">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="student-progress-filter" class="btn btn-info mb-3">
+                                    Показать
+                                </button>
+                                <div class="form-group" id="studentProgressBody">
+                                    <div></div>
+                                </div>
+                            </div>
                         </div><!-- .tabs-->
                     </div>
             </div>
@@ -215,7 +247,10 @@
     <script src="{{ asset('js/personal/mark/semester_statements.js') }}"></script>
     <script src="{{ asset('js/personal/mark/about_group.js') }}"></script>
     <script src="{{ asset('js/personal/mark/tasks.js') }}"></script>
+    <script src="{{ asset('js/personal/mark/student_progress.js') }}"></script>
     <script>
+    let monthTypes = "";
+
     $(document).ready(function () {
         let choiceGroup = $("#group_name").val();
         window.choiceGroup = choiceGroup
@@ -237,6 +272,8 @@
                 showAboutGroupTab(this);
             } else if (tabId === 'tasks') {
                 showTasksTab(this);
+            } else if (tabId === 'student-progress') {
+                showStudentProgressTab(this);
             }
         });
 
@@ -258,6 +295,12 @@
         $('#tasks-filter').click(function () {
             $(this).attr('disabled', true);
             getTasksTable(choiceGroup);
+        })
+
+        // отфильтровать таблицу с успеваемостью
+        $('#student-progress-filter').click(function () {
+            $(this).attr('disabled', true);
+            getStudentProgressTable(choiceGroup);
         })
 
         // показать контент вкладки "Ведомости"
@@ -287,6 +330,20 @@
             getSemesters(el, appUrl + 'api/lessons/get-semesters?group_id=' + choiceGroup);
             $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
         }
+
+        // показать контент вкладки "Успеваемость"
+        function showStudentProgressTab(el)
+        {
+            $('#studentProgressBody').html('').show();
+            if (monthTypes === "") {
+                getMontnTypes();
+            }
+            $(el).closest('div.tabs').find('div.tabs__content').children('.row').show();
+        }
+
+        $('#student-progress-semester').on('change', function () {
+            getMontnTypes($(this).val());
+        });
 
         // загрузить отчёт по ведомости
         $("#statements-table").on('click', '.showStatement', function() {
