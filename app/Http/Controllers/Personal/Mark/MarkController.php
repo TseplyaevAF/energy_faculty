@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Personal\Mark;
 use App\Exports\IndividualsExport;
 use App\Exports\SemesterStatementsByStudentExport;
 use App\Exports\SemesterStatementsExport;
+use App\Exports\StudentProgressExport;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\LessonFilter;
 use App\Http\Filters\StatementFilter;
 use App\Http\Requests\Admin\Lesson\FilterRequest;
 use App\Http\Requests\Personal\Mark\UpdateParentsContactsRequest;
 use App\Http\Resources\StudentResource;
+use App\Jobs\SendStudentProgressJob;
 use App\Models\Group\Group;
 use App\Models\Lesson;
 use App\Models\Statement\Individual;
@@ -157,6 +159,28 @@ class MarkController extends Controller
             $parentsEmails[$studentFIO][] = json_decode(Student::find($studentsId)->parents);
         }
         return view('personal.mark.show-parents-emails', compact('parentsEmails'));
+    }
+
+    public function sendStudentProgress(Request $request) {
+        $selectedEmails = $request->input('selected_emails');
+        $studentProgress = $request->input('student_progress');
+        $month = $request->input('month');
+        foreach ($selectedEmails as $studentFIO => $selectedEmail) {
+            $studentFIO = explode('_',$studentFIO)[0];
+            $filename = 'student_progress/' . $month . '/' . $studentFIO . '.xlsx';
+            Excel::store(
+                new StudentProgressExport($studentProgress[$studentFIO], $studentFIO, $month),
+                $filename,
+                'public'
+            );
+            $details = [
+                'selected_email' => $selectedEmail,
+                'student_FIO' => $studentFIO,
+                'filename' => $filename,
+            ];
+            $this->dispatch(new SendStudentProgressJob($details));
+        }
+        return response('Успеваемость успешно отправлена', 200);
     }
 
     public function getParentsContacts(Student $student) {

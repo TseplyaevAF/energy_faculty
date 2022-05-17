@@ -205,6 +205,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::get('/get-tasks', 'MarkController@getTasks');
         Route::get('/get-student-progress/{month}', 'MarkController@getStudentProgress');
         Route::get('/get-parents-emails', 'MarkController@getParentsEmails');
+        Route::post('/send-student-progress', 'MarkController@sendStudentProgress');
         Route::get('/get-parents-contacts/{student}', 'MarkController@getParentsContacts');
         Route::patch('/update-parents-contacts/{student}', 'MarkController@updateParentsContacts');
     });
