@@ -1,33 +1,42 @@
-## Установка pgAdmin
-1. Скачать и установить: https://disk.yandex.ru/d/DfjP_zWtteunVw
-2. В файле `C:\Program Files\PostgreSQL\13\data\postgresql.conf` изменить `scram-sha-256` на `md5` в `password_encryption`
-3. В файле `C:\Program Files\PostgreSQL\13\data\pg_hba.conf` также изменить везде на `md5`
-4. Проделать след. действия: https://sun9-40.userapi.com/impg/hT-MMJvyaQVwzQOapF0XwPu_AemSx1fpHh2l4g/5XDmx7KxRXk.jpg?size=722x388&quality=96&sign=5f5c1b3c764ad6460feb3a65ee142484&type=album
+<!-- <div align="center">
+<img src="https://raw.githubusercontent.com/TseplyaevAF/energy_faculty/main/public/assets/default/logo.png" >
+</div> -->
 
-## Установка xampp
-1. Скачать и установить https://www.apachefriends.org/ru/index.html
-2. Пошаманить в след. файлах (куда ж без этого):
-    1. В файле `xampp\php\php.ini` раскомментировать: `extension=pdo_pgsql, extension=pgsql`
-    2. В `xampp\apache\conf\httpd.conf` добавить строчку: LoadFile `"C:\Program Files\PostgreSQL\13\bin\libpq.dll"`
-    3. В конец файла `C:\xampp\apache\conf\extra\httpd-vhosts.conf` вставить:
+![logo](https://raw.githubusercontent.com/TseplyaevAF/energy_faculty/main/public/assets/default/logo.png)
+
+![laravel_version](https://img.shields.io/badge/Laravel-8.83.9-red)
+![php_version](https://img.shields.io/badge/php-%5E7.3%7C%5E7.4%7C%5E8.1.2-blue)
+![commit_activity](https://img.shields.io/github/commit-activity/w/TseplyaevAF/energy_faculty)
+                                                                       
+# Информационный сервис ЭФ ЗабГУ
+
+Данный проект является backend-частью сайта энергетического факультета и содержит следующее:
+1. API
+2. Реализацию личных кабинетов
+
+### Установка проекта
+
+- `composer update` либо `composer update —ignore-platform-req=ext-imagick` если будут ошибки
+- `npm install`
+- `npm run dev`
+- Создать файл конфигурации `.env` и заполнить подключение к базе данных
+    - ```
+        DB_CONNECTION=pgsql
+        DB_HOST=127.0.0.1
+        DB_PORT=5432
+        DB_DATABASE=your_db_name
+        DB_USERNAME=your_username
+        DB_PASSWORD=your_password
         ```
-        <VirtualHost energy_faculty.com:80>
-        DocumentRoot "C:\xampp\htdocs\energy_faculty\public"
-            ServerName energy_faculty.com
-            ServerAlias www.energy_faculty.com
-            <Directory "c:/xampp/htdocs/energy_faculty/public">
-            Require all granted
-        </Directory>
-        </VirtualHost>
-        ```
-    4. В конец файла `C:\Windows\System32\drivers\etc\hosts` вставить: `127.0.0.1 www.energy_faculty.com energy_faculty.com`
+- `php artisan key:generate`
+- `php artisan storage:link`
+- `php artisan migrate`
+- `php artisan serve`
 
-## Установка проекта
-1. `git clone https://github.com/TseplyaevAF/energy_faculty.git`
-2. Скачать и установить composer: https://getcomposer.org/
-3. Зайди в папку с проектом и в консоль вписать: `composer update`
-4. Скопировать файл *.env.example*, переименовав его в просто *.env* и заполнить данные подключения к БД
+> Также вы можете выполнить `php artisan migrate:fresh --seed` для заполнения БД тестовыми данными. В том числе будут созданы аккаунты для основных ролей приложения: Студент, Преподаватель, Сотрудник кафедры, Сотрудник УЦ, Сотрудник деканата.
 
+> Логины и пароли к ним можно узнать здесь: `public/assets/users.json`. Логином считается электронная почта.
 
-**Также нужно добавить в переменные среды**
-https://sun9-68.userapi.com/impg/qOxrpbg2Ht8rhW_6R8J3gfSreTkxeVbr0P_3cg/PvuFs5VZPlM.jpg?size=527x501&quality=96&sign=fbc92fc8cff7d5bfe2314cc6b6cd0be3&type=album
+> **Данные для входа, а также номера телефонов являются фейковыми**
+
+> В данный момент подтверждение email-адреса после регистрации выключено, так что для тестов можно вводить любую почту.
