@@ -46,11 +46,6 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function showRegistrationForm()
-    {
-        $groups = Group::all();
-        return view('auth.register', compact('groups'));
-    }
 
     /**
      * Get a validator for an incoming registration request.

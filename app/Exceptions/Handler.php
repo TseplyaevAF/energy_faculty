@@ -38,4 +38,13 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+//    public function render($request, Throwable $e)
+//    {
+//        if (!env('APP_DEBUG', false)) {
+//            return response()->view("errors.404");
+//        } else {
+//            return parent::render($request, $e);
+//        }
+//    }
 }

@@ -197,5 +197,3 @@ Route::post('two-factor-auth', [TwoFactorAuthController::class, 'store'])->name(
 Route::get('two-factor-auth/resent', [TwoFactorAuthController::class, 'resend'])->name('2fa.resend');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
