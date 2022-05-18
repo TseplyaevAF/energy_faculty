@@ -15,14 +15,11 @@ use App\Http\Controllers\TwoFactorAuthController;
 |
 */
 
-Route::group(['namespace' => 'Main'], function () {
-    Route::get('/', 'IndexController')->name('main');
-});
+Route::get('/', 'Main\IndexController')->name('main');
 
+// ---ADMIN ROUTES---
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-    Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', 'IndexController');
-    });
+    Route::get('/', 'Main\IndexController');
     Route::resource('groups', 'Group\GroupController', ['names' => 'admin.group']);
     Route::resource('disciplines', 'Discipline\DisciplineController', ['names' => 'admin.discipline']);
     Route::resource('chairs', 'Chair\ChairController', ['names' => 'admin.chair']);
@@ -40,22 +37,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 
     Route::resource('users', 'User\UserController', ['names' => 'admin.user']);
     Route::get('users/user/search', 'User\UserController@search')->name('admin.user.search');
-    Route::group(['namespace' => 'Schedule', 'prefix' => 'schedules'], function () {
-        Route::group(['namespace' => 'Group', 'prefix' => 'groups'], function () {
-            Route::get('{group}/create', 'GroupController@create')->name('admin.schedule.group.create');
-            Route::post('/store', 'GroupController@store')->name('admin.schedule.group.store');
-            Route::get('{group}', 'GroupController@show')->name('admin.schedule.group.show');
-            Route::get('pair={schedule}/edit', 'GroupController@edit')->name('admin.schedule.group.edit');
-            Route::patch('{schedule}', 'GroupController@update')->name('admin.schedule.group.update');
-        });
-        Route::get('/', 'ScheduleController@index')->name('admin.schedule.index');
-    });
 });
 
+// ---EMPLOYEE ROUTES---
 Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' => ['auth', 'employee']], function () {
-    Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', 'IndexController')->name('employee.main.index');
-    });
+    Route::get('/', 'Main\IndexController')->name('employee.main.index');
     Route::resource('chairs', 'Chair\ChairController', ['names' => 'employee.chair']);
     Route::resource('news', 'News\NewsController', ['names' => 'employee.news'])
         ->only(['index', 'store', 'edit', 'update', 'destroy']);
@@ -87,19 +73,17 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
     });
 });
 
+// ---CENTRE AUTHORITY ROUTES---
 Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => ['auth', 'ca']], function () {
-    Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', 'IndexController')->name('ca.main.index');
-    });
+    Route::get('/', 'Main\IndexController')->name('ca.main.index');
     Route::resource('cert_apps', 'CertApp\CertAppController', ['names' => 'ca.cert_app'])
         ->only('index', 'store');
     Route::get('/cert_apps/{certApp}', 'CertApp\CertAppController@accept')->name('ca.cert_app.accept');
 });
 
+// ---DEKANAT ROUTES---
 Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => ['auth', 'dekanat']], function () {
-    Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', 'MainController@index')->name('dekanat.main.index');
-    });
+    Route::get('/', 'Main\MainController@index')->name('dekanat.main.index');
     Route::group(['namespace' => 'ExamSheet', 'prefix' => 'exam_sheets'], function () {
         Route::get('/', 'ExamSheetController@index')->name('dekanat.exam_sheet.index');
         Route::post('/{sheet}', 'ExamSheetController@issue')->name('dekanat.exam_sheet.issue');
@@ -116,12 +100,12 @@ Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => [
     });
 });
 
+// ---USER AVATAR ROUTE---
 Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth']], function () {
-    Route::group(['namespace' => 'Settings', 'prefix' => 'settings'], function () {
-        Route::get('/{modelId}/{mediaId}/{filename}', 'SettingsController@showImage')->name('personal.settings.showImage');
-    });
+    Route::get('settings/{modelId}/{mediaId}/{filename}', 'Settings/SettingsController@showImage')->name('personal.settings.showImage');
 });
 
+// ---PERSONAL (STUDENT AND TEACHER) ROUTES---
 Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', '2fa', 'personal']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'MainController@index')->name('personal.main.index');
@@ -132,11 +116,6 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
         Route::patch('/{user}', 'SettingsController@updateMain')->name('personal.settings.updateMain');
         Route::patch('/{user}/password', 'SettingsController@updatePassword')->name('personal.settings.updatePassword');
         Route::patch('/{user}/security', 'SettingsController@changeSecurity')->name('personal.settings.changeSecurity');
-    });
-    Route::group(['namespace' => 'Application', 'prefix' => 'applications'], function () {
-        Route::get('/', 'ApplicationController@index')->name('personal.application.index');
-        Route::get('/{application}/accept', 'ApplicationController@accept')->name('personal.application.accept');
-        Route::get('/{application}/reject', 'ApplicationController@reject')->name('personal.application.reject');
     });
 
     Route::resource('tasks', 'Task\TaskController', ['names' => 'personal.task'])
@@ -211,6 +190,7 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     });
 });
 
+// ---TWO FACTOR AUTH ROUTES---
 Route::get('two-factor-auth', [TwoFactorAuthController::class, 'index'])->name('2fa.index');
 Route::post('two-factor-auth', [TwoFactorAuthController::class, 'store'])->name('2fa.store');
 Route::get('two-factor-auth/resent', [TwoFactorAuthController::class, 'resend'])->name('2fa.resend');

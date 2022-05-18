@@ -45,13 +45,6 @@
                     <p>Учебная нагрузка</p>
                 </a>
             </li>
-
-          <li class="nav-item">
-            <a href="{{ route('admin.schedule.index') }}" class="nav-link">
-              <i class="nav-icon fas fa-calendar-alt"></i>
-              <p>Расписание занятий</p>
-            </a>
-          </li>
         </ul>
       </div>
       <!-- /.sidebar -->

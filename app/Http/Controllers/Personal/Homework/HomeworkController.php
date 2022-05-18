@@ -43,12 +43,6 @@ class HomeworkController extends Controller
         return view('personal.new-homework.task.show', compact('data', 'lesson'));
     }
 
-    public function create(Task $task)
-    {
-        Gate::authorize('isStudent');
-        return view('personal.homework.create', compact('task'));
-    }
-
     public function store(StoreRequest $request)
     {
         Gate::authorize('isStudent');

@@ -35,12 +35,12 @@
                   </h6>
               </div>
             <div class="schedule__chairs-result">
-                <div class="schedule__chair js-schedule-chair mb-3" id="chair-{{ $chair->id }}">
+                <div class="schedule__chair js-schedule-chair mb-2" id="chair-{{ $chair->id }}">
                   <div class="schedule__chair-courses">
                     <div class="row">
                         @foreach($arrayGroupsByYear as $year => $groupsByYear)
-                      <div class="schedule__chair-course col-2">
-                        <p class="font-weight-bold">{{$year}}</p>
+                      <div class="schedule__chair-course col-2 mb-4">
+                        <p class="font-weight-bold" style="margin: 0">{{$year}}</p>
                           <div class="schedule__chair-groups">
                               @foreach($groupsByYear as $group)
                             <a href="{{ route('employee.schedule.group.show', $group['id']) }}"

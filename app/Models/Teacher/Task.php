@@ -2,8 +2,6 @@
 
 namespace App\Models\Teacher;
 
-use App\Models\Discipline;
-use App\Models\Group\Group;
 use App\Models\Lesson;
 use App\Models\Student\Homework;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

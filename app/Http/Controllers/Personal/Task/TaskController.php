@@ -12,9 +12,7 @@ use App\Models\Student\Homework;
 use App\Models\Teacher\Task;
 use App\Service\Task\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Gate;
-use Spatie\MediaLibrary\Models\Media;
 
 class TaskController extends Controller
 {
@@ -71,23 +69,6 @@ class TaskController extends Controller
 
     public function loadHomework(Homework $homework) {
         return view('personal.new-task.load-homework', compact('homework'));
-    }
-
-    public function create()
-    {
-        Gate::authorize('isTeacher');
-        $teacher = auth()->user()->teacher;
-        foreach ($teacher->lessons as  $lesson) {
-            $lessons[$lesson->id]['discipline']['id'] = $lesson->discipline->id;
-            $lessons[$lesson->id]['discipline']['title'] = $lesson->discipline->title;
-
-            $lessons[$lesson->id]['group']['id'] = $lesson->group->id;
-            $lessons[$lesson->id]['group']['title'] = $lesson->group->title;
-
-            $lessons[$lesson->id]['semester'] = $lesson->semester;
-        }
-
-        return view('personal.task.create', compact('lessons'));
     }
 
     public function createLesson() {
@@ -189,13 +170,5 @@ class TaskController extends Controller
         $task->getMedia(Task::PATH)->first()->delete();
         $task->delete();
         return response('Файл успешно удален!', 200);
-    }
-
-    public function complete(Task $task) {
-        Gate::authorize('show-task', [$task]);
-        $task->update([
-            'status' => 1,
-        ]);
-        return redirect()->route('personal.task.index');
     }
 }
