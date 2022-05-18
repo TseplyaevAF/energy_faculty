@@ -79,4 +79,13 @@ class NewsController extends Controller
         $news->forceDelete();
         return redirect()->back()->withSuccess('Запись была удалена');
     }
+
+    public function addToSlider(News $news) {
+        if (!$news->is_slider_item) {
+            $news->update(['is_slider_item' => true]);
+        } else {
+            $news->update(['is_slider_item' => false]);
+        }
+        return response('', 200);
+    }
 }

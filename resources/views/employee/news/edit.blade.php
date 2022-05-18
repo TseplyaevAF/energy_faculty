@@ -69,18 +69,19 @@
 
               <div class="form-group w-25">
                     <label for="exampleInputFile">Добавьте главное изображение</label>
-                    <div class="input-group mb-2">
+                    <div class="input-group">
                         <div class="custom-file">
                             <!-- multiple -->
                             <input type="file" class="custom-file-input" name="preview" accept=".jpg,.jpeg,.png,.bmp,.svg">
                             <label class="custom-file-label" for="exampleInputFile">Выберите изображение</label>
                         </div>
                     </div>
+                    <div class="img-holder"></div>
                     @error('preview')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
-                  <div class="w-50 mb-2">
-                      <img src="{{asset('storage/' . $news->preview)}}" alt="main_image" class="w-50">
+                  <div class="w-50 mb-2 old-preview">
+                      <img src="{{asset('storage/' . $news->preview)}}" class="preview-img">
                   </div>
                 </div>
 

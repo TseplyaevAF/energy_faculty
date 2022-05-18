@@ -45,7 +45,7 @@
               @csrf
               <input value="{{ $chair->id }}" type="hidden" name="chair_id">
               <div class="form-group w-50">
-                <input value="@if($errors->any()) {{ old('title') }} @else {{ $news->title ?? null }} @endif" type="text" class="form-control" name="title" placeholder="Заголовок новости">
+                <input value="@if($errors->any()){{ old('title') }}@else{{ $news->title ?? null }}@endif" type="text" class="form-control" name="title" placeholder="Заголовок новости">
                 @error('title')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
@@ -66,13 +66,14 @@
 
               <div class="form-group w-25">
                     <label for="exampleInputFile">Добавьте превью</label>
-                    <div class="input-group mb-2">
+                    <div class="input-group">
                         <div class="custom-file">
                             <!-- multiple -->
                             <input type="file" class="custom-file-input" name="preview" accept=".jpg,.jpeg,.png">
                             <label class="custom-file-label" for="exampleInputFile">Выберите изображение</label>
                         </div>
                     </div>
+                    <div class="img-holder"></div>
                     @error('preview')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror

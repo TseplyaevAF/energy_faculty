@@ -47,6 +47,7 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
         ->only(['index', 'store', 'edit', 'update', 'destroy']);
     Route::group(['namespace' => 'News', 'prefix' => 'news'], function () {
         Route::get('/create/{category}/{olimpType}/{news}', 'NewsController@create');
+        Route::patch('/add-to-slider/{news}', 'NewsController@addToSlider');
     });
 
     Route::group(['namespace' => 'Olimp', 'prefix' => 'olimps'], function () {

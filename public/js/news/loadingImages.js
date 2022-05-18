@@ -2,6 +2,8 @@
 const images = new Map();
 // для отправки массива с картинками на сервер
 const inputImages = document.querySelector('input[name="images[]"]');
+// превью
+let $preview = $('input[type="file"][name="preview"]');
 
 
 function FileListItems(files) {
@@ -134,3 +136,31 @@ $('#submitNews').on('click', function () {
   }
   inputImages.files = new FileListItems(files);
 });
+
+$preview.val('');
+
+$preview.on('change', function () {
+    var imgPath = $(this)[0].value;
+    var imgHolder = $('.img-holder');
+    var extension = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+    var oldPreview = $('.old-preview');
+    if (oldPreview.length !== 0) {
+        oldPreview.hide();
+    }
+    if (extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
+        imgHolder.empty();
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('<img/>', {
+                'src': e.target.result,
+                'class':'img-fluid',
+                'style':'max-width:100px; margin-bottom:10px;padding-top: 10px'
+            }).appendTo(imgHolder);
+        }
+        imgHolder.show();
+        reader.readAsDataURL($(this)[0].files[0]);
+    } else {
+        $(imgHolder).empty();
+        oldPreview.show();
+    }
+})

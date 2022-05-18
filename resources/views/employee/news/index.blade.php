@@ -5,6 +5,13 @@
   @section('content')
   <link rel="stylesheet" href="{{ asset('css/news/filter_news.css') }}">
   <link rel="stylesheet" href="{{ asset('css/datepicker/cssworld.ru-xcal.css') }}">
+  <style>
+      input[type=checkbox] {
+          width: 6mm;
+          height: 6mm;
+          border: 0.1mm solid black;
+      }
+  </style>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -54,7 +61,7 @@
 
         <div class="row">
           <div class="filters-block col-sm-3 col-md-3 col-lg-3 mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Фильтры</label>
+            <label style="font-size: 18px" class="form-label">Фильтры</label>
             <form action="{{route('employee.news.index')}}" method="GET">
               <div class="form-group">
                 <input @if(isset($_GET['content'])) value="{{$_GET['content']}}" @endif type="text" class="form-control" name="content" placeholder="Поиск по содержимому...">
@@ -67,9 +74,9 @@
                   @endforeach
                 </select>
               </div>
-              <label>Дата:</label>
+              <span>Дата публикации:</span>
               <div class="form-group">
-                <div class="col">
+                <div class="mb-2">
                   <h6 class="text-muted">с </h6>
                   <input @if(isset($_GET['date'][0])) value="{{$_GET['date'][0]}}" @endif
                   autocomplete="off" type="text" class="form-control" name="date[]" size="10" onClick="xCal(this)" onKeyUp="xCal()">
@@ -77,18 +84,28 @@
               </div>
 
               <div class="form-group">
-                <div class="col">
+                <div class="mb-2">
                   <h6 class="text-muted">по </h6>
                   <input @if(isset($_GET['date'][1])) value="{{$_GET['date'][1]}}" @endif
                   autocomplete="off" type="text" class="form-control" name="date[]" size="10" onClick="xCal(this)" onKeyUp="xCal()">
                 </div>
               </div>
+
+              <div class="form-group">
+                  <div class="mb-2">
+                      <div class="row" style="margin: 0">
+                          <span class="mr-1">Показать новости в слайдере</span>
+                          <div>
+                              <input type="checkbox" value="1" name="is_slider_item"
+                              {{ isset($_GET['is_slider_item']) ? 'checked' :''}}>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
               <button type="submit" class="btn btn-success mb-2">Применить</button>
             </form>
-            <form action="{{ route('employee.news.index') }}" method="GET">
-              <input value="" type="hidden" name="content">
-              <input value="" type="hidden" name="category_id">
-              <input value="" type="hidden" name="date[]">
+            <form action="{{ request()->url() }}" method="GET">
               <button type="submit" class="btn btn-default">Сбросить</button>
             </form>
           </div>
@@ -102,6 +119,7 @@
                       <th>Заголовок</th>
                       <th>Категория</th>
                       <th style="width: 30%;">Действия</th>
+                      <th>Слайдер</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -132,6 +150,10 @@
                               </form>
                           </div>
                       </td>
+                      <td>
+                          <input type="checkbox" id="slider_{{ $news->id }}"
+                              @if ($news->is_slider_item) checked @endif class="cb-slider">
+                      </td>
                     </tr>
                     @endforeach
                   </tbody>
@@ -161,6 +183,23 @@
               success: function (response) {
                   $('#createPostModal').modal('show');
                   $('#createPostModalBody').html(response);
+              }
+          });
+      });
+
+      $('.table').on('click', ':checkbox', function () {
+          let postId = $(this).attr('id').split('_')[1];
+          $.ajax({
+              method: 'PATCH',
+              url: `news/add-to-slider/${postId}`,
+              data: {
+                  '_token': $("input[name='_token']").val()
+              },
+              beforeSend: function () {
+                  $('.cb-slider').prop( "disabled", true);
+              },
+              success: function (response) {
+                  $('.cb-slider').prop( "disabled", false);
               }
           });
       })
