@@ -75,6 +75,15 @@
                                                     <p class="text-danger">{{ $message }}</p>
                                                     @enderror
                                                 </div>
+                                                @if (isset(auth()->user()->student))
+                                                    <div class="form-group">
+                                                        <label class="form-label help" data-help="Для получения уведомлений о новых событиях группы">
+                                                            Имя пользователя в Телеграм
+                                                            <img class="help help-icon" src="{{ asset('assets/default/question-circle.png') }}">
+                                                        </label>
+                                                        <input name="tg_username" type="text" class="form-control mb-1" value="{{ $user->student->tg_username }}" placeholder="@username">
+                                                    </div>
+                                                @endif
                                                 @if (isset(auth()->user()->teacher))
                                                 <div class="form-group">
                                                     <label class="form-label help" data-help="Телефон для связи со студентами и сотрудниками">

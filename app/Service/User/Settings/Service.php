@@ -27,6 +27,11 @@ class Service
                     'work_phone' => $data['work_phone']
                 ]);
             }
+            if (isset($user->student)) {
+                $user->student->update([
+                    'tg_username' => $data['tg_username']
+                ]);
+            }
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
