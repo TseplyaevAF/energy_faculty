@@ -29,7 +29,8 @@ class ExamSheetController extends Controller
             ->where('exam_finish_date', '!=', null)
             ->get();
         foreach ($individuals as $key => $individual) {
-            if ($individual->exam_finish_date < $individual->statement->finish_date) {
+            if ($individual->exam_finish_date < $individual->statement->finish_date
+                || !isset($individual->statement->report)) {
                 unset($individuals[$key]);
             }
         }
@@ -40,9 +41,15 @@ class ExamSheetController extends Controller
     public function show(ExamSheet $sheet) {
         Gate::authorize('isTeacher');
         Gate::authorize('show-exam-sheet', [$sheet]);
-        $studentFIO = $sheet->student->user->surname . ' ' .
-            $sheet->student->user->name . ' ' . $sheet->student->user->patronymic;
+        $studentFIO = $sheet->student->user->fullName();
         $evalTypes = Statement::getEvalTypes();
+        if ($sheet->individual->statement->control_form == "1") {
+            unset($evalTypes[2]);
+            unset($evalTypes[3]);
+            unset($evalTypes[4]);
+        } else {
+            unset($evalTypes[1]);
+        }
         $controlForms = Statement::getControlForms();
         return view('personal.exam_sheet.show',
             compact('sheet', 'studentFIO', 'evalTypes', 'controlForms'));

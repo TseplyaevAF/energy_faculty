@@ -57,9 +57,9 @@
                                     id="year"></select>
                         </div>
                     </div>
-                    <div class="card w-75">
+                    <div class="card col-md-12">
                         <div class="card-header"><b>Экзаменационные ведомости ЭФ</b></div>
-                        <div class="card-body ">
+                        <div class="card-body table-responsive">
                             <a href="javascript:void(0)"
                                class="btn btn-success btn-sm mb-3" id="addNewStatement">
                                 Добавить ведомость

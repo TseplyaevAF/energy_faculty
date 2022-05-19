@@ -82,8 +82,8 @@
                                        id="validationCustom01" placeholder="E-mail" required>
                             </div>
                             <input type="hidden" name="teacher_id" value="{{ auth()->user()->teacher->id }}">
-                            <div class="sendApp col-md-12">
-                                <button class="btn btn-primary" type="submit">Отправить форму</button>
+                            <div class="sendApp col-md-12 mb-2">
+                                <button class="btn btn-primary" type="submit">Отправить заявку</button>
                             </div>
                         </form>
                     </div>

@@ -56,11 +56,12 @@
                                           <i class="fas fa-id-card"></i>
                                           Выдать сертификат
                                       </a>
-                                      <form action="" method="post"
+                                      <form action="{{ route('ca.cert_app.destroy', $certApp->id) }}" method="post"
                                             style="display: inline-block">
                                           @csrf
                                           @method('delete')
-                                          <button type="submit" class="btn btn-danger btn-sm delete-btn" href="#">
+                                          <button type="submit" class="btn btn-danger btn-sm delete-btn"
+                                                  href="#">
                                               <i class="fas fa-minus-circle"></i>
                                               </i>
                                               Отклонить заявку

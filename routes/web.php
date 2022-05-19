@@ -78,7 +78,7 @@ Route::group(['namespace' => 'Employee', 'prefix' => 'employee', 'middleware' =>
 Route::group(['namespace' => 'CertAuthority', 'prefix' => 'ca', 'middleware' => ['auth', 'ca']], function () {
     Route::get('/', 'Main\IndexController')->name('ca.main.index');
     Route::resource('cert_apps', 'CertApp\CertAppController', ['names' => 'ca.cert_app'])
-        ->only('index', 'store');
+        ->only('index', 'store', 'destroy');
     Route::get('/cert_apps/{certApp}', 'CertApp\CertAppController@accept')->name('ca.cert_app.accept');
 });
 

@@ -62,7 +62,7 @@
                             </div>
 
                             <div class="form-group col-md-5">
-                                <label for="exampleInputFile">Оценка:</label>
+                                <label for="exampleInputFile">Новая оценка:</label>
                                 <select name="eval" class="form-control">
                                     @foreach($evalTypes as $id => $evalType)
                                         <option value="{{ $id }}" {{$id == old('id') ? 'selected' : ''}}>{{ $evalType }}</option>

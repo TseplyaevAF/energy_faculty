@@ -38,4 +38,9 @@ class CertAppController extends Controller
         }
         return redirect()->route('ca.cert_app.index');
     }
+
+    public function destroy(CertApp $certApp) {
+        $certApp->delete();
+        return redirect()->route('ca.cert_app.index');
+    }
 }

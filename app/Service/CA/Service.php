@@ -39,7 +39,7 @@ class Service
             DB::beginTransaction();
 
             // выдаем сертификат преподавателю
-            $teacherCert = $this->centreAuth->createTeacherCert($certApp->csr, $private_key, 60);
+            $teacherCert = $this->centreAuth->createTeacherCert($certApp->csr, $private_key, 365);
 
             $certPath = 'ca/certs/teachers/' . $certApp->teacher->id . '/cert.crt';
 

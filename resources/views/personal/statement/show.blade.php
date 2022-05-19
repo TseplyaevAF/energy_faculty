@@ -12,6 +12,8 @@
                     <div class="col-sm-6">
                         <h1 class="m-0">Ведомость № {{ $statement->id  }}</h1>
                         <input type="hidden" class="inputStatement" value="{{ $statement->id }}">
+                        <input type="hidden" name="control_form" value="{{ $statement->control_form }}">
+                        <input type="hidden" name="individuals_length" value="{{ $statement->individuals }}">
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -153,12 +155,21 @@
         $(document).ready(function () {
             let evalTypes;
             let table;
+            let individualsLength = JSON.parse($("input[name='individuals_length']").val()).length;
 
             $.ajax({
                 type: 'GET',
                 url: '{{ route('personal.statement.getEvalTypes') }}',
                 success: function (response) {
                     evalTypes = JSON.parse(response);
+                    let controlForm = $("input[name='control_form']").val();
+                    if (controlForm === "1") {
+                        delete evalTypes[2];
+                        delete evalTypes[3];
+                        delete evalTypes[4];
+                    } else {
+                        delete evalTypes[1];
+                    }
                     getCompletedSheets();
                     table = getTables();
                 },
@@ -196,14 +207,12 @@
                             render: function (data, type, row) {
                                 var select = '<select class="form-control evalSelect" type="text" name="evaluation">';
                                 select += '<option value="">-- Оценка не выбрана</option>';
-                                let count = 1;
-                                for (var i = 0; i < Object.keys(evalTypes).length; i++) {
-                                    if (evalTypes[count] === evalTypes[row.evaluation]) {
+                                for (const [key, value] of Object.entries(evalTypes)) {
+                                    if (value === evalTypes[row.evaluation]) {
                                         select += '<option value="' + row.evaluation + '" selected="true">' + evalTypes[row.evaluation] + '</option>';
                                     } else {
-                                        select += '<option value="' + count + '">' + evalTypes[count] + '</option>';
+                                        select += '<option value="' + key + '">' + value + '</option>';
                                     }
-                                    count++;
                                 }
                                 select += '</select>';
                                 return select;
@@ -304,25 +313,33 @@
                 const data = table.rows('.selected').data();
                 const button = document.querySelector('.signData');
                 let students = [];
-                data.each(function (value) {
+                data.each(function (individual) {
                     let eval;
-                    let count = 1;
-                    for (let i = 0; i < Object.keys(evalTypes).length; i++) {
-                        if (evalTypes[count] === evalTypes[value.evaluation]) {
-                            eval = evalTypes[value.evaluation];
+                    for (const [key, value] of Object.entries(evalTypes)) {
+                        if (value === evalTypes[individual.evaluation]) {
+                            eval = evalTypes[individual.evaluation];
                             break;
+                        } else {
+                            eval= "-1";
                         }
-                        count++;
                     }
-                    $('.studentsList').append(
-                        '<li class="list-student-item d-flex justify-content-between align-items-center">\
-                                <div class="studentFIO">' + value.studentFIO + '</div>\
+                    if (eval === "-1") {
+                        $('.studentsList').append(
+                            '<li class="list-student-item d-flex justify-content-between align-items-center">\
+                                    <div class="studentFIO">' + individual.studentFIO + '</div>\
+                        <span class="badge badge-warning badge-pill">-- Оценка не выбрана</span>\
+                        </li>');
+                    } else {
+                        $('.studentsList').append(
+                            '<li class="list-student-item d-flex justify-content-between align-items-center">\
+                                    <div class="studentFIO">' + individual.studentFIO + '</div>\
                         <span class="badge badge-primary badge-pill">' + eval + '</span>\
                         </li>');
-                    students.push(value);
+                    }
+                    students.push(individual);
                 });
 
-                if (data.length !== 0) {
+                if (data.length === individualsLength) {
                     button.disabled = false;
                     document.getElementsByName('individuals[]').value = students;
                 } else {
