@@ -16,7 +16,7 @@ class Service
         try {
             DB::beginTransaction();
             $data += ['start_year' => $this->getStartYear($data['title'])];
-            Group::firstOrCreate($data);
+            $group = Group::firstOrCreate($data);
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
@@ -25,6 +25,7 @@ class Service
                 throw new Exception($exception->message);
             }
         }
+        return $group;
     }
 
     public function update($data, $group) {

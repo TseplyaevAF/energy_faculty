@@ -89,7 +89,7 @@
     $('#phone').inputmask("+8-(999)-999-99-99");
 
     $('#group_title').inputmask({
-        mask: "a{1,15}-99-9",
+        mask: "A{1,15}-99",
         definitions: {'5': {validator: "[0-5]"}}
     });
 

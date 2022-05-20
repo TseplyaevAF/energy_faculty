@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Admin\User;
 
+use App\Exports\StudentsCreateExport;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\UserFilter;
 use App\Http\Requests\Admin\User\FilterRequest;
 use App\Http\Requests\Admin\User\StoreRequest;
+use App\Http\Requests\Admin\User\Student\ImportRequest;
 use App\Http\Requests\Admin\User\UpdateRequest;
+use App\Imports\StudentsImport;
 use App\Models\Chair;
 use App\Models\Discipline;
 use App\Models\Group\Group;
 use App\Models\User;
 use App\Service\User\Service;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\MediaLibrary\Models\Media;
 
 class UserController extends Controller
@@ -30,7 +34,8 @@ class UserController extends Controller
         $filter = app()->make(UserFilter::class, ['queryParams' => array_filter($data)]);
         $users = User::filter($filter)->paginate(10);
         $roles = User::getRoles();
-        return view('admin.user.index', compact('users', 'roles'));
+        $chairs = Chair::all();
+        return view('admin.user.index', compact('users', 'roles', 'chairs'));
     }
 
     public function search(Request $request) {
@@ -103,5 +108,25 @@ class UserController extends Controller
         $user->role->delete();
         $user->delete();
         return redirect()->route('admin.user.index');
+    }
+
+    public function studentsExport() {
+        $fileName = 'Шаблон студентов.xlsx';
+        $file =  Excel::raw(new StudentsCreateExport(), 'Xlsx');
+        return response()->json([
+            'file_name' => $fileName,
+            'file' => "data:application/vnd.ms-excel;base64,".base64_encode($file)
+        ]);
+    }
+
+    public function studentsImport(ImportRequest $request) {
+        $data = $request->validated();
+        try {
+            ini_set('memory_limit', '-1');
+            Excel::import(new StudentsImport($data), $data['excel_file']);
+        } catch (\Exception $exception) {
+            return response($exception->getMessage(), 405);
+        }
+        return response('Аккаунты для студентов успешно созданы!', 200);
     }
 }

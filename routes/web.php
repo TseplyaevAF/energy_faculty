@@ -35,8 +35,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::post('/{chair}/{year}', 'LessonController@store')->name('admin.lesson.store');
     });
 
-    Route::resource('users', 'User\UserController', ['names' => 'admin.user']);
+    Route::resource('users', 'User\UserController', ['names' => 'admin.user'])
+        ->only('index', 'create', 'store', 'edit', 'update', 'destroy');
     Route::get('users/user/search', 'User\UserController@search')->name('admin.user.search');
+    Route::get('users/students-template-export', 'User\UserController@studentsExport');
+    Route::post('users/students-import', 'User\UserController@studentsImport');
 });
 
 // ---EMPLOYEE ROUTES---

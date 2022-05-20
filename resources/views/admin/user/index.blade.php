@@ -1,6 +1,34 @@
   @extends('admin.layouts.main')
 
   @section('content')
+      @csrf
+      {{--Модальное окно для импорта пользователей из Excel--}}
+      <div class="modal fade" id="importUsersModal" tabindex="-1" role="dialog"
+           aria-labelledby="importUsersModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="card-title">Импорт пользователей из Excel</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="form-group">
+                          <select name="role_id" class="form-control">
+                              <option value="1">Студенты</option>
+                          </select>
+                      </div>
+                      @include('admin.includes.users.import_students')
+                      <button type="button" id="importUsers" class="btn btn-primary">
+                          Сохранить
+                      </button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -26,13 +54,18 @@
       <div class="container-fluid">
 
         <div class="row">
-          <div class="col-1 mb-3">
-            <a href="{{ route('admin.user.create') }}" class="btn btn-block btn-primary">Создать</a>
-          </div>
+            <div class="col-md-2 mb-3">
+                <a href="{{ route('admin.user.create') }}" class="btn btn-block btn-primary">Создать</a>
+            </div>
+            <div class="col-md-2 mb-3">
+                <a href="javascript:void(0)" data-toggle="modal"
+                   class="btn btn-block btn-success"
+                   data-target="#importUsersModal">Загрузить из Excel</a>
+            </div>
         </div>
 
         <div class="row">
-          <div class="col-2">
+          <div class="col-md-3 mb-2">
             <label for="exampleFormControlInput1" class="form-label">Фильтры</label>
             <form action="{{route('admin.user.index')}}" method="GET">
               <div class="form-group">
@@ -51,14 +84,11 @@
               </div>
               <button type="submit" class="btn btn-primary mb-2">Применить</button>
             </form>
-            <form action="{{ route('admin.user.index') }}" method="GET">
-              <input value="" type="hidden" name="role_id">
-              <input value="" type="hidden" name="user_id">
-              <input value="" type="hidden" name="full_name">
+            <form action="{{ request()->url() }}" method="GET">
               <button type="submit" class="btn btn-default">Сбросить</button>
             </form>
           </div>
-          <div class="col-6">
+          <div class="col-md-9">
             <div class="card">
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
@@ -111,6 +141,62 @@
 
     $(document).ready(function() {
       $('input').attr('autocomplete', 'off');
+
+        $('.studentsTemplateDownload').on('click', function () {
+            $.ajax({
+                type: 'GET',
+                url: 'users/export',
+                success: function(response) {
+                    downloadFile(response);
+                }
+            });
+        });
+
+        $('#importUsers').on('click', function () {
+            $('.importUsersErrors').html('');
+            let groupTitle = $("input[name='title']").val();
+            const file = $('#excel_file')[0].files[0];
+            if (groupTitle === '') {
+                $('#studentGroupError').text('Необходимо ввести название группы');
+            }
+            if (file === undefined) {
+                $('#fileError').text('Файл не выбран');
+                return;
+            }
+            let formData = new FormData();
+            formData.append('_token', $("input[name='_token']").val());
+            formData.append('excel_file', file);
+            formData.append('title', groupTitle);
+            formData.append('chair_id', $("#chair_id").find(":selected").val());
+            $.ajax({
+                method: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                url: 'users/students-import',
+                datatype: 'json',
+                success: function (response) {
+                    alert(response);
+                    $('#importUsersModal').modal('hide');
+                },
+                error: function (response) {
+                    if (response.responseJSON !== undefined) {
+                        $('#fileError').text(response.responseJSON.errors['excel_file']);
+                    } else {
+                        $('#studentGroupError').text(response.responseText);
+                    }
+                }
+            });
+        });
+
+        function downloadFile(response) {
+            var a = document.createElement("a");
+            a.href = response.file;
+            a.download = response.file_name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
     });
 
     $('input.typeahead').typeahead({
