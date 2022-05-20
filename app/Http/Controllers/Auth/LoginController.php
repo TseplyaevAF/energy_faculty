@@ -80,6 +80,10 @@ class LoginController extends Controller
         if ($role_id == User::ROLE_DEKANAT) {
             return route('dekanat.main.index');
         }
+
+        if ($role_id == User::ROLE_ADMIN) {
+            return route('admin.main.index');
+        }
         return 'home';
     }
 

@@ -18,8 +18,8 @@ use App\Http\Controllers\TwoFactorAuthController;
 Route::get('/', 'Main\IndexController')->name('main');
 
 // ---ADMIN ROUTES---
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-    Route::get('/', 'Main\IndexController');
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/', 'Main\IndexController')->name('admin.main.index');
     Route::resource('groups', 'Group\GroupController', ['names' => 'admin.group']);
     Route::resource('disciplines', 'Discipline\DisciplineController', ['names' => 'admin.discipline']);
     Route::resource('chairs', 'Chair\ChairController', ['names' => 'admin.chair']);

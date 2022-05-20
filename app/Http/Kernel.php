@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CertAuthorityMiddleware;
 use App\Http\Middleware\DekanatMiddleware;
 use App\Http\Middleware\EmployeeMiddleware;
@@ -71,6 +72,7 @@ class Kernel extends HttpKernel
         'ca' => CertAuthorityMiddleware::class,
         'personal' => PersonalMiddleware::class,
         'dekanat' => DekanatMiddleware::class,
+        'admin' => AdminMiddleware::class,
         '2fa' => \App\Http\Middleware\TwoFactorAuth::class
     ];
 }
