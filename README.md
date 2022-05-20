@@ -32,6 +32,8 @@
 - `php artisan storage:link`
 - `php artisan migrate`
 - `php artisan serve`
+- Чтобы создать аккаунт админа, выполните `php artisan db:seed --class=AdminUserSeeder`. После чего по пути `\storage\app\private` создастся файл `admin_password.txt` с данными для входа.
+____
 
 > Также вы можете выполнить `php artisan migrate:fresh --seed` для заполнения БД тестовыми данными. В том числе будут созданы аккаунты для основных ролей приложения: Студент, Преподаватель, Сотрудник кафедры, Сотрудник УЦ, Сотрудник деканата.
 
