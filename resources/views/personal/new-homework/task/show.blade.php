@@ -1,13 +1,5 @@
-<style>
-    .workIsDone {
-        background-color: rgba(10, 147, 10, 0.6);
-    }
-    .workOnVerification {
-        background-color: rgba(52, 93, 170, 0.56);
-    }
-</style>
-
 <link rel="stylesheet" href="{{ asset('css/personal/task/delete-style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/personal/homework/style.css') }}">
 <input value="{{ current($data)['lesson_id'] }}" type="hidden" name="lesson_id">
 
 {{-- Модальное окно для загрузки работы студента --}}
@@ -71,14 +63,14 @@
         <table class="table table-bordered table-hover tableAdaptive">
             <thead>
             <tr>
-                <th colspan="{{ current($data)['tasksCount'] }}">Задания по месяцам</th>
+                <th class="titles" colspan="{{ current($data)['tasksCount'] }}">Задания по месяцам</th>
             </tr>
             </thead>
             <tbody class="group-tasks">
             <tr>
                 @foreach($data as $item)
                     @foreach($item['arrayTasks'] as $month => $tasks)
-                    <td colspan="{{count($tasks)}}">
+                    <td class="months" colspan="{{count($tasks)}}">
                         {{ $month }}
                     </td>
                     @endforeach
@@ -130,7 +122,7 @@
                                     @endif
                                 @else
                                     <td>
-                                        <a type="button" class="homeworkCreate"
+                                        <a type="button" class="homeworkCreate btn btn-outline-info"
                                            id="homeworkCreate_{{ $taskId }}">
                                             Загрузить работу
                                         </a>

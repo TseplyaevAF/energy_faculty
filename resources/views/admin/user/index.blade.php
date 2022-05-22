@@ -145,7 +145,7 @@
         $('.studentsTemplateDownload').on('click', function () {
             $.ajax({
                 type: 'GET',
-                url: 'users/export',
+                url: 'users/students-template-export',
                 success: function(response) {
                     downloadFile(response);
                 }

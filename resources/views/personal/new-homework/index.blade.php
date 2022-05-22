@@ -112,10 +112,10 @@
                 data: { 'semester': choiceSemester, 'group_id': studentGroup },
                 success: function (response) {
                     $disciplineName.empty();
-                    $disciplineName.append(`<option value="">-- Не выбрана</option>`);
                     response.forEach(element => {
                         $disciplineName.append(`<option value="${element['id']}">${element['title']}</option>`);
                     });
+                    $disciplineName.trigger("change");
                 }
             });
         }

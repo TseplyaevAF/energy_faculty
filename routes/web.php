@@ -106,7 +106,7 @@ Route::group(['namespace' => 'Dekanat', 'prefix' => 'dekanat', 'middleware' => [
 
 // ---USER AVATAR ROUTE---
 Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth']], function () {
-    Route::get('settings/{modelId}/{mediaId}/{filename}', 'Settings/SettingsController@showImage')->name('personal.settings.showImage');
+    Route::get('settings/{modelId}/{mediaId}/{filename}', 'Settings\SettingsController@showImage')->name('personal.settings.showImage');
 });
 
 // ---PERSONAL (STUDENT AND TEACHER) ROUTES---

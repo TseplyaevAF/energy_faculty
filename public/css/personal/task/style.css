@@ -1,15 +1,16 @@
-.work-status__completed {
-    background-color: rgba(40, 165, 40, 0.26);
-    font-weight: 700;
+.workIsDone {
+    background-color: rgba(10, 147, 10, 0.6);
 }
-
-.work-status__active {
-    background-color: rgba(223, 115, 26, 0.836);
-    font-weight: 700;
-    color: white;
+.workOnVerification {
+    background-color: rgba(52, 93, 170, 0.56);
 }
-
-.work-status__pending {
-    background-color: rgba(13, 62, 136, 0.308);
-    font-weight: 700;
+.titles {
+    font-weight: bold;
+    background-color: #86baa1;
+    color: #043204;
+}
+.months {
+    background-color: rgb(238, 171, 70);
+    color: #ffffff;
+    font-weight: bold;
 }

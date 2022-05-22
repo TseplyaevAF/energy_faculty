@@ -1,10 +1,5 @@
-<style>
-    .workIsDone {
-        background-color: rgba(10, 147, 10, 0.6);
-    }
-</style>
-
 <link rel="stylesheet" href="{{ asset('css/personal/task/delete-style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/personal/task/style.css') }}">
 <input value="{{ $data['lesson_id'] }}" type="hidden" name="lesson_id">
 
 {{--Модальное окно для добавления нового задания--}}
@@ -75,9 +70,9 @@
         <table class="table table-bordered table-hover tableAdaptive">
             <thead>
             <tr>
-                <th rowspan="3" style="width: 20px">№</th>
-                <th rowspan="3" style="width: 25%">ФИО</th>
-                <th colspan="{{ $data['tasksCount'] }}">Задания по месяцам</th>
+                <th class="titles" rowspan="3" style="width: 20px">№</th>
+                <th class="titles" rowspan="3" style="width: 25%">ФИО</th>
+                <th class="titles" colspan="{{ $data['tasksCount'] }}">Задания по месяцам</th>
             </tr>
             </thead>
             <tbody class="group-tasks">
@@ -85,7 +80,7 @@
                 <td></td>
                 <td></td>
                 @foreach($data['arrayTasks'] as $month => $tasks)
-                <td colspan="{{count($tasks)}}">
+                <td class="months" colspan="{{count($tasks)}}">
                     {{ $month }}
                 </td>
                 @endforeach
@@ -129,7 +124,7 @@
                                 </td>
                                 @else
                                 <td>
-                                    <a type="button" class="homeworkLoad"
+                                    <a type="button" class="homeworkLoad btn btn-outline-info"
                                        id="homework_{{ $data['arrayHomework'][$student][$taskId]->id }}">
                                         Посмотреть работу
                                     </a>
