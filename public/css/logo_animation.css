@@ -1,0 +1,9 @@
+.brand-link img {
+    transition: 0.3s;
+    opacity: .8;
+    box-shadow: none !important;
+}
+.brand-link img:hover {
+    transform: rotate(360deg);
+    transition: 0.3s;
+}

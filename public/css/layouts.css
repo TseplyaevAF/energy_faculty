@@ -29,3 +29,21 @@
 .d-block {
     color: white;
 }
+.bg-white {
+    background-color: #2f5185 !important;
+}
+.navbar-light .navbar-brand {
+    color: white;
+    font-weight: bold;
+}
+.navbar-light:hover .navbar-brand:hover {
+    color: white;
+}
+.nav-link p {
+    margin-bottom: 0;
+    color: white;
+    font-size: 16px;
+}
+#navbarDropdown {
+    color: white;
+}

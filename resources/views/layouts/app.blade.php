@@ -7,46 +7,21 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Информационный сервис ЭФ ЗабГУ') }}</title>
+    <title>{{ config('app.name', 'Информационный сервис ЭФ ЗабГУ') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
-        .bg-white {
-            background-color: #2f5185 !important;
-        }
-        .navbar-light .navbar-brand {
-            color: white;
-            font-weight: bold;
-        }
-        .navbar-light:hover .navbar-brand:hover {
-            color: rgb(125, 146, 172);
-        }
-        .nav-link p {
-            margin-bottom: 0;
-            color: white;
-            font-size: 16px;
-        }
-        .nav-link p:hover {
-            color: rgb(125, 146, 172);
-        }
-        #navbarDropdown {
-            color: white;
-        }
-    </style>
+    <link href="{{ asset('css/layouts.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/logo_animation.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('http://localhost:8080/') }}">
+                <a class="navbar-brand brand-link" href="{{ env('FRONTEND_URL') }}">
                     <img src="{{ asset('assets/default/logo.png') }}" style="width: 50px">
                     {{ config('app.name', 'Информационный сервис ЭФ ЗабГУ') }}
                 </a>
