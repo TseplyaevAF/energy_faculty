@@ -83,6 +83,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.min.js" type="text/javascript"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
 
   <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
@@ -101,7 +103,6 @@
   <script>
     $(document).ready(function() {
         loadUnreadPostsCount("{{ route('personal.news.getUnreadPostsCount') }}");
-
 
         Echo.channel('count-group-post-channel')
             .listen('.count-group-post-event',(e) => {
@@ -140,6 +141,8 @@
     });
     $('.mask-inn-individual').inputmask('999999999999');
     $('.mask-snils').inputmask('999-999-999 99');
+    $.mask.definitions['h'] = "[A-Za-z0-9|_]";
+    $('.tg-username').mask('@hhhhh?hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh', {"placeholder": ""});
   </script>
 
 </body>

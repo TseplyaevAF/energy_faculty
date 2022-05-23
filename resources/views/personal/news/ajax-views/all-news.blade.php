@@ -28,10 +28,7 @@
                 <div class="media-body ml-2">
                     <div class="postDate">
                         <div class="mr-2">
-                            {{ $post->user->surnameName() }}
-{{--                            @if($group->getHeadman()->id == $post->user->student->id)--}}
-{{--                                <i style="font-size: 14px">(староста)</i>--}}
-{{--                            @endif--}}
+                            {{ $post->getAuthor() }}
                         </div>
                         <div class="text-muted">{{ date('d.m.y в H:i', strtotime($post->created_at)) }}</div>
                         <div>

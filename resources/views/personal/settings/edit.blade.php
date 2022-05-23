@@ -81,7 +81,13 @@
                                                             Имя пользователя в Телеграм
                                                             <img class="help help-icon" src="{{ asset('assets/default/question-circle.png') }}">
                                                         </label>
-                                                        <input name="tg_username" type="text" class="form-control mb-1" value="{{ $user->student->tg_username }}" placeholder="@username">
+                                                        <label class="form-label help" data-help="Чтобы включить уведомления от бота, запустите его с помощью команды /start">
+                                                            <a type="button" style="font-size: 12px"
+                                                               class="btn btn-outline-primary btn-sm mr-1" id="toTelegram">
+                                                                Перейти в Телеграм
+                                                            </a>
+                                                        </label>
+                                                        <input name="tg_username" type="text" class="form-control mb-1 tg-username" value="{{ $user->student->tg_username }}" placeholder="@username">
                                                     </div>
                                                 @endif
                                                 @if (isset(auth()->user()->teacher))
@@ -206,6 +212,11 @@
                 return false;
             }
         });
+
+        $('#toTelegram').on('click', function () {
+            var href = 'https://t.me/zabgu_energy_faculty_bot';
+            window.open(href, '_blank').focus();
+        })
     });
 
 imgInp.onchange = evt => {

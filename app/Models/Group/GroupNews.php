@@ -25,4 +25,14 @@ class GroupNews extends Model
     public function unread_posts() {
         return $this->belongsToMany(User::class, 'unread_posts', 'group_news_id', 'user_id');
     }
+
+    public function getAuthor() {
+        if (isset($this->user->teacher) && $this->user->teacher->id == $this->group->teacher->id) {
+            return $this->user->fullName() . ' (куратор)';
+        }
+        if (isset($this->user->student) && $this->user->student->id == $this->group->headman) {
+            return $this->user->fullName() . ' (староста)';
+        }
+        return $this->user->fullName();
+    }
 }

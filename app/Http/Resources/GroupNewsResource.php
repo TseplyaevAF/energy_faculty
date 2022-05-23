@@ -18,6 +18,7 @@ class GroupNewsResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'images' => json_decode($this->images),
+            'author' => $this->getAuthor(),
             'students_tg_usernames' => $this->group->students->pluck('tg_username')->filter()
         ];
     }

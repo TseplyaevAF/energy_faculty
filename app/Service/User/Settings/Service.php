@@ -29,7 +29,7 @@ class Service
             }
             if (isset($user->student)) {
                 $user->student->update([
-                    'tg_username' => $data['tg_username']
+                    'tg_username' => substr($data['tg_username'],1)
                 ]);
             }
             DB::commit();
