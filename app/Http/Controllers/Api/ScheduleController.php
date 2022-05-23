@@ -15,6 +15,12 @@ class ScheduleController extends Controller
     {
         $data = $request->validated();
         $filter = app()->make(ScheduleFilter::class, ['queryParams' => array_filter($data)]);
-        return ScheduleResource::collection(Schedule::filter($filter)->orderBy('updated_at', 'desc')->get());
+        return ScheduleResource::collection(Schedule::filter($filter)
+            ->orderBy('updated_at', 'desc')
+            ->get()
+            ->filter(function ($value) {
+                return isset($value->lesson->teacher);
+            })
+        );
     }
 }

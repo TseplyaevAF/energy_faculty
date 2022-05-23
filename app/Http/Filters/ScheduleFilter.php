@@ -37,8 +37,11 @@ class ScheduleFilter extends AbstractFilter
     public function teacher(Builder $builder, $value)
     {
         $ids = [];
-        $user = User::where('surname', $value)->first();
-        if (isset($user) && isset($user->teacher)) {
+        $user = User::where('role_id', User::ROLE_TEACHER)
+            ->whereRaw(
+                "concat(surname, ' ', name, ' ', patronymic) ILIKE '%" . $value . "%' "
+            )->first();
+        if (isset($user)) {
             $ids = self::getLessonsIds($user->teacher->lessons);
         }
         $builder->whereIn('lesson_id', $ids);
