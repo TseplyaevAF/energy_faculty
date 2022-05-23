@@ -6,17 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Schedule\ClassTime;
 use App\Models\Schedule\Schedule;
 use App\Models\User;
-use App\Service\Personal\Schedule\Service;
 
 class MainController extends Controller
 {
-    private $service;
-
-    public function __construct(Service $service)
-    {
-        $this->service = $service;
-    }
-
     public function index()
     {
         return view('personal.main.index');
