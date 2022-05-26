@@ -124,6 +124,15 @@ $(document).ready(function () {
 
 $('form input[type=file]').on('change', function () {
     if (this.name === 'images[]') {
+        for (const [key, value] of Object.entries(this.files)) {
+            let fileName = value.name.split('.');
+            if (fileName[fileName.length - 1] !== 'jpg' &&
+                fileName[fileName.length - 1] !== 'jpeg' &&
+                fileName[fileName.length - 1] !== 'png')
+            {
+                return;
+            }
+        }
         setImages(this.files);
     }
 });

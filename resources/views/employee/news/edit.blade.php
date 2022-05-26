@@ -34,27 +34,29 @@
       <div class="container-fluid">
 
         @if (session('error'))
-        <div class="col-3 alert alert-warning" role="alert">{!! session('error') !!}</div>
+        <div class="col-md-4 alert alert-warning" role="alert">{!! session('error') !!}</div>
         <!-- <p>{!! $errors !!}</p> -->
         @endif
 
         @if (session('success'))
-        <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
+        <div class="col-md-4 alert alert-success" role="alert">{!! session('success') !!}</div>
         @endif
 
         <div class="row">
-          <div class="col-12">
+          <div class="col-md-12">
             <form action="{{ route('employee.news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
               @csrf
               @method('PATCH')
-              <div class="form-group w-50">
+              <div class="form-group col-md-8">
+                <h6 class="required">Заголовок</h6>
                 <input value="@if($errors->any()) {{ old('title') }} @else {{ $news->title }} @endif" type="text" class="form-control" name="title" placeholder="Название новости">
                 @error('title')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
 
-              <div class="form-group w-50">
+              <div class="form-group col-md-8">
+                <h6 class="required">Текст новости</h6>
                 <textarea id="summernote" name="content">
                     @if($errors->any())
                         {{ old('content') }}
@@ -67,8 +69,8 @@
                 @enderror
               </div>
 
-              <div class="form-group w-25">
-                    <label for="exampleInputFile">Добавьте главное изображение</label>
+              <div class="form-group col-md-4">
+                    <h6 class="required">Главное изображение</h6>
                     <div class="input-group">
                         <div class="custom-file">
                             <!-- multiple -->
@@ -85,21 +87,21 @@
                   </div>
                 </div>
 
-              <div class="form-group w-25">
-                <label for="exampleInputFile">Добавьте изображения</label>
+              <div class="form-group col-md-4">
+                <h6>Картинки</h6>
                 <div class="input-group mb-2">
                   <div class="custom-file">
                     <!-- multiple -->
-                    <input type="file" class="custom-file-input" id="imageFiles" name="images[]" accept=".jpg,.jpeg,.png,.bmp,.svg" multiple>
-                    <label class="custom-file-label" for="exampleInputFile">Выберите изображение</label>
+                    <input type="file" class="custom-file-input" id="imageFiles" name="images[]" accept=".jpg,.jpeg,.png" multiple>
+                    <label class="custom-file-label" for="exampleInputFile">Выберите картинки</label>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <ul id="load-img-list" class="load-img-list row">
-                    <li class="load-img-item d-flex align-items-stretch col-sm-8 mb-2">
+                    <li class="load-img-item d-flex align-items-stretch col-md-12 mb-2">
                       <img src="#" alt="image" class="prevImage thumb w-25" id="prevImage" mr-3>
-                      <p class="mr-2 ml-2">image.jpg</p>
+                      <p class="mr-2 ml-2" style="word-break: break-word">image.jpg</p>
                       <div class="load-img-item__delete">
                         <i data-id="" class="far fa-times-circle text-danger mt-1"></i>
                       </div>
@@ -110,17 +112,24 @@
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
+
                 @if (isset($news->event))
-                <div class="form-group w-25">
-                    <h6>Дата начала события</h6>
+                <div class="form-group col-md-4">
+                    <div class="row" style="margin: 0">
+                        <i class="far fa-calendar-alt mr-1"></i>
+                        <h6>Начало события</h6>
+                    </div>
                     <input value="{{$news->event->start_date}}" autocomplete="off" type="text" class="form-control"
                            name="start_date" size="10" onClick="xCal(this)" onKeyUp="xCal()">
                     @error('start_date')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
-                <div class="form-group w-25">
-                    <h6>Дата окончания события</h6>
+                <div class="form-group col-md-4">
+                    <div class="row" style="margin: 0">
+                        <i class="far fa-calendar-alt mr-1"></i>
+                        <h6>Конец события</h6>
+                    </div>
                     <input value="{{$news->event->finish_date}}" autocomplete="off" type="text" class="form-control"
                            name="finish_date" size="10" onClick="xCal(this)" onKeyUp="xCal()">
                     @error('finish_date')
@@ -129,8 +138,8 @@
                 </div>
                 @endif
 
-                <div class="form-group w-25">
-                    <label>Выберите теги</label>
+                <div class="form-group col-md-4">
+                    <h6>Тэги</h6>
                     <select class="select2" name="tags_ids[]" multiple="multiple" style="width: 100%;">
                         @foreach ($tags as $tag)
                             <option {{ is_array($news->tags->pluck('id')->toArray())
@@ -142,7 +151,7 @@
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
-              <div class="form-group">
+              <div class="form-group col-md-4">
                 <input type="submit" id="submitNews" class="btn btn-primary" value="Сохранить">
               </div>
             </form>

@@ -1,6 +1,6 @@
   @extends('employee.layouts.main')
 
-  @section('title-block')Новости групп@endsection
+  @section('title-block')Новости кафедры {{ $chair->title }}@endsection
 
   @section('content')
   <link rel="stylesheet" href="{{ asset('css/news/filter_news.css') }}">

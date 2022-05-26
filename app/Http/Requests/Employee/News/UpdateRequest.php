@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'preview' => 'required|file|mimes:jpg,jpeg,png',
+            'preview' => 'nullable|file|mimes:jpg,jpeg,png',
             'images.*' => 'nullable|image',
             'tags_ids' => 'nullable|array',
             'tags_ids.*' => 'nullable|exists:tags,id',
@@ -41,7 +41,6 @@ class UpdateRequest extends FormRequest
             'finish_date.after_or_equal' => 'Дата окончания должна быть равна дате проведения или больше её',
             'title.required' => 'Новость должна содержать заголовок',
             'content.required' => 'Напишите что-нибудь...',
-            'preview.required' => 'Необходимо загрузить главное изображение (превью)',
             'preview.mimes' => 'Файл должен иметь один из следующих форматов: jpg,jpeg,png',
             'preview.file' => 'Необходимо загрузить изображение',
             'images.*.mimes' => 'Файл должен иметь один из следующих форматов: jpg,jpeg,png',
