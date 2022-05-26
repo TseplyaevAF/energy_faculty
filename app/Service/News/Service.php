@@ -22,8 +22,12 @@ class Service
                 'category_id' => $data['category_id'],
                 'chair_id' => $data['chair_id']
             ]);
+            $news->chairs()->attach(session('chair')['id']);
             if (isset($data['tags_ids'])) {
                 $news->tags()->attach($data['tags_ids']);
+            }
+            if (isset($data['chairs_ids'])) {
+                $news->chairs()->attach($data['chairs_ids']);
             }
 
             $imagePath = 'images/news/' . $news->id;
@@ -69,6 +73,12 @@ class Service
                 'content' => $data['content'],
             ]);
             $news->tags()->sync(isset($data['tags_ids']) ? $data['tags_ids'] : null);
+            if (isset($data['chairs_ids'])) {
+                array_push($data['chairs_ids'], session('chair')['id']);
+            } else {
+                $data['chairs_ids'] = session('chair')['id'];
+            }
+            $news->chairs()->sync($data['chairs_ids']);
 
             if (isset($news->event)) {
                 $news->event->update([

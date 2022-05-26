@@ -151,6 +151,20 @@
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <div class="form-group col-md-4">
+                    <h6>Кафедры</h6>
+                    <select class="select2" name="chairs_ids[]" multiple="multiple" style="width: 100%;">
+                        @foreach ($chairs as $chairItem)
+                            <option {{ is_array($news->chairs->pluck('id')->toArray())
+                    && in_array($chairItem->id, $news->chairs->pluck('id')->toArray())
+                    ? 'selected' : ''}} value="{{ $chairItem->id }}">{{ $chairItem->title }}</option>
+                        @endforeach
+                    </select>
+                    @error('chairs_ids')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
               <div class="form-group col-md-4">
                 <input type="submit" id="submitNews" class="btn btn-primary" value="Сохранить">
               </div>

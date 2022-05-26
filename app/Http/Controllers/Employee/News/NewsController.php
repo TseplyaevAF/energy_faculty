@@ -7,6 +7,7 @@ use App\Http\Filters\NewsFilter;
 use App\Http\Requests\Employee\News\StoreRequest;
 use App\Http\Requests\Employee\News\UpdateRequest;
 use App\Http\Requests\News\FilterRequest;
+use App\Models\Chair;
 use App\Models\News\Category;
 use App\Models\News\News;
 use App\Models\News\Tag;
@@ -27,8 +28,7 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         $filter = app()->make(NewsFilter::class, ['queryParams' => array_filter($data)]);
-        $chair = session('chair');
-        $all_news = News::where('chair_id', $chair->id)
+        $all_news = News::where('chair_id', session('chair')['id'])
             ->filter($filter)
             ->orderBy('updated_at', 'desc')
             ->paginate(5);
@@ -40,13 +40,14 @@ class NewsController extends Controller
     public function create(Category $category, $olimpType, $news)
     {
         $tags = Tag::all();
+        $chairs = Chair::where('id', '!=', session('chair')['id'])->get();
         if ($news != 'null') {
             $news = News::findOrFail($news);
         }
         if ($olimpType != 'null') {
             $olimpType = OlimpType::findOrFail($olimpType);
         }
-        return view('employee.news.create', compact('category', 'tags', 'olimpType', 'news'));
+        return view('employee.news.create', compact('category', 'tags', 'chairs', 'olimpType', 'news'));
     }
 
     public function store(StoreRequest $request)
@@ -62,7 +63,8 @@ class NewsController extends Controller
     {
         $tags = Tag::all();
         $images = json_decode($news->images);
-        return view('employee.news.edit', compact('news', 'images', 'tags'));
+        $chairs = Chair::where('id', '!=', session('chair')['id'])->get();
+        return view('employee.news.edit', compact('news', 'images', 'tags', 'chairs'));
     }
 
     public function update(UpdateRequest $request, News $news)

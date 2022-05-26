@@ -93,7 +93,7 @@
 
                 <div class="form-group">
                   <ul id="load-img-list" class="load-img-list row">
-                    <li class="load-img-item d-flex align-items-stretch col-md-12 mb-2">
+                    <li class="load-img-item d-flex align-items-stretch col-sm-12 mb-2">
                       <img src="#" alt="image" class="prevImage thumb w-25" id="prevImage" mr-3>
                       <p class="mr-2 ml-2" style="word-break: break-word">image.jpg</p>
                       <div class="load-img-item__delete">
@@ -144,6 +144,21 @@
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
+
+              <div class="form-group col-md-4">
+                    <h6>Кафедры</h6>
+                    <select class="select2" name="chairs_ids[]" multiple="multiple" style="width: 100%;">
+                        @foreach ($chairs as $chairItem)
+                            <option {{ is_array(old('chairs_ids'))
+                    && in_array($chairItem->id, old('chairs_ids'))
+                    ? 'selected' : ''}} value="{{ $chairItem->id }}">{{ $chairItem->title }}</option>
+                        @endforeach
+                    </select>
+                    @error('chairs_ids')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+
               <div class="form-group col-md-8">
                 <input type="submit" id="submitNews" class="btn btn-primary" value="Добавить">
               </div>

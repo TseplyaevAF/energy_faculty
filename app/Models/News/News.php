@@ -2,6 +2,7 @@
 
 namespace App\Models\News;
 
+use App\Models\Chair;
 use App\Models\Olimp;
 use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,10 @@ class News extends Model
 
     public function tags() {
         return $this->belongsToMany(Tag::class, 'news_tags', 'news_id', 'tag_id');
+    }
+
+    public function chairs() {
+        return $this->belongsToMany(Chair::class, 'news_chairs', 'news_id', 'chair_id');
     }
 
     public function olimp() {
