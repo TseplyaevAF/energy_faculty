@@ -5,6 +5,7 @@
   @section('content')
       <link rel="stylesheet" href="{{ asset('css/news/style.css') }}">
       <link rel="stylesheet" href="{{ asset('css/datepicker/cssworld.ru-xcal.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/help/style.css') }}">
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -96,18 +97,7 @@
                     <label class="custom-file-label" for="exampleInputFile">Выберите картинки</label>
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <ul id="load-img-list" class="load-img-list row">
-                    <li class="load-img-item d-flex align-items-stretch col-md-12 mb-2">
-                      <img src="#" alt="image" class="prevImage thumb w-25" id="prevImage" mr-3>
-                      <p class="mr-2 ml-2" style="word-break: break-word">image.jpg</p>
-                      <div class="load-img-item__delete">
-                        <i data-id="" class="far fa-times-circle text-danger mt-1"></i>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                @include('employee.includes.news.input-images')
                 @error('image')
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
@@ -153,8 +143,14 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <h6>Кафедры</h6>
-                    <select class="select2" name="chairs_ids[]" multiple="multiple" style="width: 100%;">
+                    <div class="row" style="margin: 0">
+                        <h6>Кафедры</h6>
+                        <span class="help ml-1" style="bottom: 2px"
+                              data-help="Выберите кафедры, совместно с которыми проводится мероприятие">
+                              <img class="help help-icon" src="{{ asset('assets/default/question-circle.png') }}">
+                        </span>
+                    </div>
+                    <select class="select2" id="select2__chairs" name="chairs_ids[]" multiple="multiple" style="width: 100%;">
                         @foreach ($chairs as $chairItem)
                             <option {{ is_array($news->chairs->pluck('id')->toArray())
                     && in_array($chairItem->id, $news->chairs->pluck('id')->toArray())
@@ -189,5 +185,12 @@
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/news/cssworld.ru-xcal-en.js') }}"></script>
   <script src="{{ asset('js/news/loadingImages.js') }}"></script>
+      <script>
+          $(document).ready(function () {
+              $('#select2__chairs').select2({
+                  theme: 'default select2__chairs'
+              });
+          })
+      </script>
   <!-- /.content-wrapper -->
   @endsection

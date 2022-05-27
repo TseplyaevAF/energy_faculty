@@ -50,3 +50,12 @@
         content: " *";
         font-size: 20px;
     }
+
+    .select2__chairs .select2-selection--multiple .select2-selection__rendered li {
+        background-color: #e38727;
+        border: 4px double #ffffff;
+    }
+
+    .select2__chairs .select2-selection--multiple .select2-selection__rendered li:last-child {
+        background-color: white;
+    }
