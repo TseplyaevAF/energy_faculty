@@ -100,6 +100,7 @@
   <script src="{{ asset('js/admin.js') }}"></script>
   <script src="{{ asset('js/personal/group_news/notifications.js') }}"></script>
   <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <script src="{{ asset('js/changeTheme.js') }}"></script>
   <script>
     $(document).ready(function() {
         loadUnreadPostsCount("{{ route('personal.news.getUnreadPostsCount') }}");

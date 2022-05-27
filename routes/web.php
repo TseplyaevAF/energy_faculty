@@ -194,6 +194,18 @@ Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' =>
     });
 });
 
+Route::patch('/change-theme', function(\Illuminate\Http\Request $request) {
+    $request->validate([
+        'theme' => ['required', \Illuminate\Validation\Rule::in(['dark', 'light'])]
+    ]);
+    session(['theme' => $request->theme]);
+    return response('',200);
+});
+
+Route::get('/get-theme', function () {
+    return session('theme');
+});
+
 // ---TWO FACTOR AUTH ROUTES---
 Route::get('two-factor-auth', [TwoFactorAuthController::class, 'index'])->name('2fa.index');
 Route::post('two-factor-auth', [TwoFactorAuthController::class, 'store'])->name('2fa.store');

@@ -1,9 +1,16 @@
+:root {
+    --dark: #26282c;
+    --light: #e8e7e3;
+    --dark_sidebar: #393838;
+    --light_sidebar: #2f5185;
+    --content_wrapper_light: #f4f6f9;
+}
 .brand-text {
     color: white;
 }
 
 .main-sidebar {
-    background: #2f5185;
+    background: var(--light_sidebar);
 }
 
 .nav-icon {
@@ -30,7 +37,7 @@
     color: white;
 }
 .bg-white {
-    background-color: #2f5185 !important;
+    background-color: var(--light_sidebar) !important;
 }
 .navbar-light .navbar-brand {
     color: white;
