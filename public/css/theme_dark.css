@@ -1,0 +1,13 @@
+body {
+    background: var(--dark);
+    color: var(--light);
+}
+.container, .modal-content {
+    background: var(--dark) !important;
+}
+.content-wrapper, .card {
+    background-color: var(--dark);
+}
+.main-header, .main-sidebar, .main-footer, .table-responsive, table, .tabs__content {
+    background: var(--dark_sidebar) !important;
+}

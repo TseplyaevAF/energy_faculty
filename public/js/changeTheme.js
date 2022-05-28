@@ -1,53 +1,36 @@
-let theme;
-getTheme();
+let theme = $("input[name='theme']").val();
 
 function changeTheme() {
-    if (theme === 'light') {
+    if (theme === 'dark') {
         darkTheme();
-    } else if (theme === 'dark') {
+    } else if (theme === 'light') {
         lightTheme();
     }
 }
 
-function getTheme() {
-    $.ajax({
-        type: 'GET',
-        url: '/get-theme',
-        success:function(response){
-            theme = response;
-            changeTheme();
-        },
-    })
-}
-
 $('.changeTheme').on('click', function () {
-    let choiceTheme = theme === 'light' ? 'dark' : 'light';
+    theme = theme === 'light' ? 'dark' : 'light';
     $.ajax({
         type: 'PATCH',
         url: '/change-theme',
         data: {
             "_token": $("input[name='_token']").val(),
-            "theme": choiceTheme
+            "theme": theme
         },
         success:function(){
-            theme = choiceTheme;
             changeTheme();
         },
     });
 })
 
 function darkTheme() {
-    $('body').css({'background' : 'var(--dark)', 'color': 'var(--light)'});
-    $('.container, .modal-content').css({'background' : 'var(--dark)'})
-    $('.content-wrapper, .card').css({'background-color' : 'var(--dark)'});
-    $('.main-header, .main-sidebar, .main-footer, .table-responsive, table, .tabs__content')
-        .css({'background' : 'var(--dark_sidebar)'});
+    let darkThemePath = $("input[name='dark_theme_path']").val();
+    $("link[id='theme-link']").attr('href', darkThemePath);
+    // $('head').append(`<link rel="stylesheet" type="text/css" href="${darkThemePath}">`);
 }
 
 function lightTheme() {
-    $('body').css({'background-color' : 'var(--light)', 'color': 'var(--dark)'});
-    $('.container, .modal-content').css({'background' : 'white'})
-    $('.content-wrapper').css({'background-color' : 'var(--content_wrapper_light)'});
-    $('.main-header, .main-footer, .table-responsive, table, .tabs__content, .card').css({'background-color': 'white'})
-    $('.main-sidebar').css({'background-color': 'var(--light_sidebar)'});
+    let lightThemePath = $("input[name='light_theme_path']").val();
+    $("link[id='theme-link']").attr('href', lightThemePath);
+    // $('head').append(`<link rel="stylesheet" type="text/css" href="${lightThemePath}">`);
 }
