@@ -28,6 +28,7 @@ class FilterRequest extends FormRequest
             'category_id' => 'nullable|integer|exists:categories,id',
             'is_slider_item' => 'nullable|boolean',
             'tag_id' => 'nullable|integer|exists:tags,id',
+            'chair_id' => 'nullable|integer|exists:chairs,id',
             'date' => 'nullable|array',
             'date.*' => 'nullable|string',
             'per_page' => 'nullable|integer',

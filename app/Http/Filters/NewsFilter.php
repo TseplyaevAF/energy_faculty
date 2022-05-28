@@ -13,6 +13,7 @@ class NewsFilter extends AbstractFilter
     public const IS_SLIDER_ITEM = 'is_slider_item';
     public const DATE = 'date';
     public const TAG = 'tag_id';
+    public const CHAIR = 'chair_id';
 
     protected function getCallbacks(): array
     {
@@ -22,6 +23,7 @@ class NewsFilter extends AbstractFilter
             self::IS_SLIDER_ITEM => [$this, 'isSliderItem'],
             self::DATE => [$this, 'date1'],
             self::TAG => [$this, 'tagId'],
+            self::CHAIR => [$this, 'chairId'],
         ];
     }
 
@@ -39,6 +41,13 @@ class NewsFilter extends AbstractFilter
     {
         $builder->whereHas('tags', function($query) use($value) {
             $query->where('tag_id', $value);
+        });
+    }
+
+    public function chairId(Builder $builder, $value)
+    {
+        $builder->whereHas('chairs', function($query) use($value) {
+            $query->where('chair_id', $value);
         });
     }
 

@@ -12,6 +12,7 @@ use App\Models\News\Event;
 use App\Models\News\News;
 use App\Models\News\NewsTag;
 use App\Models\News\Tag;
+use App\Models\NewsChair;
 use App\Models\Role;
 use App\Models\Schedule\Classroom;
 use App\Models\Schedule\ClassTime;
@@ -45,6 +46,7 @@ class DatabaseSeeder extends Seeder
             'lessons' => 'assets/lessons.json',
             'news' => 'assets/news.json',
             'news_tags' => 'assets/news_tags.json',
+            'news_chairs' => 'assets/news_chairs.json',
             'schedules' => 'assets/schedules.json',
         ];
         foreach ($pathJsons as $key => $path) {
@@ -93,6 +95,10 @@ class DatabaseSeeder extends Seeder
                 self::createNewsTags($array);
                 continue;
             }
+            if ($key == 'news_chairs') {
+                self::createNewsChairs($array);
+                continue;
+            }
             if ($key == 'schedules') {
                 self::createSchedules($array);
                 continue;
@@ -115,6 +121,7 @@ class DatabaseSeeder extends Seeder
     public function createChairs($chairs) {
         foreach ($chairs as $chair) {
             Chair::firstOrcreate([
+                'id' => $chair['id'],
                 'title' => $chair['title'],
                 'phone_number' => $chair['phone_number'],
                 'address' => $chair['address'],
@@ -168,6 +175,16 @@ class DatabaseSeeder extends Seeder
             NewsTag::firstOrcreate([
                 'news_id' => News::find($news_tag['news_id'])->id,
                 'tag_id' => Tag::find($news_tag['tag_id'])->id,
+            ]);
+        }
+    }
+
+    // прикрепить кафедры к новостям
+    public function createNewsChairs($news_chairs) {
+        foreach ($news_chairs as $news_chair) {
+            NewsChair::firstOrcreate([
+                'news_id' => News::find($news_chair['news_id'])->id,
+                'chair_id' => Chair::find($news_chair['chair_id'])->id,
             ]);
         }
     }
