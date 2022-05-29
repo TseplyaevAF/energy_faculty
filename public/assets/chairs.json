@@ -1,44 +1,56 @@
 [
   {
-	"id": 1,
+	"full_title": "Кафедра информатики, вычислительной техники и прикладной математики",
     "title": "ИВТиПМ",
     "phone_number": "(3022) 41-68-23",
-    "address": "ул. Баргузинская, 49, ауд. 406",
+    "address": "ул. Баргузинская, 49",
+	"cabinet": "406",
+	"video": "https://www.youtube.com/watch?v=3kBTmyl6dAk",
     "email": "kafedra_ivtipm@mail.ru"
   },
   {
-	"id": 2,
+	"full_title": "Кафедра прикладной информатики и математики",
     "title": "ПИМ",
     "phone_number": "(3022) 41-68-23",
-    "address": "ул. Баргузинская, 49, ауд. 03-03",
+    "address": "ул. Баргузинская, 49",
+	"cabinet": "03-03",
+	"video": null,
     "email": "kafedra_PIM@mail.ru"
   },
   {
-	"id": 3,
+	"full_title": "Кафедра химии",
     "title": "ХИМ",
     "phone_number": "(3022) 41-71-22",
     "address": "ул. Баргузинская, 49",
+	"cabinet": null,
+	"video": null,
     "email": "foxy-lena@yandex.ru"
   },
   {
-	"id": 4,
+	"full_title": "Кафедра энергетики",
     "title": "Энергетики",
     "phone_number": "(3022) 41-70-85",
-    "address": "ул. Баргузинская, 49, корп. 1, ауд. Э-116",
+    "address": "ул. Баргузинская, 49, корп. 1",
+	"cabinet": "Э-116",
+	"video": null,
     "email": "kafedrates116@mail.ru"
   },
   {
-	"id": 5,
+	"full_title": "Кафедра физики и техники связи",
     "title": "ФиТС",
     "phone_number": "(3022) 35-11-18",
-    "address": "ул. Кастринская, 1, корпус «М», ауд. 17",
+    "address": "ул. Кастринская, 1, корпус «М»",
+	"cabinet": "17",
+	"video": null,
     "email": "kfits@mail.ru"
   },
   {
-	"id": 6,
-    "title": "Математики И Черчения",
+	"full_title": "Кафедра математики и черчения",
+    "title": "Математики и черчения",
     "phone_number": "(3022) 41-73-28",
-    "address": "ул. Баргузинская, 49, аудитории 03-405 (площадка математических дисциплин), 03-304 (площадка графических дисциплин)",
+    "address": "ул. Баргузинская, 49",
+	"cabinet": "405, 304",
+	"video": null,
     "email": "ishvetsova.chita@mail.ru"
   }
 ]

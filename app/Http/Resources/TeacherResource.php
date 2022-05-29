@@ -21,7 +21,10 @@ class TeacherResource extends JsonResource
             'patronymic' => $this->user->patronymic,
             'post' => $this->post,
             'rank' => $this->rank,
-            'chair' => $this->chair,
+            'chair' => [
+                'title' => $this->chair->title,
+                'cabinet' => $this->chair->cabinet,
+            ],
             'work_phone' => $this->work_phone,
             'link' => $this->link,
         ];

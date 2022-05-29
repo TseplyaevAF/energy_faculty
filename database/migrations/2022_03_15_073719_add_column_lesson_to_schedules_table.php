@@ -32,9 +32,9 @@ class AddColumnLessonToSchedulesTable extends Migration
     {
         Schema::table('schedules', function (Blueprint $table) {
             $table->dropColumn('lesson_id');
-            $table->unsignedBigInteger('teacher_id');
-            $table->unsignedBigInteger('discipline_id');
-            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->unsignedBigInteger('discipline_id')->nullable();
+            $table->unsignedBigInteger('group_id')->nullable();
 
             // IDX
             $table->index('teacher_id', 'schedule_teacher_idx');

@@ -16,10 +16,13 @@ class ChairResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'full_title' => $this->full_title,
             'title' => $this->title,
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'email' => $this->email,
+            'cabinet' => $this->cabinet,
+            'video' => $this->video,
             'description' => $this->description,
         ];
     }

@@ -11,4 +11,9 @@ class ChairController extends Controller
     public function index() {
         return ChairResource::collection(Chair::all());
     }
+
+    public function show($id)
+    {
+        return new ChairResource(Chair::findOrFail($id));
+    }
 }

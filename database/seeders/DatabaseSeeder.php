@@ -121,10 +121,12 @@ class DatabaseSeeder extends Seeder
     public function createChairs($chairs) {
         foreach ($chairs as $chair) {
             Chair::firstOrcreate([
-                'id' => $chair['id'],
+                'full_title' => $chair['full_title'],
                 'title' => $chair['title'],
                 'phone_number' => $chair['phone_number'],
                 'address' => $chair['address'],
+                'cabinet' => $chair['cabinet'],
+                'video' => $chair['video'],
                 'email' => $chair['email']
             ]);
         }
