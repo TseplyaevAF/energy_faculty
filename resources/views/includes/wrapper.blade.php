@@ -1,4 +1,10 @@
-<link id="theme-link" rel="stylesheet" href="{{ asset('css/theme_' . session('theme') . '.css') }}">
+@if (session('theme') === null)
+    <link id="theme-link" rel="stylesheet" href="{{ asset('css/theme_light.css') }}">
+    <input type="hidden" value="light" name="theme">
+@else
+    <link id="theme-link" rel="stylesheet" href="{{ asset('css/theme_' . session('theme') . '.css') }}">
+    <input type="hidden" value="{{ session('theme') }}" name="theme">
+@endif
 <div class="wrapper">
 
     <!-- Preloader -->
@@ -6,7 +12,6 @@
     {{--      <img class="animation__shake" src="{{ asset('assets/default/logo.png')}}" alt="AdminLTELogo" height="60" width="60">--}}
     {{--    </div>--}}
 
-    <input type="hidden" value="{{ session('theme') }}" name="theme">
     <input type="hidden" value="{{ asset('css/theme_dark.css') }}" name="dark_theme_path">
     <input type="hidden" value="{{ asset('css/theme_light.css') }}" name="light_theme_path">
 

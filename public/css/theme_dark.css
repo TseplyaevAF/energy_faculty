@@ -5,9 +5,26 @@ body {
 .container, .modal-content {
     background: var(--dark) !important;
 }
-.content-wrapper, .card {
+.content-wrapper, .card, textarea {
     background-color: var(--dark);
 }
-.main-header, .main-sidebar, .main-footer, .table-responsive, table, .tabs__content {
+textarea {
+    color: white;
+}
+.main-header, .main-sidebar, .main-footer, .table-responsive, table, .tabs__content, input, select {
     background: var(--dark_sidebar) !important;
+}
+input, select {
+    color: white !important;
+}
+table tr:hover td {
+    background-color: #534f4f;
+    color: var(--light);
+}
+tr:nth-of-type(even) td {
+    background-color: var(--dark_sidebar);
+}
+.list-group-item {
+    background-color: var(--dark) !important;
+    color: white;
 }
