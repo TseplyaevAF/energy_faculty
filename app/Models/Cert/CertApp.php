@@ -12,6 +12,16 @@ class CertApp extends Model
 
     protected $guarded = false;
 
+    const REASON_COMPROMISE = 1;
+    const REASON_LOST_KEYS = 2;
+
+    public static function getReasons() {
+        return [
+            self::REASON_COMPROMISE => 'Произошла компрометация (факт доступа постороннего лица к ЭЦП, а также подозрение на него)',
+            self::REASON_LOST_KEYS => 'Потеряны ключи электронной подписи',
+        ];
+    }
+
     public function teacher() {
         return $this->belongsTo(Teacher::class);
     }

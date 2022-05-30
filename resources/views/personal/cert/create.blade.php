@@ -37,6 +37,17 @@
                         <form action="{{ route('personal.cert.store') }}" method="POST"
                               novalidate>
                             @csrf
+                            @if (isset(auth()->user()->teacher->certificate))
+                                <div class="col-md-6 mb-2"
+                                     style="background: #273667; padding: 10px; border-radius: 5px">
+                                    <label class="form-label" style="color: white">Причина отправки заявки:</label>
+                                    <select name="reason" class="form-control">
+                                        @foreach($reasons as $key => $reason)
+                                            <option value="{{ $key }}">{{ $reason }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
                             <div class="form-group col-md-3 mb-2">
                                     <label for="validationCustom01" class="form-label">Фамилия</label>
                                     <input value="{{ auth()->user()->surname }}" type="text" class="form-control"

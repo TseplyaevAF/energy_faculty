@@ -25,7 +25,8 @@ class CertAppController extends Controller
     {
         $teacher = $certApp->teacher;
         $data = json_decode($certApp->data);
-        return view('ca.cert-app.accept', compact('certApp', 'teacher', 'data'));
+        $reasons = CertApp::getReasons();
+        return view('ca.cert-app.accept', compact('certApp', 'teacher', 'data', 'reasons'));
     }
 
     public function store(StoreRequest $request)

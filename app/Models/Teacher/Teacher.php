@@ -2,6 +2,7 @@
 
 namespace App\Models\Teacher;
 
+use App\Models\Cert\Certificate;
 use App\Models\Chair;
 use App\Models\Discipline;
 use App\Models\Group\Group;
@@ -41,5 +42,9 @@ class Teacher extends Model
 
     public function myGroups() {
         return $this->hasMany(Group::class);
+    }
+
+    public function certificate() {
+        return $this->hasOne(Certificate::class);
     }
 }

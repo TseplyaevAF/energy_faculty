@@ -31,7 +31,7 @@
                 @endif
                 @if (isset($cert))
                     <div class="col-md-6">
-                        <div class="card mb-3">
+                        <div class="card mb-2">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -102,7 +102,13 @@
                                 {{--                              </div>--}}
                             </div>
                         </div>
+                        <div class="md-3 pb-3">
+                            <a href="{{ route('personal.cert.create') }}" class="btn btn-outline-info">
+                                Перевыпустить сертификат
+                            </a>
+                        </div>
                     </div>
+
                 @else
                     @if (isset($certApp))
                         <div class="row">

@@ -35,7 +35,8 @@ class CertController extends Controller
     public function create() {
         Gate::authorize('isTeacher');
         Gate::authorize('create-cert-app', [auth()->user()->teacher]);
-        return view('personal.cert.create');
+        $reasons = CertApp::getReasons();
+        return view('personal.cert.create', compact('reasons'));
     }
 
     public function store(Request $request) {
@@ -45,6 +46,7 @@ class CertController extends Controller
             $request->validate([
                 'data' => 'required|array',
                 'data.*' => 'required|string',
+                'reason' => 'nullable|string',
             ]);
             $data = $request->data;
 
@@ -58,8 +60,14 @@ class CertController extends Controller
             CertApp::create([
                 'teacher_id' => $teacher->id,
                 'csr' => $csr,
+                'reason' => $request->reason,
                 'data' => json_encode($data)
             ]);
+
+            // если преподаватель уже имеет сертификат, то его нужно удалить
+            if (isset($teacher->certificate)) {
+                $teacher->certificate->delete();
+            }
 
             $filename =  'private_key_' . $teacher->user->surname . '.key';
             return redirect()->route('personal.cert.index')

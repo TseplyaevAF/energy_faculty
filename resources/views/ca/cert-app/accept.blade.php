@@ -11,6 +11,12 @@
             background-position-x : 50%;
             background-position-y : 50%;
         }
+        .reasons {
+            background: #273667;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
     </style>
 
     <!-- Content Wrapper. Contains page content -->
@@ -65,6 +71,12 @@
                                                 </div>
                                             @endif
                                         </div>
+                                        @if (isset($certApp->reason))
+                                            <div class="mb-2 reasons">
+                                                <label>Причина подачи заявки:</label>
+                                                {{ $reasons[$certApp->reason] }}
+                                            </div>
+                                        @endif
                                         <div class="table-responsive">
                                             <table class="table table-user-information">
                                                 <tbody>
