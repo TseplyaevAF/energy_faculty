@@ -30,7 +30,7 @@
                 @if (session('success'))
                     <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
                 @endif
-                <div class="card w-75">
+                <div class="card col-md-12">
                     <div class="card-header">
                         <div class="form-group">
                             Группа: {{ $statement->lesson->group->title  }},
@@ -55,10 +55,10 @@
                         </div>
                         @endif
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <form method="POST">
                             @csrf
-                            <table class="table table-bordered table-striped" id="individuals-table">
+                            <table class="table table-bordered table-striped dt" id="individuals-table">
                                 <thead>
                                 <tr>
                                     <th>№</th>

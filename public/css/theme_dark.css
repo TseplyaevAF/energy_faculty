@@ -1,3 +1,7 @@
+:root {
+    --unreadingpost: rgba(83, 82, 82, 0.68);
+    --readingpost: var(--dark);
+}
 body {
     background: var(--dark);
     color: var(--light);
@@ -11,20 +15,27 @@ body {
 textarea {
     color: white;
 }
-.main-header, .main-sidebar, .main-footer, .table-responsive, table, .tabs__content, input, select {
+.main-header, .main-sidebar, .main-footer, .table-responsive, table, .tabs__content, input.form-control, select {
     background: var(--dark_sidebar) !important;
 }
-input, select {
+input, select, .table-responsive label {
     color: white !important;
 }
-table tr:hover td {
-    background-color: #534f4f;
+table tbody tr:hover td {
+    background-color: #4c4c4c;
     color: var(--light);
 }
-tr:nth-of-type(even) td {
-    background-color: var(--dark_sidebar);
+.dt tr:nth-of-type(2n) td {
+    background-color: #4c4c4c;
 }
 .list-group-item {
     background-color: var(--dark) !important;
     color: white;
+}
+.nav-link:hover {
+    background-color: var(--dark-sidebar-nav-link-hover);
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: var(--dark-sidebar-nav-link-active);
 }

@@ -3,6 +3,10 @@
     --light: #e8e7e3;
     --dark_sidebar: #393838;
     --light_sidebar: #2f5185;
+    --light-sidebar-nav-link-hover: #3862a1;
+    --dark-sidebar-nav-link-hover: rgb(76, 76, 76);
+    --light-sidebar-nav-link-active: #273667;
+    --dark-sidebar-nav-link-active: rgb(36, 35, 35);
     --content_wrapper_light: #f4f6f9;
 }
 .brand-text {
@@ -19,13 +23,6 @@
 
 .nav-item p {
     color: white;
-}
-
-.nav-item:hover {
-    background-color: #3862a1;
-}
-.nav-item.active {
-    background-color: #273667;
 }
 
 .info p {

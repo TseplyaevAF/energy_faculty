@@ -93,7 +93,7 @@
 
             Echo.channel('read-group-post-channel')
                 .listen('.read-group-post-event', (e) => {
-                    $('#readingPost_' + e.postId).css('background', '#fff');
+                    $('#readingPost_' + e.postId).css('background', 'var(--readingpost)');
             })
 
             Echo.channel('delete-group-post-channel')
@@ -136,7 +136,7 @@
                         });
                     }
                     if (postId.includes('readingPost_')) {
-                        $(this).css('background', '#fff');
+                        $(this).css('background', 'var(--readingpost)');
                     }
                 })
                 .on('click', '.deletePost', function () {

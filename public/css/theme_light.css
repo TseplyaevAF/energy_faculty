@@ -1,3 +1,7 @@
+:root {
+    --unreadingpost: rgb(244 246 249);
+    --readingpost: white;
+}
 body {
     background-color: white;
     color: var(--dark);
@@ -13,4 +17,12 @@ body {
 }
 .main-sidebar {
     background-color: var(--light_sidebar);
+}
+
+.nav-link:hover {
+    background-color: var(--light-sidebar-nav-link-hover);
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: var(--light-sidebar-nav-link-active);
 }
