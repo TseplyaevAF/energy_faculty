@@ -10,7 +10,7 @@ body {
     background: var(--dark) !important;
 }
 .content-wrapper, .card, textarea {
-    background-color: var(--dark);
+    background-color: var(--dark) !important;
 }
 textarea {
     color: white;
@@ -18,10 +18,10 @@ textarea {
 .main-header, .main-sidebar, .main-footer, .table-responsive, table, .tabs__content, input.form-control, select {
     background: var(--dark_sidebar) !important;
 }
-input, select, .table-responsive label {
+input, select, .table-responsive label, .widget-49-pro-title {
     color: white !important;
 }
-table tbody tr:hover td {
+table.table-hover tbody tr:hover {
     background-color: #4c4c4c;
     color: var(--light);
 }

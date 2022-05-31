@@ -43,7 +43,7 @@
                 </a>
             </div>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="lessons-table">
+                <table class="table table-bordered table-striped dt" id="lessons-table">
                     <thead>
                     <tr>
                         <th>№</th>

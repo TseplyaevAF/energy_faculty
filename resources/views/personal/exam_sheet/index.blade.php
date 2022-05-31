@@ -91,13 +91,15 @@
                                                                         <div class="widget-49-title-wrapper">
                                                                             <div class="widget-49-date-primary">
                                                                     <span class="widget-49-date-day">
-                                                                        {!! QrCode::size(50)->generate(route('personal.exam_sheet.show', $individual->exam_sheet->id)) !!}
+                                                                        {!! QrCode::size(70)->generate(route('personal.exam_sheet.show', $individual->exam_sheet->id)) !!}
                                                                     </span>
                                                                                 <span class="widget-49-date-month"></span>
                                                                             </div>
                                                                             <div class="widget-49-meeting-info">
                                                                     <span class="widget-49-pro-title">
-                                                                        Студент: {{ $student->user->surname }} {{ $student->user->name }} {{ $student->user->patronymic }}
+                                                                        <b>
+                                                                        Студент: {{ $student->user->fullName() }}
+                                                                        </b>
                                                                     </span>
                                                                                 <span class="widget-49-meeting-time"><b>Действителен до: {{ $individual->exam_sheet->before }}</b> </span>
                                                                             </div>

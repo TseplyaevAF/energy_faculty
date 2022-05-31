@@ -60,8 +60,6 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
 <script>
     $(".nav .nav-link").click(function() {
         if ($(this).hasClass("active")) {

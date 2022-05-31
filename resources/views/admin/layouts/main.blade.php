@@ -25,6 +25,8 @@
 
   @include('includes.wrapper', ['sidebar' => 'admin.includes.sidebar'])
 
+  <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
