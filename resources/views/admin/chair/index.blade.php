@@ -26,13 +26,13 @@
       <div class="container-fluid">
 
         <div class="row">
-          <div class="col-1 mb-3">
+          <div class="col-md-2 mb-3">
             <a href="{{ route('admin.chair.create') }}" class="btn btn-block btn-primary">Создать</a>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-4">
+          <div class="col-md-8">
             <div class="card">
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-wrap">

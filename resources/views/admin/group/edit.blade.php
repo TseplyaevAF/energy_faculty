@@ -34,28 +34,6 @@
                                 <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="form-group w-50">
-                                <label>Выберите старосту группы</label>
-                                <select name="student_id" class="form-control">
-                                    @if (empty($students->all()))
-                                        <option value="">Студенты не найдены</option>
-                                    @else
-                                        <option value="">-- Староста не выбран</option>
-                                        @foreach($students as $student)
-                                            @if (!empty($headman))
-                                                <option
-                                                    value="{{ $student->id }}" {{ $student->id == $headman->id ? 'selected' : ''}} > {{ $student->user->surname }}</option>
-                                            @else
-                                                <option
-                                                    value="{{ $student->id }}" {{ $student->id == $group->student_id ? 'selected' : ''}} > {{ $student->user->surname }}</option>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </select>
-                                @error('student_id')
-                                <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
                             <div class="form-group">
                                 <label>Выберите кафедру</label>
                                 <select name="chair_id" class="form-control">

@@ -61,13 +61,6 @@
               @error('email')
               <p class="text-danger">{{ $message }}</p>
               @enderror
-              <div class="form-group w-50">
-                <label>Описание кафедры</label>
-                <textarea id="summernote" name="description">{{ $chair->description }}</textarea>
-                @error('description')
-                <p class="text-danger">{{ $message }}</p>
-                @enderror
-              </div>
               <input value="{{ $chair->id }}" type="hidden" name="chair_id">
 
               <input type="submit" class="btn btn-primary" value="Сохранить">

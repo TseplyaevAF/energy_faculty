@@ -55,7 +55,7 @@
               @error('phone_number')
               <p class="text-danger">{{ $message }}</p>
               @enderror
-              <div class="input-group w-25">
+              <div class="input-group w-25 mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
                 </div>
@@ -64,13 +64,6 @@
               @error('email')
               <p class="text-danger">{{ $message }}</p>
               @enderror
-              <div class="form-group w-50 mb-4">
-                <label>Описание кафедры</label>
-                <textarea id="summernote" name="description">{{ old('description') }}</textarea>
-                @error('description')
-                <p class="text-danger">{{ $message }}</p>
-                @enderror
-              </div>
               <input type="submit" class="btn btn-primary mb-2" value="Добавить">
             </form>
           </div>

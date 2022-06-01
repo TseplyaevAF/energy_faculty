@@ -35,7 +35,7 @@
         </div>
 
         <div class="row">
-          <div class="col-5">
+          <div class="col-md-6">
             <div class="card">
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-wrap">
@@ -49,12 +49,8 @@
                       <td>{{ $group->title }}</td>
                     </tr>
                     <tr>
-                      <td>Курс</td>
-                      <td>{{ $group->course }}</td>
-                    </tr>
-                    <tr>
-                      <td>Семестр</td>
-                      <td>{{ $group->semester }}</td>
+                      <td>Год формирования</td>
+                      <td>{{ $group->start_year }}</td>
                     </tr>
                     <tr>
                       <td>Выпускающая кафедра</td>
@@ -63,11 +59,7 @@
                     <tr>
                       <td>Староста группы</td>
                       @if (!empty($group->headman))
-                        <td>
-                          {{ $headman->user->surname }}
-                          {{ $headman->user->name }}
-                          {{ $headman->user->patronymic }}
-                        </td>
+                        <td>{{ $headman->user->fullName() }}</td>
                       @else <td>Не назначен</td>
                       @endif
                     </tr>

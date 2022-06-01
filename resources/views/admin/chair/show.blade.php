@@ -10,14 +10,6 @@
           <div class="col-sm-6 d-flex align-items-center">
             <h1 class="m-0 mr-2">{{ $chair->title }}</h1>
             <td><a href="{{ route('admin.chair.edit', $chair->id) }}" class="text-success"><i class="far fa-edit"></i></a></td>
-            <form action="{{ route('admin.chair.delete', $chair->id) }}" method="post">
-              @csrf
-              @method('delete')
-              <button type="submit" class="border-0 bg-transparent">
-                <i class="far fa-trash-alt text-danger" role="button"></i>
-              </button>
-
-            </form>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -57,7 +49,7 @@
         </div>
 
         <div class="row">
-          <div class="col-1 mb-3">
+          <div class="col-md-2 mb-3">
             <a href="{{ route('admin.chair.index') }}" class="btn btn-block btn-secondary">Вернуться</a>
           </div>
         </div>
