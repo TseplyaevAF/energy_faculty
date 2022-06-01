@@ -54,13 +54,13 @@ small.week {
 select.transparent-select {
     background-color: rgba(131, 129, 129, 0.075) !important;
     border: none !important;
-    padding: 1;
+    padding: 1px;
 }
 
 /* shedules */
 .schedule__chair-courses {
     padding: 12px;
-    background-color: #dcdfe3;
+    background-color: var(--schedule);
 }
 
 .schedule__chair-course {
@@ -82,7 +82,7 @@ select.transparent-select {
     font-weight: 700;
 }
 
-u {    
+u {
     border-bottom: 2px dotted #4b79e438;
     text-decoration: none;
 }

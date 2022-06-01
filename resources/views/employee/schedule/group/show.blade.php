@@ -59,7 +59,7 @@
                         @enderror
                     </div>
                     <input type="hidden" name="group_id" value="{{ $group->id }}">
-                    <input type="submit" value="Загрузить">
+                    <input type="submit" class="btn btn-outline-info" value="Загрузить">
                 </form>
             </div>
             <div class="schedule__title">

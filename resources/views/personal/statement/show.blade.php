@@ -345,8 +345,7 @@
                 } else {
                     button.disabled = true;
                 }
-
-                $('#ajaxModal').modal('show');
+                $('#ajaxModal').appendTo("body").modal('show');
             });
 
             $("#signData").on("click", function () {

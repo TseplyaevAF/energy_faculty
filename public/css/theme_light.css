@@ -1,6 +1,7 @@
 :root {
     --unreadingpost: rgb(244 246 249);
     --readingpost: white;
+    --schedule: #dcdfe3;
 }
 body {
     background-color: white;

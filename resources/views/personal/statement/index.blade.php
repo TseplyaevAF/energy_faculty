@@ -59,7 +59,7 @@
                         </div>
                         </div>
                     </div>
-                    <div class="card w-75">
+                    <div class="card col-md-12">
                         <div class="card-header"><b>Экзаменационные ведомости ЭФ</b></div>
                         <div class="card-body table-responsive">
                             <table class="table table-bordered table-striped" id="statements-table">

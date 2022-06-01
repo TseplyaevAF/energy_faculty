@@ -1,6 +1,7 @@
 :root {
     --unreadingpost: rgba(83, 82, 82, 0.68);
     --readingpost: var(--dark);
+    --schedule: rgb(57, 55, 55);
 }
 body {
     background: var(--dark);
@@ -21,8 +22,14 @@ textarea {
 input, select, .table-responsive label, .widget-49-pro-title {
     color: white !important;
 }
+table.xcalend tr td {
+    color: var(--light);
+}
+table.xcalend tr td.cal-l, td.cal-r {
+    color: var(--light);
+}
 table.table-hover tbody tr:hover {
-    background-color: #4c4c4c;
+    background-color: rgba(76, 76, 76, 0.4);
     color: var(--light);
 }
 .dt tr:nth-of-type(2n) td {
@@ -35,7 +42,15 @@ table.table-hover tbody tr:hover {
 .nav-link:hover {
     background-color: var(--dark-sidebar-nav-link-hover);
 }
-
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
     background-color: var(--dark-sidebar-nav-link-active);
+}
+.nav-link i {
+    color: var(--light);
+}
+a:not(.btn) {
+    color: #909eba !important;
+}
+a:hover:not(.btn) {
+    color: #697284 !important;
 }
