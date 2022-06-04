@@ -123,6 +123,7 @@ class DatabaseSeeder extends Seeder
             Chair::firstOrcreate([
                 'full_title' => $chair['full_title'],
                 'title' => $chair['title'],
+                'description' => $chair['description'],
                 'phone_number' => $chair['phone_number'],
                 'address' => $chair['address'],
                 'cabinet' => $chair['cabinet'],

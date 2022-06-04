@@ -22,5 +22,21 @@
   {
     "news_id": 4,
     "tag_id": 3
+  },
+  {
+    "news_id": 5,
+    "tag_id": 3
+  },
+  {
+    "news_id": 6,
+    "tag_id": 4
+  },
+  {
+    "news_id": 7,
+    "tag_id": 2
+  },
+  {
+    "news_id": 8,
+    "tag_id": 3
   }
 ]

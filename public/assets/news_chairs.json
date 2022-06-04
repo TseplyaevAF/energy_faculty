@@ -30,5 +30,37 @@
   {
     "news_id": 4,
     "chair_id": 5
+  },
+  {
+    "news_id": 5,
+    "chair_id": 1
+  },
+  {
+    "news_id": 5,
+    "chair_id": 6
+  },
+  {
+    "news_id": 6,
+    "chair_id": 1
+  },
+  {
+    "news_id": 6,
+    "chair_id": 3
+  },
+  {
+    "news_id": 7,
+    "chair_id": 1
+  },
+  {
+    "news_id": 7,
+    "chair_id": 5
+  },
+  {
+    "news_id": 8,
+    "chair_id": 1
+  },
+  {
+    "news_id": 8,
+    "chair_id": 4
   }
 ]
