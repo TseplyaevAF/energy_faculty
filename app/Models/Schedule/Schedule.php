@@ -33,6 +33,8 @@ class Schedule extends Model
         $scheduleEven = [];
         $scheduleOdd = [];
         $lessons = $group->lessons;
+        $course = null;
+        $maxSemester = null;
         if ($lessons->count() !== 0) {
             $maxSemester = $lessons->max('semester');
             foreach ($lessons->groupBy('semester')[$maxSemester] as $lesson) {
@@ -45,8 +47,13 @@ class Schedule extends Model
                     $scheduleOdd [] = $item;
                 }
             }
+            $course = self::getCourse($maxSemester);
         }
-        return ['even' => $scheduleEven, 'odd' => $scheduleOdd];
+        return ['even' => $scheduleEven, 'odd' => $scheduleOdd, 'study_period' => [$course, $maxSemester]];
+    }
+
+    private static function getCourse($semester) {
+        return intval(floor(($semester+1)/2));
     }
 
     public static function getWeekTypes()

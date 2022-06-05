@@ -26,8 +26,9 @@ class MainController extends Controller
             $schedule = Schedule::getSchedule($group);
             $scheduleEven = $schedule['even'];
             $scheduleOdd= $schedule['odd'];
+            $studyPeriod = $schedule['study_period'];
             return view('personal.main.showSchedule',
-                compact('group','days', 'class_times', 'scheduleEven', 'scheduleOdd'));
+                compact('group','days', 'class_times', 'scheduleEven', 'scheduleOdd', 'studyPeriod'));
         }
         if ($user->role_id == User::ROLE_TEACHER) {
             $teacher = $user->teacher;

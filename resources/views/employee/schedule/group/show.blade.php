@@ -67,12 +67,12 @@
                     <strong>{{ $group->title }}</strong>
                 </h1>
             </div>
-            <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $group->course }}, семестр: {{ $group->semester }}</span></span></small></strong>
+            <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $studyPeriod[0] }}, семестр: {{ $studyPeriod[1] }}</span></span></small>
             <div class="row mt-2">
                 <div class="col-md-8">
                     <table class="table table-bordered text-wrap">
                         <thead class="mt-3">
-                            <tr>
+                            <tr class="schedule__titles">
                                 <th scope="col" class="col-1">День</th>
                                 <th scope="col" class="col-1">Время</th>
                                 <th scope="col" class="col-4">Верхняя неделя</th>
@@ -101,7 +101,7 @@
                                                     <div class="row">
                                                         {{ $pairEven->lesson->discipline->title }} ·&nbsp
                                                         <a class="schedule__table-teacher" href="#">{{ $pairEven->lesson->teacher->user->surname }} {{ mb_substr($pairEven->lesson->teacher->user->name, 0, 1) }}. {{ mb_substr($pairEven->lesson->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
-                                                        <p class="schedule__table-class-type text-muted"> {{ $pairEven->class_type->title }} </p>&nbsp·&nbsp
+                                                        <p class="schedule__table-class-type"> {{ $pairEven->class_type->title }} </p>&nbsp·&nbsp
                                                         <p class="schedule__table-classroom">(ауд. {{$pairEven->classroom->corps}}-{{$pairEven->classroom->cabinet}}) </p>&nbsp
                                                         <a href="{{ route('employee.schedule.group.edit', $pairEven->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                     </div>
@@ -115,7 +115,7 @@
                                                             <div class="row">
                                                                 {{$pairOdd->lesson->discipline->title}} ·&nbsp
                                                                 <a class="schedule__table-teacher" href="#">{{ $pairOdd->lesson->teacher->user->surname }} {{ mb_substr($pairOdd->lesson->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->lesson->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
-                                                                <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
+                                                                <p class="schedule__table-class-type"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                                 <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
                                                                 <a href="{{ route('employee.schedule.group.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                             </div>
@@ -142,7 +142,7 @@
                                                         <div class="row">
                                                             {{$pairOdd->lesson->discipline->title}} ·&nbsp
                                                             <a class="schedule__table-teacher" href="#">{{ $pairOdd->lesson->teacher->user->surname }} {{ mb_substr($pairOdd->lesson->teacher->user->name, 0, 1) }}. {{ mb_substr($pairOdd->lesson->teacher->user->patronymic, 0, 1)}}.</a>&nbsp·&nbsp
-                                                            <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
+                                                            <p class="schedule__table-class-type"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                             <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
                                                             <a href="{{ route('employee.schedule.group.edit', $pairOdd->id) }}" class="text-success"><i class="far fa-edit"></i></a>
                                                         </div>

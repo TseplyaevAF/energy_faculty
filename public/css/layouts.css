@@ -33,7 +33,7 @@
 .d-block {
     color: white;
 }
-.bg-white {
+.main-nav-bar {
     background-color: var(--light_sidebar) !important;
 }
 .navbar-light .navbar-brand {

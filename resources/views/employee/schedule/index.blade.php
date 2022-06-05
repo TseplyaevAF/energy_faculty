@@ -2,7 +2,7 @@
 
   @section('content')
   <!-- Content Wrapper. Contains page content -->
-  <link rel="stylesheet" href="{{ asset('css\employee\schedule\style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css\schedule\style.css') }}">
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">

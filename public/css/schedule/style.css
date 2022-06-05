@@ -1,9 +1,8 @@
 /* shedules/groups/* */
 .uniform-bg {
-    background: #395FB6;
+    background: #3862a1;
     position: relative;
-    outline: #395FB6 solid 0.3em;
-    -moz-outline-offset: -0.04em;
+    outline: #3862a1 solid 0.3em;
 }
 
 .uniform-bg span {
@@ -26,23 +25,14 @@ small.week {
     font-weight: 500;
 }
 
-.schedule__table-number {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0;
-}
-
 .schedule__table-discipline {
     font-size: 16px;
     font-weight: 700;
 }
 
-.schedule__table-teacher {
-    font-weight: normal;
-}
-
 .schedule__table-class-type {
     font-weight: normal;
+    color: #90959a ! important;
     margin: 0;
 }
 
@@ -51,13 +41,21 @@ small.week {
     margin: 0;
 }
 
-select.transparent-select {
-    background-color: rgba(131, 129, 129, 0.075) !important;
-    border: none !important;
-    padding: 1;
+/* shedules */
+.schedule__chair-courses {
+    padding: 12px;
+    background-color: var(--schedule);
 }
 
-/* shedules */
+.schedule__titles {
+    position: -webkit-sticky;
+    position: sticky;
+    top: -3px;
+    z-index: 2;
+    background: #273667;
+    color: var(--light);
+}
+
 .schedule__chair-courses {
     padding: 12px;
 }
@@ -81,7 +79,7 @@ select.transparent-select {
     font-weight: 700;
 }
 
-u {    
+u {
     border-bottom: 2px dotted #4b79e438;
     text-decoration: none;
 }

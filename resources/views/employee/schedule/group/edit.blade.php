@@ -37,7 +37,6 @@
                     <strong>{{ $group->title }}</strong>
                 </h1>
             </div>
-            <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $group->course }}, семестр: {{ $group->semester }}</span></span></small></strong>
             <div class="row mt-4">
                 <div class="col-12">
                     <form action="{{ route('employee.schedule.group.update', $schedule->id) }}" method="POST" class="w-25">

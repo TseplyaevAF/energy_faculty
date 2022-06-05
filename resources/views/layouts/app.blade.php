@@ -19,7 +19,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm main-nav-bar">
             <div class="container">
                 <a class="navbar-brand brand-link" href="{{ env('FRONTEND_URL') }}">
                     <img src="{{ asset('assets/default/logo.png') }}" style="width: 50px">

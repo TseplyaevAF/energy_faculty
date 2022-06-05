@@ -27,8 +27,9 @@ class GroupController extends Controller
         $schedule = Schedule::getSchedule($group);
         $scheduleEven = $schedule['even'];
         $scheduleOdd = $schedule['odd'];
+        $studyPeriod = $schedule['study_period'];
         return view('employee.schedule.group.show',
-            compact('group', 'days', 'class_times', 'scheduleEven', 'scheduleOdd'));
+            compact('group', 'days', 'class_times', 'scheduleEven', 'scheduleOdd', 'studyPeriod'));
     }
 
     public function edit(Schedule $schedule) {

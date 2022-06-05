@@ -10,9 +10,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">
+                    <h1 class="m-0 mb-1">
                         Расписание занятий
                     </h1>
+                    <a type="button" style="font-size: 16px"
+                       class="btn btn-outline-primary btn-sm mr-1" id="toPageFromSearchSchedule">
+                        Поиск расписания
+                    </a>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -28,18 +32,13 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-        <div class="form-group w-25">
-            @if (session('success'))
-            <div class="col-12 alert alert-success" role="alert">{!! session('success') !!}</div>
-            @endif
-        </div>
             @can('isStudent')
             <div class="schedule__title">
                 <h1 class="schedule__title-h1">
                     <strong>{{ $group->title }}</strong>
                 </h1>
             </div>
-            <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $group->course }}, семестр: {{ $group->semester }}</span></span></small></strong>
+            <small class="schedule__title-week-type"><span class="uniform-bg"><span>курс: {{ $studyPeriod[0] }}, семестр: {{ $studyPeriod[1] }}</span></span></small>
             @endcan
             @can('isTeacher')
             <div class="schedule__title">
@@ -53,11 +52,11 @@
                 <div class="col-8">
                     <table class="table table-bordered text-wrap">
                         <thead class="mt-3">
-                            <tr>
+                            <tr class="schedule__titles">
                                 <th scope="col" class="col-1">День</th>
                                 <th scope="col" class="col-1">Время</th>
-                                <th scope="col" class="col-4">Чётная неделя</th>
-                                <th scope="col" class="col-4">Нечётная неделя</th>
+                                <th scope="col" class="col-4">Верхняя неделя</th>
+                                <th scope="col" class="col-4">Нижняя неделя</th>
                             </tr>
                         </thead>
                         @foreach ($days as $day_id => $day)
@@ -86,7 +85,7 @@
                                                         @elsecan('isTeacher')
                                                             <a class="schedule__table-group" href="#">{{ $pairEven->lesson->group->title }}</a>&nbsp·&nbsp
                                                         @endcan
-                                                        <p class="schedule__table-class-type text-muted"> {{ $pairEven->class_type->title }} </p>&nbsp·&nbsp
+                                                        <p class="schedule__table-class-type"> {{ $pairEven->class_type->title }} </p>&nbsp·&nbsp
                                                         <p class="schedule__table-classroom">(ауд. {{$pairEven->classroom->corps}}-{{$pairEven->classroom->cabinet}})</p>&nbsp
                                                     </div>
                                                 </td>
@@ -103,7 +102,7 @@
                                                                 @elsecan('isTeacher')
                                                                     <a class="schedule__table-group" href="#">{{ $pairOdd->lesson->group->title }}</a>&nbsp·&nbsp
                                                                 @endcan
-                                                                <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
+                                                                <p class="schedule__table-class-type"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                                 <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
                                                             </div>
                                                         </td>
@@ -133,7 +132,7 @@
                                                             @elsecan('isTeacher')
                                                                 <a class="schedule__table-group" href="#">{{ $pairOdd->lesson->group->title }}</a>&nbsp·&nbsp
                                                             @endcan
-                                                            <p class="schedule__table-class-type text-muted"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
+                                                            <p class="schedule__table-class-type"> {{ $pairOdd->class_type->title }} </p>&nbsp·&nbsp
                                                             <p class="schedule__table-classroom">(ауд. {{$pairOdd->classroom->corps}}-{{$pairOdd->classroom->cabinet}})</p>&nbsp
                                                         </div>
                                                     </td>
@@ -160,6 +159,12 @@
 </div>
 
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('js/schedules/showGroups.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('#toPageFromSearchSchedule').on('click', function () {
+            window.open('{{ env('FRONTEND_URL') }}students', '_blank').focus();
+        })
+    });
+</script>
 <!-- /.content-wrapper -->
 @endsection

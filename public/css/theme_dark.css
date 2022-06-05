@@ -54,3 +54,7 @@ a:not(.btn) {
 a:hover:not(.btn) {
     color: #697284 !important;
 }
+table, tbody, th, td, tr {
+    border: 1px solid #181818 !important;
+    border-collapse: collapse !important;
+}
