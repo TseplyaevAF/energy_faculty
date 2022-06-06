@@ -39,7 +39,7 @@ table.table-hover tbody tr:hover {
     background-color: var(--dark) !important;
     color: white;
 }
-.nav-link:hover {
+.nav-link:hover:not([data-widget="pushmenu"]) {
     background-color: var(--dark-sidebar-nav-link-hover);
 }
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {

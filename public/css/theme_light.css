@@ -20,7 +20,7 @@ body {
     background-color: var(--light_sidebar);
 }
 
-.nav-link:hover {
+.nav-link:hover:not([data-widget="pushmenu"]) {
     background-color: var(--light-sidebar-nav-link-hover);
 }
 

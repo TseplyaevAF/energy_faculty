@@ -28,50 +28,69 @@
             <div class="col-3 alert alert-success" role="alert">{!! session('success') !!}</div>
         @endif
       <div class="row">
-        <div class="col-12">
+        <div class="col-md-12">
           <form action="{{ route('employee.chair.update', $chair->id) }}" method="POST">
             @csrf
             @method('PATCH')
-            <div class="form-group w-25">
-              <input value="{{ $chair->title }}" type="text" class="form-control" name="title" placeholder="Название кафедры">
+            <div class="form-group col-md-8">
+              <input value="{{ $chair->full_title }}" type="text" class="form-control" name="full_title" placeholder="Полное название кафедры">
+              @error('full_title')
+              <p class="text-danger">{{ $message }}</p>
+              @enderror
+            </div>
+            <div class="form-group col-md-6">
+              <input value="{{ $chair->title }}" type="text" class="form-control" name="title" placeholder="Сокращенное название кафедры">
               @error('title')
               <p class="text-danger">{{ $message }}</p>
               @enderror
             </div>
-            <div class="form-group w-25">
+            <div class="form-group col-md-6">
               <input value="{{ $chair->address }}" type="text" class="form-control" name="address" placeholder="Адрес кафедры">
               @error('address')
               <p class="text-danger">{{ $message }}</p>
               @enderror
             </div>
-            <label for="exampleInputFile" class="mt-2">Контактные данные</label>
-            <div class="input-group w-25 mb-2">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-phone"></i></span>
-              </div>
-              <input value="{{ $chair->phone_number }}" class="form-control" id="phone" type="tel" name="phone_number">
+            <div class="form-group col-md-6">
+              <input value="{{ $chair->cabinet }}" type="text" class="form-control" name="cabinet" placeholder="Кабинет зав. кафедрой">
+              @error('cabinet')
+              <p class="text-danger">{{ $message }}</p>
+              @enderror
             </div>
-            @error('phone_number')
-            <p class="text-danger">{{ $message }}</p>
-            @enderror
-            <div class="input-group w-25 mb-4">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+            <div class="col-md-6">
+                  <h6>Контактные данные</h6>
+                  <div class="input-group mb-2">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                      </div>
+                      <input value="{{ $chair->phone_number }}" class="form-control" id="phone" type="tel" name="phone_number">
+                      @error('phone_number')
+                      <p class="text-danger">{{ $message }}</p>
+                      @enderror
+                  </div>
+                  <div class="input-group mb-4">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+                      </div>
+                      <input value="{{ $chair->email }}" class="form-control" type="email" name="email">
+                      @error('email')
+                      <p class="text-danger">{{ $message }}</p>
+                      @enderror
+                  </div>
               </div>
-              <input value="{{ $chair->email }}" class="form-control" type="email" name="email">
-            </div>
-            @error('email')
-            <p class="text-danger">{{ $message }}</p>
-            @enderror
-            <div class="form-group w-50">
-              <label>Описание кафедры</label>
+            <div class="form-group col-md-12">
+              <h6>Направления подготовки</h6>
               <textarea id="summernote" name="description">{{ $chair->description }}</textarea>
               @error('description')
               <p class="text-danger">{{ $message }}</p>
               @enderror
             </div>
+            <div class="form-group col-md-6">
+              <input value="{{ $chair->video }}" type="text" class="form-control" name="video" placeholder="Ссылка на видео о кафедре">
+              @error('video')
+              <p class="text-danger">{{ $message }}</p>
+              @enderror
+            </div>
             <input value="{{ $chair->id }}" type="hidden" name="chair_id">
-
             <input type="submit" class="btn btn-primary mb-2" value="Сохранить">
           </form>
         </div>

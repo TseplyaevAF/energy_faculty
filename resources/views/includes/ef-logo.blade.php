@@ -8,8 +8,8 @@
     </div>
     <a type="button" class="nav-link changeTheme ml-2 mt-1" style="border-radius: 0.25rem">
         <div class="row d-flex" style="margin: 0">
-            <i class="nav-icon fas fa-adjust mr-1 mt-1"></i>
-            <p>День/ночь</p>
+            <i class="changeThemeIcon nav-icon fas fa-adjust mr-1 mt-1"></i>
+            <p class="changeThemeText">День/ночь</p>
         </div>
     </a>
 </a>

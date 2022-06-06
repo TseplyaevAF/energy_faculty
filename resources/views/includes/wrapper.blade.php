@@ -66,4 +66,15 @@
             return false;
         }
     });
+    $("[data-widget='pushmenu']").on('click', function () {
+        if ($('.sidebar-mini').hasClass('sidebar-collapse')) {
+            $('.brand-text').show().fadeOut(0).fadeIn(200);
+            $('.changeThemeIcon').animate({'font-size': '16px'})
+            $('.changeThemeText').show().fadeOut(0).fadeIn(200);
+        } else {
+            $('.brand-text').hide().fadeOut(200);
+            $('.changeThemeIcon').animate({'font-size': '20px'})
+            $('.changeThemeText').hide().fadeOut(200);
+        }
+    });
 </script>
