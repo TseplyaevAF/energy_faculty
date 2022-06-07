@@ -1,6 +1,6 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    @include('includes.ef-logo', ['titlePersonal' => 'Кафедра ' . $chair->title])
+    @include('includes.ef-logo', ['titlePersonal' => 'Кафедра ' . $chair->title, 'mainUrl' => route('employee.main.index')])
 
       <!-- Sidebar -->
       <div class="sidebar">

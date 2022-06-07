@@ -18,9 +18,9 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       @if (auth()->user()->role_id == 2)
-          @include('includes.ef-logo', ['titlePersonal' => 'Студент'])
+          @include('includes.ef-logo', ['titlePersonal' => 'Студент', 'mainUrl' => route('personal.main.index')])
       @elseif (auth()->user()->role_id == 3)
-          @include('includes.ef-logo', ['titlePersonal' => 'Преподаватель'])
+          @include('includes.ef-logo', ['titlePersonal' => 'Преподаватель', 'mainUrl' => route('personal.main.index')])
       @endif
 
       <!-- Sidebar -->

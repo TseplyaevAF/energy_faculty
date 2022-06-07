@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Group\GroupNews;
+use App\Notifications\ResetPassword;
 use App\Notifications\SendVerifyWithQueueNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -145,5 +146,10 @@ class User extends Authenticatable implements HasMedia
     public function sendEmailVerificationNotification()
     {
         $this->notify(new SendVerifyWithQueueNotification());
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
     }
 }

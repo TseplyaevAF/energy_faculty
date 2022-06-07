@@ -23,7 +23,7 @@
             <div class="container">
                 <a class="navbar-brand brand-link" href="{{ env('FRONTEND_URL') }}">
                     <img src="{{ asset('assets/default/logo.png') }}" style="width: 50px">
-                    {{ config('app.name', 'Информационный сервис ЭФ ЗабГУ') }}
+                    <a href="/" class="navbar-brand brand-link">{{ config('app.name') }}</a>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
