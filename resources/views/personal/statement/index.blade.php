@@ -3,15 +3,7 @@
 @section('content')
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <style>
-        .finish-date {
-            background-color: rgba(17, 163, 32, 0.27) !important;
-        }
-
-        .not-finish-date {
-            background-color: rgba(12, 97, 187, 0.27) !important;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/statement/style.css') }}">
 
     <div class="content-wrapper">
         <div class="content-header">
@@ -60,7 +52,21 @@
                         </div>
                     </div>
                     <div class="card col-md-12">
-                        <div class="card-header"><b>Экзаменационные ведомости ЭФ</b></div>
+                        <div class="card-header">
+                            <b>Экзаменационные ведомости ЭФ</b>
+                            <div class="row col-md-6" style="margin: 0">
+                                <div class="row mr-3">
+                                    <div class="mr-1" style="width: 20px;height: 20px;background: rgba(17, 163, 32, 0.27);"> 
+                                    </div>
+                                    - подписанные
+                                </div>
+                                <div class="row mr-3">
+                                    <div class="mr-1" style="width: 20px;height: 20px;background: rgba(12, 97, 187, 0.27);"> 
+                                    </div>
+                                    - неподписанные
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body table-responsive">
                             <table class="table table-bordered table-striped" id="statements-table">
                                 <thead>
@@ -135,13 +141,10 @@
                         {width: '35%', targets: 4}
                     ],
                     "createdRow": function( row, data){
-                        let now = new Date();
-                        let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-                        let finish_date = new Date(data.finish_date.replace(pattern,'$3-$2-$1'));
-                        if( finish_date <  now){
-                            $(row).addClass('finish-date');
+                        if (data.is_signed) {
+                            $(row).addClass('signed-statement');
                         } else {
-                            $(row).addClass('not-finish-date');
+                            $(row).addClass('unsigned-statement');
                         }
                     }
                 });

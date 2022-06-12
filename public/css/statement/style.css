@@ -1,0 +1,7 @@
+.signed-statement {
+    background-color: rgba(17, 163, 32, 0.27) !important;
+}
+
+.unsigned-statement {
+    background-color: rgba(12, 97, 187, 0.27) !important;
+}

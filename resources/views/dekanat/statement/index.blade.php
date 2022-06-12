@@ -3,15 +3,8 @@
 @section('content')
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <style>
-        .finish-date {
-            background-color: rgba(17, 163, 32, 0.27) !important;
-        }
-
-        .not-finish-date {
-            background-color: rgba(12, 97, 187, 0.27) !important;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/statement/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/help/style.css') }}">
 
     <div class="content-wrapper">
         <div class="content-header">
@@ -58,13 +51,26 @@
                         </div>
                     </div>
                     <div class="card col-md-12">
-                        <div class="card-header"><b>Экзаменационные ведомости ЭФ</b></div>
+                        <div class="card-header">
+                            <b>Экзаменационные ведомости</b>
+                            <div class="row col-md-6">
+                                <div class="form-group mr-3">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    <span class="help" data-help="Необходимо сгенерировать отчёты для проверки подписей">- ожидающие проверки</span>
+                                </div>
+                                <div class="row">
+                                    <div class="mr-1" style="width: 20px;height: 20px;background: rgba(17, 163, 32, 0.27);"> 
+                                    </div>
+                                    - завершённые
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body table-responsive">
                             <a href="javascript:void(0)"
                                class="btn btn-success btn-sm mb-3" id="addNewStatement">
                                 Добавить ведомость
                             </a>
-                            <table class="table table-bordered table-striped" id="statements-table">
+                            <table class="table table-bordered table-striped dt" id="statements-table">
                                 <thead>
                                 <tr>
                                     <th>№</th>
@@ -118,7 +124,20 @@
     <script>
         $(document).ready(function () {
             let filter_group = '';
+            let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
             getStatements();
+
+            function isSignedStatement(data) {
+                let now = new Date();
+                let finish_date = new Date(data.finish_date.replace(pattern,'$3-$2-$1'));
+                if (data.is_signed && finish_date < now && data.report == null) {
+                        return 0;
+                }
+                if (data.is_signed && data.report != null) {
+                    return 1;
+                }
+                return -1;
+            }
 
             // GET ALL STATEMENTS
             function getStatements(filter_group = '', filter_year = '') {
@@ -163,17 +182,25 @@
                         },
                     ],
                     columnDefs: [
+                        {width: '8%', targets: 0},
                         {width: '5%', targets: 3},
-                        {width: '35%', targets: 4}
+                        {width: '35%', targets: 4},
+                        {
+                            "targets": 0,
+                            "createdCell": function (td, cellData, rowData, rowIndex, col) {
+                                let now = new Date();
+                                if (!isSignedStatement(rowData)) {
+                                    $(td).prepend('<i class="fas fa-clock mr-1"></i>');
+                                }
+                            }
+                        }
                     ],
                     "createdRow": function( row, data){
-                        let now = new Date();
-                        let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-                        let finish_date = new Date(data.finish_date.replace(pattern,'$3-$2-$1'));
-                        if( finish_date <  now){
-                            $(row).addClass('finish-date');
-                        } else {
-                            $(row).addClass('not-finish-date');
+                        if (isSignedStatement(data) == 0) {
+                            $(row).addClass('unsigned-statement');
+                        }
+                        if (isSignedStatement(data) == 1) {
+                            $(row).addClass('signed-statement');
                         }
                     }
                 });

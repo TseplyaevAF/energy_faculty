@@ -67,6 +67,9 @@ class Statement extends Model
             $data[$statement->id]['discipline'] = $statement->lesson->discipline;
             $data[$statement->id]['control_form'] = $controlForms[$statement->control_form];
             $data[$statement->id]['semester'] = $statement->lesson->semester;
+            $data[$statement->id]['report'] = $statement->report;
+            $data[$statement->id]['is_signed'] =
+                count($statement->individuals->where('teacher_signature', '!=', null)) != 0 ? true : false;
             $data[$statement->id]['finish_date'] = date('d.m.Y', strtotime($statement->finish_date));
         }
         return $data;
