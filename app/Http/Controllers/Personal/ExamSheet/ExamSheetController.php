@@ -26,6 +26,8 @@ class ExamSheetController extends Controller
         $student = auth()->user()->student;
         $individuals = Individual::where('student_id', $student->id)
             ->where('eval', Statement::EVAL_ABSENCE)
+            ->orWhere('eval', Statement::EVAL_2)
+            ->orWhere('eval', Statement::EVAL_NOT_CREDITED)
             ->where('exam_finish_date', '!=', null)
             ->get();
         foreach ($individuals as $key => $individual) {
@@ -47,8 +49,10 @@ class ExamSheetController extends Controller
             unset($evalTypes[2]);
             unset($evalTypes[3]);
             unset($evalTypes[4]);
+            unset($evalTypes[6]);
         } else {
             unset($evalTypes[1]);
+            unset($evalTypes[7]);
         }
         $controlForms = Statement::getControlForms();
         return view('personal.exam_sheet.show',

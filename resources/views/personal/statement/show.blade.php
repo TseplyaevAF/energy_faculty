@@ -4,6 +4,17 @@
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet"/>
+    <style>
+        #disabled-button-wrapper {
+            display: inline-block;
+        }
+        #disabled-button-wrapper {
+            cursor:not-allowed;
+        }
+        #disabled-button-wrapper .btn[disabled] {
+            pointer-events: none;
+        }
+    </style>
 
     <div class="content-wrapper">
         <div class="content-header">
@@ -110,9 +121,11 @@
                                         <button type="button" id="closeModal" class="btn btn-secondary"
                                                 data-dismiss="modal">Закрыть
                                         </button>
-                                        <button type="button" id="signData" class="btn btn-primary signData">
-                                            Подписать
-                                        </button>
+                                        <div id="disabled-button-wrapper" data-toggle="tooltip" data-title="Необходимо выбрать всех студентов">
+                                            <button type="button" id="signData" class="btn btn-primary signData">
+                                                Подписать
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -156,6 +169,7 @@
             let evalTypes;
             let table;
             let individualsLength = JSON.parse($("input[name='individuals_length']").val()).length;
+            $('[data-toggle="tooltip"]').tooltip();
 
             $.ajax({
                 type: 'GET',
@@ -167,8 +181,10 @@
                         delete evalTypes[2];
                         delete evalTypes[3];
                         delete evalTypes[4];
+                        delete evalTypes[6];
                     } else {
                         delete evalTypes[1];
+                        delete evalTypes[7];
                     }
                     getCompletedSheets();
                     table = getTables();
@@ -341,9 +357,11 @@
 
                 if (data.length === individualsLength) {
                     button.disabled = false;
+                    $('[data-toggle="tooltip"]').tooltip('disable');
                     document.getElementsByName('individuals[]').value = students;
                 } else {
                     button.disabled = true;
+                    $('[data-toggle="tooltip"]').tooltip('enable');
                 }
                 $('#ajaxModal').appendTo("body").modal('show');
             });

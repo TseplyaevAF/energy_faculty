@@ -25,6 +25,8 @@ class Statement extends Model
     public const EVAL_4 = 3;
     public const EVAL_5 = 4;
     public const EVAL_ABSENCE = 5;
+    public const EVAL_2 = 6;
+    public const EVAL_NOT_CREDITED = 7;
 
     public static function getControlForms()
     {
@@ -43,7 +45,9 @@ class Statement extends Model
             self::EVAL_3 => 'удовлетворительно',
             self::EVAL_4 => 'хорошо',
             self::EVAL_5 => 'отлично',
-            self::EVAL_ABSENCE => 'не явился'
+            self::EVAL_ABSENCE => 'не явился',
+            self::EVAL_2 => 'неудовлетворительно',
+            self::EVAL_NOT_CREDITED => 'не зачтено',
         ];
     }
 
