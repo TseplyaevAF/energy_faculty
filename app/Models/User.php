@@ -71,6 +71,10 @@ class User extends Authenticatable implements HasMedia
         return $this->surname . ' ' . $this->name;
     }
 
+    public function FIO() {
+        return $this->surname . ' ' . mb_substr($this->name, 0, 1) . '.' . mb_substr($this->patronymic, 0, 1) . '.';
+    }
+
     public function unread_posts() {
         return $this->belongsToMany(GroupNews::class, 'unread_posts', 'user_id', 'group_news_id');
     }

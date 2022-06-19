@@ -70,7 +70,7 @@
                                class="btn btn-success btn-sm mb-3" id="addNewStatement">
                                 Добавить ведомость
                             </a>
-                            <table class="table table-bordered table-striped dt" id="statements-table">
+                            <table class="table table-bordered table-striped" id="statements-table">
                                 <thead>
                                 <tr>
                                     <th>№</th>

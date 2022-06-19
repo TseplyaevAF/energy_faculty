@@ -165,11 +165,12 @@ class MarkController extends Controller
         $selectedEmails = $request->input('selected_emails');
         $studentProgress = $request->input('student_progress');
         $month = $request->input('month');
+        $semester = $request->input('semester');
         foreach ($selectedEmails as $studentFIO => $selectedEmail) {
             $studentFIO = explode('_',$studentFIO)[0];
             $filename = 'student_progress/' . $month . '/' . $studentFIO . '.xlsx';
             Excel::store(
-                new StudentProgressExport($studentProgress[$studentFIO], $studentFIO, $month),
+                new StudentProgressExport($studentProgress[$studentFIO], $studentFIO, $month, $semester),
                 $filename,
                 'public'
             );

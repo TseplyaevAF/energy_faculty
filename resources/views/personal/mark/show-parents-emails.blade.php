@@ -42,6 +42,7 @@
     $('.sendStudentProgress').on('click', function () {
         let selectedEmails = {};
         let month = $('#student-progress-month').find(":selected").text();
+        let semester = $('#student-progress-semester').find(":selected").text();
         $('.cb-email:checked').each(function() {
             let emailData = $(this).attr('data-id').split('/');
             selectedEmails[emailData[0] + '_' + emailData[2]] = emailData[1];
@@ -59,6 +60,7 @@
                     'student_progress': studentProgress,
                     'selected_emails': selectedEmails,
                     'month': month,
+                    'semester': semester,
                 },
                 success: function(response) {
                     alert(response)

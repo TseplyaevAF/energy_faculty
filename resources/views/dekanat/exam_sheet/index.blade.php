@@ -59,12 +59,15 @@
                                                     <input type="hidden" id="sheet_id">
                                                     <div class="modal-body">
                                                         <h5>Подписать допуск</h5>
-                                                        <div class="input-group mb-2 w-50">
+                                                        <div class="input-group mb-2">
                                                             <div class="custom-file">
                                                                 <input type="file" id="file" class="custom-file-input" name="private_key" accept=".key">
                                                                 <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
                                                             </div>
                                                         </div>
+                                                        <b>
+                                                            Подпись должен поставить: {{ $dekanFIO }}
+                                                        </b>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>

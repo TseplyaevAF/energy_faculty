@@ -18,7 +18,7 @@ class CertApp extends Model
     public static function getReasons() {
         return [
             self::REASON_COMPROMISE => 'Произошла компрометация (факт доступа постороннего лица к ЭЦП, а также подозрение на него)',
-            self::REASON_LOST_KEYS => 'Потеряны ключи электронной подписи',
+            self::REASON_LOST_KEYS => 'Потерян ключ ЭЦП',
         ];
     }
 

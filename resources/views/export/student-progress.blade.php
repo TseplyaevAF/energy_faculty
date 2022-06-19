@@ -11,7 +11,7 @@
     <thead>
     <tr>
         <th>
-            <span>Успеваемость за {{ $month }}</span>
+            <span>Успеваемость за {{ $month }}, {{ $semester }} семестр</span>
         </th>
     </tr>
     </thead>

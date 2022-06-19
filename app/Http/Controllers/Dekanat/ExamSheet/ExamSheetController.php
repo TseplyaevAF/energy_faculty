@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dekanat\ExamSheet;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExamSheet;
+use App\Models\Teacher\Teacher;
 use App\Service\Dekanat\Service;
 use Illuminate\Http\Request;
 use DataTables;
@@ -28,7 +29,9 @@ class ExamSheetController extends Controller
                     return view('dekanat.exam_sheet.action', compact('sheet_id'));
                 })->make(true);
         }
-        return view('dekanat.exam_sheet.index');
+        $dekan = Teacher::where('post', 'декан')->first();
+        $dekanFIO = $dekan->user->FIO();
+        return view('dekanat.exam_sheet.index', compact('dekanFIO'));
     }
 
     public function issue(Request $request, ExamSheet $sheet) {
