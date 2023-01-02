@@ -30,9 +30,29 @@
         ```
 - `php artisan key:generate`
 - `php artisan storage:link`
-- `php artisan migrate`
+- создать новую бд, назвав её energy_faculty, а затем выполнить `php artisan migrate`
 - `php artisan serve`
 - Чтобы создать аккаунт админа, выполните `php artisan db:seed --class=AdminUserSeeder`. После чего по пути `\storage\app\private` создастся файл `admin_password.txt` с данными для входа.
+
+### Настройка для работы функций openssl в ОС Windows
+1. Зайти в переменные среды
+2. Под блоком "Системные переменные" нажать "создать":
+    - Имя: OPENSSL_CONF
+    - Значение: C:\php\extras\ssl\openssl.cnf
+4. Обязательно перезагрузить компьютер
+
+### Образец для настройки сервиса pusher
+```
+BROADCAST_DRIVER=pusher
+CACHE_DRIVER=file
+FILESYSTEM_DRIVER=local
+# при параметре database должна быть включена функция - php artisan queue:work
+# QUEUE_CONNECTION=database 
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=1440
+```
+
 ____
 
 > Также вы можете выполнить `php artisan migrate:fresh --seed` для заполнения БД тестовыми данными. В том числе будут созданы аккаунты для основных ролей приложения: Студент, Преподаватель, Сотрудник кафедры, Сотрудник УЦ, Сотрудник деканата.
