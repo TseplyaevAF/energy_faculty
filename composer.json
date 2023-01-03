@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^7.4|^8.1.2",
+        "php": "^7.4",
         "ext-json": "*",
         "ext-openssl": "*",
         "beyondcode/laravel-websockets": "^1.13",

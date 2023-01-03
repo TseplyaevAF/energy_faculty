@@ -5,7 +5,7 @@
 ![logo](https://raw.githubusercontent.com/TseplyaevAF/energy_faculty/main/public/assets/default/logo.png)
 
 ![laravel_version](https://img.shields.io/badge/Laravel-8.83.9-red)
-![php_version](https://img.shields.io/badge/php-%5E7.3%7C%5E7.4%7C%5E8.1.2-blue)
+![php_version](https://img.shields.io/badge/php-7.4-blue)
 ![commit_activity](https://img.shields.io/github/commit-activity/w/TseplyaevAF/energy_faculty)
                                                                        
 # Информационный сервис ЭФ ЗабГУ
@@ -19,7 +19,7 @@
 - `composer update` либо `composer update —ignore-platform-req=ext-imagick` если будут ошибки
 - `npm install`
 - `npm run dev`
-- Создать файл конфигурации `.env` и заполнить подключение к базе данных
+- Создать файл конфигурации `.env` и заполнить подключение к БД:
     - ```
         DB_CONNECTION=pgsql
         DB_HOST=127.0.0.1
@@ -41,18 +41,20 @@
     - Значение: C:\php\extras\ssl\openssl.cnf
 4. Обязательно перезагрузить компьютер
 
-### Образец для настройки сервиса pusher
+### Настройка для работы вебсокет-сервера
+Вебсокет-сервер используется для раздела "События группы".
+- Пример .env файла:
 ```
 BROADCAST_DRIVER=pusher
 CACHE_DRIVER=file
 FILESYSTEM_DRIVER=local
-# при параметре database должна быть включена функция - php artisan queue:work
-# QUEUE_CONNECTION=database 
+# sync|database
 QUEUE_CONNECTION=sync
 SESSION_DRIVER=file
 SESSION_LIFETIME=1440
 ```
-
+- Запуск: `php artisan websockets:serve`
+> если QUEUE_CONNECTION равняется database, то должна быть запущена очередь: `php artisan queue:work`
 ____
 
 > Также вы можете выполнить `php artisan migrate:fresh --seed` для заполнения БД тестовыми данными. В том числе будут созданы аккаунты для основных ролей приложения: Студент, Преподаватель, Сотрудник кафедры, Сотрудник УЦ, Сотрудник деканата.
